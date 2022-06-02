@@ -1,0 +1,35 @@
+(print)
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Menu
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Funkcie
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(AUTOLOAD "Kataster" '("Kataster"))
+(AUTOLOAD "Mapa" '("Mapa"))
+(AUTOLOAD "Rebar_scheme" '("RS"))
+(AUTOLOAD "Create_layers" '("CL"))
+(AUTOLOAD "Block_base_point" '("CBP" "CBPR"))
+(AUTOLOAD "Auto_block_break" '("ABB" "ABBE" "ABBS"))
+(AUTOLOAD "Center_measure" '("CMEASURE"))
+(AUTOLOAD "Viewport_outline" '("VPO" "VPOL" "VPOA"))
+(AUTOLOAD "Renumbering" '("INCARRAY" "INCARRAYD"))
+(AUTOLOAD "Object_break" '("BRK" "BRKO"))
+(AUTOLOAD "Chain_length" '("CHAINLEN"))
+(AUTOLOAD "Double_offset" '("DOFF"))
+(AUTOLOAD "Copy_rename_block" '("CB" "RB"))
+(print)
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; BLoky symbolov
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(AUTOLOAD "Vkladanie_blokov" '("DPSmer"))
+(AUTOLOAD "Vlozenie_kriziky" '("DPKriziky"))
+(print)
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Priklady
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; (AUTOLOAD "SOUBOR" '("PRIKAZ"))
+; (AUTOLOAD "CMDS" '("CMD1" "CMD2" "CMD3")) 
+; (AUTOLOAD "NEWCMD" '("NEWCMD"))
+
+(princ "\n******                 ******\n  DPmenu (0.10) nacitane\n  Vytvoril Jakub Tomecko © 2022\n******                 ******")
+(print)
