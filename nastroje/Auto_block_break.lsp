@@ -18,11 +18,6 @@
 ;;  krivky (oblúk, elepticke obluk, elipsa, kruh, ciara, XLine, Spline  ;;
 ;;  LWPolyline alebo Polyline), tak sa vlozeni blok autmaticky otoci,   ;;
 ;;  aby bol zarovnany s krivkou. 
-;;                                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright © 2010  -  www.lee-mac.com               ;;
-;;----------------------------------------------------------------------;;
-;;  Verzia: 1.9    -    2020-11-14                                      ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:ABB ( / *error* blk obj ins sel tmp )

@@ -14,8 +14,6 @@
 ;;  prikazom "CB" na vytvorenie premenovanej kopie vybraneho bloku      ;;
 ;;  alebo "RB" na jednoduche premenovanie vybraneho bloku.              ;;
 ;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright © 2013  -  www.lee-mac.com               ;;
-;;----------------------------------------------------------------------;;
 
 (defun c:CB nil (LM:RenameBlockReference   t))
 (defun c:RB nil (LM:RenameBlockReference nil))

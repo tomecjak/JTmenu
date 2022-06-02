@@ -13,8 +13,6 @@
 ;;  vzdialenost. S dalsimi ovladacimi prvakmi na vymazenie    ;;
 ;;  zdrojoveho objektu a offset vrstvy.
 ;;------------------------------------------------------------;;
-;;  Autor: Lee Mac, Copyright © 2011 - www.lee-mac.com        ;;
-;;------------------------------------------------------------;;
 
 (defun c:DOFF nil (c:DoubleOffset))
 

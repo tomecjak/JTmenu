@@ -12,8 +12,6 @@
 ;;  Emuluje spravenie standartneho prikazu "Measure", ale     ;;
 ;;  centruje delenie pozdlz vybraneho objektu                 ;;
 ;;------------------------------------------------------------;;
-;;  Autor: Lee Mac, Copyright © 2011 - www.lee-mac.com        ;;
-;;------------------------------------------------------------;;
 
 (defun c:CMEASURE ( / *error* _StartUndo _EndUndo _SelectIf _IsCurveObject acdoc al bl d0 di en mx nm pt )
 

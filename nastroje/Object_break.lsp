@@ -43,9 +43,6 @@
 ;;  vlastnosti z vybraneho objektu. Nakoniec bude tento program uspesne ;;
 ;;  fungovat vo vsetkych UCS a zobrazenia, s objektami vytvorenych v    ;;
 ;;  akejkolvek UCS rovine.
-;;                                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright © 2013  -  www.lee-mac.com               ;;
 ;;----------------------------------------------------------------------;;
 
 ;;----------------------------------------------------------------------;;

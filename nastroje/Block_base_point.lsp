@@ -28,11 +28,6 @@
 ;;  Tento prikaz zachova polohu referencie kazdeho bloku. Preto sa      ;;
 ;;  kazda referencia bloku presunie, aby sa zachovala vizualna poloha,  ;;
 ;;  ked sa zmeni zakladny bod.                                          ;;
-;;                                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright © 2013  -  www.lee-mac.com               ;;
-;;----------------------------------------------------------------------;;
-;;  Verzia 1.5    -    20-10-2013                                       ;;
 ;;----------------------------------------------------------------------;;
 
 ;; Zachova suradnice bodu vlozenia

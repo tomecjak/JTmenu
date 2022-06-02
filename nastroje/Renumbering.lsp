@@ -32,9 +32,6 @@
 ;;  automaticky zvysia o danu hodnotu prirastku, ked je objekt          ;;
 ;;  usporiadani do pola.
 ;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright © 2014  -  www.lee-mac.com               ;;
-;;  Verzia: 1.8    -    2016-10-26                                      ;;
-;;----------------------------------------------------------------------;;
 
 (defun c:INCARRAY  nil (LM:incarray nil)) ;; Standartna verzia
 (defun c:INCARRAYD nil (LM:incarray  t )) ;; Dynamicka verzia

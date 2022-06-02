@@ -26,8 +26,6 @@
 ;;  bodom ineho objektu vo vybere. Pouzivatel bude upozorneny, ak dva   ;;
 ;;  dane body nelezia na rovnakom retazvi objektov vo vybere.           ;;
 ;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright © 2015  -  www.lee-mac.com               ;;
-;;----------------------------------------------------------------------;;
 
 (defun c:CHAINLEN ( / len lst pt1 pt2 sel tmp )
     (if
