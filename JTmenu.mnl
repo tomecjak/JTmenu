@@ -31,5 +31,5 @@
 ; (AUTOLOAD "CMDS" '("CMD1" "CMD2" "CMD3")) 
 ; (AUTOLOAD "NEWCMD" '("NEWCMD"))
 
-(princ "\n******                   ******\n  JTmenu (0.10) nacitane\n  Vytvoril Jakub Tomecko © 2022\n******                   ******")
+(princ "\n******                   ******\n  JTmenu (0.10) nacitane\n  Vytvoril Jakub Tomecko ï¿½ 2022\n******                   ******")
 (print)
