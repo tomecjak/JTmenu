@@ -66,7 +66,7 @@
 ;;  BRK    -    Prerusenie dvoma bodmi                                  ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:BRK ( / *error* pt1 pt2 sel )
+(defun c:OB ( / *error* pt1 pt2 sel )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -100,7 +100,7 @@
 ;;  BRKO   -    Prerusenie objekto                                      ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:BRKO ( / *error* ent ls1 ls2 lst obj pa1 par sel tmp )
+(defun c:OBO ( / *error* ent ls1 ls2 lst obj pa1 par sel tmp )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))

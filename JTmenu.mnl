@@ -4,8 +4,8 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Funkcie
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Kataster" '("Kataster"))
-(AUTOLOAD "Mapa" '("Mapa"))
+(AUTOLOAD "Kataster" '("Cadastre"))
+(AUTOLOAD "Mapa" '("Maps"))
 (AUTOLOAD "Rebar_scheme" '("RS"))
 (AUTOLOAD "Create_layers" '("CL"))
 (AUTOLOAD "Block_base_point" '("CBP" "CBPR"))
@@ -13,7 +13,7 @@
 (AUTOLOAD "Center_measure" '("CMEASURE"))
 (AUTOLOAD "Viewport_outline" '("VPO" "VPOL" "VPOA"))
 (AUTOLOAD "Renumbering" '("INCARRAY" "INCARRAYD"))
-(AUTOLOAD "Object_break" '("BRK" "BRKO"))
+(AUTOLOAD "Object_break" '("OB" "OBO"))
 (AUTOLOAD "Chain_length" '("CHAINLEN"))
 (AUTOLOAD "Double_offset" '("DOFF"))
 (AUTOLOAD "Copy_rename_block" '("CB" "RB"))
@@ -22,7 +22,7 @@
 ; BLoky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer"))
-(AUTOLOAD "Vlozenie_kriziky" '("DPKriziky"))
+(AUTOLOAD "Vlozenie_kriziky" '("DC"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Priklady

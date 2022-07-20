@@ -7,7 +7,7 @@
 ;-------------------------------------------------------------------------
 
 ;definovanie funkcie prikazu "Mapa"
-(defun c:Mapa ()
+(defun c:Maps ()
   ;nastavenie cmdecho na hodnotu 0 - vypnutie opakovaneho vstupu
   (setvar "cmdecho" 0)
   ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice

@@ -7,7 +7,7 @@
 ;-------------------------------------------------------------------------
 
 ;definovanie funkcie prikazu "Kataster"
-(defun c:Kataster ()
+(defun c:Cadastre ()
   ;definovanie premenej "polohaBoduKatastra" do krotej sú zapísane súradnice
   (setq polohaBoduKatastra (getpoint "Zadajte bod v vnutri hranic pozemku katastra"))
 
