@@ -47,3 +47,10 @@
   (prompt "\nUrcite bod vlozenia znacky smeru:")
   (command "_insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
 )
+
+;vloženie bloku Súradnice
+(defun c:DPSuradnice ()
+  (SetLayer)
+  (prompt "\nUrcite bod vlozenia znacky smeru:")
+  (command "_insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+)
