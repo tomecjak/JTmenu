@@ -7,5 +7,5 @@
 
 (defun c:DPSmer ()
   (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "_insert" "DPSmer" pause (getvar "dimscale")(getvar "dimscale") 0 pause)
+  (command "_insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
 )
