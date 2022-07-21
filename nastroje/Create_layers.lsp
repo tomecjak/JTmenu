@@ -56,6 +56,7 @@
   (CreateLayers "DP_Vozovka" 1 "CONTINUOUS" 0.30)
   (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
   (CreateLayers "DP_Prefabrikáty" 5 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Ložiská" 20 "CONTINUOUS" 0.25)
 )
 
 ;vytvorenie hladín pre výstuž do modelu
