@@ -21,7 +21,7 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; BLoky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Vkladanie_blokov" '("DPSmer"))
+(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSeverka"))
 (AUTOLOAD "Vlozenie_kriziky" '("DC"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
