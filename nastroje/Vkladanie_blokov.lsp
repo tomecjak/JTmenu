@@ -21,7 +21,7 @@
 ;funkcia pre nastavenie hladiny DP_Popis
 (defun SetLayer()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
-  (command "-layer" "s" "DP_Popis" "")
+  (command "._layer" "s" "DP_Popis" "")
 )
 
 ;-------------------------------------------------------------------------
@@ -31,26 +31,26 @@
 (defun c:DPSmer ()
   (SetLayer)
   (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "_insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
+  (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
 )
 
 ;vloženie bloku Smer2
 (defun c:DPSmer2 ()
   (SetLayer)
   (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "_insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
+  (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
 )
 
 ;vloženie bloku Severka
 (defun c:DPSeverka ()
   (SetLayer)
   (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "_insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+  (command "._insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
 )
 
 ;vloženie bloku Súradnice
 (defun c:DPSuradnice ()
   (SetLayer)
   (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "_insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+  (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
 )
