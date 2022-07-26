@@ -403,7 +403,7 @@
 
 ;;----------------------------------------------------------------------;;
 
-(c:utb) ;; Remove or comment this line to disable autorun
+;; (c:utb) ;; Remove or comment this line to disable autorun            ;;
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
