@@ -18,6 +18,7 @@
 (AUTOLOAD "Double_offset" '("DOFF"))
 (AUTOLOAD "Copy_rename_block" '("CB" "RB"))
 (AUTOLOAD "Batch_editor" '("BAtte"))
+(AUTOLOAD "Update_titleblock" '("utb"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; BLoky symbolov
