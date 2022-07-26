@@ -184,7 +184,7 @@
             (BAtte:Popup (BAtte:WSH) "Pozor" 16 "Cesta ulozenia nie je platna.")
         )
         (   (progn
-                (setq base (strcat savepath "\\LMAC_BAtte_V" (vl-string-translate "." "-" BAtteVersion)))
+                (setq base (strcat savepath "\\JTmenu_BAtte_V" (vl-string-translate "." "-" BAtteVersion)))
                 (foreach pair
                    '(
                         (dclfname . ".dcl")
@@ -1895,7 +1895,7 @@
             )
             (BAtte:Popup
                 (BAtte:WSH)
-                "Pozot" 16
+                "Pozor" 16
                 (strcat
                     "Dialogove okno vyberu blokov sa nepodarilo nacitat.\n\n"
                     "Zodpovedajuci subor DLC sa nachadza na nesledujucom umiestneni:\n\n"
@@ -1905,7 +1905,7 @@
             )
         )
         (   t
-            (mapcar 'BAtte:AddList '("h1" "h2" "h3") '(("\tBlock") ("\tTag") ("\tValue")))
+            (mapcar 'BAtte:AddList '("h1" "h2" "h3") '(("\tBlok") ("\tTag") ("\tHodnota")))
 
             (setq itm (BAtte:UpdateAttributeData "list" itm))
 
