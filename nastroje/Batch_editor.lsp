@@ -7,192 +7,124 @@
 ; Hromadna uprava atributov
 ;-------------------------------------------------------------------------
 
-;;-----------------------=={  Batch Attribute Editor  }==------------------------;;
+;;---------------------=={  Hromadna uprava atributov  }==-----------------------;;
 ;;                                                                               ;;
 ;;  --------------------------------------------                                 ;;
-;;  Program Description                                                          ;;
+;;  Popis programu                                                               ;;
 ;;  --------------------------------------------                                 ;;
 ;;                                                                               ;;
-;;  This program allows the user to modify the values of multiple attributes     ;;
-;;  residing within multiple attributed blocks across multiple drawings.         ;;
+;;  Tento program umoznuje uzivatelovi upravovat hodnoty viacerych atributov     ;;
+;;  nachadzajucich sa vo viacerych pripravenych blokoch na viacerych vykresoch.  ;;
 ;;                                                                               ;;
-;;  Upon starting the program using the command syntax 'BAtte'                   ;;
-;;  (Batch Attribute Editor) at the command-line, the user is presented with the ;;
-;;  first of two dialog interface screens: the first screen for input of         ;;
-;;  attribute data; the second for drawing selection.                            ;;
-;;                                                                               ;;
-;;  --------------------------------                                             ;;
-;;  Entering Attribute Data                                                      ;;
-;;  --------------------------------                                             ;;
-;;                                                                               ;;
-;;  At the top of the first screen there are three edit boxes in which the       ;;
-;;  user can input a Block Name, Attribute Tag and a new value for such          ;;
-;;  attribute.                                                                   ;;
-;;                                                                               ;;
-;;  The Block Name field specifies the block in which the attribute to be        ;;
-;;  modified is located. This field is not case-sensitive and may use wildcards  ;;
-;;  to match multiple blocks containing the same attribute tag.                  ;;
-;;                                                                               ;;
-;;  For example, specifying a Block Name: "*BLOCK" (without the quotes), will    ;;
-;;  match all blocks whose block name ends with "BLOCK", or any case variation   ;;
-;;  of that pattern.                                                             ;;
-;;                                                                               ;;
-;;  The Attribute Tag field specifies the tag name of the attribute to be        ;;
-;;  modified (Note: this is not the attribute prompt string). This field is      ;;
-;;  also not case-sensitive and, as per the restrictions on attribute tag names, ;;
-;;  the attribute tag cannot contain spaces.                                     ;;
-;;                                                                               ;;
-;;  Finally, the Value field specifies the new content for the attribute.        ;;
-;;  There are no restrictions on this field and it may be left blank if the      ;;
-;;  attribute value is to be removed.                                            ;;
-;;                                                                               ;;
-;;  After specifying the Block Name, Attribute Tag and Value, the item may be    ;;
-;;  added to the list of items to be modified by clicking the 'Add Item' button, ;;
-;;  or by pressing 'Enter' from within the Value edit box.                       ;;
+;;  Po spusteni programu pomocou prikazu "BAtte" (Davkovy editor atributov)      ;;
+;;  na prikazovom riadku sa pouzivatelovi zobrazi prva z dvoch obrazoviek        ;;
+;;  dialogoveho rozhrania: prva obrazovka na zadavanie udajov atributov,         ;;
+;;  druha pre vyber vykresy (dwg).                                               ;;
 ;;                                                                               ;;
 ;;  --------------------------------                                             ;;
-;;  Incrementing Attribute Values                                                ;;
+;;  Zadavanie udajov atributu                                                    ;;
 ;;  --------------------------------                                             ;;
 ;;                                                                               ;;
-;;  The Editor also allows the user to automatically increment attribute values  ;;
-;;  or sections of attribute values across drawings as they are processed by the ;;
-;;  program. This functionality may be particularly useful where attributes      ;;
-;;  displaying drawing numbers are concerned.                                    ;;
+;;  V hornej casti obrazovky sú tri editacne polia, do ktorych moze pouzivatel   ;;
+;;  zadat nazov bloku, znacku atributu a novu hodnotu pre takyto atribut.        ;;
+;;  Pole "Nazov bloku" urcije blok, v ktorom sa nachadza atribut, ktory sa ma    ;;
+;;  upravit. Toto pole nerozlisuje velke a male pismena a moze pouzivat zastupne ;;
+;;  znaky na priradenie viacerych blokov obsahujucich rovnaku znacku atributu.   ;;
+;;  Napriklad, ak zadate nazov bloku "*BLOCK" (bez uvodzoviek), bude sa zhodovat ;;
+;;  so vsetkymi blokmi, ktorych nazov bloku konci na "BLOCK", alebo s akoukolvek ;;
+;;  variaciou malych a velkych pismen tohto vzoru. Pole "Atribut tag" urcuje     ;;
+;;  nazov tagu atributu, ktory sa ma upravit. Toto pole tiez nerozlisuje velke   ;;
+;;  a male pismena a podla obmedzeni tykajucich sa nazvov znaciek atributov,     ;;
+;;  nemoze obsahov medzery. Nakoniec pole "Hodnota" urcije novy obsah atributu.  ;;
+;;  Pre toto pole neexistuju ziadne obmedzenia a moze zostat prasne, ak sa ma    ;;
+;;  hodnota atributu odstranit. Po zadani nazvu bloku, znacky atributu a hodnoty ;;
+;;  mozno polozku pridat do zoznamu poloziek, ktore sa maju upravit, kliknutim   ;;
+;;  na tlacidlo "Pridat polozku" alebo stlacenim klavesy "enter" v poli na       ;;
+;;  upravu hodnoty.                                                              ;;
 ;;                                                                               ;;
-;;  To increment an attribute value across drawings, enclose a numerical section ;;
-;;  of the attribute with the markers "<#" and "#>"                              ;;
+;;  --------------------------------                                             ;;
+;;  Zvysovanie hodnot atributov                                                  ;;
+;;  --------------------------------                                             ;;
 ;;                                                                               ;;
-;;  To give an example:                                                          ;;
+;;  Editor tiez umoznuje pouzivatelovi automaticky zvysovat hodnoty atributov    ;;
+;;  alebo casti hodnot atributov napriec vykresmi, ked ich program spracovava.   ;;
+;;  Tato funkcie moze byt uzitocna najma tam, kde ide o atributy zobrazujuce     ;;
+;;  cisla vykresov. Ak chcete zvysit hodnotu atributu napriec vykresmi, uzavrite ;;
+;;  ciselnu cast atributu znackami "<#" a "#>"                                   ;;
+;;                                                                               ;;
+;;  Napriklad:                                                                   ;;
 ;;  ---------------------                                                        ;;
 ;;                                                                               ;;
-;;  Attribute value entered into program (minus quotes):                         ;;
+;;  Hodnota atributu zadana do programu (bez uvodzoviek):                        ;;
 ;;                                                                               ;;
-;;      "DWG <#1#> of 100"                                                       ;;
+;;      "DWG <#1#> z 100"                                                        ;;
 ;;                                                                               ;;
-;;  Attribute value in 1st drawing processed:  "DWG 1 of 100"                    ;;
-;;  Attribute value in 2nd drawing processed:  "DWG 2 of 100"                    ;;
-;;  Attribute value in 3rd drawing processed:  "DWG 3 of 100"                    ;;
+;;  Hodnota atributu v 1. spracovanom vykrese:  "DWG 1 of 100"                   ;;
+;;  Hodnota atributu v 2. spracovanom vykrese:  "DWG 2 of 100"                   ;;
+;;  Hodnota atributu v 3. spracovanom vykrese:  "DWG 3 of 100"                   ;;
 ;;                   ...                            ...                          ;;
 ;;                                                                               ;;
 ;;  --------------------------------                                             ;;
-;;  Selecting Blocks                                                             ;;
+;;  Vyber blokov                                                                 ;;
 ;;  --------------------------------                                             ;;
 ;;                                                                               ;;
-;;  Attribute items may also be added to the list by selecting attributed blocks ;;
-;;  from the active drawing. Upon the clicking the 'Select Blocks' button on the ;;
-;;  main dialog, the user is prompted to make a selection of attributed blocks.  ;;
-;;                                                                               ;;
-;;  The values of all attributes within each block in the selection are then     ;;
-;;  displayed in an intermediate dialog interface, allowing the user to choose   ;;
-;;  which items from the selection should be added to the list of items to be    ;;
-;;  modified by the program.                                                     ;;
-;;                                                                               ;;
-;;  Duplicate items, (that is, where a block and tag combination appears more    ;;
-;;  than once in the selection), will be removed from the selection and the user ;;
-;;  will be notified of the items that have been discarded.                      ;;
-;;                                                                               ;;
-;;  The user will also be informed of an item clash, that is, when selected      ;;
-;;  block and tag combinations from the block selection already exist in the     ;;
-;;  main attribute data list. If the user decides to proceed at this prompt,     ;;
-;;  these selected items will replace those already present in the main list.    ;;
+;;  Polozky atributov mozno do zoznamu pridat aj vyberom blokov s atributmi      ;;
+;;  z aktivneho vykresu, Po kliknuti na tlacidlo "Vybrat bloky" v hlavnom        ;;
+;;  dialogovom okne sa pouzivatelovi zobrazi vyzva na vyber priradenych blokov.  ;;
+;;  Hodnoty vsetkych atributov v ramci kazdeho bloku vo vybere sa potom zobrazia ;;
+;;  v predchadzajucom dialogovom rozhrani, ktore umoznuje pouzivatelo vybrat,    ;;
+;;  ktore polozky z vyberu sa maju pridat do zoznamu poloziek, ktore ma program  ;;
+;;  upravit. Duplicitne polozky (t.j. tam, kde sa kombinacia bloku a stitku      ;;
+;;  objavi viaciak vo vyber), budu z vyberu odstranene a pouzivatel bude tiez    ;;
+;;  informovany o konflikte poloziek, to znamena, ked vybrane kombinacie blokov  ;;
+;;  a znaciek z vyberu bloku uz existuju v zozname udajov hlavneho atributu.     ;;
+;;  Ak sa pouzivatel rozhodne pokracovat po tejto vyzve, tieto vybrane polozyk   ;;
+;;  nahradia polozky, ktore sa uz nachadzaju v hlavnom zozname.
 ;;                                                                               ;;
 ;;  --------------------------------                                             ;;
-;;  The Attribute Data List                                                      ;;
+;;  Zoznam udajov o atributoch                                                   ;;
 ;;  --------------------------------                                             ;;
 ;;                                                                               ;;
-;;  The list box panel displays a list of attributes to be modified by the       ;;
-;;  program. Items in this list may be edited by double-clicking on them.        ;;
-;;                                                                               ;;
-;;  Multiple items may be removed from the list by selecting them and clicking   ;;
-;;  the 'Remove Item' button. Or the whole list may be removed by clicking the   ;;
-;;  'Clear' button.                                                              ;;
-;;                                                                               ;;
-;;  The list of attribute data may be exported to a CSV or Text file by clicking ;;
-;;  the 'Save to File' button and creating an appropriate file saved to a        ;;
-;;  desired location using the dialog that subsequently appears.                 ;;
-;;                                                                               ;;
-;;  Similarly, attribute data be loaded from a CSV or Text file by clicking the  ;;
-;;  'Load from File' button and selecting a file from the dialog that is         ;;
-;;  displayed. For information about the required format of data for importing,  ;;
-;;  see the section below entitled 'Notes on Importing Attribute Data'.          ;;
+;;  Panel so zoznamom zobrazuje zoznam atributov, ktore ma progrma upravit.      ;;
+;;  Polozky v tomto zozname je mozne upravit dvojitym kliknutim na ne. Viacere   ;;
+;;  polozky je mozne zo zoznamu odstranit tak, ze ich vyberieme a klikneme na    ;;
+;;  tlacidlo "Odstranit polozku". Alebo mozeme cely zoznam odstranit kliknutim   ;;
+;;  na tlacidlo "Vymazat". Zoznam udajov atributov je mozne exportovat do CSV    ;;
+;;  alebo textoveho suboru (TXT) kliknutim na tlacidlo "Ulozit do suboru"        ;;
+;;  a vytvorenim vhodneho suboru ulozeneho na pozadovane miesto pomocou          ;;
+;;  dialogoveho okna, ktore sa nasledne zobrazi. Podobne udaje atribitov sa      ;;
+;;  nacitavaju z CSV alebo textoveho suboru kliknutim na tlacidlo "Nacitat zo    ;;
+;;  suboru" a vyberom suboru zo zobrazenho dialogoveho okna.
 ;;                                                                               ;;
 ;;  --------------------------------                                             ;;
-;;  Selecting Drawings                                                           ;;
+;;  Vyber vykresov                                                               ;;
 ;;  --------------------------------                                             ;;
 ;;                                                                               ;;
-;;  The second screen of the dialog is dedicated to selection of drawings        ;;
-;;  to be processed by the program. Here, the user may select a directory using  ;;
-;;  either the 'Browse' button at the top of the dialog, or by entering a folder ;;
-;;  path into the 'Folder' edit box; then proceed to browse the files and        ;;
-;;  folders within that directory from the left-hand list pane.                  ;;
-;;                                                                               ;;
-;;  The folder structure may be navigated from within the left-hand list pane    ;;
-;;  by double-clicking on a listed folder, or on the parent folder symbol ('..') ;;
-;;                                                                               ;;
-;;  Drawing files may be added to the right-hand list pane by double-clicking    ;;
-;;  on a file, or by selecting multiple files and clicking the 'Add Files'       ;;
-;;  button. Similarly, files may be removed from the right-hand list pane by     ;;
-;;  double-clicking on a file or by selecting a group of files and clicking the  ;;
-;;  'Remove Files' button.                                                       ;;
-;;                                                                               ;;
-;;  Drawing files in the right-hand list pane are displayed using a relative     ;;
-;;  path, relative to the directory that is currently selected in the left-hand  ;;
-;;  list pane.                                                                   ;;
-;;                                                                               ;;
-;;  After attribute data has been entered and a number of drawings have been     ;;
-;;  selected to be processed, the user may click the 'Run' button to modify the  ;;
-;;  listed attributes in each of the select drawings.                            ;;
-;;                                                                               ;;
-;;-------------------------------------------------------------------------------;;
+;;  Druha obrazovka dialogu je venovana vyberu vykresov, ktore ma program        ;;
+;;  spracovat. Tu si pouzivatel moze vybret adresar bud pomocou tlacidla         ;;
+;;  "Prehladvat" v hornej casti dialogoveho okna, alebo zadanim cesty            ;;
+;;  k priecinku di pola "Priecinok", potom pokracuje v prehladavani suborov      ;;
+;;  a priecinkov v tomto adresati z laveho panala zoznamu. Strukturu priecinkov  ;;
+;;  je mozne prechdzat z laveho panela so zoznamom dvojitym kliknutim na uvedeny ;;
+;;  priecinok alebo na symbol nadradeneho priecinka (".."). Subory vykresov je   ;;
+;;  mozne pridat do panela zo zoznamom vpravo dvojitym kliknutim na subor alebo  ;;
+;;  vyberom viacerych suborov a kliknutim na tlacidlo "Pridat subory". Podobne   ;;
+;;  je mozne subory odstranit z praveho panela zoznamu. Po zadani udajov         ;;
+;;  o atributoch a vybere niekolkych vykresov na spracovanie moze pouzivatel     ;;
+;;  kliknut na tlacidlo "Spustit" a upravit uvedene atributy v kazdom            ;;
+;;  z vybranych vekresov.                                                        ;;
 ;;                                                                               ;;
 ;;  --------------------------------------------                                 ;;
-;;  Notes on Importing Attribute Data                                            ;;
+;;  Rady a tipy!                                                                 ;;
 ;;  --------------------------------------------                                 ;;
 ;;                                                                               ;;
-;;  The program will accept two file formats:                                    ;;
+;;  Ked sa dialogove okno prvykrat zobrazi, pole "Nazov bloku" bude aktivne.     ;;
+;;  Pouzivatel potom moze preponat medzi polami "Nazov bloku", "Znacka atributu" ;;
+;;  a "Hodnota atributu" stlacenim klavesy "enter" a nakoniec pridat polozku do  ;;
+;;  zoznamu stlacenim klavesy "enter" v poli "Hodnota".                          ;;
 ;;                                                                               ;;
-;;      -   Comma Separated Value files (.csv)                                   ;;
-;;      -   Text files (.txt)                                                    ;;
-;;                                                                               ;;
-;;  The file to be imported should have three columns for Block Name, Attribute  ;;
-;;  Tag and Attribute Value (in that order). If using a Text file, the columns   ;;
-;;  should be tab-delimited.                                                     ;;
-;;                                                                               ;;
-;;  As per adding items from within the program, the Block and Tag values must   ;;
-;;  be present; however, the Value item may be empty if required.                ;;
-;;  The Tag values must not contain spaces.                                      ;;
-;;                                                                               ;;
-;;  Items that are not in the format required by the program will be removed     ;;
-;;  from the list, and the user will be notified of which items have been        ;;
-;;  removed.                                                                     ;;
-;;                                                                               ;;
-;;  Duplicate items will be removed from the list. Duplicate items arise when    ;;
-;;  the same block and tag combination appears more than once in the list. For   ;;
-;;  these cases, the first occurrence of the item will be used.                  ;;
-;;                                                                               ;;
-;;-------------------------------------------------------------------------------;;
-;;                                                                               ;;
-;;  --------------------------------------------                                 ;;
-;;  Hints and Tips!                                                              ;;
-;;  --------------------------------------------                                 ;;
-;;                                                                               ;;
-;;  When the dialog first appears, the Block Name field will take focus.         ;;
-;;  The user can then cycle between the Block Name, Attribute Tag and Attribute  ;;
-;;  Value fields by pressing 'Enter', finally adding the item to the list by     ;;
-;;  pressing 'Enter' from within the Value field.                                ;;
-;;                                                                               ;;
-;;  Drawing files may be added and removed to and from the left and right list   ;;
-;;  box panels by double clicking on the files.                                  ;;
-;;                                                                               ;;
-;;-------------------------------------------------------------------------------;;
-;;                                                                               ;;
-;;  Function Syntax:  BAtte                                                      ;;
-;;                                                                               ;;
-;;-------------------------------------------------------------------------------;;
-;;                                                                               ;;
-;;  Author:                                                                      ;;
-;;                                                                               ;;
-;;  Copyright © 2012 Lee Mac  -  www.lee-mac.com                                 ;;
+;;  Subory vykresov je mozne pridavat a odstranovat do laveho a praveho panela   ;;
+;;  so zoznamom dvojitym kliknutim na subor.
 ;;                                                                               ;;
 ;;-------------------------------------------------------------------------------;;
 
@@ -242,14 +174,14 @@
             (unload_dialog dclID)
         )
         (if (not (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*"))
-            (princ (strcat "\nError: " msg))
+            (princ (strcat "\nChyba: " msg))
         )
         (princ)
     )
     
     (cond
         (   (not (vl-file-directory-p (setq savepath (BAtte:GetSavePath))))
-            (BAtte:Popup (BAtte:WSH) "Warning" 16 "Save Path not Valid.")
+            (BAtte:Popup (BAtte:WSH) "Pozor" 16 "Cesta ulozenia nie je platna.")
         )
         (   (progn
                 (setq base (strcat savepath "\\LMAC_BAtte_V" (vl-string-translate "." "-" BAtteVersion)))
@@ -267,10 +199,10 @@
             )
             (BAtte:Popup
                 (BAtte:WSH)
-                "Warning" 16
+                "Pozor" 16
                 (strcat
-                    "The Dialog Definition (DCL) File could not be Written.\n\n"
-                    "Please ensure that you have write permission for the following directory:\n\n"
+                    "Subor definicie dialogu (DCL) sa nepodarilo zapisat.\n\n"
+                    "Uistite sa, ze mate povolenie na zapis do nasledujuceho adresara:\n\n"
                     savepath
                 )
             )
@@ -278,10 +210,10 @@
         (   (not (BAtte:WriteLSP lspfname))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Warning" 16
+                "Pozor" 16
                 (strcat
-                    "The LISP Utilities File could not be Written.\n\n"
-                    "Please ensure that you have write permission for the following directory:\n\n"
+                    "Subot LISP Utilities File sa nepodarilo zapisat.\n\n"
+                    "Uistite sa, ze mate povolenie na zapis do nasledujuceho adresara:\n\n"
                     savepath
                 )
             )
@@ -289,11 +221,11 @@
         (   (<= (setq dclID (load_dialog dclfname)) 0)
             (BAtte:Popup
                 (BAtte:WSH)
-                "Warning" 16
+                "Pozor" 16
                 (strcat
-                    "The following DCL File could not be loaded:\n\n"
+                    "Nepodarilo sa nacitat nasledujuci subor DLC:\n\n"
                     dclfname
-                    "\n\nThe file either does not exist or contains an error."
+                    "\n\nSubor bud neexistuje, alebo obsahuje chybu."
                 )
             )
         )
@@ -333,12 +265,12 @@
                             (   (not (new_dialog "batte1" dclID))
                                 (BAtte:Popup
                                     (BAtte:WSH)
-                                    "Warning" 16
+                                    "Pozor" 16
                                     (strcat
-                                        "The program dialog could not be loaded.\n\n"
-                                        "The corresponding DCL file resides at the following location:\n\n"
+                                        "Dialogove okno programu sa nepodarilo nacitat.\n\n"
+                                        "Zodpovedajuci subor DLC sa nachadza na nasledujucom umiestneni:\n\n"
                                         dclfname
-                                        "\n\nThis file contains an error, please contact the program author."
+                                        "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                                     )
                                 )
                                 (setq dclStatus 0)
@@ -381,11 +313,11 @@
                                             (   (or (null block) (eq "" block))
                                                 (BAtte:Popup
                                                     (BAtte:WSH)
-                                                    "Information" 48
+                                                    "Informacia" 48
                                                     (strcat
-                                                        "Please Enter a Block Name.\n\n"
-                                                        "Note: Block names are not case-sensitive and may use wildcard patterns"
-                                                        " to match multiple blocks containing the same attribute tag."
+                                                        "Prosim vlozte nazov bloku.\n\n"
+                                                        "Poznamka: V nazvoch blokov sa nerozlisuju velke a male pismena a mozu pouzivat zastupne znaky"
+                                                        " na priradenie viacerych blokov obsahujucich rovnaky atribut tagu."
                                                     )
                                                 )
                                                 (mode_tile "block" 2)
@@ -393,16 +325,16 @@
                                             (   (or (null tag) (eq "" tag))
                                                 (BAtte:Popup
                                                     (BAtte:WSH)
-                                                    "Information" 48
+                                                    "Informacie" 48
                                                     (strcat
-                                                        "Please Enter an Attribute Tag.\n\n"
-                                                        "Note: Attribute tags are not case-sensitive and cannot contain spaces."
+                                                        "Prosim vlozte atribut tagu.\n\n"
+                                                        "Poznamka: Tagy atributov nerozlisuju velke a male pismena a nemoze obsahovat medzery."
                                                     )
                                                 )
                                                 (mode_tile "tag" 2)
                                             )
                                             (   (vl-string-position 32 tag)
-                                                (BAtte:Popup (BAtte:WSH) "Information" 48 "Attribute tag cannot contain spaces.")
+                                                (BAtte:Popup (BAtte:WSH) "Informacia" 48 "Atribut tagu nemoze obsahovat medzeru.")
                                                 (mode_tile "tag" 2)
                                             )
                                             (   (setq tmp
@@ -423,14 +355,14 @@
                                                 )
                                                 (BAtte:Popup
                                                     (BAtte:WSH)
-                                                    "Item Clash"
+                                                    "Duplicita polozky"
                                                     48
                                                     (strcat
-                                                        "The attribute tag '"
+                                                        "Atribut tagu '"
                                                         (cadr tmp)
-                                                        "' within block '"
+                                                        "' v ramci bloku '"
                                                         (car  tmp)
-                                                        "' already appears in the list to be set to value \""
+                                                        "' sa uz objavuje v zozname, ktory sa ma nastavit na hodnotu \""
                                                         (caddr tmp)
                                                         "\""
                                                     )
@@ -596,12 +528,12 @@
                                                     (   (null data)
                                                         (BAtte:Popup
                                                             (BAtte:WSH)
-                                                            "Information" 64
+                                                            "Informacia" 64
                                                             (strcat
-                                                                "No attribute data found.\n\n"
-                                                                "Enter a block name, attribute tag and a new value for the attribute"
-                                                                " in the relevant fields at the top of the dialog.\n\n"
-                                                                "Click 'Add Item' to add the entered data to the list of attributes to be updated."
+                                                                "Nenasli sa ziadne udaje o atributoch.\n\n"
+                                                                "Zadajte nazov bloku, atribut tagu a novu hodnotu atributu"
+                                                                " v prislusnych poliach v hornej casti dialogoveho okna.\n\n"
+                                                                "Kliknutim na  'Pridat polozku' pridate zadane udaje do zoznamu atributov, ktore sa maju aktualizovat."
                                                             )
                                                         )
                                                     )
@@ -621,12 +553,12 @@
                             (   (not (new_dialog "batte2" dclID))
                                 (BAtte:Popup
                                     (BAtte:WSH)
-                                    "Warning" 16
+                                    "Pozor" 16
                                     (strcat
-                                        "The program dialog could not be loaded.\n\n"
-                                        "The corresponding DCL file resides at the following location:\n\n"
+                                        "Dialogove okno programu sa nepodarilo nacitat.\n\n"
+                                        "Zodpovedajuci subor DLC sa nachdza na nasledujucom umiestneni:\n\n"
                                         dclfname
-                                        "\n\nThis file contains an error, please contact the program author."
+                                        "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                                     )
                                 )
                                 (setq dclStatus 0)
@@ -823,13 +755,13 @@
                                                     (   (null result)
                                                         (BAtte:Popup
                                                             (BAtte:WSH)
-                                                            "Information" 64
+                                                            "Informacia" 64
                                                             (strcat
-                                                                "No Drawings selected.\n\n"
-                                                                "Navigate to a directory using either the left-hand list pane, 'Browse' button, or by"
-                                                                " specifying a directory in the 'Folder' edit box and pressing 'Enter'.\n\n"
-                                                                "Select files from the directory by double-clicking on a file, or selecting a group of"
-                                                                " files and clicking the 'Add Files' button."
+                                                                "Ziaden vybraty vykres.\n\n"
+                                                                "Prejdi do adresara pomocou laveho panela so zoznamom, tlacidlom 'Prehladvat' alebo pomocou"
+                                                                " specifikovanim adresara v edita?nom poli 'Priecinok' a stlacenim 'Enter'.\n\n"
+                                                                "Vyberte subory z adresara dvojitym kliknutim na subor alebo vyberom skupiny"
+                                                                " suborov a kliknite na tlacidlo 'Pridat Subory'."
                                                             )
                                                         )
                                                     )
@@ -873,9 +805,9 @@
                                                         )
                                                         (BAtte:Popup
                                                             (BAtte:WSH)
-                                                            "All Files in Use" 48
+                                                            "Vsetky subory sa pouzivaju" 48
                                                             (strcat
-                                                                "All of the selected files are currently in use and cannot be processed:\n\n"
+                                                                "Vsetky vybrane subory sa momentalne pouzivaju a nie je mozne ich spracovat:\n\n"
                                                                 "Filename\t\t\tOpen By\n"
                                                                 (BAtte:lst->str (reverse removed) "\n")
                                                             )                                                
@@ -886,12 +818,12 @@
                                                             (= 6
                                                                 (BAtte:Popup
                                                                     (BAtte:WSH)
-                                                                    "Files in Use" (+ 32 4)
+                                                                    "Pouzivane subory" (+ 32 4)
                                                                     (strcat
-                                                                        "The following files are in use and will not be processed:\n\n"
+                                                                        "Nasledujuce subory sa pouzivaju a nebudu spracovanie:\n\n"
                                                                         "Filename\t\tOpen By\n"
                                                                         (BAtte:lst->str (reverse removed) "\n")
-                                                                        "\n\nContinue?"
+                                                                        "\n\nPokracovat?"
                                                                     )
                                                                 )
                                                             )
@@ -963,10 +895,10 @@
                         )
                         (BAtte:Popup
                             (BAtte:WSH)
-                            "Warning" 16
+                            "Pozor" 16
                             (strcat
-                                "The Script File could not be Written.\n\n"
-                                "Please ensure that you have write permission for the following directory:\n\n"
+                                "Subor skriptu sa nepodatilo ziskat.\n\n"
+                                "Uistite sa, ze mate povolenie na zapis do nasledujuceho adresara:\n\n"
                                 savepath
                             )
                         )
@@ -1901,7 +1833,7 @@
     (cond
         (   (null
                 (setq sel
-                    (_ssget "\nSelect Blocks: "
+                    (_ssget "\nVyberte bloky: "
                         (list
                            '(0 . "INSERT")
                            '(66 . 1)
@@ -1944,13 +1876,13 @@
                     (/= 6
                         (BAtte:Popup
                             (BAtte:WSH)
-                            "Duplicate Items Found" (+ 32 4)
+                            "Nasli sa duplicitne polozky" (+ 32 4)
                             (strcat
-                                "A number of duplicate items were found in the block selection.\n\n"
-                                "Duplicate items arise when the same block and tag combination appear more than once in the list.\n\n"
-                                "The following duplicate items have been removed from the list:\n\n"
+                                "Vo vybere blokov sa naslo mnoho duplicitnych poloziek.\n\n"
+                                "Duplicitne polozky vznikaju, ked sa rovnaka kombinacia bloku a tagu objavi v zozname viac ako raz.\n\n"
+                                "Nasledujuce duplicitne polozky boli odstranene zo zoznamu:\n\n"
                                 (BAtte:lst->str (cadr itm) "\n")
-                                "\n\nContinue?"
+                                "\n\nPokracovat?"
                             )
                         )
                     )
@@ -1963,12 +1895,12 @@
             )
             (BAtte:Popup
                 (BAtte:WSH)
-                "Warning" 16
+                "Pozot" 16
                 (strcat
-                    "The Block Selection dialog could not be loaded.\n\n"
-                    "The corresponding DCL file resides at the following location:\n\n"
+                    "Dialogove okno vyberu blokov sa nepodarilo nacitat.\n\n"
+                    "Zodpovedajuci subor DLC sa nachadza na nesledujucom umiestneni:\n\n"
                     dclfname
-                    "\n\nThis file contains an error, please contact the program author."
+                    "\n\nTento subor obdahuje chybu, kontaktujte autora programu."
                 )
             )
         )
@@ -2027,10 +1959,10 @@
                                         (= 6
                                             (BAtte:Popup
                                                 (BAtte:WSH)
-                                                "No Items Selected" (+ 32 4)
+                                                "Nie su vybrate ziadne polozky" (+ 32 4)
                                                 (strcat
-                                                    "No items have been selected to be added to the Attribute Data list.\n\n"
-                                                    "Continue to Main Dialog?"
+                                                    "Neboli vybrate ziadne polozky na priradenie do zoznamu udajov atributov.\n\n"
+                                                    "Pokracovat do hlavneho dialogu?"
                                                 )
                                             )
                                         )
@@ -2088,13 +2020,13 @@
                                         (= 6
                                             (BAtte:Popup
                                                 (BAtte:WSH)
-                                                "Item Clash" (+ 32 4)
+                                                "Zrazka polozky" (+ 32 4)
                                                 (strcat
-                                                    "The Block & Tag combination for the following selected items already appears in the "
-                                                    "Attribute Data list:\n\n"
+                                                    "Kombinacia bloku & tagu pre nasledujuce vybrate polozky sa uz zobrazuje v "
+                                                    "zozname atributnych udajov:\n\n"
                                                     (BAtte:lst->str dupes "\n")
-                                                    "\n\nIf you continue, the above items will replace those already in the list."
-                                                    "\n\nContinue?"
+                                                    "\n\nAk budete pokracovat, vyssie uvedené polozky nahradia polozky, ktore su uz v zozname."
+                                                    "\n\nPokracovat"
                                                 )
                                             )
                                         )
