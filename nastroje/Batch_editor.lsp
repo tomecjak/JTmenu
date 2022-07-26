@@ -1388,27 +1388,27 @@
                     "    initial_focus = \"block\";"
                     "    key = \"dcltitle\";"
                     "    spacer;"
-                    "    : text { alignment = right; label = \"Copyright (c) Lee Mac 2012  -  www.lee-mac.com\"; }"
+                    "    : text { alignment = right; label = \"JTmenu 0.1\"; }"
                     "    : boxed_column"
                     "    {"
-                    "        label = \"Attribute Data\";"
+                    "        label = \"Data atributov\";"
                     "        : column"
                     "        {"
                     "            : row"
                     "            {"
                     "                : column"
                     "                {"
-                    "                    : txt { label = \"Block Name\"; }"
+                    "                    : txt { label = \"Nazov bloku\"; }"
                     "                    : edt { key = \"block\"; }"
                     "                }"
                     "                : column"
                     "                {"
-                    "                    : txt { label = \"Attribute Tag\"; }"
+                    "                    : txt { label = \"Tag atributu\"; }"
                     "                    : edt { key = \"tag\"; }"
                     "                }"
                     "                : column"
                     "                {"
-                    "                    : txt { label = \"Attribute Value\"; }"
+                    "                    : txt { label = \"Hodnota atributu\"; }"
                     "                    : edt { key = \"value\"; }"
                     "                }"
                     "            }"
@@ -1419,11 +1419,11 @@
                     "        {"
                     "            fixed_width = true;"
                     "            alignment = centered;"
-                    "            : but1 { key = \"additem\"; label = \"&Add Item\"; mnemonic = \"A\"; }"
+                    "            : but1 { key = \"additem\"; label = \"&Pridat Polozku\"; mnemonic = \"P\"; }"
                     "            spacer;"
-                    "            : but2 { key = \"select\";  label = \"Select &Blocks...\"; mnemonic = \"B\"; }"
+                    "            : but2 { key = \"select\";  label = \"Vybrat &Blok...\"; mnemonic = \"B\"; }"
                     "            spacer;"
-                    "            : but1 { key = \"delitem\"; label = \"&Remove Item\"; mnemonic = \"R\"; }"
+                    "            : but1 { key = \"delitem\"; label = \"&Odstranit Polozku\"; mnemonic = \"O\"; }"
                     "        }"
                     "        spacer;"
                     "        : row"
@@ -1431,7 +1431,7 @@
                     "            fixed_width = true;"
                     "            alignment = left;"
                     "            spacer;"
-                    "            : text { label = \"Double-click to edit item\"; }"
+                    "            : text { label = \"Polozku upravite dvojitim kliknutim\"; }"
                     "        }"
                     "        : row"
                     "        {"
@@ -1451,11 +1451,11 @@
                     "        {"
                     "            fixed_width = true;"
                     "            alignment = centered;"
-                    "            : but1 { key = \"load\"; label = \"&Load from File\"; mnemonic = \"L\"; }"
+                    "            : but1 { key = \"load\"; label = \"&Nacitat zo suboru\"; mnemonic = \"N\"; }"
                     "            spacer;"
-                    "            : but2 { key = \"clear\"; label = \"&Clear\"; mnemonic = \"C\"; }"
+                    "            : but2 { key = \"clear\"; label = \"&Vymazat\"; mnemonic = \"V\"; }"
                     "            spacer;"
-                    "            : but1 { key = \"save\"; label = \"&Save to File\"; mnemonic = \"S\"; }"
+                    "            : but1 { key = \"save\"; label = \"&Ulozit do suboru\"; mnemonic = \"U\"; }"
                     "        }"
                     "        spacer;"
                     "    }"
@@ -1464,9 +1464,9 @@
                     "    {"
                     "        fixed_width = true;"
                     "        alignment = centered;"
-                    "        : but3 { key = \"accept\"; is_default = true; label = \"&Next\"; mnemonic = \"N\"; }"
+                    "        : but3 { key = \"accept\"; is_default = true; label = \"&Dalej\"; mnemonic = \"D\"; }"
                     "        spacer_1;"
-                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Exit\"; mnemonic = \"E\"; }"
+                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Zatvorit\"; mnemonic = \"Z\"; }"
                     "    }"
                     "}"
                     ""
@@ -2061,11 +2061,11 @@
                 (   (or (null block) (eq "" block))
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Information" 48
+                        "Informacia" 48
                         (strcat
-                            "Please Enter a Block Name.\n\n"
-                            "Note: Block names are not case-sensitive and may use wildcard patterns"
-                            " to match multiple blocks containing the same attribute tag."
+                            "Prosim vlozte nazov bloku.\n\n"
+                            "Poznamka: v názvoch blokov sa nerozlisuju velke a male pismena a moze pouzivat zastupne znaky"
+                            " na priradenie viacerych blokov obsahujucich rovnaky tag atributu."
                         )
                     )
                     (mode_tile "block" 2)
@@ -2073,16 +2073,16 @@
                 (   (or (null tag) (eq "" tag))
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Information" 48
+                        "Informacia" 48
                         (strcat
-                            "Please Enter an Attribute Tag.\n\n"
-                            "Note: Attribute tags are not case-sensitive and cannot contain spaces."
+                            "Prosim vlozte atribut tagu.\n\n"
+                            "Poznamka: nerozlisuju sa velke a male pismena a nemoze obsahovat medzery."
                         )
                     )
                     (mode_tile "tag" 2)
                 )
                 (   (vl-string-position 32 tag)
-                    (BAtte:Popup (BAtte:WSH) "Information" 48 "Attribute tag cannot contain spaces.")
+                    (BAtte:Popup (BAtte:WSH) "Informacia" 48 "Atribut tagu nemoze obsahovat medzeru.")
                     (mode_tile "tag" 2)
                 )
                 (   (setq tmp
@@ -2103,14 +2103,14 @@
                     )
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Item Clash"
+                        "Zrazka polozky"
                         48
                         (strcat
-                            "The attribute tag '"
+                            "Tag atributu '"
                             (cadr tmp)
-                            "' within block '"
+                            "' v ramci bloku '"
                             (car  tmp)
-                            "' already appears in the list to be set to value \""
+                            "' sa uz objavi v zozname, ktory sa ma nastavit na hodnotu \""
                             (caddr tmp)
                             "\""
                         )
@@ -2130,12 +2130,12 @@
         (   (null (new_dialog "edit" id))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Warning" 16
+                "Pozor" 16
                 (strcat
-                    "The Edit Item dialog could not be loaded.\n\n"
-                    "The corresponding DCL file resides at the following location:\n\n"
+                    "Dialogove okno upravy polozky sa nepodarilo nacitat.\n\n"
+                    "Zodpovedajuci subor DLS sa nachadza na nasledujucom umiestneni:\n\n"
                     dclfname
-                    "\n\nThis file contains an error, please contact the program author."
+                    "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                 )
             )
         )
@@ -2193,17 +2193,17 @@
         (   (null data)
             nil
         )
-        (   (null (setq name (getfiled "Create Output File" "" "csv;txt" 1)))
+        (   (null (setq name (getfiled "Vytvorit vystupny subor" "" "csv;txt" 1)))
             nil
         )
         (   (null (setq file (open name "w")))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Unable to Write to File" 16
+                "Neda sa zapisovat do suboru" 16
                 (strcat
-                    "The following file could not be opened for writing:\n\n"
+                    "Nasledujuci subor sa nepodarilo otvorit na zapis:\n\n"
                     name
-                    "\n\nPlease ensure that you have write permission for the selected directory."
+                    "\n\nUistite sa, ze mate opravnenie na zapis od zvoleneho adresara."
                 )
             )
             nil
@@ -2220,9 +2220,9 @@
             (setq file (close file))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Save Successful" 64
+                "Ulozenie uspesne" 64
                 (strcat
-                    "Attribute data was successfully written to the following location:\n\n"
+                    "Udaje atributu boli uspesne zapisane do nasledujuceho umiestnenia:\n\n"
                     name
                 )
             )
@@ -2235,17 +2235,17 @@
 
 (defun BAtte:LoadFromFile ( / data file line name removed )
     (cond
-        (   (null (setq name (getfiled "Select File to Load" "" "csv;txt" 16)))
+        (   (null (setq name (getfiled "Vyber subor na nacitanie" "" "csv;txt" 16)))
             nil
         )
         (   (null (setq file (open name "r")))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Unable to Read File" 16
+                "Subor sa neda precitat" 16
                 (strcat
-                    "The following file could not be opened for reading:\n\n"
+                    "Nasledujuci subor sa nepodarilo otvorit na citanie:\n\n"
                     name
-                    "\n\nPlease ensure that you have read permission for the above file."
+                    "\n\nUistite sa, ze mate povolenie na citanie vyssie uvedeneho suboru."
                 )
             )
             nil
@@ -2274,8 +2274,8 @@
                 (   (null (setq data (reverse data)))
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "File Empty" 48
-                        "The selected file contained no data."
+                        "Subor je prazdny" 48
+                        "Vybraty subor neobsahoval ziadne udaje."
                     )
                     nil
                 )
@@ -2318,12 +2318,12 @@
                     )
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Incorrect File Format" 48
+                        "Nespravny format suboru" 48
                         (strcat
-                            "The data in the selected file is not in the format required by this program.\n\n"
-                            "The file should have three columns for Block, Tag and Value data."
-                            " If using a Text File, the columns should be tab delimited.\n\n"
-                            "The Attribute Tag data cannot contain spaces."
+                            "Udaje vo vybranom subore nie su vo formate vyzadovanom tymto programom.\n\n"
+                            "Subot by mal mat tri slpce pre udaje bloku, tagu a hodnoty."
+                            " Ak pouzivate textovy subor, stlpce by mali byt oddelene tabulatormi.\n\n"
+                            "Udaje atributu tagu nemoze obsahovat medzery."
                         )
                     )
                     nil
@@ -2336,13 +2336,13 @@
                         (= 6
                             (BAtte:Popup
                                 (BAtte:WSH)
-                                "Items Removed" (+ 32 4)
+                                "Polozky odstranene" (+ 32 4)
                                 (strcat
-                                    "A number of items in the selected file are not in the format required by this program.\n\n"
-                                    "The following items have been removed from the list because either the block or tag values are missing"
-                                    " or the tag value contains spaces:\n\n"
+                                    "Udaje vo vybranom subore nie su vo formate vyzadovanom tymto programom.\n\n"
+                                    "Nasledujuce polozky boli odstranene zo zoznamu, pretoze chubaju hodnoty bloku alebo tagu"
+                                    " alebo hodnotra tagu obsahuje medzery:\n\n"
                                     (BAtte:lst->str removed "\n")
-                                    "\n\nContinue?"
+                                    "\n\nPokracovat?"
                                 )
                             )
                         )
@@ -2351,13 +2351,13 @@
                                 (= 6
                                     (BAtte:Popup
                                         (BAtte:WSH)
-                                        "Duplicate Items Found" (+ 32 4)
+                                        "Nasli sa duplicitne polozky" (+ 32 4)
                                         (strcat
-                                            "A number of duplicate items were found in the selected file. Duplicate items arise when"
-                                            " the same block and tag combination appear more than once in the list.\n\n"
-                                            "The following duplicate items have been removed from the list:\n\n"
+                                            "Vo vybranom subore sa naslo viacero duplicitnych poloziek. Duplicitne polozky vznikaju, ked"
+                                            " rovnaka kombinacia bloku a tagu sa v zozname vyskytuje viackrat.\n\n"
+                                            "Nasledujuce duplicitne polozky boli odstranene zo zoznamu:\n\n"
                                             (BAtte:lst->str (cadr tmp) "\n")
-                                            "\n\nContinue?"
+                                            "\n\nPokracovat?"
                                         )
                                     )
                                 )
@@ -2372,13 +2372,13 @@
                         (= 6
                             (BAtte:Popup
                                 (BAtte:WSH)
-                                "Duplicate Items Found" (+ 32 4)
+                                "Nasli sa duplicitne polozky" (+ 32 4)
                                 (strcat
-                                    "A number of duplicate items were found in the selected file. Duplicate items arise when"
-                                    " the same block and tag combination appear more than once in the list.\n\n"
-                                    "The following duplicate items have been removed from the list:\n\n"
+                                    "Vo vybranom subore sa naslo viacero duplicitnych poloziek. Duplicitne polozky vznikaju, ked"
+                                    " rovnaka kombinacia bloku a tagu sa v zozname vyskytuje viackrat.\n\n"
+                                    "Nasledujuce duplicitne polozky boli odstranene zo zoznamu:\n\n"
                                     (BAtte:lst->str (cadr tmp) "\n")
-                                    "\n\nContinue?"
+                                    "\n\nPokracovat?"
                                 )
                             )
                         )
@@ -2457,12 +2457,12 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: BAtte.lsp | Version "
+        "\n:: BAtte.lsp | Verzia "
         BAtteVersion
-        " | © Lee Mac "
+        " | Vyrobil: Lee Mac "
         (menucmd "m=$(edtime,$(getvar,DATE),YYYY)")
-        " www.lee-mac.com ::"
-        "\n:: Type \"BAtte\" to Invoke ::"
+        " Prelozil: Jakub Tomecko ::"
+        "\n:: Zadajte \"BAtte\" na vyvolanie ::"
     )
 )
 (princ)
