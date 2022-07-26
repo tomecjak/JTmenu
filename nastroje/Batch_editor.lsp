@@ -184,7 +184,7 @@
             (BAtte:Popup (BAtte:WSH) "Pozor" 16 "Cesta ulozenia nie je platna.")
         )
         (   (progn
-                (setq base (strcat savepath "\\JTmenu_BAtte_V" (vl-string-translate "." "-" BAtteVersion)))
+                (setq base (strcat savepath "\\JTmene_BAtte_V" (vl-string-translate "." "-" BAtteVersion)))
                 (foreach pair
                    '(
                         (dclfname . ".dcl")
@@ -194,7 +194,7 @@
                     )
                     (set (car pair) (strcat base (cdr pair)))
                 )
-                (setq dcltitle (strcat "Batch Attribute Editor V" BAtteVersion))
+                (setq dcltitle (strcat "Batch Editor V" BAtteVersion))
                 (not (BAtte:WriteDCL dclfname))
             )
             (BAtte:Popup
@@ -1905,7 +1905,7 @@
             )
         )
         (   t
-            (mapcar 'BAtte:AddList '("h1" "h2" "h3") '(("\tBlok") ("\tTag") ("\tHodnota")))
+            (mapcar 'BAtte:AddList '("h1" "h2" "h3") '(("\tBlock") ("\tTag") ("\tValue")))
 
             (setq itm (BAtte:UpdateAttributeData "list" itm))
 
