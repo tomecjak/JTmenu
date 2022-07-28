@@ -19,7 +19,7 @@
 (AUTOLOAD "Copy_rename_block" '("CB" "RB"))
 (AUTOLOAD "Batch_editor" '("BAtte"))
 (AUTOLOAD "Update_titleblock" '("utb"))
-(AUTOLOAD "Stanicenie" '("Stanicenie"))
+(AUTOLOAD "Stationing" '("Stationing"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; BLoky symbolov

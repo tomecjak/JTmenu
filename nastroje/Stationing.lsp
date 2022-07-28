@@ -1,5 +1,5 @@
 ;=========================================================================
-; Stanicenie.lsp
+; Stationing.lsp
 ; (c) Copyright 2022 Tomecko Jakub
 ; Verzia: 1.0
 ;
@@ -12,9 +12,7 @@
 ;;                                                                      ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:Stanicenie( / vybrana_entita p tot_len poloha_bodu vlaobj)
-
-  (vl-load-com)
+(defun c:Stationing( / vybrana_entita p tot_len poloha_bodu vlaobj)
   
   (setq vybrana_entita (ssget "_:S" '((0 . "LWPOLYLINE"))))
 
@@ -51,7 +49,7 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Stanicenie.lsp | Version 1.O | Vyrobil: Jakub Tomecko "
+        "\n:: Stationing.lsp | Version 1.O | Vyrobil: Jakub Tomecko "
         (menucmd "m=$(edtime,0,yyyy) ::")
     )
 )
