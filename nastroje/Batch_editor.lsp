@@ -2457,7 +2457,7 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: BAtte.lsp | Verzia "
+        "\n:: Batch_editor.lsp | Verzia "
         BAtteVersion
         " | Vyrobil: Lee Mac "
         (menucmd "m=$(edtime,$(getvar,DATE),YYYY)")

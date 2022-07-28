@@ -1,15 +1,23 @@
-;;-----------------------=={ Update Attributes }==----------------------;;
+;=========================================================================
+; Update_titleblock.lsp
+; (c) Copyright 2011 Lee Mac
+; Prelozil Jakub Tomecko
+; Verzia: 1.9
+;
+; Aktualizacia parametrov v blokoch napriec vykresmi (nie len titulnom)
+;-------------------------------------------------------------------------
+
+;;--------------------=={ Aktualizacia atributov }==--------------------;;
 ;;                                                                      ;;
-;;  Reads a CSV file containing attribute data, and, should the drawing ;;
-;;  name of the current drawing appear in the first column of the CSV   ;;
-;;  Drawing List, the program will proceed to update block attributes.  ;;
-;;                                                                      ;;
-;;  The attributes updated will be those with tags corresponding to the ;;
-;;  CSV column headings. These will be updated with values from the     ;;
-;;  row in which the drawing file is listed.                            ;;
+;;  Precita subor CSV obsahujuci udaje atributov a ak sa nazov          ;;
+;;  aktualneho vykresu objavi v prvom stlpci zoznamu vykresov CSV,      ;;
+;;  program bude pokracovat v aktualizacii atributov bloku.             ;;
+;;  Aktualizovane budu atributy zo znackami zodpovedajucimi hlavickam   ;;
+;;  stlpcov CSV. Tieto budu aktualizovane hodnotami z riadku, v ktorom  ;;
+;;  je uvedeny subor vykresu.
 ;;                                                                      ;;
 ;;  -------------------------------------                               ;;
-;;  Example of CSV format:                                              ;;
+;;  Priklad formatu suboru CSV                                          ;;
 ;;  -------------------------------------                               ;;
 ;;                                                                      ;;
 ;;  +------------+-----------+-----------+----------+-----+----------+  ;;
@@ -24,74 +32,20 @@
 ;;  |    ...     |    ...    |    ...    |    ...   | ... |    ...   |  ;;
 ;;  +------------+-----------+-----------+----------+-----+----------+  ;;
 ;;                                                                      ;;
-;;  *Layout & Block Name columns are optional.                          ;;
+;;  *Layout & Nazov Bloku su volitelne parametre.                       ;;
 ;;                                                                      ;;
 ;;  -------------------------------------                               ;;
-;;  Possible Warnings:                                                  ;;
+;;  Mezne varovania:                                                    ;;
 ;;  -------------------------------------                               ;;
-;;  -  Without a block filter or block name column the code will        ;;
-;;     update ALL attributed blocks with tags listed in the CSV         ;;
-;;     headings.                                                        ;;
+;;  -  Bez filtra blokov alebo stlpca s nazvom bloku kod aktualizuje    ;;
+;;     vsetky priradene bloky pomocou atributov uvedenych               ;;
+;;     v hlavicke CSV.                                                  ;;
 ;;                                                                      ;;
-;;  -  Currently designed to run on startup - add to either             ;;
-;;     Startup-Suite or ACADDOC.lsp to update blocks when drawing is    ;;
-;;     opened. To disable code running when loaded, remove (c:utb)      ;;
-;;     from the bottom of the code.                                     ;;
+;;  -  Momentalne navrhnutie na spusenie pri starte - pridat bud do     ;;
+;;     Startup-Suite alebo ACADDOC.lsp aby sa aktualizovali bloky pri   ;;
+;;     otvoreni vykresu. Ak chcete zakazat spusenie kodu pri nacitani   ;;
+;;     odstrante (c:utb) zo spodnej casti kodu.                         ;;
 ;;                                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Author:  Lee Mac, Copyright © 2011  -  www.lee-mac.com              ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.0    -    2011-01-12                                      ;;
-;;                                                                      ;;
-;;  - First release.                                                    ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.1    -    2011-01-13                                      ;;
-;;                                                                      ;;
-;;  - Added optional 'Layout' column (next to DWG Column) to allow      ;;
-;;    multiple titleblocks to be updated with different information     ;;
-;;    within a single drawing.                                          ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.2    -    2011-08-28                                      ;;
-;;                                                                      ;;
-;;  - Removed case-sensitivity of drawing file column in CSV.           ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.3    -    2011-12-27                                      ;;
-;;                                                                      ;;
-;;  - Revised the code to correctly process CSV files generated using   ;;
-;;    OpenOffice software.                                              ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.4    -    2012-01-16                                      ;;
-;;                                                                      ;;
-;;  - Updated the 'ReadCSV' local function to correctly read CSV cells  ;;
-;;    containing commas and quotes.                                     ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.5    -    2012-09-19                                      ;;
-;;                                                                      ;;
-;;  - Updated CSV file parser function to account for the use of        ;;
-;;    alternative cell delimiter characters in CSV file (such as a      ;;
-;;    semi-colon).                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.6    -    2013-05-22                                      ;;
-;;                                                                      ;;
-;;  - Removed the need for file extension in first column of CSV file.  ;;
-;;  - Updated CSV file parser function to correct bug.                  ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.7    -    2014-11-01                                      ;;
-;;                                                                      ;;
-;;  - Fixed bug causing filenames containing ASCII character 46 (point) ;;
-;;    to not be found in the first column of the CSV file.              ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.8    -    2015-04-13                                      ;;
-;;                                                                      ;;
-;;  - Added support for duplicate attribute tags.                       ;;
-;;  - Added support for optional 'Block Name' column in CSV file.       ;;
-;;  - Added inclusion of anonymous block names to optional block name   ;;
-;;    filter to enable dynamic block support.                           ;;
-;;----------------------------------------------------------------------;;
-;;  Version 1.9    -    2016-09-18                                      ;;
-;;                                                                      ;;
-;;  - Fixed implementation of block filter when processing attributed   ;;
-;;    dynamic blocks.                                                   ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:utb
@@ -113,42 +67,43 @@
     )
 
 ;;----------------------------------------------------------------------;;
-;; Location of CSV Drawing List (set to nil for prompt)                 ;;
+;;  Umiestnenie zoznamu vykresov CSV (nastavene na nil, aby sa          ;;
+;;  zobrazila vyzva).                                                   ;;
 ;;                                                                      ;;
-;; If the CSV file resides in the same directory as the drawing, omit   ;;
-;; the filepath from the location of the CSV file, and only include     ;;
-;; the filename, e.g. "myfile.csv"                                      ;;
+;;  Ak sa subor CSV nachadza v ravnakom adresari ako vykres, vynechajte ;;
+;;  cestu k suboru z umiestnanie suboru CSV a uvedte iba nazov suboru,  ;;
+;;  napr.: "myfile.csv".                                                ;;
 ;;                                                                      ;;
-;; If only a filename is specified, AutoCAD will first search the       ;;
-;; working directory for this file before searching the Support Paths.  ;;
+;;  Ak je zadany iba nazov suboru, AutoCad najskor vyhlada tento subor  ;;
+;;  v pracovnom adresari a az potom vyhlada "Support Paths".            ;;
 ;;----------------------------------------------------------------------;;
   
-    (setq utb:csv nil) ;; e.g. (setq utb:csv "C:/myfolder/myfile.csv")
+    (setq utb:csv nil) ;; napr.: (setq utb:csv "C:/myfolder/myfile.csv")
 
 ;;----------------------------------------------------------------------;;
-;; Block Filter (may use wildcards and may be nil)                      ;;
+;; Block Filter (moze pouzivat zastupne znaky a moze byt nil)           ;;
 ;;----------------------------------------------------------------------;;
 
-    (setq utb:ftr nil)  ;; e.g. (setq utb:ftr "*BORDER")
+    (setq utb:ftr nil)  ;; napr.: (setq utb:ftr "*BORDER")
 
 ;;----------------------------------------------------------------------;;
-;; Layout Column (t or nil)                                             ;;
+;; Layout Column (t alebo nil)                                          ;;
 ;;----------------------------------------------------------------------;;
 
-    (setq utb:lay t)    ;; set to t if CSV file contains Layout Column
+    (setq utb:lay t)    ;; nastavte "t" ak CSV subor obsahuje Layout Column
 
 ;;----------------------------------------------------------------------;;
-;; Block Name Column (t or nil)                                         ;;
+;; Block Name Column (t alebo n                                         ;;
 ;;----------------------------------------------------------------------;;
 
-    (setq utb:blk nil)  ;; set to t if CSV file contains Block Name Column
+    (setq utb:blk nil)  ;; nastavte "t" ak CSV subor obsahuje Block Name Column
 
 ;;----------------------------------------------------------------------;;
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
         (if (not (wcmatch (strcase msg t) "*break,*cancel*,*exit*"))
-            (princ (strcat "\nError: " msg))
+            (princ (strcat "\nChyba: " msg))
         )
         (princ)
     )
@@ -162,7 +117,7 @@
     )
     (cond
         (   (not (setq sel (ssget "_X" (vl-list* '(0 . "INSERT") '(66 . 1) (if utb:ftr (list (cons 2 (strcat "`*U*," utb:ftr))))))))
-            (princ "\nNo Attributed Blocks found in drawing.")
+            (princ "\nVy vykrese sa nanasli ziadne priradene bloky.")
         )
         (   (and utb:csv (not (setq csv (findfile utb:csv))))
             (princ
@@ -170,22 +125,22 @@
                     "\n"
                     (vl-filename-base utb:csv)
                     (vl-filename-extension utb:csv)
-                    " not found."
+                    " nenajdene."
                 )
             )
         )
         (   (and csv (/= ".CSV" (strcase (vl-filename-extension csv))))
-            (princ "\nAttribute data file must be in CSV format.")
+            (princ "\nSubor s udajmi atributov musi byt vo formate CSV.")
         )
-        (   (not (or csv (setq csv (getfiled "Select CSV File" "" "csv" 16))))
+        (   (not (or csv (setq csv (getfiled "Vyberte CSV subor" "" "csv" 16))))
             (princ "\n*Cancel*")
         )
         (   (not (setq lst (mapcar '(lambda ( x ) (cons (strcase (fnb:fun (car x))) (cdr x))) (LM:readcsv csv))))
             (princ
                 (strcat
-                    "\nNo data found in "
+                    "\nZiadne data sa nenasli v "
                     (vl-filename-base csv)
-                    ".csv file."
+                    ".csv subore."
                 )
             )
         )
@@ -194,7 +149,7 @@
                       lst (LM:massoc (strcase (fnb:fun (getvar 'dwgname))) lst)
                 )
             )
-            (princ (strcat "\n" (fnb:fun (getvar 'dwgname)) " not found in first column of CSV file."))
+            (princ (strcat "\n" (fnb:fun (getvar 'dwgname)) " nenasiel sa v prvom sltpci suboru CSV."))
         )
         (   t
             (setq lst (mapcar '(lambda ( x ) (mapcar 'cons tag x)) lst)
@@ -245,7 +200,7 @@
                 )
             )
             (if (zerop ano)
-                (princ "\nAll attributes are up-to-date.")
+                (princ "\nVsetky atributy su aktualne.")
                 (princ
                     (strcat
                         "\n"           (itoa ano) " attribute" (if (= 1 ano) "" "s")
@@ -290,9 +245,9 @@
     blk
 )
 
-;; Read CSV  -  Lee Mac
-;; Parses a CSV file into a matrix list of cell values.
-;; csv - [str] filename of CSV file to read
+;; Precitanie CSV  -  Lee Mac
+;; Analyzuje subor CSV do maticoveho zoznamu hodnot buniek.
+;; csv - [str] nazov suboru CSV na citanie
  
 (defun LM:readcsv ( csv / des lst sep str )
     (if (setq des (open csv "r"))
@@ -308,10 +263,10 @@
 )
 
 ;; CSV -> List  -  Lee Mac
-;; Parses a line from a CSV file into a list of cell values.
-;; str - [str] string read from CSV file
-;; sep - [str] CSV separator token
-;; pos - [int] initial position index (always zero)
+;; Analyzuje riadok zo suboru CSV do zoznamu hodnot buniek.
+;; str - [str] retazec nacitany zo suboru CSV
+;; sep - [str] token odelovaca CSV
+;; pos - [int] index pociatocnej polohy (vzdy nula)
  
 (defun LM:csv->lst ( str sep pos / s )
     (cond
@@ -347,7 +302,7 @@
 )
 
 ;; MAssoc  -  Lee Mac
-;; Returns all associations of a key in an association list
+;; Vrati vsetky asociacie kluca v zozname asociacii.
 
 (defun LM:massoc ( key lst / item )
     (if (setq item (assoc key lst))
@@ -356,7 +311,7 @@
 )
 
 ;; Remove 1st  -  Lee Mac
-;; Removes the first occurrence of an item from a list
+;; Odstrani prvy vyskyt polozky zo zonamu.
 
 (defun LM:remove1st ( itm lst / f )
     (setq f equal)
@@ -364,7 +319,7 @@
 )
 
 ;; Start Undo  -  Lee Mac
-;; Opens an Undo Group.
+;; Otvori Undo Group.
 
 (defun LM:startundo ( doc )
     (LM:endundo doc)
@@ -372,7 +327,7 @@
 )
 
 ;; End Undo  -  Lee Mac
-;; Closes an Undo Group.
+;; Zatvori Undo Group.
 
 (defun LM:endundo ( doc )
     (while (= 8 (logand 8 (getvar 'undoctl)))
@@ -381,7 +336,7 @@
 )
 
 ;; Active Document  -  Lee Mac
-;; Returns the VLA Active Document Object
+;; Vrati objekty VLA Active Document
 
 (defun LM:acdoc nil
     (eval (list 'defun 'LM:acdoc 'nil (vla-get-activedocument (vlax-get-acad-object))))
@@ -393,17 +348,17 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: UpdateTitleblock.lsp | Version 1.9 | \\U+00A9 Lee Mac "
+        "\n:: Update_titleblock.lsp | Version 1.9 | Vyrobil: Lee Mac "
         (menucmd "m=$(edtime,0,yyyy)")
-        " www.lee-mac.com ::"
-        "\n:: Type \"utb\" to run manually ::\n"
+        " Prelozil: Jakub Tomecko ::"
+        "\n:: Zadajte \"utb\" na vyvolanie ::\n"
     )
 )
 (princ)
 
 ;;----------------------------------------------------------------------;;
 
-;; (c:utb) ;; Remove or comment this line to disable autorun            ;;
+;; (c:utb) ;; Zakaz automatickeho spustania (zmazat/okomentovat)        ;;
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
