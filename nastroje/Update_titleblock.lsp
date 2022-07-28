@@ -117,7 +117,7 @@
     )
     (cond
         (   (not (setq sel (ssget "_X" (vl-list* '(0 . "INSERT") '(66 . 1) (if utb:ftr (list (cons 2 (strcat "`*U*," utb:ftr))))))))
-            (princ "\nVy vykrese sa nanasli ziadne priradene bloky.")
+            (princ "\nVo vykrese sa nanasli ziadne priradene bloky.")
         )
         (   (and utb:csv (not (setq csv (findfile utb:csv))))
             (princ
