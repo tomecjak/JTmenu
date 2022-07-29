@@ -1,5 +1,5 @@
 ;=========================================================================
-; Vkladanie_blokov.lsp
+; Coordinates_symbol.lsp
 ; (c) Copyright 2022 Tomecko Jakub
 ; Verzia: 0.1
 ;-------------------------------------------------------------------------
@@ -26,17 +26,9 @@
 
 ;-------------------------------------------------------------------------
 
-;Vkladanie jednotlivých blokov
-;vloženie bloku Smer
-(defun c:DPSmer ()
+;vloženie bloku Súradnice
+(defun c:Coordinates ()
   (SetLayer)
   (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
-)
-
-;vloženie bloku Smer2
-(defun c:DPSmer2 ()
-  (SetLayer)
-  (prompt "\nUrcite bod vlozenia znacky smeru:")
-  (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
+  (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
 )

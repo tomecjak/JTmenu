@@ -25,6 +25,8 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSeverka" "DPSuradnice"))
 (AUTOLOAD "Drawing_crosses" '("DC"))
+(AUTOLOAD "North_arrow" '("NorthArrow"))
+(AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Priklady
