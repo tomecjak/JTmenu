@@ -4,8 +4,8 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Funkcie
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Kataster" '("Cadastre"))
-(AUTOLOAD "Mapa" '("Maps"))
+(AUTOLOAD "Cadastre" '("Cadastre"))
+(AUTOLOAD "Maps" '("Maps"))
 (AUTOLOAD "Rebar_scheme" '("RS"))
 (AUTOLOAD "Create_layers" '("CL"))
 (AUTOLOAD "Block_base_point" '("CBP" "CBPR"))

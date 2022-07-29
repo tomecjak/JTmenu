@@ -345,20 +345,18 @@
 
 ;;----------------------------------------------------------------------;;
 
-(vl-load-com)
-(princ
-    (strcat
-        "\n:: Update_titleblock.lsp | Version 1.9 | Vyrobil: Lee Mac "
-        (menucmd "m=$(edtime,0,yyyy)")
-        " Prelozil: Jakub Tomecko ::"
-        "\n:: Zadajte \"utb\" na vyvolanie ::\n"
-    )
-)
-(princ)
+;; (c:utb) ;; Zakaz automatickeho spustania (zmazat/okomentovat)        ;;
 
 ;;----------------------------------------------------------------------;;
 
-;; (c:utb) ;; Zakaz automatickeho spustania (zmazat/okomentovat)        ;;
+(vl-load-com)
+(princ
+    (strcat
+        "\n:: Update_titleblock.lsp | Version 1.9 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
+        (menucmd "m=$(edtime,0,yyyy) ::")
+    )
+)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;

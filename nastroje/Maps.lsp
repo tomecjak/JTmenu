@@ -1,26 +1,36 @@
 ;=========================================================================
-; Kataster.lsp
+; Maps.lsp
 ; (c) Copyright 2022 Tomecko Jakub
 ; Verzia: 0.9 beta
 ;
-; Vyhladavanie na servery https://zbgis.skgeodesy.sk podľa WGS84
+; Vyhladavanie na servery https://www.google.com/maps podľa WGS84
 ;-------------------------------------------------------------------------
 
-;definovanie funkcie prikazu "Kataster"
-(defun c:Cadastre ()
-  ;definovanie premenej "polohaBoduKatastra" do krotej sú zapísane súradnice
-  (setq polohaBoduKatastra (getpoint "Zadajte bod v vnutri hranic pozemku katastra"))
+;definovanie funkcie prikazu "Mapa"
+(defun c:Maps ()
+  ;nastavenie cmdecho na hodnotu 0 - vypnutie opakovaneho vstupu
+  (setvar "cmdecho" 0)
+  ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice
+  (setq polohaBoduMapy (getpoint "Zadajte bod"))
 
-  ;definovanie premenej "KatasterURL" do ktorej je zapísana url adresa
-  (setq KatasterURL (getSuradniceKatasterURL polohaBoduKatastra))
+  ;definovanie premenej "MapaURL" do ktorej je zapísana url adresa
+  (setq MapaURL (getSuradniceMapaURL polohaBoduMapy))
   
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" KatasterURL)
+  (command "browser" MapaURL)
+  
+  ;nastavenie cmdecho na hodnotu 1 - zapnutie opakovaneho vstupu
+  (setvar "cmdecho" 1)
   (princ)
 )
 
-;definovanie funkcie "getSuradniceKatasterURL" pre získanie plného tvaru url adresy
-(defun getSuradniceKatasterURL (pp_point)
+;definovanie Help (F1) pre prikaz
+(setfunhelp "c:Mapa" "https://www.google.com")
+
+;-------------------------------------------------------------------------
+
+;definovanie funkcie "getSuradniceMapaURL" pre získanie plného tvaru url adresy
+(defun getSuradniceMapaURL (pp_point)
   ;definovanie súradníc X a Y
   (setq SuradnicaX (abs (nth 1 pp_point)))
   (setq SuradnicaY (abs (nth 0 pp_point)))
@@ -196,23 +206,49 @@
   ;WGS84 longitude
   (setq LA2 (+ LAGreenW (/ dLAsec 3600)))
   
+  ;vytvorenie premenej VyberMapovehoPodkladu pre vyber operacie
+  (setq VyberMapovehoPodkladu
+    (getstring "\nVyberte si mapu [Google maps/Mapy.cz/ZBGIS mapy] <Google maps>: ")
+  )
   
-  ;spojenie stringov do jedného url
+  (if (or (= VyberMapovehoPodkladu "") (= VyberMapovehoPodkladu "G") (= VyberMapovehoPodkladu "g"))
+  ;spojenie stringov do jedného url - https://www.google.com/maps/@48.9709044,21.2642091,14z
   (strcat
-    "https://zbgis.skgeodesy.sk/mkzbgis/sk/kataster/identification/point/"
+    "https://www.google.com/maps/@"
     ;prevedenie čísla do stringu (2-decimal, 0-precision)
     (rtos Fl2 2 6)
     ","
     (rtos LA2 2 6)
-    "?pos="
-    (rtos Fl2 2 6)
-    ","
-    (rtos LA2 2 6)
-    ",18"
+    ",18z"
   )
+    (if (or (= VyberMapovehoPodkladu "M") (= VyberMapovehoPodkladu "m"))
+    ;spojenie stringov do jedného url - https://sk.mapy.cz/zakladni?x=15.6252330&y=49.8022514&z=8
+    (strcat
+      "https://sk.mapy.cz/zakladni?x="
+      ;prevedenie čísla do stringu (2-decimal, 0-precision)
+      (rtos LA2 2 6)
+      "&y="
+      (rtos Fl2 2 6)
+      "&z=18"
+    )
+      (if (or (= VyberMapovehoPodkladu "Z") (= VyberMapovehoPodkladu "z"))
+      ;spojenie stringov do jedného url - https://zbgis.skgeodesy.sk/mkzbgis/sk/zakladna-mapa?pos=49.014939,21.208333,18
+      (strcat
+        "https://zbgis.skgeodesy.sk/mkzbgis/sk/zakladna-mapa?pos="
+        ;prevedenie čísla do stringu (2-decimal, 0-precision)
+        (rtos Fl2 2 6)
+        ","
+        (rtos LA2 2 6)
+        ",18"
+      )
+      (princ "\nNeplatny vyber.")
+      )
+    )
+  )   
 
 )
 
+;-------------------------------------------------------------------------
 
 ;definovanie matematickej funkciet tangens
 (defun tan ( x )
@@ -227,3 +263,18 @@
         (atan x (sqrt (- 1.0 (* x x))))
     )
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(princ
+    (strcat
+        "\n:: Maps.lsp | Version 0.9 beta | Vyrobil: Jakub Tomecko "
+        (menucmd "m=$(edtime,0,yyyy) ::")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;

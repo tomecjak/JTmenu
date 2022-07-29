@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Drawing_crosses.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 0.1
+; Verzia: 1.0
 ;-------------------------------------------------------------------------
 
 
@@ -30,3 +30,18 @@
   (prompt "\nUrcite bod vlozenia znacky smeru:")
   (command "_insert" "DPKriziky" "0,0" (getvar "dimscale")(getvar "dimscale") 0)
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(princ
+    (strcat
+        "\n:: Drawing_crosses.lsp | Version 1.0 | Vyrobil: Jakub Tomecko "
+        (menucmd "m=$(edtime,0,yyyy) ::")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;

@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Vkladanie_blokov.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 0.1
+; Verzia: 0.9 beta
 ;-------------------------------------------------------------------------
 
 ;Podpoerné funkcie
@@ -40,3 +40,18 @@
   (prompt "\nUrcite bod vlozenia znacky smeru:")
   (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(princ
+    (strcat
+        "\n:: Vkladanie_blokov.lsp | Version 0.9 beta | Vyrobil: Jakub Tomecko "
+        (menucmd "m=$(edtime,0,yyyy) ::")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;

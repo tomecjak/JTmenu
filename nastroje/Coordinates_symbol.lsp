@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Coordinates_symbol.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 0.1
+; Verzia: 1.0
 ;-------------------------------------------------------------------------
 
 ;Podpoerné funkcie
@@ -32,3 +32,18 @@
   (prompt "\nUrcite bod vlozenia znacky smeru:")
   (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(princ
+    (strcat
+        "\n:: Auto_block_break.lsp | Version 1.0 | Vyrobil: Jakub Tomecko "
+        (menucmd "m=$(edtime,0,yyyy) ::")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
