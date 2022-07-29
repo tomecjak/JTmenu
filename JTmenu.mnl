@@ -12,7 +12,6 @@
 (AUTOLOAD "Auto_block_break" '("ABB" "ABBE" "ABBS"))
 (AUTOLOAD "Center_measure" '("CMEASURE"))
 (AUTOLOAD "Viewport_outline" '("VPO" "VPOL" "VPOA"))
-(AUTOLOAD "Renumbering" '("INCARRAY" "INCARRAYD"))
 (AUTOLOAD "Object_break" '("OB" "OBO"))
 (AUTOLOAD "Chain_length" '("CHAINLEN"))
 (AUTOLOAD "Double_offset" '("DOFF"))
