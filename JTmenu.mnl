@@ -19,14 +19,14 @@
 (AUTOLOAD "Batch_editor" '("BAtte"))
 (AUTOLOAD "Update_titleblock" '("utb"))
 (AUTOLOAD "Stationing" '("Stationing"))
+(AUTOLOAD "Drawing_crosses" '("DC"))
+(AUTOLOAD "North_arrow" '("NorthArrow"))
+(AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; BLoky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSeverka" "DPSuradnice"))
-(AUTOLOAD "Drawing_crosses" '("DC"))
-(AUTOLOAD "North_arrow" '("NorthArrow"))
-(AUTOLOAD "Coordinates_symbol" '("Coordinates"))
+(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Priklady
