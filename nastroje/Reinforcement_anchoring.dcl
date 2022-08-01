@@ -7,7 +7,7 @@
 //-------------------------------------------------------------------------
 
 // Nazov dialogoveho okna
-ReinforcementAnchoring_dcl
+Reinforcement_anchoring
 
 // Zaciatok definicie dialogoveho okna
 : dialog
