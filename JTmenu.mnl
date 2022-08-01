@@ -22,6 +22,7 @@
 (AUTOLOAD "Drawing_crosses" '("DC"))
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
+(AUTOLOAD "Reinforcement_anchoring" '("TEST_DCL"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; BLoky symbolov
