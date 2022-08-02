@@ -7,13 +7,13 @@
 ;-------------------------------------------------------------------------
 
 ; Definicia premenej a deklarovanie premenych
-(defun C:TEST_DCL (/ dcl_id)
+(defun C:TEST_DCL ()
 
   ; Nacitanie dialogovho okna a nastavenie odkazu
   (setq dcl_id (load_dialog "Reinforcement_anchoring.dcl"))
   
   ; Nacitanie dialogu a overenie jeho existenie
-  (if (not (new_dialog "Reinforcement_anchoring.dcl" dcl_id))
+  (if (not (new_dialog "Reinforcement_anchoring" dcl_id))
   
     ; Zatvorenie programu ak definicia dialogoveho okna neexistuje
     (exit)
