@@ -14,55 +14,32 @@ Reinforcement_anchoring
 {
   // Nazov dialogoveho okna zobrazeneho v hornom bare
   label = "Reinforcement anchoring and overlap";
-
-  : row
+  
+  // Zaciatok definicie textu
+  : text
   {
-    // Definicie boxed collum
-    : boxed_column 
-    {
-      // Definovanie nazvu boxed collum
-      label = "Vstupne hodnoty";
-        // Definicia popup listu - trieda betonu
-        : popup_list
-        {
-          // Nazov popup listu
-          key = "ConcreteSelections";
-          value = "4";
-        }
+    // Definovanie obsahu textoveho pola
+    label = "To je test";
+    // Zarovnanie textu
+    alignment = centered;
+  } // Koniec definicie textu
 
-        // Definicia popup listu - parcialny sucinitel
-        : popup_list
-        {
-          // Nazov popup listu
-          key = "ParcialSelections";
-          value = "1";
-        }
-    }
-  }
-
-  // Zaciatok definovanie buttonu vypocitat
+  // Zaciatok definovanie buttonu
   : button
   {
     // Kluc alebo nazov buttonu (referencia pre AutoLISP kod)
-    key = "count";
+    key = "accept";
     // Definovanie obsahu buttonu
-    label = "Vypocitat";
+    label = "Close";
     // Definovanie prednastaveneho stavu (automaticke oznacenie po stlaceni entra
     is_default = true;
     // Vynutenie, aby button bol dostatocne velky pre text
     fixed_width = true;
     // Zarovanie buttonu
     alignment = centered;
-  }
-
-  // Predinovanie OK/Cancel
-  cancel_button;
-  
-  
+  } // Koniec definovnaie buttonu
 } // Koniec definovanie dialogoveho okna
 
 //----------------------------------------------------------------------//
 //                             End of File                              //
 //----------------------------------------------------------------------//
-
-//////////////////////////////////////////////////////////////////////////
