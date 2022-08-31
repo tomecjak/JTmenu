@@ -17,13 +17,10 @@
 (AUTOLOAD "Double_offset" '("DOFF"))
 (AUTOLOAD "Copy_rename_block" '("CB" "RB"))
 (AUTOLOAD "Batch_editor" '("BAtte"))
-(AUTOLOAD "Update_titleblock" '("utb"))
 (AUTOLOAD "Stationing" '("Stationing"))
 (AUTOLOAD "Drawing_crosses" '("DC"))
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
-(AUTOLOAD "Reinforcement_anchoring" '("TEST_DCL"))
-(AUTOLOAD "Hydrotechnical_calculation" '("div3" "div4"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; BLoky symbolov
