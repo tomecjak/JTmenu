@@ -8,6 +8,23 @@
 
 ;definovanie funkcie prikazu "Kataster"
 (defun c:Cadastre ()
+  
+  ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
+  (setq VyberUCS
+    (getstring "\nPouzit UCS [World/Vlastne] <World>: ")
+  )
+  
+  ;vyhodnotenie vyberu UCS pred prikazom
+  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
+    ;nastavenie UCS na World
+    (command "_.ucs" "_World")
+  
+    (if (or (= VyberUCS "V") (= VyberUCS "v"))
+    ;UCS zostane bez zmeny
+    (princ)
+    )
+  )
+  
   ;definovanie premenej "polohaBoduKatastra" do krotej sú zapísane súradnice
   (setq polohaBoduKatastra (getpoint "Zadajte bod v vnutri hranic pozemku katastra"))
 
@@ -16,6 +33,18 @@
   
   ;spustenie prikazu browser z vlozenou url
   (command "browser" KatasterURL)
+  
+  ;vyhodnotenie vyberu UCS po prikaze
+  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
+    ;nastavenie UCS na predchadzajuce
+    (command "_.ucs" "_Previous")
+  
+    (if (or (= VyberUCS "V") (= VyberUCS "v"))
+    ;UCS zostane bez zmeny
+    (princ)
+    )
+  )
+  
   (princ)
 )
 
@@ -226,6 +255,18 @@
     (if (<= -1.0 x 1.0)
         (atan x (sqrt (- 1.0 (* x x))))
     )
+)
+
+;;----------------------------------------------------------------------;;
+
+;definovanie chybovej hlasky v programe + nastavenie 
+(defun *error* (errmsg)
+  (command-s "_.ucs" "_Previous")
+  (princ)
+  (princ "\nV programe sa vyskytla chyba. ")
+  (terpri)
+  (prompt errmsg)
+  (princ)
 )
 
 ;;----------------------------------------------------------------------;;
