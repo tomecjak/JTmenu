@@ -1,5 +1,5 @@
 # JTmenu
-JTmenu 0.10 pre AutoCAD
+JTmenu pre AutoCAD
 
 ## Úvodne informácie
 JTmenu je nadstavba pre AutoCAD, ktorú som vytvoril pre uľahčenie práce s našími štandartními značkami vo výkresoch. Nadstavba je určená pre AutoCAD 2013 a novšie. Aktuálna verzia bola testovaná v AutoCADe 2023.
