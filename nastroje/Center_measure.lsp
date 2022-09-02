@@ -2,12 +2,12 @@
 ; Center_measure.lsp
 ; (c) Copyright 2011 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.0
+; Verzia: beta
 ;
 ; Rozmiestnenie objektov od stredu ciary
 ;-------------------------------------------------------------------------
 
-;;-------------------=={ Stredov� zarovnie }==----------------;;
+;;-------------------=={ Stredové zarovnie }==----------------;;
 ;;                                                            ;;
 ;;  Emuluje spravenie standartneho prikazu "Measure", ale     ;;
 ;;  centruje delenie pozdlz vybraneho objektu                 ;;
@@ -37,11 +37,11 @@
       (progn (setvar 'ERRNO 0) (setq sel (car (func msg)))
         (cond
           ( (= 7 (getvar 'ERRNO))
-            (princ "\nChyba, skus to znovu.")
+            (princ "\nChyba, skús to znovu.")
           )
           ( (eq 'ENAME (type sel))
             (if (and pred (not (pred sel)))
-              (princ "\nVybrany nespravny objekt.")
+              (princ "\nVybraný nesprávny objekt.")
             )
           )
         )
@@ -66,29 +66,29 @@
   (setq acdoc (vla-get-activedocument (vlax-get-acad-object))
         nm    (trans '(0. 0. 1.) 1 0 t)
   )
-  (if (setq en (_SelectIf "\nVyberte objekt na Measure: " '_isCurveObject entsel))
+  (if (setq en (_SelectIf "\nVyberte objekt na Center Measure: " '_isCurveObject entsel))
     (progn
       (initget 7 "Block")
-      (setq di (getdist "\nZadajte dlzku segmentu alebo [Block]: "))
+      (setq di (getdist "\nZadajte dĺžku segmentu alebo vyberte [Block]: "))
       
       (if (eq "Block" di)
         (progn
           (while
-            (progn (setq bl (getstring t "\nZadajte nazov bloku, ktory chcete vlozit: "))
+            (progn (setq bl (getstring t "\nZadajte názov bloku, ktorí chcete vložiť: "))
               (cond
                 ( (not (snvalid bl))
-                  (princ "\nNespravny nazov bloku.")
+                  (princ "\nNesprávny názov bloku.")
                 )
                 ( (not (tblsearch "BLOCK" bl))
-                  (princ (strcat "\nNemozem nasjt blok \"" bl "\"."))
+                  (princ (strcat "\nNemôžem nájsť block \"" bl "\"."))
                 )
               )
             )
           )
-          (initget "Yes No")
-          (setq al (not (eq "No" (getkword "\nZarovnat blok s objektom? [Yes/No] <Y>: "))))
+          (initget "Áno Nie")
+          (setq al (not (eq "Nie" (getkword "\nZarovnať block s objektom? [Áno/Nie] <Á>: "))))
           (initget 7)
-          (setq di (getdist "\nZadajte dlzku segmentu: "))
+          (setq di (getdist "\nZadajte dĺžku segmentu: "))
         )
       )
       (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
@@ -122,6 +122,8 @@
     )
     (princ "\n*Cancel*")
   )
+  ;hlaska po skonceni programu
+  (princ "\nCenter measure bol vykonaný. ")
   (princ)
 )
 
@@ -130,8 +132,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Center_measure.lsp | Version 1.0 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nCenter_measure.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

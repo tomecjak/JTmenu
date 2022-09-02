@@ -23,7 +23,7 @@
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; BLoky symbolov
+; Bloky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2"))
 (print)
@@ -34,5 +34,11 @@
 ; (AUTOLOAD "CMDS" '("CMD1" "CMD2" "CMD3")) 
 ; (AUTOLOAD "NEWCMD" '("NEWCMD"))
 
-(princ "\n******                   ******\n  JTmenu (0.10) nacitane\n  Vytvoril Jakub Tomecko � 2022\n******                   ******")
+(princ
+  (strcat
+    "\n************************************\nJTmenu | beta | Jakub Tomecko | "
+    (menucmd "m=$(edtime,0,yyyy)")
+    "\n************************************"
+  )
+) 
 (print)

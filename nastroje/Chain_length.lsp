@@ -2,7 +2,7 @@
 ; Chain_length.lsp
 ; (c) Copyright 2015 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.0
+; Verzia: beta
 ;
 ; Meranie jednej vzdialenosti nespojenych ciar
 ;-------------------------------------------------------------------------
@@ -28,6 +28,16 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:CHAINLEN ( / len lst pt1 pt2 sel tmp )
+  
+  ;definovanie chybovej hlasky v programe
+  (defun *error* (errmsg)
+    (princ)
+    (princ "\nProgram Chain_length.lsp sa ukončil. ")
+    (terpri)
+    (prompt errmsg)
+    (princ)
+  )
+  
     (if
         (and
             (setq sel
@@ -66,8 +76,8 @@
                     )
                 )
             )
-            (setq pt1 (getpoint "\nVyber 1. bod: "))
-            (setq pt2 (getpoint "\nVyber 2. bod: " pt1))
+            (setq pt1 (getpoint "\nVýber 1. bod: "))
+            (setq pt2 (getpoint "\nVýber 2. bod: " pt1))
         )
         (if
             (setq tmp
@@ -125,9 +135,9 @@
                 (foreach itm (cdr (reverse (cdr lst)))
                     (setq len (+ len (vlax-curve-getdistatparam (cadr itm) (vlax-curve-getendparam (cadr itm)))))
                 )
-                (princ (strcat "\nDlzka: " (rtos len)))
+                (princ (strcat "\nDĺžka: " (rtos len)))
             )
-            (princ "\nVybrane body nelezia na rovnakom retazci objektov.")
+            (princ "\nVybrané body neležia na rovnakom reťazci objektov.")
         )
     )
     (princ)
@@ -186,8 +196,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Chain_length.lsp | Version 1.0 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nChain_length.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

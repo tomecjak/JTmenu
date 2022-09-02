@@ -2,7 +2,7 @@
 ; Block_base_point.lsp
 ; (c) Copyright 2013 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.5
+; Verzia: beta
 ;
 ; Zmena zakladneho bodu v bloku v modeli
 ;-------------------------------------------------------------------------
@@ -51,20 +51,20 @@
     )
 
     (while
-        (progn (setvar 'errno 0) (setq ent (car (entsel "\nVyber blok: ")))
+        (progn (setvar 'errno 0) (setq ent (car (entsel "\nVyberte block: ")))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skus to znova.")
+                    (princ "\nChyba, skús to znova.")
                 )
                 (   (= 'ename (type ent))
                     (if (/= "INSERT" (cdr (assoc 0 (entget ent))))
-                        (princ "\nVybrany objekt co nie je blok.")
+                        (princ "\nVybraný objekt nie je block.")
                     )
                 )
             )
         )
     )
-    (if (and (= 'ename (type ent)) (setq nbp (getpoint "\nVyber novy zakladny bod: ")))
+    (if (and (= 'ename (type ent)) (setq nbp (getpoint "\nVyberte nový základný bod: ")))
         (progn
             (setq mat (car (revrefgeom ent))
                   vec (mxv mat (mapcar '- (trans nbp 1 0) (trans (cdr (assoc 10 (entget ent))) ent 0)))
@@ -111,6 +111,9 @@
             (LM:endundo (LM:acdoc))
         )
     )
+  
+    ;hlaska po skonceni programu
+    (princ "\nReferenčný bod blocku bol zmenený. ")
     (princ)
 )
 
@@ -253,8 +256,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Block_base_point.lsp | Version 1.5 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nBlock_base_point.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

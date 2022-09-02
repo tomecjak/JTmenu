@@ -1,17 +1,34 @@
 ;=========================================================================
 ; Maps.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 0.9 beta
+; Verzia: beta
 ;
-; Vyhladavanie na servery https://www.google.com/maps podľa WGS84
+; Vyhladavanie miesta na mape podľa JTSK
 ;-------------------------------------------------------------------------
+
+;;------------=={ Vyhladavanie miesta na mape podľa JTSK }==------------;;
+;;                                                                      ;;
+;;  Tento program umoznuje po vybrati/vlozeni suradnic v JTSK zobrazit  ;;
+;;  dane miestno na mapach od Google, Mapy.cz alebo ZBGIS mapy.         ;;
+;;  Je mozne pre vyhladanie vyuzit UCS World alebo vlastny.             ;;
+;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie prikazu "Mapa"
 (defun c:Maps ()
   
+  ;definovanie chybovej hlasky v programe + nastavenie 
+  (defun *error* (errmsg)
+    (command-s "_.ucs" "_Previous")
+    (princ)
+    (princ "\nProgram Maps.lsp sa ukončil. ")
+    (terpri)
+    (prompt errmsg)
+    (princ)
+  )
+  
   ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
   (setq VyberUCS
-    (getstring "\nPouzit UCS [World/Vlastne] <World>: ")
+    (getstring "\nAké použiť UCS? [World/Vlastne] <World>: ")
   )
   
   ;vyhodnotenie vyberu UCS pred prikazom
@@ -26,7 +43,7 @@
   )
   
   ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice
-  (setq polohaBoduMapy (getpoint "Zadajte bod"))
+  (setq polohaBoduMapy (getpoint "Zadajte súradnice: "))
 
   ;definovanie premenej "MapaURL" do ktorej je zapísana url adresa
   (setq MapaURL (getSuradniceMapaURL polohaBoduMapy))
@@ -45,6 +62,8 @@
     )
   )
   
+  ;hlaska po skonceni programu
+  (princ "\nMapa sa otvorila v internetovom prehliadači. ")
   (princ)
 )
 
@@ -265,7 +284,7 @@
         (rtos LA2 2 6)
         ",18"
       )
-      (princ "\nNeplatny vyber.")
+      (princ "\nNeplatný výber.")
       )
     )
   )   
@@ -305,8 +324,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Maps.lsp | Version 0.9 beta | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nMaps.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

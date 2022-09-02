@@ -2,7 +2,7 @@
 ; Double_offset.lsp
 ; (c) Copyright 2011 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.1
+; Verzia: beta
 ;
 ; Ofset ciary do oboch smerov naraz
 ;-------------------------------------------------------------------------
@@ -11,7 +11,7 @@
 ;;                                                            ;;
 ;;  Odsadi kazdy objek vo vybere na obe strany o zadanu       ;;
 ;;  vzdialenost. S dalsimi ovladacimi prvakmi na vymazenie    ;;
-;;  zdrojoveho objektu a offset vrstvy.
+;;  zdrojoveho objektu a offset vrstvy.                       ;;
 ;;------------------------------------------------------------;;
 
 (defun c:DOFF nil (c:DoubleOffset))
@@ -74,18 +74,18 @@
         (progn
           (princ
             (strcat
-              "\nAktualne nastavenie: Vymazat zdroj="
+              "\nAktuálne nastavenie: Vymazať zdroj="
               *dOff:Erase
-              "  Layer="
+              "  Hladina="
               *dOff:Layer
               "  OFFSETGAPTYPE="
               (itoa (getvar 'OFFSETGAPTYPE))
             )
           )
-          (initget 6 "Through Erase Layer")
+          (initget 6 "Cez vrstvu vymazania")
           (setq of
             (getdist
-              (strcat "\nZadajte vzdialenost ofsetu [Through/Erase/Layer] <"
+              (strcat "\nZadajte vzdialenosť offsetu [Through/Erase/Layer] <"
                 (if (minusp (getvar 'OFFSETDIST)) "Through"  (rtos (getvar 'OFFSETDIST))) "> : "
               )
             )
@@ -104,7 +104,7 @@
                 (cond
                   (
                     (getkword
-                      (strcat "\nPo odsadeni vymazat zdrojovy objekt? [Yes/No] <" *doff:Erase "> : ")
+                      (strcat "\nPo odsadení vymazať zdrojový objekt? [Yes/No] <" *doff:Erase "> : ")
                     )
                   )
                   ( *dOff:Erase )
@@ -118,7 +118,7 @@
                 (cond
                   (
                     (getkword
-                      (strcat "\nZadajte vrstvu pre odsadene objekty [Current/Source] <" *dOff:Layer "> : ")
+                      (strcat "\nZadajte vrstvu pre odsadené objekty [Current/Source] <" *dOff:Layer "> : ")
                     )
                   )
                   ( *dOff:Layer )
@@ -135,7 +135,7 @@
       (progn
         (or ExitFlag
           (progn (initget "Exit")
-            (setq sel (entsel "\nVyberte objket na odsadenia alebo [Exit] <Exit> : "))
+            (setq sel (entsel "\nVyberte objekt na offset alebo [Exit] <Exit> : "))
           )
         )
         
@@ -154,14 +154,14 @@
                 (if
                   (progn (initget "Exit Multiple")
                     (and
-                      (setq point (getpoint "\nUvedte priamy bod alebo [Exit/Multiple] <Exit> : "))
+                      (setq point (getpoint "\nUveďte priamy bod alebo [Exit/Multiple] <Exit> : "))
                       (not (eq "Exit" point))
                     )
                   )
                   (if (eq "Multiple" point)
                     (while
                       (progn (initget "Exit")
-                        (setq mpoint (getpoint "\nUvedte priamy bod alebo [Exit] <next object> : "))
+                        (setq mpoint (getpoint "\nUveďte priamy bod alebo [Exit] <next object> : "))
 
                         (cond
                           (
@@ -211,7 +211,7 @@
                   (if (eq "Yes" *dOff:Erase) (vla-delete obj))
                 )
               )
-              (princ "\n** Nemozem odsadit objekt **")
+              (princ "\nNemôžem offsetnúť objekt")
             )
            t
           )
@@ -227,8 +227,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Double_offset.lsp | Version 1.1 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nDouble_offset.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

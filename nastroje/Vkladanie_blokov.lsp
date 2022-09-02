@@ -1,11 +1,21 @@
 ;=========================================================================
 ; Vkladanie_blokov.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 0.9 beta
+; Verzia: beta
+;
+; Vkladanie roznych blockov do modelu a layoutu autocadu
 ;-------------------------------------------------------------------------
 
-;Podpoerné funkcie
-;funkcia pre vytvárania hladín v modeli Názov + farba + typ čiary + hrúbka čiary
+;;----=={ Vkladanie roznych blockov do modelu a layoutu autocadu }==----;;
+;;                                                                      ;;
+;;  Tento program umoznuje vkladat rozne bloky do modelu a layautu      ;;
+;;  autocadu. Zdrojove bloky si tahaju z priecinku "bloky". Pri vlozeni ;;
+;;  blocku sa automaticky vytvori hladina, ktora sa zaradi do skupiny   ;;
+;;  hladin s nazvom "DP Layers".                                        ;;
+;;----------------------------------------------------------------------;;
+
+;Podporne funkcie
+;funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -22,23 +32,42 @@
 (defun SetLayer()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
   (command "._layer" "s" "DP_Popis" "")
+  
+  ;vytvorenie group layer filtru DP Layers 
+  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+  (if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
-;-------------------------------------------------------------------------
+;;----------------------------------------------------------------------;;
 
-;Vkladanie jednotlivých blokov
-;vloženie bloku Smer
+;Vkladanie jednotlivych blokov
+;vlozenie bloku Smer
 (defun c:DPSmer ()
+  
+  ;nastavenie hladiny
   (SetLayer)
-  (prompt "\nUrcite bod vlozenia znacky smeru:")
+
+  ;prikaz na vlozenie blocku smeru
   (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
+  (princ "\nUrčite bod vloženia značky smeru:")
+  (princ)
+  
 )
+
+;;----------------------------------------------------------------------;;
 
 ;vloženie bloku Smer2
 (defun c:DPSmer2 ()
+  ;nastavenie hladiny
   (SetLayer)
-  (prompt "\nUrcite bod vlozenia znacky smeru:")
+
+  ;prikaz na vlozenie blocku smeru
   (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
+  (princ "\nUrčite bod vloženia značky smeru:")
+  (princ)
+  
 )
 
 ;;----------------------------------------------------------------------;;
@@ -46,8 +75,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Vkladanie_blokov.lsp | Version 0.9 beta | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nVkladanie_blokov.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

@@ -1,13 +1,32 @@
 ;=========================================================================
 ; Create_layers.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 1.0
+; Verzia: beta
+;
+; Vytvorenie DP hladin
 ;-------------------------------------------------------------------------
+
+;;--------------------=={ Vytvorenie DP hladin }==----------------------;;
+;;                                                                      ;;
+;;  Tento program umoznuje vytvorit hladiny s prefixom DP_. Je mozne    ;;
+;;  vytvorit tri typu hladin: zakaldne, vystuz alebo novy stav. Hladiny ;;
+;;  sa automaticky zaradia do vytvorenej skupiny hladin "DP Layers".    ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:CL ()
   
+;definovanie chybovej hlasky v programe
+(defun *error* (errmsg)
+  (princ)
+  (princ "\nProgram Create_layers.lsp sa ukončil. ")
+  (terpri)
+  (prompt errmsg)
+  (princ)
+)
+  
+;nastavenie premenej RezimHladin pre vyberr vytvorenej kategorie hladin
 (setq RezimHladin
-  (getstring "\nKtore hladiny chete vytvorit? [Zakladne/Vystuz/Novy stav] <Zakladne>: ")
+  (getstring "\nKtoré hladiny chcete vytvoriť? [Zakladne/Vystuz/Novy stav] <Zakladne>: ")
 )
   
 (if (or (= RezimHladin "") (= RezimHladin "Z") (= RezimHladin "z"))
@@ -19,10 +38,20 @@
     (if (or (= RezimHladin "N") (= RezimHladin "n"))
      (NewLayers)
     
-    (princ "\nNeplatny vyber.")
+    (princ "\nNeplatný výber.")
     )
   )
 )
+  
+;vytvorenie group layer filtru DP Layers  
+(command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+(if (> (getvar 'CMDACTIVE) 0) (command ""))
+(command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+(if (> (getvar 'CMDACTIVE) 0) (command "")) 
+  
+;hlaska po skonceni programu
+(princ "\nHladiny boli vytvorené. ")
+(princ)  
   
 )
 
@@ -85,11 +114,14 @@
   (CreateLayers "NS_Nosná konštrukcia" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Os" 10 "DASHDOT" 0.18)
   (CreateLayers "NS_Popis" 10 "CONTINUOUS" "DEFAULT")
+  (CreateLayers "NS_Vodný tok" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Príslušenstvo" 10 "CONTINUOUS" 0.09)
   (CreateLayers "NS_Rímsa" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Spodná stavba" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Terén" 10 "CONTINUOUS" 0.50)
   (CreateLayers "NS_Vozovka" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Prefabrikáty" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Ložiská" 10 "CONTINUOUS" 0.25)
 )
 
 ;;----------------------------------------------------------------------;;
@@ -97,8 +129,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Create_layers.lsp | Version 1.0 | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nCreate_layers.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

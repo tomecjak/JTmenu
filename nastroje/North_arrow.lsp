@@ -1,11 +1,19 @@
 ;=========================================================================
 ; North_arrow.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 1.0
+; Verzia: beta
+;
+; Vlozenie severky podla UCS World
 ;-------------------------------------------------------------------------
 
-;Podpoerné funkcie
-;funkcia pre vytvárania hladín v modeli Názov + farba + typ čiary + hrúbka čiary
+;;---------------=={ Vlozenie severky podla UCS World }==---------------;;
+;;                                                                      ;;
+;;  Tento program umoznuje vlozit severu do modelu a jej automaticke    ;;
+;;  natocenie na sever podla UCS World.                                 ;;
+;;----------------------------------------------------------------------;;
+
+;Podporne funkcie
+;funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -18,19 +26,31 @@
   )
 )
 
-;funkcia pre nastavenie hladiny DP_Popis
+;funkcia pre nastavenie hladiny DP_Popis a skupiny
 (defun SetLayer()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
   (command "._layer" "s" "DP_Popis" "")
+  
+  ;vytvorenie group layer filtru DP Layers  
+  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+  (if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
 ;-------------------------------------------------------------------------
 
-;vloženie bloku Severka
+;vlozenie bloku Severka
 (defun c:NorthArrow ()
+  
+  ;nastavenie hladiny
   (SetLayer)
-  (prompt "\nUrcite bod vlozenia znacky smeru:")
+  
+  ;prikaz na vlozenie blocku severky
   (command "._insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+  (princ "\nUrčite bod vloženia značky severky.")
+  (princ)
+  
 )
 
 ;;----------------------------------------------------------------------;;
@@ -38,8 +58,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: North_arrow.lsp | Version 1.0 | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nNorth_arrow.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

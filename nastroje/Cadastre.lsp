@@ -1,17 +1,34 @@
 ;=========================================================================
 ; Cadastre.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 0.9 beta
+; Verzia: beta
 ;
-; Vyhladavanie na servery https://zbgis.skgeodesy.sk podľa WGS84
+; Vyhladavanie miesta na katastri podľa JTSK
 ;-------------------------------------------------------------------------
+
+;;----------=={ Vyhladavanie miesta na katastri podľa JTSK }==----------;;
+;;                                                                      ;;
+;;  Tento program umoznuje po vybrati/vlozeni suradnic v JTSK zobrazit  ;;
+;;  dane miestno na mapach katastra od ZBGIS kataster.                  ;;
+;;  Je mozne pre vyhladanie vyuzit UCS World alebo vlastny.             ;;
+;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie prikazu "Kataster"
 (defun c:Cadastre ()
   
+  ;definovanie chybovej hlasky v programe + nastavenie 
+  (defun *error* (errmsg)
+    (command-s "_.ucs" "_Previous")
+    (princ)
+    (princ "\nProgram Cadastre.lsp sa ukončil. ")
+    (terpri)
+    (prompt errmsg)
+    (princ)
+  )
+  
   ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
   (setq VyberUCS
-    (getstring "\nPouzit UCS [World/Vlastne] <World>: ")
+    (getstring "\nAké použiť UCS? [World/Vlastne] <World>: ")
   )
   
   ;vyhodnotenie vyberu UCS pred prikazom
@@ -26,7 +43,7 @@
   )
   
   ;definovanie premenej "polohaBoduKatastra" do krotej sú zapísane súradnice
-  (setq polohaBoduKatastra (getpoint "Zadajte bod v vnutri hranic pozemku katastra"))
+  (setq polohaBoduKatastra (getpoint "Zadajte súradnice v vnútri hraníc pozemku katastra: "))
 
   ;definovanie premenej "KatasterURL" do ktorej je zapísana url adresa
   (setq KatasterURL (getSuradniceKatasterURL polohaBoduKatastra))
@@ -45,6 +62,8 @@
     )
   )
   
+  ;hlaska po skonceni programu
+  (princ "\nKataster sa otvoril v internetovom prehliadači. ")
   (princ)
 )
 
@@ -259,23 +278,11 @@
 
 ;;----------------------------------------------------------------------;;
 
-;definovanie chybovej hlasky v programe + nastavenie 
-(defun *error* (errmsg)
-  (command-s "_.ucs" "_Previous")
-  (princ)
-  (princ "\nV programe sa vyskytla chyba. ")
-  (terpri)
-  (prompt errmsg)
-  (princ)
-)
-
-;;----------------------------------------------------------------------;;
-
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Cadastre.lsp | Version 0.9 beta | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nCadastre.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

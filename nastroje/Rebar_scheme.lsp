@@ -1,13 +1,31 @@
 ;=========================================================================
 ; Rebar_scheme.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 1.0
+; Verzia: beta
+;
+; Prepinanie farebnosti hladin vystuze
 ;-------------------------------------------------------------------------
+
+;;-------------=={ Prepinanie farebnosti hladin vystuze }==-------------;;
+;;                                                                      ;;
+;;  Tento program umoznuje preponit farebnost hladin vystuze pre pracu  ;;
+;;  a pre finalne pouzitie vo vykrese.                                  ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:RS ()
   
+  ;definovanie chybovej hlasky v programe
+  (defun *error* (errmsg)
+    (princ)
+    (princ "\nProgram Rebar_scheme.lsp sa ukončil. ")
+    (terpri)
+    (prompt errmsg)
+    (princ)
+  )
+  
+  ;nastavenie premenej RezimVystuze pre vyber zpnutia/vypnutia
   (setq RezimVystuze
-    (getstring "\nZapnut rezim farebnej vystuze [Zapnut/Vypnut] <Zapnut>: ")
+    (getstring "\nZapnúť režim farebnej výstuže [Zapnut/Vypnut] <Zapnut>: ")
   )
     
   (if (or (= RezimVystuze "") (= RezimVystuze "Z") (= RezimVystuze "z"))
@@ -16,11 +34,11 @@
     (if (or (= RezimVystuze "V") (= RezimVystuze "v"))
     (RezimVystuzeVypnuty)
       
-    (princ "\nNeplatny vyber.")
+    (princ "\nNeplatný výber.")
     )
       
   )
-  
+
 (princ)
   
 )
@@ -44,6 +62,8 @@
   (command "_.layer" "_color" 101 "DP_Výstuž_30" "")
   (command "_.layer" "_color" 141 "DP_Výstuž_32" "")
   (setvar "cmdecho" 1)
+  ;hlaska po skonceni programu
+  (princ "\nFarebná schéma výstuže zapnutá. ")
 )
 
 ;zmena farby hladín pre výstuž pre finálny režim
@@ -65,6 +85,8 @@
   (command "_.layer" "_color" 2 "DP_Výstuž_30" "")
   (command "_.layer" "_color" 3 "DP_Výstuž_32" "")
   (setvar "cmdecho" 1)
+  ;hlaska po skonceni programu
+  (princ "\nFarebná schéma výstuže vypnutá. ")
 )
 
 ;;----------------------------------------------------------------------;;
@@ -72,8 +94,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Rebar_scheme.lsp | Version 1.0 | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\Rebar_scheme.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

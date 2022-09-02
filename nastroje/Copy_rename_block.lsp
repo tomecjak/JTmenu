@@ -2,7 +2,7 @@
 ; Copy_rename_block.lsp
 ; (c) Copyright 2013 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.5
+; Verzia: beta
 ;
 ; Kopirovanie bloku s nastavenim noveho nazvu
 ;-------------------------------------------------------------------------
@@ -33,19 +33,19 @@
     (while
         (progn
             (setvar 'errno 0)
-            (setq src (car (entsel (strcat "\nVyberte odkaz na blok " (if cpy "copy & " "") "rename: "))))
+            (setq src (car (entsel (strcat "\nVyberte block na " (if cpy "copy & " "") "premenovanie: "))))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skus to znova.")
+                    (princ "\nChyba, skús to znova.")
                 )
                 (   (= 'ename (type src))
                     (setq dxf (entget src))
                     (cond
                         (   (/= "INSERT" (cdr (assoc 0 dxf)))
-                            (princ "\nProsim vyberte referenciu bloku.")
+                            (princ "\nProsím vyberte referenciu bloku.")
                         )
                         (   (= 4 (logand 4 (cdr (assoc 70 (tblsearch "layer" (cdr (assoc 8 dxf)))))))
-                            (princ "\nVybrany blok je v uzamknutej hladine.")
+                            (princ "\nVybraný block je v uzamknutej hladine.")
                         )
                     )
                 )
@@ -62,12 +62,12 @@
             )
             (while (tblsearch "block" (setq def (strcat (vl-string-left-trim "*" old) "_" (itoa (setq tmp (1+ tmp)))))))
             (while
-                (and (/= "" (setq new (getstring t (strcat "\nZadajte novy nazov bloku <" def ">: "))))
+                (and (/= "" (setq new (getstring t (strcat "\nZadajte nový názov bloku <" def ">: "))))
                     (or (not (snvalid new))
                         (tblsearch "block" new)
                     )
                 )
-                (princ "\nNazov bloku je nespravny alebo uz existuje.")
+                (princ "\nNázov bloku je nesprávny alebo už existuje.")
             )
             (if (= "" new)
                 (setq new def)
@@ -83,7 +83,7 @@
                 )
             )
             (if (or (null dbx) (vl-catch-all-error-p dbx))
-                (princ "\nNeda sa vytvorit rozhranie s ObjectDBX.")
+                (princ "\nNedá sa vytvoriť rozhranie s ObjectDBX.")
                 (progn
                     (setq abc (vla-get-blocks doc)
                           dbc (vla-get-blocks dbx)
@@ -123,6 +123,8 @@
             )
         )
     )
+    ;hlaska po skonceni programu
+    (princ "\nBlock bol premenovaný. ")
     (princ)
 )
 
@@ -131,8 +133,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Copy_rename_block.lsp | Version 1.5 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nCopy_rename_block.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

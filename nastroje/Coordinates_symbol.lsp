@@ -1,11 +1,22 @@
 ;=========================================================================
 ; Coordinates_symbol.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: 1.0
+; Verzia: beta
+;
+; Vlozenie blocku suradnic
 ;-------------------------------------------------------------------------
 
-;Podpoerné funkcie
-;funkcia pre vytvárania hladín v modeli Názov + farba + typ čiary + hrúbka čiary
+;;------------------=={ Vlozenie blocku suradnic }==--------------------;;
+;;                                                                      ;;
+;;  Tento program umoznuje vlozit block suradnic do autocadu. Suradnice ;;
+;;  su autmaticky priradene a aktualizovane podla UCS World. Zdrojovy   ;;
+;;  blok sa taha z priecinku "bloky". Pri vlozeni blocku sa automaticky ;;
+;;  vytvori hladina, ktora sa zaradi do skupiny hladin                  ;;
+;;  s nazvom "DP Layers".                                               ;;
+;;----------------------------------------------------------------------;;
+
+;Podporne funkcie
+;funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -22,15 +33,27 @@
 (defun SetLayer()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
   (command "._layer" "s" "DP_Popis" "")
+  
+  ;vytvorenie group layer filtru DP Layers  
+  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+  (if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
 ;-------------------------------------------------------------------------
 
-;vloženie bloku Súradnice
+;vlozenie bloku Suradnice
 (defun c:Coordinates ()
+  
+  ;nastavenie hladiny
   (SetLayer)
-  (prompt "\nUrcite bod vlozenia znacky smeru:")
+  
+  ;prikaz na vlozenie blocku suradnic
   (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+  (princ "\nUrčite bod vloženia značky súradníc.")
+  (princ)
+  
 )
 
 ;;----------------------------------------------------------------------;;
@@ -38,8 +61,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Auto_block_break.lsp | Version 1.0 | Vyrobil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nAuto_block_break.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

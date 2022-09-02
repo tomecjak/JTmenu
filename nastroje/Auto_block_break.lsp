@@ -2,7 +2,7 @@
 ; Auto_block_break.lsp
 ; (c) Copyright 2020 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.9
+; Verzia: beta
 ;
 ; Automaticke zarovnanie objektov a blokov
 ;-------------------------------------------------------------------------
@@ -15,7 +15,7 @@
 ;;  bodom vlozenia bloku. Program najprv vyzve uzivatela, aby vybral    ;;
 ;;  blok, ktory sa ma vlozit. Po platnom vybere program vyzve uzivatela ;;
 ;;  aby zadal bod vlozenia bloku. Ak sa v bode bloku detekuje objekt    ;;
-;;  krivky (obl伀, elepticke obluk, elipsa, kruh, ciara, XLine, Spline  ;;
+;;  krivky (oblﾃｺk, elepticke obluk, elipsa, kruh, ciara, XLine, Spline  ;;
 ;;  LWPolyline alebo Polyline), tak sa vlozeni blok autmaticky otoci,   ;;
 ;;  aby bol zarovnany s krivkou. 
 ;;----------------------------------------------------------------------;;
@@ -32,18 +32,18 @@
 
     (cond
         (   (= 4 (logand 4 (cdr (assoc 70 (tblsearch "layer" (getvar 'clayer))))))
-            (princ "\nAktualna hladina je zamknuta.")
+            (princ "\nAktuﾃ｡lna hladina je zamknutﾃ｡.")
         )
         (   (progn
                 (while
                     (not
                         (progn
                             (setvar 'errno 0)
-                            (initget "Browse Name Rotation")
-                            (princ (strcat "\nAutomaticka rotacia bloku: " (getenv "LMac\\ABBRotation")))
+                            (initget "Prehﾄｾadﾃ｡vaﾅ･ Nﾃ｡zov Rotﾃ｡cia")
+                            (princ (strcat "\nAutomatickﾃ｡ rotﾃ｡cia bloku: " (getenv "LMac\\ABBRotation")))
                             (setq sel
                                 (entsel
-                                    (strcat "\nVyberte blok [Browse/Name/Rotation]"
+                                    (strcat "\nVyberte blok [Prehﾄｾadﾃ｡vaﾅ･/Nﾃ｡zov/Rotﾃ｡cia]"
                                         (if (= "" (setq blk (getvar 'insname)))
                                             ": "
                                             (strcat " <" blk ">: ")
@@ -53,17 +53,17 @@
                             )
                             (cond
                                 (   (= 7 (getvar 'errno))
-                                    (prompt "\nChyba, skus to znova.")
+                                    (prompt "\nChyba, skﾃｺs to znova.")
                                 )
                                 (   (null sel)
                                     (not (if (= "" blk) (setq blk nil)))
                                 )
-                                (   (= "Rotation" sel)
-                                    (initget "ON OFF")
+                                (   (= "Rotﾃ｡cia" sel)
+                                    (initget "ﾃ］o Nie")
                                     (setenv "LMac\\ABBRotation"
                                         (cond
                                             (   (getkword
-                                                    (strcat "\nAutomaticka rotacia bloku [ON/OFF] <"
+                                                    (strcat "\nAutomatickﾃ｡ rotﾃ｡cia bloku [ﾃ］o/Nie] <"
                                                         (getenv "LMac\\ABBRotation") ">: "
                                                     )
                                                 )
@@ -73,14 +73,14 @@
                                     )
                                     nil
                                 )
-                                (   (= "Name" sel)
+                                (   (= "Nﾃ｡zov" sel)
                                     (while
                                         (not
                                             (or
                                                 (= ""
                                                     (setq tmp
                                                         (getstring t
-                                                            (strcat "\nSpecify block name"
+                                                            (strcat "\nﾅpecifikujte nﾃ｡zov bloku"
                                                                 (if (= "" blk) ": " (strcat " <" blk ">: "))
                                                             )
                                                         )
@@ -89,19 +89,19 @@
                                                 (tblsearch "block" tmp)
                                             )
                                         )
-                                        (princ (strcat "\nBlok \"" tmp "\" nie je v aktualnom vykrese definovany."))
+                                        (princ (strcat "\nBlok \"" tmp "\" nie je v aktuﾃ｡lnom vﾃｽkrese definovanﾃｽ."))
                                     )
                                     (cond
                                         (   (/= "" tmp) (setq blk tmp))
                                         (   (/= "" blk))
                                     )
                                 )
-                                (   (= "Browse" sel)
-                                    (setq blk (getfiled "Select Block" "" "dwg" 16))
+                                (   (= "Prehﾄｾadﾃ｡vaﾅ･" sel)
+                                    (setq blk (getfiled "Vyberte block" "" "dwg" 16))
                                 )
                                 (   (listp sel)
                                     (if (/= "INSERT" (cdr (assoc 0 (entget (car sel)))))
-                                        (prompt "\nObjekt musi byt blok.")
+                                        (prompt "\nObjekt musﾃｭ byﾅ･ block.")
                                         (setq obj (vla-copy (vlax-ename->vla-object (car sel)))
                                               blk (LM:blockname obj)
                                         )
@@ -114,7 +114,7 @@
                 (not (or blk obj))
             )
         )
-        (   (setq ins (getpoint (strcat "\nZadajte bod vlozenia pre " (vl-filename-base blk) " blok: ")))
+        (   (setq ins (getpoint (strcat "\nZadajte bod vloﾅｾenia pre " (vl-filename-base blk) " block: ")))
             (LM:startundo (LM:acdoc))
             (if (null obj)
                 (setq obj
@@ -131,119 +131,12 @@
             )
             (if blk (setvar 'insname (vl-filename-base blk)))
             (vla-put-insertionpoint obj (vlax-3D-point (trans ins 1 0)))
-            (LM:autoblockbreak (vlax-vla-object->ename obj) (= "ON" (getenv "LMac\\ABBRotation")))
+            (LM:autoblockbreak (vlax-vla-object->ename obj) (= "ﾃ］o" (getenv "LMac\\ABBRotation")))
             (LM:endundo (LM:acdoc))
         )
     )
-    (princ)
-)
-
-;;-----------=={ Existujuce automaticke prerusenie bloku }==------------;;
-;;                                                                      ;;
-;;  Tento program umoznuje uzivatelovi vybrat existujuci blok a orezat  ;;
-;;  vsetku okolitu geometriu na pravouhly obrus bloku. Volitelne        ;;
-;;  program automaticky otoci vybrany blok, aby sa zarovnal s objektom  ;;
-;;  krivky predchadzajucim bodom vlozenia bloku. Pri vyzve na vyber     ;;
-;;  bloku moze uzivatel zmenit aj nastavenie rotacie. Ak sa v bode      ;;
-;;  vlozenia bloku zvoleneho bloku zisti objekt krivky (Obluk,          ;;
-;;  elipticky obluk, elipsa, kruh, ciara, XLine, Spline, LWPolyline     ;;
-;;  alebo Polyline) a je povelene nastavenie rotacie, blok sa           ;;
-;;  automaticky otoci, aby sa zarovnal s krivnou. Vsetky okolite        ;;
-;;  kompatibilne objekty, o ktorych sa zistili, ze sa pretinaju         ;;
-;;  s vybranym blokom, su potom orezane na obrys obdlznikoveho bloku    ;;
-;;                                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright ｩ 2010  -  www.lee-mac.com               ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:ABBE ( / *error* enx sel )
-
-    (defun *error* ( msg )
-        (LM:endundo (LM:acdoc))
-        (if (not (wcmatch (strcase msg t) "*break,*cancel*,*exit*"))
-            (princ (strcat "\nChyba: " msg))
-        )
-        (princ)
-    )
-    
-    (while
-        (progn
-            (setvar 'errno 0)
-            (initget "Rotation")
-            (princ (strcat "\nAutomaticka rotacia bloku: " (getenv "LMac\\ABBRotation")))
-            (setq sel (entsel "\nVyberte blok k orezaniu [Rotation]: "))
-            (cond
-                (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skus to znovu.")
-                )
-                (   (= "Rotation" sel)
-                    (initget "ON OFF")
-                    (setenv "LMac\\ABBRotation"
-                        (cond
-                            (   (getkword
-                                    (strcat "\nAutomaticka rotacia bloku [ON/OFF] <"
-                                        (getenv "LMac\\ABBRotation") ">: "
-                                    )
-                                )
-                            )
-                            (   (getenv "LMac\\ABBRotation")   )
-                        )
-                    )
-                )
-                (   (= 'ename (type (car sel)))
-                    (cond
-                        (   (/= "INSERT" (cdr (assoc 0 (setq enx (entget (car sel))))))
-                            (princ "\nObjekt musi byt blok.")
-                        )
-                        (   (= 4 (logand 4 (cdr (assoc 70 (tblsearch "LAYER" (cdr (assoc 8 enx)))))))
-                            (princ "\nVybrany blok je v zamknutej hladine.")
-                        )
-                        (   t
-                            (LM:startundo (LM:acdoc))
-                            (LM:AutoBlockBreak (car sel) (= "ON" (getenv "LMac\\ABBRotation")))
-                            (LM:endundo   (LM:acdoc))
-                        )
-                    )
-                    t
-                )
-            )
-        )
-    )
-    (princ)
-)
-
-;;-------------=={ Automaticky vyber prerusenia bloku }==---------------;;
-;;                                                                      ;;
-;;  Tento program umoznuje uzivatelovi vybrat viacero existujicich      ;;
-;;  blokov a automaicky orezat vsetku okolitu geometriu na pravouhly    ;;
-;;  obrys kazdeho bloku. Volitelne program automaticky otoci kazdy blok ;;
-;;  vo vybere, aby sa zarovnal so zistenymi objektmi krivky, aby presli ;;
-;;  cez bod vlozenia bloku.                                             ;;
-;;                                                                      ;;
-;;----------------------------------------------------------------------;;
-;;  Autor:  Lee Mac, Copyright ｩ 2010  -  www.lee-mac.com               ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:ABBS ( / *error* inc rot sel )
-
-    (defun *error* ( msg )
-        (LM:endundo (LM:acdoc))
-        (if (not (wcmatch (strcase msg t) "*break,*cancel*,*exit*"))
-            (princ (strcat "\nChyba: " msg))
-        )
-        (princ)
-    )
-    
-    (setq rot (= "ON" (getenv "LMac\\ABBRotation")))
-    (if (setq sel (ssget "_:L" '((0 . "INSERT"))))
-        (progn
-            (LM:startundo (LM:acdoc))
-            (repeat (setq inc (sslength sel))
-                (LM:AutoBlockBreak (ssname sel (setq inc (1- inc))) rot)
-            )
-            (LM:endundo (LM:acdoc))
-        )
-    )
+    ;hlaska po skonceni programu
+    (princ "\nBlock bol natoﾄ稿nﾃｽ. ")
     (princ)
 )
 
@@ -258,7 +151,7 @@
 ;;  zarovnala s krivkou.                                                ;;
 ;;                                                                      ;;
 ;;----------------------------------------------------------------------;;
-;;  Autor: Lee Mac, Copyright ｩ 2010 - www.lee-mac.com                  ;;
+;;  Autor: Lee Mac, Copyright ﾂｩ 2010 - www.lee-mac.com                  ;;
 ;;----------------------------------------------------------------------;;
 ;;  Argumenty:                                                          ;;
 ;;  ent - Block Reference Entity                                        ;;
@@ -422,7 +315,7 @@
 ;;  celu geometriu dodanej referencie bloku. Nazahrna Text,   ;;
 ;;  MText a Attribute Definitions.
 ;;------------------------------------------------------------;;
-;;  Autor: Lee Mac, Copyright ｩ 2013 - www.lee-mac.com        ;;
+;;  Autor: Lee Mac, Copyright ﾂｩ 2013 - www.lee-mac.com        ;;
 ;;------------------------------------------------------------;;
 ;;  Argumenty:                                                ;;
 ;;  blk - VLA Block Reference Object                          ;;
@@ -594,7 +487,7 @@
 ;;----------------------------------------------------------------------;;
 
 (if (null (getenv "LMac\\ABBRotation"))
-    (setenv "LMac\\ABBRotation" "ON")
+    (setenv "LMac\\ABBRotation" "ﾃ］o")
 )
 
 ;;----------------------------------------------------------------------;;
@@ -602,8 +495,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Auto_block_break.lsp | Version 1.9 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nAuto_block_break.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)

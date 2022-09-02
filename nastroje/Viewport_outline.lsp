@@ -2,10 +2,17 @@
 ; Viewport_outline.lsp
 ; (c) Copyright 2015 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: 1.3
+; Verzia: beta
 ;
 ; Vytvorenie hranice v nútri viewportu
 ;-------------------------------------------------------------------------
+
+;;------------=={ VVytvorenie hranice v nútri viewportu }==-------------;;
+;;                                                                      ;;
+;;  Tento program umoznuje vytvorit v nútri viewportu hranicu, pre      ;;
+;;  lepsie najdenenie daneho pohladu v modeli autocadu. Hranica sa      ;;
+;;  priradi do aktualne vybranej hladiny.                               ;;
+;;----------------------------------------------------------------------;;
 
 ;VPO - Nacrtnutie orysu vybraneho vyrezu v aktivnom Paperspace layout
 (defun c:VPO ( / *error* sel )
@@ -21,13 +28,15 @@
     (LM:startundo (LM:acdoc))
     (cond
         (   (/= 1 (getvar 'cvport))
-            (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+            (princ "\nPríkaz nie je dostupný v modelovom priestore.")
         )
         (   (setq sel (LM:ssget "\nVyberte viewport: " '("_+.:E:S" ((0 . "VIEWPORT")))))
             (vpo:main (ssname sel 0))
         )
     )
     (LM:endundo (LM:acdoc))
+    ;hlaska po skonceni programu
+    (princ "\nViewport hranica bola vytvorená. ")
     (princ)
 )
  
@@ -44,7 +53,7 @@
  
     (cond
         (   (/= 1 (getvar 'cvport))
-            (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+            (princ "\nPríkaz nie je dostupný v modelovom priestore.")
         )
         (   (setq sel (ssget "_X" (list '(0 . "VIEWPORT") '(-4 . "<>") '(69 . 1) (cons 410 (getvar 'ctab)))))
             (LM:startundo (LM:acdoc))
@@ -53,7 +62,7 @@
             )
             (LM:endundo (LM:acdoc))
         )
-        (   (princ "\nNenasiel sa ani jeden viewport."))
+        (   (princ "\nNenašiel sa ani jeden viewport."))
     )
     (princ)
 )
@@ -78,7 +87,7 @@
             )
             (LM:endundo (LM:acdoc))
         )
-        (   (princ "\nNenasiel sa ani jeden viewport."))
+        (   (princ "\nNenašiel sa ani jeden viewport."))
     )
     (princ)
 )
@@ -145,10 +154,10 @@
                         )
                     )
                 )
-                (princ "\nNie je mozne vygenerovat obrys Paperspace pre offset.")
+                (princ "\nNie je možné vygenerovať obrys Paperspace pre offset.")
             )
             (   (vl-catch-all-error-p (setq ofe (vl-catch-all-apply 'vlax-invoke (list (vlax-ename->vla-object tmp) 'offset off))))
-                (princ (strcat "\nRozmery viewportu su priliz male na posunutie obrysu " (rtos off) " jednotky."))
+                (princ (strcat "\nRozmery viewportu sú priliz malé na posunutie obrysu " (rtos off) " jednotky."))
                 (entdel tmp)
             )
             (   (setq ofe (vlax-vla-object->ename (car ofe))
@@ -174,7 +183,7 @@
             )
             (if (and (setq ltp (assoc 6 dpr)) (not (tblsearch "ltype" (cdr ltp))))
                 (progn
-                    (princ  (strcat "\n\"" (cdr ltp) "\" linetype not loaded - linetype set to \"ByLayer\"."))
+                    (princ  (strcat "\n\"" (cdr ltp) "\" typ čiary nenačítaný - typ čiary nastavený na \"ByLayer\"."))
                     (subst '(6 . "BYLAYER") ltp dpr)
                 )
                 dpr
@@ -343,8 +352,8 @@
 (vl-load-com)
 (princ
     (strcat
-        "\n:: Viewport_outline.lsp | Version 1.3 | Vyrobil: Lee Mac | Prelozil: Jakub Tomecko "
-        (menucmd "m=$(edtime,0,yyyy) ::")
+        "\nViewport_outline.lsp | beta | Lee Mac, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
     )
 )
 (princ)
