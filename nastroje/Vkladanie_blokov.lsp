@@ -156,6 +156,20 @@
 
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku Sklon
+(defun c:DPSklon()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku ZarovnanyText
+  (command "._insert" "DPSklon" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia značky sklonu:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
 (princ
     (strcat
