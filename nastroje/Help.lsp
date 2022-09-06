@@ -14,7 +14,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie prikazu "Mapa"
-(defun c:Maps ()
+(defun c:JTHelp ()
   
   ;definovanie chybovej hlasky v programe + nastavenie 
   (defun *error* (errmsg)
@@ -26,44 +26,14 @@
     (princ)
   )
   
-  ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
-  (setq VyberUCS
-    (getstring "\nAké použiť UCS? [World/Vlastne] <World>: ")
-  )
-  
-  ;vyhodnotenie vyberu UCS pred prikazom
-  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
-    ;nastavenie UCS na World
-    (command "_.ucs" "_World")
-  
-    (if (or (= VyberUCS "V") (= VyberUCS "v"))
-    ;UCS zostane bez zmeny
-    (princ)
-    )
-  )
-  
-  ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice
-  (setq polohaBoduMapy (getpoint "Zadajte súradnice: "))
+  ;definovanie premenej "HelpURL" do ktorej je zapísana url adresa
+  (setq HelpURL ("www.google.com"))
 
-  ;definovanie premenej "MapaURL" do ktorej je zapísana url adresa
-  (setq MapaURL (getSuradniceMapaURL polohaBoduMapy))
-  
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" MapaURL)
-  
-  ;vyhodnotenie vyberu UCS po prikaze
-  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
-    ;nastavenie UCS na predchadzajuce
-    (command "_.ucs" "_Previous")
-  
-    (if (or (= VyberUCS "V") (= VyberUCS "v"))
-    ;UCS zostane bez zmeny
-    (princ)
-    )
-  )
-  
+  (command "browser" HelpURL)
+
   ;hlaska po skonceni programu
-  (princ "\nMapa sa otvorila v internetovom prehliadači. ")
+  (princ "\nHelp sa otvoril v internetovom prehliadači. ")
   (princ)
 )
 
