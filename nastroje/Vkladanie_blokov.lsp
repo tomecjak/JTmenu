@@ -49,8 +49,8 @@
   ;nastavenie hladiny
   (SetLayer)
 
-  ;prikaz na vlozenie blocku smeru
-  (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
+  ;prikaz na vlozenie blocku Smer
+  (command "._insert" "DPSmer" "_S" 0.05 "_R" 0)
   (princ "\nUrčite bod vloženia značky smeru:")
   (princ)
   
@@ -63,9 +63,93 @@
   ;nastavenie hladiny
   (SetLayer)
 
-  ;prikaz na vlozenie blocku smeru
-  (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
+  ;prikaz na vlozenie blocku Smer2
+  (command "._insert" "DPSmer2" "_S" 0.05 "_R" 0)
   (princ "\nUrčite bod vloženia značky smeru:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku SmerToku
+(defun c:DPSmerToku ()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku SmerToku
+  (command "._insert" "DPSmerToku" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia značky smeru toku:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku NazovPohladu
+(defun c:DPNazovPohladu()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku NazovPohladu
+  (command "._insert" "DPNazovPohladu" "_S" 0.05 "_R" 0)
+  (princ "\nUrčite bod vloženia značky pohľadu:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku RezZvisly
+(defun c:DPRezZvisly()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku RezZvisly
+  (command "._insert" "DPRezZvisly" "_S" 0.05 "_R" 0)
+  (princ "\nUrčite bod vloženia značky rezu:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku RezVodorovny
+(defun c:DPRezVodorovny()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku RezVodorovny
+  (command "._insert" "DPRezVodorovny" "_S" 0.05 "_R" 0)
+  (princ "\nUrčite bod vloženia značky rezu:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku RezZlom
+(defun c:DPRezZlom()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku RezZlom
+  (command "._insert" "DPRezZlom" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia značky rezu:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku ZarovnanyText
+(defun c:DPZarovnanyText()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku ZarovnanyText
+  (command "._insert" "DPZarovnanyText" "_S" 0.05 "_R" 0)
+  (princ "\nUrčite bod vloženia značky zarovnaného textu:")
   (princ)
   
 )
