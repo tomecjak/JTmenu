@@ -170,6 +170,20 @@
 
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku Sklon
+(defun c:DPSymbolOsi()
+  ;nastavenie hladiny
+  (SetLayer)
+
+  ;prikaz na vlozenie blocku SymbolOsi
+  (command "._insert" "DPSymbolOsi" "_S" 1.5 "_R" 0)
+  (princ "\nUrčite bod vloženia značky symbolu osi:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
 (princ
     (strcat
