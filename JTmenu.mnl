@@ -28,7 +28,8 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
                                "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
-                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"))
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka")
+)
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Priklady
