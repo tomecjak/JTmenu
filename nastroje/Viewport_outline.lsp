@@ -26,6 +26,8 @@
     )
  
     (LM:startundo (LM:acdoc))
+  
+    ;nastavenie funkcnosti prikazu len v Layoute
     (cond
         (   (/= 1 (getvar 'cvport))
             (princ "\nPríkaz nie je dostupný v modelovom priestore.")
@@ -35,6 +37,7 @@
         )
     )
     (LM:endundo (LM:acdoc))
+  
     ;hlaska po skonceni programu
     (princ "\nViewport hranica bola vytvorená. ")
     (princ)

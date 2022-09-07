@@ -184,6 +184,78 @@
 
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku Tabuľku materiálov
+(defun c:DPTabMaterialov()
+  ;nastavenie hladiny
+  (SetLayer)
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ)
+    )
+
+    (
+      ;prikaz na vlozenie blocku DPTabulkaMaterialov
+      (command "._insert" "DPTabulkaMaterialov" "_S" 1 "_R" 0)
+      (princ "\nUrčite bod vloženia tabuľky materiálov:")
+      (princ)
+    )
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Tabuľku ohybov
+(defun c:DPTabOhybov()
+  ;nastavenie hladiny
+  (SetLayer)
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ)
+    )
+
+    (
+      ;prikaz na vlozenie blocku DPTabulkaOhybov
+      (command "._insert" "DPTabulkaOhybov" "_S" 1 "_R" 0)
+      (princ "\nUrčite bod vloženia tabuľky ohybov:")
+      (princ)
+    )
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Poznámok
+(defun c:DPPoznamka()
+  ;nastavenie hladiny
+  (SetLayer)
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ)
+    )
+
+    (
+      ;prikaz na vlozenie blocku DPPoznamka
+      (command "._insert" "DPPoznamka" "_S" 1 "_R" 0)
+      (princ "\nUrčite bod vloženia poznámky:")
+      (princ)
+    )
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
 (princ
     (strcat

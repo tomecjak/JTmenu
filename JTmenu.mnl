@@ -26,7 +26,9 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" "DPSymbolOsi"))
+(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
+                               "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Priklady

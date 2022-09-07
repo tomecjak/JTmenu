@@ -17,6 +17,7 @@
 ;funkcia pre vytvárania hladín v modeli Názov + farba + typ čiary + hrúbka čiary
 (defun CreateLayers(lyrname Color ltype lweight)
   
+  ;funkcia pre vytvorenie hladiny
   (if (tblsearch "LAYER" lyrname)
     (command "._Layer" "_Thaw" lyrname "_On" lyrname "_UnLock" lyrname "_Set" lyrname "")
     (command "._Layer" "_Make" lyrname "_Color"
@@ -25,6 +26,7 @@
       lyrname "LW" (if (or (null lweight)(= lweight "")) "default" lweight) lyrname ""
     )
   )
+
 )
 
 ;funkcia pre nastavenie hladiny DP_Popis
@@ -41,16 +43,26 @@
 
 ;vlozenie krizikov do vykreu
 (defun c:DC ()
-  
+    
   ;nastavenie hladiny
   (SetLayer)
   
-  ;prikaz na vlozenie blocku krizikov
-  (command "_insert" "DPKriziky" "0,0" (getvar "dimscale")(getvar "dimscale") 0)
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ)
+    )
+    
+    (
+      ;prikaz na vlozenie blocku krizikov
+      (command "_insert" "DPKriziky" "0,0" 1 1 0)
   
-  ;hlaska po skonceni programu
-  (princ "\nKrížiky výkresu boli vložené. ")
-  (princ)
+      ;hlaska po skonceni programu
+      (princ "\nKrížiky výkresu boli vložené. ")
+      (princ)
+    )
+  )
   
 )
 

@@ -3,15 +3,8 @@
 ; (c) Copyright 2022 Tomecko Jakub
 ; Verzia: beta
 ;
-; Vyhladavanie miesta na mape podľa JTSK
+; Prekliknutie na stránku Help
 ;-------------------------------------------------------------------------
-
-;;------------=={ Vyhladavanie miesta na mape podľa JTSK }==------------;;
-;;                                                                      ;;
-;;  Tento program umoznuje po vybrati/vlozeni suradnic v JTSK zobrazit  ;;
-;;  dane miestno na mapach od Google, Mapy.cz alebo ZBGIS mapy.         ;;
-;;  Je mozne pre vyhladanie vyuzit UCS World alebo vlastny.             ;;
-;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie prikazu "JTHelp"
 (defun c:JTHelp ()
