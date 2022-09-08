@@ -34,13 +34,13 @@
         )
         (   (setq sel (LM:ssget "\nVyberte viewport: " '("_+.:E:S" ((0 . "VIEWPORT")))))
             (vpo:main (ssname sel 0))
+         
+            ;hlaska po skonceni programu
+            (princ "\nViewport hranica bola vytvorená.")
         )
     )
     (LM:endundo (LM:acdoc))
   
-    ;hlaska po skonceni programu
-    (princ "\nViewport hranica bola vytvorená. ")
-    (princ)
 )
  
 ;VPOL - Nacrtnutie orysu vsetkych vyrezov v aktivnom Paperspace layout
