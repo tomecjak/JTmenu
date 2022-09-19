@@ -22,7 +22,7 @@
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
-(AUTOLOAD "Koty" '("jeff "))
+(AUTOLOAD "Koty copy" '("jeff"))
 (AUTOLOAD "test OFFCenter_measure (1)" '("CMEASURE-test"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
