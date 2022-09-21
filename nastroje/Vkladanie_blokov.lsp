@@ -40,6 +40,27 @@
   (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
+;vyhodnotenie vytvorenia hladiny DP_Popis podla globalnej premennej GlobalnaHladinaBlokov
+(defun LayerSetting()
+
+  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
+  (setq VytvorenieHladinyPopisu
+    (getenv "GlobalnaHladinaBlokov")
+  )
+  
+  ;vyhodnotenie vyberu hladiny pre bloky
+  (if (= VytvorenieHladinyPopisu "DP_Popis")
+    ;vytvorenie a nastavenie hladinu na DP_Popis
+    (SetLayer)
+  
+    (if (= VytvorenieHladinyPopisu "0")
+    ;bez vytvorenia hladiny
+    (princ)
+    )
+  )
+       
+)
+
 ;;----------------------------------------------------------------------;;
 
 ;Vkladanie jednotlivych blokov
@@ -47,7 +68,7 @@
 (defun c:DPSmer ()
   
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku Smer
   (command "._insert" "DPSmer" "_S" 0.05 "_R" 0)
@@ -60,8 +81,9 @@
 
 ;vloženie bloku Smer2
 (defun c:DPSmer2 ()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku Smer2
   (command "._insert" "DPSmer2" "_S" 0.05 "_R" 0)
@@ -74,8 +96,9 @@
 
 ;vloženie bloku SmerToku
 (defun c:DPSmerToku ()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku SmerToku
   (command "._insert" "DPSmerToku" "_S" 1 "_R" 0)
@@ -88,8 +111,9 @@
 
 ;vloženie bloku NazovPohladu
 (defun c:DPNazovPohladu()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku NazovPohladu
   (command "._insert" "DPNazovPohladu" "_S" 0.05 "_R" 0)
@@ -102,8 +126,9 @@
 
 ;vloženie bloku RezZvisly
 (defun c:DPRezZvisly()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku RezZvisly
   (command "._insert" "DPRezZvisly" "_S" 0.05 "_R" 0)
@@ -116,8 +141,9 @@
 
 ;vloženie bloku RezVodorovny
 (defun c:DPRezVodorovny()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku RezVodorovny
   (command "._insert" "DPRezVodorovny" "_S" 0.05 "_R" 0)
@@ -130,8 +156,9 @@
 
 ;vloženie bloku RezZlom
 (defun c:DPRezZlom()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku RezZlom
   (command "._insert" "DPRezZlom" "_S" 1 "_R" 0)
@@ -144,8 +171,9 @@
 
 ;vloženie bloku ZarovnanyText
 (defun c:DPZarovnanyText()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku ZarovnanyText
   (command "._insert" "DPZarovnanyText" "_S" 0.05 "_R" 0)
@@ -158,8 +186,9 @@
 
 ;vloženie bloku Sklon
 (defun c:DPSklon()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku ZarovnanyText
   (command "._insert" "DPSklon" "_S" 1 "_R" 0)
@@ -172,8 +201,9 @@
 
 ;vloženie bloku Sklon
 (defun c:DPSymbolOsi()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku SymbolOsi
   (command "._insert" "DPSymbolOsi" "_S" 1.5 "_R" 0)
@@ -186,8 +216,9 @@
 
 ;vloženie bloku Tabuľku materiálov
 (defun c:DPTabMaterialov()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
   
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
@@ -210,8 +241,9 @@
 
 ;vloženie bloku Tabuľku ohybov
 (defun c:DPTabOhybov()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
   
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
@@ -234,8 +266,9 @@
 
 ;vloženie bloku Poznámok
 (defun c:DPPoznamka()
+  
   ;nastavenie hladiny
-  (SetLayer)
+  (LayerSetting)
   
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond

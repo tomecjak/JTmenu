@@ -29,6 +29,7 @@
 ;funkcia pre nastavenie hladiny DP_Popis a skupiny
 (defun SetLayer()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
+  ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
   (command "._layer" "s" "DP_Popis" "")
   
   ;vytvorenie group layer filtru DP Layers  
@@ -43,8 +44,21 @@
 ;vlozenie bloku Severka
 (defun c:NorthArrow ()
   
-  ;nastavenie hladiny
-  (SetLayer)
+  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
+  (setq VytvorenieHladinyPopisu
+    (getenv "GlobalnaHladinaBlokov")
+  )
+  
+  ;vyhodnotenie vyberu hladiny pre bloky
+  (if (= VytvorenieHladinyPopisu "DP_Popis")
+    ;vytvorenie a nastavenie hladinu na DP_Popis
+    (SetLayer)
+  
+    (if (= VytvorenieHladinyPopisu "0")
+    ;bez vytvorenia hladiny
+    (princ)
+    )
+  )
   
   ;prikaz na vlozenie blocku severky
   (command "._insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )

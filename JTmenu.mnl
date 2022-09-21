@@ -23,6 +23,7 @@
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
 (AUTOLOAD "Koty" '("jeff"))
+(AUTOLOAD "Setting" '("JTsettings"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
@@ -44,6 +45,7 @@
     "\n************************************\nJTmenu | beta | Jakub Tomecko | "
     (menucmd "m=$(edtime,0,yyyy)")
     "\n************************************"
+    "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
   )
 ) 
 (print)
