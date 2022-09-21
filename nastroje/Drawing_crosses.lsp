@@ -56,7 +56,8 @@
     (SetLayer)
   
     (if (= VytvorenieHladinyPopisu "0")
-    ;bez vytvorenia hladiny
+    ;bez vytvorenia hladiny a nastavenie na hladinu 0
+    (command "._layer" "s" "0" "")
     (princ)
     )
   )
