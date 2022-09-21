@@ -23,7 +23,7 @@
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
 (AUTOLOAD "Koty" '("jeff"))
-(AUTOLOAD "Setting" '("JTsettings"))
+(AUTOLOAD "Setting" '("JTsetting"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov

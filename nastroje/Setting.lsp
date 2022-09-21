@@ -1,4 +1,4 @@
-(defun C:JTsettings()
+(defun C:JTsetting()
   
   ;vytvorenie premenej VyberBlockHladina pre vyber hladiny pre vlozene bloky
   (setq VyberBlockHladina
