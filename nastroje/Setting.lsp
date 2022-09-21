@@ -1,3 +1,11 @@
+;=========================================================================
+; Setting.lsp
+; (c) Copyright 2022 Tomecko Jakub
+; Verzia: beta
+;
+; Nastavenie pre JTmenu
+;-------------------------------------------------------------------------
+
 (defun C:JTsetting()
   
   ;vytvorenie premenej VyberBlockHladina pre vyber hladiny pre vlozene bloky
@@ -23,3 +31,17 @@
 
 )
 
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(princ
+    (strcat
+        "\nSetting.lsp | beta | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
