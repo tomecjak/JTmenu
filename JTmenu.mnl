@@ -22,7 +22,7 @@
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
-(AUTOLOAD "Koty" '("jeff"))
+(AUTOLOAD "Koty" '("Koty_test"))
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Rebar_mark" '("JTOznacenieVystuze"))
 (print)
