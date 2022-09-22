@@ -302,7 +302,7 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku symbolu Popis vystuze
-  (command "._insert" "DPPopisVystuze" "_S" 1 "_R" 0)
+  (command "._insert" "JTPopisVystuze" "_S" 1 "_R" 0)
   (princ "\nUrčite bod vloženia značky symbolu popisu vystuze:")
   (princ)
   
