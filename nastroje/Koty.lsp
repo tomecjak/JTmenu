@@ -1,20 +1,38 @@
 ;automatically create new dimension style
-(defun c:jeff ()
+(defun c:Koty_test ()
+  
+    ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
+  (setq VyberStylKoty
+    (getstring "\nAku typ dlzky vynasacej ciary vytvorit? [Vlastna/Pevna] <Vlastna>: ")
+  )
+  
+    ;vyhodnotenie vyberu UCS pred prikazom
+  (cond ((or (= VyberStylKoty "P") (= VyberStylKoty "p")
+    ;nastavenie UCS na World
+    (Kota_50_milimetre)
+  )
 
-  (Kota_50_milimetre)
-  (Kota_100_milimetre)
+    ((or (= VyberStylKoty "V") (= VyberStylKoty "v")
+     
+          (Kota_50_milimetre_pevna)
+      )
+    )
+    )
+  )
+    
   
   (princ)
   
 )
 
-;nastavenie pre kotu mierky 50 v milimetroch
+;nastavenie pre kotu mierky 50 v milimetroch 
 (defun Kota_50_milimetre ()
 
   (DimensionCreator)
   
   ;set tab Lines
   (setvar "DIMEXE" 0.05)
+  (setvar "DIMFXLON" 0)
   
   ;set tab Symbols and Arrows
   (setvar "DIMASZ" 0.07)
@@ -27,7 +45,32 @@
   (setvar "DIMDEC" 0)
   (setvar "DIMLFAC" 1000)
 
-  (command "dimstyle" "s" "Jeff50")
+  (command "dimstyle" "s" "Koty_test50")
+
+)
+
+;nastavenie pre kotu mierky 50 v milimetroch - pevne vynasacia ciara
+(defun Kota_50_milimetre_pevna ()
+
+  (DimensionCreator)
+  
+  ;set tab Lines
+  (setvar "DIMEXE" 0.05)
+  (setvar "DIMFXLON" 1)
+  (setvar "DIMFXL" 0.250)
+  
+  ;set tab Symbols and Arrows
+  (setvar "DIMASZ" 0.07)
+  
+  ;set tab Text
+  (setvar "DIMTXT" 0.125)
+  (setvar "DIMGAP" 0.045)
+  
+  ;set tab Primary Units
+  (setvar "DIMDEC" 0)
+  (setvar "DIMLFAC" 1000)
+
+  (command "dimstyle" "s" "Koty_test50")
 
 )
 
@@ -50,7 +93,7 @@
   (setvar "DIMDEC" 0)
   (setvar "DIMLFAC" 1000)
 
-  (command "dimstyle" "s" "Jeff100")
+  (command "dimstyle" "s" "Koty_test100")
 
 )
 
