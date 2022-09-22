@@ -22,15 +22,17 @@
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
-(AUTOLOAD "Koty" '("Koty_test"))
-(AUTOLOAD "test OFFCenter_measure (1)" '("CMEASURE-test"))
+(AUTOLOAD "Koty" '("jeff"))
+(AUTOLOAD "Setting" '("JTsetting"))
+(AUTOLOAD "Rebar_mark" '("JTOznacenieVystuze"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
                                "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
-                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka")
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
+                               "JTPopisVystuze" "JTVystuz")
 )
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -45,6 +47,7 @@
     "\n************************************\nJTmenu | beta | Jakub Tomecko | "
     (menucmd "m=$(edtime,0,yyyy)")
     "\n************************************"
+    "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
   )
 ) 
 (print)

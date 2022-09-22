@@ -32,7 +32,8 @@
 ;funkcia pre nastavenie hladiny DP_Popis
 (defun SetLayer()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
-  (command "-layer" "s" "DP_Popis" "")
+  ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
+  (command "._layer" "s" "DP_Popis" "")
   
   ;vytvorenie group layer filtru DP Layers 
   (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
@@ -44,8 +45,22 @@
 ;vlozenie krizikov do vykreu
 (defun c:DC ()
     
-  ;nastavenie hladiny
-  (SetLayer)
+  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
+  (setq VytvorenieHladinyPopisu
+    (getenv "GlobalnaHladinaBlokov")
+  )
+  
+  ;vyhodnotenie vyberu hladiny pre bloky
+  (if (= VytvorenieHladinyPopisu "DP_Popis")
+    ;vytvorenie a nastavenie hladinu na DP_Popis
+    (SetLayer)
+  
+    (if (= VytvorenieHladinyPopisu "0")
+    ;bez vytvorenia hladiny a nastavenie na hladinu 0
+    (command "._layer" "s" "0" "")
+    (princ)
+    )
+  )
   
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
