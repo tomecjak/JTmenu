@@ -24,13 +24,15 @@
 (AUTOLOAD "Help" '("JTHelp"))
 (AUTOLOAD "Koty" '("jeff"))
 (AUTOLOAD "Setting" '("JTsetting"))
+(AUTOLOAD "Rebar_mark" '("JTOznacenieVystuze"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
                                "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
-                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka")
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
+                               "JTPopisVystuze" "JTVystuz")
 )
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

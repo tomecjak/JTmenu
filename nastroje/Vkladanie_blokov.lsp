@@ -63,8 +63,9 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                             Bloky do Modelu                          ;;
+;;----------------------------------------------------------------------;;
 
-;Vkladanie jednotlivych blokov
 ;vlozenie bloku Smer
 (defun c:DPSmer ()
   
@@ -214,6 +215,8 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                           Bloky do Layoutu                           ;;
+;;----------------------------------------------------------------------;;
 
 ;vloženie bloku Tabuľku materiálov
 (defun c:DPTabMaterialov()
@@ -285,6 +288,38 @@
       (princ)
     )
   )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;                      Bloky pre vystužovanie                          ;;
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Popisu vystuze
+(defun c:JTPopisVystuze()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+
+  ;prikaz na vlozenie blocku symbolu Popis vystuze
+  (command "._insert" "DPPopisVystuze" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia značky symbolu popisu vystuze:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Vystuz
+(defun c:JTVystuz()
+  
+  ;nastavenie hladiny
+  (command "._layer" "s" "0" "")
+
+  ;prikaz na vlozenie blocku vystuze
+  (command "._insert" "JTVystuz" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia blocku vystuze:")
+  (princ)
   
 )
 
