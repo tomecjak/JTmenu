@@ -314,10 +314,25 @@
 (defun c:JTVystuz()
   
   ;nastavenie hladiny
-  (command "._layer" "s" "0" "")
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "JTVystuz" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia blocku vystuze:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Vystuz
+(defun c:JTOznacenieVystuze()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+
+  ;prikaz na vlozenie blocku vystuze
+  (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
   (princ "\nUrčite bod vloženia blocku vystuze:")
   (princ)
   
