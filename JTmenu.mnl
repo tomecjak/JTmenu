@@ -24,10 +24,6 @@
 (AUTOLOAD "Help" '("JTHelp"))
 (AUTOLOAD "Koty" '("Koty_test"))
 (AUTOLOAD "Setting" '("JTsetting"))
-<<<<<<< HEAD
-(AUTOLOAD "Rebar_mark" '("JTOznacenieVystuzeXX"))
-=======
->>>>>>> 1bfce39418e32db9b0504a047d30e94e8a610f8c
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
