@@ -314,7 +314,7 @@
 (defun c:JTVystuz()
   
   ;nastavenie hladiny
-  (command "._layer" "s" "0" "")
+  (LayerSetting)
 
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "JTVystuz" "_S" 1 "_R" 0)
@@ -328,17 +328,13 @@
 ;vloženie bloku Vystuz
 (defun c:JTOznacenieVystuze()
   
-(vl-load-com)
-(defun c:GRDG (/ CLA)
-(setq CLA (getvar "CLAYER"))
-(command "layer" "m" "L-ANNO TEXT" "c" "1" "L-ANNO TEXT" "")
-(Steal "JTRebarTag.dwg"'(("Multileader Styles"("SW ML-TXT GRDG"))))
-(setvar "CMLEADERSTYLE" "SW ML-TXT GRDG")
-(initcommandversion 2)
-(command "_.mleader" "O" "C" "M" "X" (while (> (getvar 'CmdActive) 0) (command pause)))
-(setvar "CLAYER" CLA)
-(princ)
-)
+  ;nastavenie hladiny
+  (LayerSetting)
+
+  ;prikaz na vlozenie blocku vystuze
+  (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
+  (princ "\nUrčite bod vloženia blocku vystuze:")
+  (princ)
   
 )
 
