@@ -325,6 +325,25 @@
 
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku Vystuz
+(defun c:JTOznacenieVystuze()
+  
+(vl-load-com)
+(defun c:GRDG (/ CLA)
+(setq CLA (getvar "CLAYER"))
+(command "layer" "m" "L-ANNO TEXT" "c" "1" "L-ANNO TEXT" "")
+(Steal "JTRebarTag.dwg"'(("Multileader Styles"("SW ML-TXT GRDG"))))
+(setvar "CMLEADERSTYLE" "SW ML-TXT GRDG")
+(initcommandversion 2)
+(command "_.mleader" "O" "C" "M" "X" (while (> (getvar 'CmdActive) 0) (command pause)))
+(setvar "CLAYER" CLA)
+(princ)
+)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
 (princ
     (strcat
