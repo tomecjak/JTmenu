@@ -295,15 +295,49 @@
 ;;                      Bloky pre vystužovanie                          ;;
 ;;----------------------------------------------------------------------;;
 
-;vloženie bloku Popisu vystuze
+
+;vloženie bloku Vystuz
 (defun c:JTPopisVystuze()
   
   ;nastavenie hladiny
   (LayerSetting)
 
-  ;prikaz na vlozenie blocku symbolu Popis vystuze
+  ;prikaz na vlozenie blocku vystuze
   (command "._insert" "JTPopisVystuze" "_S" 1 "_R" 0)
-  (princ "\nUrčite bod vloženia značky symbolu popisu vystuze:")
+  (princ "\nUrčite bod vloženia blocku vystuze:")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+
+;vloženie bloku Popisu vystuze
+(defun c:JTOznacenieVystuze()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+    ;vytvrenie premenej yberJTOznacenieVystuze pre vyber pouzivaneho UCS
+  (setq VyberJTOznacenieVystuze
+    (getstring "\nAku znacku pouzit? [Vystus/Kari siet] <Vystuz>: ")
+  )
+  
+  ;vyhodnotenie vyberu UCS pred prikazom
+  (if (or (= VyberJTOznacenieVystuze "") (= VyberJTOznacenieVystuze "V") (= VyberJTOznacenieVystuze "v"))
+    
+      ;prikaz na vlozenie blocku symbolu Popis vystuze
+  (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
+
+  
+    (if (or (= VyberJTOznacenieVystuze "K") (= VyberJTOznacenieVystuze "k"))
+
+            ;prikaz na vlozenie blocku symbolu Popis vystuze
+  (command "._insert" "JTOznacenieVystuzeKari" "_S" 1 "_R" 0)
+      
+    )
+  )
+  
   (princ)
   
 )
@@ -318,21 +352,6 @@
 
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "JTVystuz" "_S" 1 "_R" 0)
-  (princ "\nUrčite bod vloženia blocku vystuze:")
-  (princ)
-  
-)
-
-;;----------------------------------------------------------------------;;
-
-;vloženie bloku Vystuz
-(defun c:JTOznacenieVystuze()
-  
-  ;nastavenie hladiny
-  (LayerSetting)
-
-  ;prikaz na vlozenie blocku vystuze
-  (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
   (princ "\nUrčite bod vloženia blocku vystuze:")
   (princ)
   
