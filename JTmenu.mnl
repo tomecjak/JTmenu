@@ -41,12 +41,24 @@
 ; (AUTOLOAD "CMDS" '("CMD1" "CMD2" "CMD3")) 
 ; (AUTOLOAD "NEWCMD" '("NEWCMD"))
 
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Nastavenie DimScale na hodnotu 1
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(setvar "dimscale" 1)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Uvitacia hlaska pri nacitany programu JTmenu
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (princ
   (strcat
-    "\n************************************\nJTmenu | beta | Jakub Tomecko | "
+    "\n**********************************************"
+    "\nJTmenu | beta | Jakub Tomecko | "
     (menucmd "m=$(edtime,0,yyyy)")
-    "\n************************************"
+    "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
+    "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
+    "\nDimScale je nastaveny na mierku 1:" (rtos (getvar "dimscale") 2 0) "!"
+    "\n**********************************************"
   )
 ) 
 (print)

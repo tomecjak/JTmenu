@@ -73,7 +73,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku Smer
-  (command "._insert" "DPSmer" "_S" 0.05 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPSmer" "_S" 0.05 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky smeru:")
   (princ)
   
