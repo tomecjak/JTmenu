@@ -254,9 +254,10 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nBlock_base_point.lsp | beta | Lee Mac, Jakub Tomecko | "
+        "\nBlock_base_point.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

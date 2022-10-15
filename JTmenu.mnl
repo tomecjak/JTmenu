@@ -49,10 +49,11 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Uvitacia hlaska pri nacitany programu JTmenu
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(load "Version" "\nVerzia nenacitana!")
 (princ
   (strcat
     "\n**********************************************"
-    "\nJTmenu | beta | Jakub Tomecko | "
+    "\nJTmenu | " (JTmenuVersion) " | Jakub Tomecko | "
     (menucmd "m=$(edtime,0,yyyy)")
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"

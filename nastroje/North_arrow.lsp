@@ -71,9 +71,10 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nNorth_arrow.lsp | beta | Jakub Tomecko | "
+        "\nNorth_arrow.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

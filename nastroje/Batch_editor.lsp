@@ -2455,9 +2455,10 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nBatch_editor.lsp | beta | Lee Mac, Jakub Tomecko | "
+        "\nBatch_editor.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

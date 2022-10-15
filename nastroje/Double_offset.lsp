@@ -225,9 +225,10 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nDouble_offset.lsp | beta | Lee Mac, Jakub Tomecko | "
+        "\nDouble_offset.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

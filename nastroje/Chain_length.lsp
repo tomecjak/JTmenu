@@ -194,9 +194,10 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nChain_length.lsp | beta | Lee Mac, Jakub Tomecko | "
+        "\nChain_length.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

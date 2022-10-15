@@ -24,9 +24,8 @@
 
 ;;----------------------------------------------------------------------;;
 
-        (load "Version" "xxx")
-
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nHelp.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

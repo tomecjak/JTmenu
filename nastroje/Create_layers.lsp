@@ -90,6 +90,7 @@
 
 ;vytvorenie hladín pre výstuž do modelu
 (defun RebarLayers()
+  (CreateLayers "DP_Vystuz" 7 "CONTINUOUS" "DEFAULT")
   (CreateLayers "DP_Výstuž_06" 181 "CONTINUOUS" 0.25)
   (CreateLayers "DP_Výstuž_07" 221 "CONTINUOUS" 0.25)
   (CreateLayers "DP_Výstuž_08" 11 "CONTINUOUS" 0.30)
@@ -127,9 +128,10 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nCreate_layers.lsp | beta | Jakub Tomecko | "
+        "\nCreate_layers.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )
