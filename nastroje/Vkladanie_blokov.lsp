@@ -14,8 +14,11 @@
 ;;  hladin s nazvom "DP Layers".                                        ;;
 ;;----------------------------------------------------------------------;;
 
-;Podporne funkcie
-;funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
+;;----------------------------------------------------------------------;;
+;;                             Podporne funkcie                         ;;
+;; Funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary     ;;
+;; + hrubka ciary                                                       ;;
+;;----------------------------------------------------------------------;;
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -28,8 +31,10 @@
   )
 )
 
-;funkcia pre nastavenie hladiny DP_Popis
-(defun SetLayer()
+;;----------------------------------------------------------------------;;
+;;                     Nastavenie hladiny DP_Popis                      ;;
+;;----------------------------------------------------------------------;;
+(defun SetLayerDPPopis()
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
   (command "._layer" "s" "DP_Popis" "")
   
@@ -40,9 +45,24 @@
   (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
-;vyhodnotenie vytvorenia hladiny DP_Popis podla globalnej premennej GlobalnaHladinaBlokov
-(defun LayerSetting()
+;;----------------------------------------------------------------------;;
+;;                    Nastavenie hladiny DP_Vystuz                      ;;
+;;----------------------------------------------------------------------;;
+(defun SetLayerDPVystuz()
+  (CreateLayers "DP_Vystuz" 7 "CONTINUOUS" "DEFAULT")
+  (command "._layer" "s" "DP_Vystuz" "")
+  
+  ;vytvorenie group layer filtru DP Layers 
+  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+  (if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
+)
 
+;;----------------------------------------------------------------------;;
+;;                Vyhodnotenie GlovalnaHladinaBlokov                    ;;
+;;----------------------------------------------------------------------;;
+(defun LayerSetting()
   ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
   (setq VytvorenieHladinyPopisu
     (getenv "GlobalnaHladinaBlokov")
@@ -51,7 +71,7 @@
   ;vyhodnotenie vyberu hladiny pre bloky
   (if (= VytvorenieHladinyPopisu "DP_Popis")
     ;vytvorenie a nastavenie hladinu na DP_Popis
-    (SetLayer)
+    (SetLayerDPPopis)
   
     (if (= VytvorenieHladinyPopisu "0")
     ;bez vytvorenia hladiny a nastavenie na hladinu 0
@@ -59,7 +79,6 @@
     (princ)
     )
   )
-       
 )
 
 ;;----------------------------------------------------------------------;;
@@ -354,7 +373,7 @@
 (defun c:JTVystuz()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (SetLayerDPVystuz)
 
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "JTVystuz" "_S" 1 "_R" 0)

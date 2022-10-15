@@ -14,6 +14,7 @@
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" HelpURL)
+  (princ)
 
   ;hlaska po skonceni programu
   (princ "\nHelp sa otvoril v internetovom prehliadači. ")
@@ -23,11 +24,14 @@
 
 ;;----------------------------------------------------------------------;;
 
+        (load "Version" "xxx")
+
 (vl-load-com)
 (princ
     (strcat
-        "\nMaps.lsp | beta | Jakub Tomecko | "
+        "\nHelp.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
+        "\n"
     )
 )
 (princ)
