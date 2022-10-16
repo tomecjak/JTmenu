@@ -2,7 +2,6 @@
 ; Double_offset.lsp
 ; (c) Copyright 2011 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Ofset ciary do oboch smerov naraz
 ;-------------------------------------------------------------------------

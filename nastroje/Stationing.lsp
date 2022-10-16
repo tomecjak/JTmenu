@@ -1,7 +1,6 @@
 ;=========================================================================
 ; Stationing.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: beta
 ;
 ; Zobrazenie stanicenia na krivke od zaciatku a konca
 ;-------------------------------------------------------------------------

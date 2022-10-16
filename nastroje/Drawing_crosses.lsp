@@ -1,7 +1,6 @@
 ;=========================================================================
 ; Drawing_crosses.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: beta
 ;
 ; Vlozenie krizikov vykresu do layoutu
 ;-------------------------------------------------------------------------

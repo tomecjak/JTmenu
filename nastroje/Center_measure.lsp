@@ -2,7 +2,6 @@
 ; Center_measure.lsp
 ; (c) Copyright 2011 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Rozmiestnenie objektov od stredu ciary
 ;-------------------------------------------------------------------------

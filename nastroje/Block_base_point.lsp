@@ -2,7 +2,6 @@
 ; Block_base_point.lsp
 ; (c) Copyright 2013 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Zmena zakladneho bodu v bloku v modeli
 ;-------------------------------------------------------------------------

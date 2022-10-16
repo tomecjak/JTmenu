@@ -2,7 +2,6 @@
 ; Batch_editor.lsp
 ; (c) Copyright 2012 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Hromadna uprava atributov
 ;-------------------------------------------------------------------------

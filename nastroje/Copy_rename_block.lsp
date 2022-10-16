@@ -2,7 +2,6 @@
 ; Copy_rename_block.lsp
 ; (c) Copyright 2013 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Kopirovanie bloku s nastavenim noveho nazvu
 ;-------------------------------------------------------------------------

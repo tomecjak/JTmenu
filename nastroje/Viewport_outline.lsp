@@ -2,7 +2,6 @@
 ; Viewport_outline.lsp
 ; (c) Copyright 2015 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Vytvorenie hranice v nútri viewportu
 ;-------------------------------------------------------------------------

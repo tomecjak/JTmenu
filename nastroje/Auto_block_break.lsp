@@ -2,7 +2,6 @@
 ; Auto_block_break.lsp
 ; (c) Copyright 2020 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Automaticke zarovnanie objektov a blokov
 ;-------------------------------------------------------------------------

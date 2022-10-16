@@ -1,7 +1,6 @@
 ;=========================================================================
 ; Rebar_scheme.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: beta
 ;
 ; Prepinanie farebnosti hladin vystuze
 ;-------------------------------------------------------------------------

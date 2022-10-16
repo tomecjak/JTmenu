@@ -1,7 +1,6 @@
 ;=========================================================================
 ; Vkladanie_blokov.lsp
 ; (c) Copyright 2022 Tomecko Jakub
-; Verzia: beta
 ;
 ; Vkladanie roznych blockov do modelu a layoutu autocadu
 ;-------------------------------------------------------------------------

@@ -2,7 +2,6 @@
 ; Chain_length.lsp
 ; (c) Copyright 2015 Lee Mac
 ; Prelozil Jakub Tomecko
-; Verzia: beta
 ;
 ; Meranie jednej vzdialenosti nespojenych ciar
 ;-------------------------------------------------------------------------
