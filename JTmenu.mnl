@@ -22,8 +22,12 @@
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
-(AUTOLOAD "Koty" '("Koty_test"))
+(AUTOLOAD "Koty" '("JTKoty"))
+(AUTOLOAD "Text_style" '("JTTextStyle"))
+(AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
+
+(AUTOLOAD "test" '("msv"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
