@@ -113,7 +113,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku Smer2
-  (command "._insert" "DPSmer2" "_S" 0.05 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPSmer2" "_S" 0.05 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky smeru:")
   (princ)
   
@@ -128,7 +134,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku SmerToku
-  (command "._insert" "DPSmerToku" "_S" 1 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPSmerToku" "_S" 1 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPSmerToku" "_S" (* (getvar "dimscale") 20) "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky smeru toku:")
   (princ)
   
@@ -143,7 +155,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku NazovPohladu
-  (command "._insert" "DPNazovPohladu" "_S" 0.05 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPNazovPohladu" "_S" 0.05 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPNazovPohladu" "_S" (getvar "dimscale") "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky pohľadu:")
   (princ)
   
@@ -158,7 +176,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku RezZvisly
-  (command "._insert" "DPRezZvisly" "_S" 0.05 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPRezZvisly" "_S" 0.05 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPRezZvisly" "_S" (getvar "dimscale") "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky rezu:")
   (princ)
   
@@ -173,7 +197,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku RezVodorovny
-  (command "._insert" "DPRezVodorovny" "_S" 0.05 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPRezVodorovny" "_S" 0.05 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPRezVodorovny" "_S" (getvar "dimscale") "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky rezu:")
   (princ)
   
@@ -188,7 +218,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku RezZlom
-  (command "._insert" "DPRezZlom" "_S" 1 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPRezZlom" "_S" 1 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPRezZlom" "_S" (* (getvar "dimscale") 20) "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky rezu:")
   (princ)
   
@@ -203,7 +239,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku ZarovnanyText
-  (command "._insert" "DPZarovnanyText" "_S" 0.05 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPZarovnanyText" "_S" 0.05 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPZarovnanyText" "_S" (getvar "dimscale") "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky zarovnaného textu:")
   (princ)
   
@@ -218,7 +260,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku ZarovnanyText
-  (command "._insert" "DPSklon" "_S" 1 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPSklon" "_S" 1 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPSklon" "_S" (* (getvar "dimscale") 20) "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky sklonu:")
   (princ)
   
@@ -233,7 +281,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku SymbolOsi
-  (command "._insert" "DPSymbolOsi" "_S" 1.5 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPSymbolOsi" "_S" 1.5 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPSymbolOsi" "_S" (* (getvar "dimscale") 30) "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia značky symbolu osi:")
   (princ)
   
@@ -282,7 +336,7 @@
     )
 
     (
-      ;prikaz na vlozenie blocku DPTabulkaOhybov
+      ;prikaz na vlozenie blocku DPTabulkaOhybov  
       (command "._insert" "DPTabulkaOhybov" "_S" 1 "_R" 0)
       (princ "\nUrčite bod vloženia tabuľky ohybov:")
       (princ)
@@ -307,7 +361,7 @@
     )
 
     (
-      ;prikaz na vlozenie blocku DPPoznamka
+      ;prikaz na vlozenie blocku DPPoznamka 
       (command "._insert" "DPPoznamka" "_S" 1 "_R" 0)
       (princ "\nUrčite bod vloženia poznámky:")
       (princ)
@@ -328,7 +382,13 @@
   (LayerSetting)
 
   ;prikaz na vlozenie blocku vystuze
-  (command "._insert" "JTPopisVystuze" "_S" 1 "_R" 0)
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "JTPopisVystuze" "_S" 1 "_R" 0)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "JTPopisVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0)
+    )
+  )
+  
   (princ "\nUrčite bod vloženia blocku vystuze:")
   (princ)
   
@@ -343,23 +403,29 @@
   ;nastavenie hladiny
   (LayerSetting)
   
-    ;vytvrenie premenej yberJTOznacenieVystuze pre vyber pouzivaneho UCS
+  ;vytvrenie premenej VyberJTOznacenieVystuze pre vyber pouzivaneho UCS
   (setq VyberJTOznacenieVystuze
     (getstring "\nAku znacku pouzit? [Vystus/Kari siet] <Vystuz>: ")
   )
   
   ;vyhodnotenie vyberu UCS pred prikazom
-  (if (or (= VyberJTOznacenieVystuze "") (= VyberJTOznacenieVystuze "V") (= VyberJTOznacenieVystuze "v"))
-    
+  (if (or (= VyberJTOznacenieVystuze "") (= VyberJTOznacenieVystuze "V") (= VyberJTOznacenieVystuze "v")) 
       ;prikaz na vlozenie blocku symbolu Popis vystuze
-  (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
-
-  
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+        (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
+      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "JTOznacenieVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0)
+      )
+    )
+    
     (if (or (= VyberJTOznacenieVystuze "K") (= VyberJTOznacenieVystuze "k"))
-
-            ;prikaz na vlozenie blocku symbolu Popis vystuze
-  (command "._insert" "JTOznacenieVystuzeKari" "_S" 1 "_R" 0)
-      
+        ;prikaz na vlozenie blocku symbolu Popis kari siete
+        (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "JTOznacenieVystuzeKari" "_S" 1 "_R" 0)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+          (command "._insert" "JTOznacenieVystuzeKari" "_S" (* (getvar "dimscale") 20) "_R" 0)
+        )
+        )     
     )
   )
   
