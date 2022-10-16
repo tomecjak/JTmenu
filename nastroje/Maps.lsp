@@ -20,7 +20,7 @@
   (defun *error* (errmsg)
     (command-s "_.ucs" "_Previous")
     (princ)
-    (princ "\nProgram Maps.lsp sa ukončil. ")
+    (princ "\nProgram Maps.lsp sa ukoncil. ")
     (terpri)
     (prompt errmsg)
     (princ)
@@ -28,7 +28,7 @@
   
   ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
   (setq VyberUCS
-    (getstring "\nAké použiť UCS? [World/Vlastne] <World>: ")
+    (getstring "\nAke pouzit UCS? [World/Vlastne] <World>: ")
   )
   
   ;vyhodnotenie vyberu UCS pred prikazom
@@ -43,7 +43,7 @@
   )
   
   ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice
-  (setq polohaBoduMapy (getpoint "Zadajte súradnice: "))
+  (setq polohaBoduMapy (getpoint "Zadajte suradnice: "))
 
   ;definovanie premenej "MapaURL" do ktorej je zapísana url adresa
   (setq MapaURL (getSuradniceMapaURL polohaBoduMapy))
@@ -63,7 +63,7 @@
   )
   
   ;hlaska po skonceni programu
-  (princ "\nMapa sa otvorila v internetovom prehliadači. ")
+  (princ "\nMapa sa otvorila v internetovom prehliadaci. ")
   (princ)
 )
 
@@ -281,7 +281,7 @@
         (rtos LA2 2 6)
         ",18"
       )
-      (princ "\nNeplatný výber.")
+      (princ "\nNeplatny vyber.")
       )
     )
   )   

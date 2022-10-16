@@ -37,11 +37,11 @@
       (progn (setvar 'ERRNO 0) (setq sel (car (func msg)))
         (cond
           ( (= 7 (getvar 'ERRNO))
-            (princ "\nChyba, skús to znovu.")
+            (princ "\nChyba, skss to znovu.")
           )
           ( (eq 'ENAME (type sel))
             (if (and pred (not (pred sel)))
-              (princ "\nVybraný nesprávny objekt.")
+              (princ "\nVybrany nespravny objekt.")
             )
           )
         )
@@ -69,26 +69,26 @@
   (if (setq en (_SelectIf "\nVyberte objekt na Center Measure: " '_isCurveObject entsel))
     (progn
       (initget 7 "Block")
-      (setq di (getdist "\nZadajte dĺžku segmentu alebo vyberte [Block]: "))
+      (setq di (getdist "\nZadajte dlzku segmentu alebo vyberte [Block]: "))
       
       (if (eq "Block" di)
         (progn
           (while
-            (progn (setq bl (getstring t "\nZadajte názov bloku, ktorí chcete vložiť: "))
+            (progn (setq bl (getstring t "\nZadajte nazov bloku, ktori chcete vlozit: "))
               (cond
                 ( (not (snvalid bl))
-                  (princ "\nNesprávny názov bloku.")
+                  (princ "\nNespravny nazov bloku.")
                 )
                 ( (not (tblsearch "BLOCK" bl))
-                  (princ (strcat "\nNemôžem nájsť block \"" bl "\"."))
+                  (princ (strcat "\nNemozem najst block \"" bl "\"."))
                 )
               )
             )
           )
-          (initget "Áno Nie")
-          (setq al (not (eq "Nie" (getkword "\nZarovnať block s objektom? [Áno/Nie] <Á>: "))))
+          (initget "Ano Nie")
+          (setq al (not (eq "Nie" (getkword "\nZarovnat block s objektom? [Ano/Nie] <A>: "))))
           (initget 7)
-          (setq di (getdist "\nZadajte dĺžku segmentu: "))
+          (setq di (getdist "\nZadajte dlzku segmentu: "))
         )
       )
       (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
@@ -123,7 +123,7 @@
     (princ "\n*Cancel*")
   )
   ;hlaska po skonceni programu
-  (princ "\nCenter measure bol vykonaný. ")
+  (princ "\nCenter measure bol vykonany. ")
   (princ)
 )
 

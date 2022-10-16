@@ -66,7 +66,7 @@
   
   ;prikaz na vlozenie blocku suradnic
   (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
-  (princ "\nUrčite bod vloženia značky súradníc.")
+  (princ "\nUrcite bod vlozenia znacky suradnic.")
   (princ)
   
 )

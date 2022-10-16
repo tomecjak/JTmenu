@@ -20,7 +20,7 @@
   (defun *error* (errmsg)
     (command-s "_.ucs" "_Previous")
     (princ)
-    (princ "\nProgram Cadastre.lsp sa ukončil. ")
+    (princ "\nProgram Cadastre.lsp sa ukoncil. ")
     (terpri)
     (prompt errmsg)
     (princ)
@@ -28,7 +28,7 @@
   
   ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
   (setq VyberUCS
-    (getstring "\nAké použiť UCS? [World/Vlastne] <World>: ")
+    (getstring "\nAke pouzit UCS? [World/Vlastne] <World>: ")
   )
   
   ;vyhodnotenie vyberu UCS pred prikazom
@@ -43,7 +43,7 @@
   )
   
   ;definovanie premenej "polohaBoduKatastra" do krotej sú zapísane súradnice
-  (setq polohaBoduKatastra (getpoint "Zadajte súradnice v vnútri hraníc pozemku katastra: "))
+  (setq polohaBoduKatastra (getpoint "Zadajte suradnice v vnutri hranic pozemku katastra: "))
 
   ;definovanie premenej "KatasterURL" do ktorej je zapísana url adresa
   (setq KatasterURL (getSuradniceKatasterURL polohaBoduKatastra))
@@ -63,7 +63,7 @@
   )
   
   ;hlaska po skonceni programu
-  (princ "\nKataster sa otvoril v internetovom prehliadači. ")
+  (princ "\nKataster sa otvoril v internetovom prehliadaci. ")
   (princ)
 )
 

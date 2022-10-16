@@ -181,7 +181,7 @@
     
     (cond
         (   (not (vl-file-directory-p (setq savepath (BAtte:GetSavePath))))
-            (BAtte:Popup (BAtte:WSH) "Pozor!" 16 "Cesta uloženia nie je platná.")
+            (BAtte:Popup (BAtte:WSH) "Pozor!" 16 "Cesta ulozenia nie je platna.")
         )
         (   (progn
                 (setq base (strcat savepath "\\JTmene_BAtte_V" (vl-string-translate "." "-" BAtteVersion)))
@@ -201,8 +201,8 @@
                 (BAtte:WSH)
                 "Pozor!" 16
                 (strcat
-                    "Súbor definície dialógu (DCL) sa nepodarilo zapísať.\n\n"
-                    "Uistite sa, že máte povolenie na zápis do nasledujúceho adresára:\n\n"
+                    "Subor definicie dialogu (DCL) sa nepodarilo zapisat.\n\n"
+                    "Uistite sa, ze mate povolenie na zapis do nasledujuceho adresara:\n\n"
                     savepath
                 )
             )
@@ -212,8 +212,8 @@
                 (BAtte:WSH)
                 "Pozor!" 16
                 (strcat
-                    "Subot LISP Utilities File sa nepodarilo zapísať.\n\n"
-                    "Uistite sa, že máte povolenie na zápis do nasledujúceho adresára:\n\n"
+                    "Subor LISP Utilities File sa nepodarilo zapisat.\n\n"
+                    "Uistite sa, ze mate povolenie na zapis do nasledujuceho adresara:\n\n"
                     savepath
                 )
             )
@@ -223,9 +223,9 @@
                 (BAtte:WSH)
                 "Pozor!" 16
                 (strcat
-                    "Nepodarilo sa nacitat nasledujúci súbor DLC:\n\n"
+                    "Nepodarilo sa nacitat nasledujuci subor DLC:\n\n"
                     dclfname
-                    "\n\nSúbor buď neexistuje alebo obsahuje chybu."
+                    "\n\nSubor bud neexistuje alebo obsahuje chybu."
                 )
             )
         )
@@ -267,10 +267,10 @@
                                     (BAtte:WSH)
                                     "Pozor!" 16
                                     (strcat
-                                        "Dialógové okno programu sa nepodarilo načítať.\n\n"
-                                        "Zodpovedajúci súbor DLC sa nachádza na nasledujúcom umiestnený:\n\n"
+                                        "Dialogove okno programu sa nepodarilo nacitat.\n\n"
+                                        "Zodpovedajuci subor DLC sa nachadza na nasledujucom umiestnení:\n\n"
                                         dclfname
-                                        "\n\nTento súbor obsahuje chybu, kontaktujte autora programu."
+                                        "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                                     )
                                 )
                                 (setq dclStatus 0)
@@ -313,11 +313,11 @@
                                             (   (or (null block) (eq "" block))
                                                 (BAtte:Popup
                                                     (BAtte:WSH)
-                                                    "Informácia" 48
+                                                    "Informacia" 48
                                                     (strcat
-                                                        "Prosím vložte názov bloku.\n\n"
-                                                        "Poznámka: V názvoch blokov sa nerozlišujú veľké a malé písmená a môžu sa používať zástupné znaky"
-                                                        " na priradenie viacerých blokov obsahujúci rovnaký atribút tagu."
+                                                        "Prosim vlozte nazov bloku.\n\n"
+                                                        "Poznamka: V nazvoch blokov sa nerozlisuju velke a male pismena a mozu sa pouzivat zastupne znaky"
+                                                        " na priradenie viacerych blokov obsahujuci rovnaky atribut tagu."
                                                     )
                                                 )
                                                 (mode_tile "block" 2)
@@ -325,16 +325,16 @@
                                             (   (or (null tag) (eq "" tag))
                                                 (BAtte:Popup
                                                     (BAtte:WSH)
-                                                    "Informácia" 48
+                                                    "Informacia" 48
                                                     (strcat
-                                                        "Prosím vložte atribút tagu.\n\n"
-                                                        "Poznámka: Tagy atribútov nerozlišujú veľké a malé písmená a nemôže obsahovať medzery."
+                                                        "Prosim vlozte atribut tagu.\n\n"
+                                                        "Poznamka: Tagy atributov nerozlisuju velke a male pismena a nemoze obsahovat medzery."
                                                     )
                                                 )
                                                 (mode_tile "tag" 2)
                                             )
                                             (   (vl-string-position 32 tag)
-                                                (BAtte:Popup (BAtte:WSH) "Informácia" 48 "Atribút tagu nemôže obsahovať medzeru.")
+                                                (BAtte:Popup (BAtte:WSH) "Informacia" 48 "Atribut tagu nemoze obsahovat medzeru.")
                                                 (mode_tile "tag" 2)
                                             )
                                             (   (setq tmp
@@ -355,14 +355,14 @@
                                                 )
                                                 (BAtte:Popup
                                                     (BAtte:WSH)
-                                                    "Duplicita položky"
+                                                    "Duplicita polozky"
                                                     48
                                                     (strcat
-                                                        "Atribút tagu '"
+                                                        "Atribut tagu '"
                                                         (cadr tmp)
-                                                        "' v rámci blocku '"
+                                                        "' v ramci blocku '"
                                                         (car  tmp)
-                                                        "' sa už objavuje v zozname, ktorý sa ma nastaviť na hodnotu \""
+                                                        "' sa uz objavuje v zozname, ktory sa ma nastavit na hodnotu \""
                                                         (caddr tmp)
                                                         "\""
                                                     )
@@ -528,12 +528,12 @@
                                                     (   (null data)
                                                         (BAtte:Popup
                                                             (BAtte:WSH)
-                                                            "Informácia" 64
+                                                            "Informacia" 64
                                                             (strcat
-                                                                "Nenašli sa žiadne údaje o atribútoch.\n\n"
-                                                                "Zadajte názov bloku, atribút tagu a novú hodnotu atribútu"
-                                                                " v príslušných poliach v hornej časti dialógového okna.\n\n"
-                                                                "Kliknutim na  'Pridať položku' pridáte vložené údaje do zoznamu atribútov, ktoré sa majú aktualizovať."
+                                                                "Nenasli sa ziadne udaje o atributoch.\n\n"
+                                                                "Zadajte nazov bloku, atribut tagu a novu hodnotu atributu"
+                                                                " v prislusnych poliach v hornej casti dialogoveho okna.\n\n"
+                                                                "Kliknutim na  'Pridat polozku' pridate vlozene udaje do zoznamu atributov, ktore sa maju aktualizovat."
                                                             )
                                                         )
                                                     )
@@ -555,10 +555,10 @@
                                     (BAtte:WSH)
                                     "Pozor!" 16
                                     (strcat
-                                        "Dialógové okno programu sa nepodarilo načítať.\n\n"
-                                        "Zodpovedajúci súbor DLC sa nachádza na nasledujúcom umiestnený:\n\n"
+                                        "Dialogove okno programu sa nepodarilo nacitat.\n\n"
+                                        "Zodpovedajuci subor DLC sa nachadza na nasledujucom umiestneny:\n\n"
                                         dclfname
-                                        "\n\nTento súbor obsahuje chybu, kontaktujte autora programu."
+                                        "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                                     )
                                 )
                                 (setq dclStatus 0)
@@ -755,13 +755,13 @@
                                                     (   (null result)
                                                         (BAtte:Popup
                                                             (BAtte:WSH)
-                                                            "Informácia" 64
+                                                            "Informacia" 64
                                                             (strcat
-                                                                "Žiaden vybratý výkres.\n\n"
-                                                                "Prejdi do adresára pomocou ľavého panela so zoznamom, tlačidlom 'Prehľadávať' alebo pomocou"
-                                                                " špecifikovanim adresára v editačnom poli 'Priečinok' a stlačením 'Enter'.\n\n"
-                                                                "Vyberte súbory z adresára dvojitým kliknutim na súbor alebo výberom skupiny"
-                                                                " súborov a kliknite na tlačidlo 'Pridať Súbory'."
+                                                                "Ziaden vybraty vykres.\n\n"
+                                                                "Prejdi do adresara pomocou laveho panela so zoznamom, tlacodlom 'Prehladavat' alebo pomocou"
+                                                                " specifikovanim adresara v editacnom poli 'Priecinok' a stlacenim 'Enter'.\n\n"
+                                                                "Vyberte subory z adresara dvojitym kliknutim na subor alebo vyberom skupiny"
+                                                                " suborov a kliknite na tlacidlo 'Pridat Subory'."
                                                             )
                                                         )
                                                     )
@@ -805,9 +805,9 @@
                                                         )
                                                         (BAtte:Popup
                                                             (BAtte:WSH)
-                                                            "Všetky súbory sa používajú!" 48
+                                                            "Vsetky subory sa pouzivaju!" 48
                                                             (strcat
-                                                                "Všetky vybrané súbory sa momentálne používajú a nie je možné ich spracovať:\n\n"
+                                                                "Vsetky vybrane subory sa momentalne pouzivaju a nie je mozne ich spracovat:\n\n"
                                                                 "Filename\t\t\tOpen By\n"
                                                                 (BAtte:lst->str (reverse removed) "\n")
                                                             )                                                
@@ -818,12 +818,12 @@
                                                             (= 6
                                                                 (BAtte:Popup
                                                                     (BAtte:WSH)
-                                                                    "Používané súbory!" (+ 32 4)
+                                                                    "Pouzivane subory!" (+ 32 4)
                                                                     (strcat
-                                                                        "Nasledujúce súbory sa používajú a nebudú spracované:\n\n"
+                                                                        "Nasledujuce subory sa pouzivaju a nebudu spracovane:\n\n"
                                                                         "Filename\t\tOpen By\n"
                                                                         (BAtte:lst->str (reverse removed) "\n")
-                                                                        "\n\nPokračovať?"
+                                                                        "\n\nPokracovat?"
                                                                     )
                                                                 )
                                                             )
@@ -897,8 +897,8 @@
                             (BAtte:WSH)
                             "Pozor!" 16
                             (strcat
-                                "Súbor skriptu sa nepodarilo získať.\n\n"
-                                "Uistite sa, že máte povolenie na zápis do nasledujúceho adresára:\n\n"
+                                "Subor skriptu sa nepodarilo ziskat.\n\n"
+                                "Uistite sa, ze mate povolenie na zapis do nasledujuceho adresara:\n\n"
                                 savepath
                             )
                         )
@@ -1299,7 +1299,7 @@
                     "edit : dialog"
                     "{"
                     "    initial_focus = \"block\";"
-                    "    label = \"Úprava položky\";"
+                    "    label = \"Uprava polozky\";"
                     "    spacer;"
                     "    : row"
                     "    {"
@@ -1341,14 +1341,14 @@
                     ""
                     "select : dialog"
                     "{"
-                    "    label = \"Vybrať položky na pridanie\";"
+                    "    label = \"Vybrat polozky na pridanie\";"
                     "    spacer_1;"
                     "    : row"
                     "    {"
                     "        fixed_width = true;"
                     "        alignment = left;"
                     "        spacer;"
-                    "        : text { label = \"Vyberte položky, ktoré chcete pridať do zoznamu údajov atribútu:\"; }"
+                    "        : text { label = \"Vyberte polozky, ktore chcete pridat do zoznamu udajov atributu:\"; }"
                     "    }"
                     "    spacer;"
                     "    : row"
@@ -1370,7 +1370,7 @@
                     "        fixed_width = true;"
                     "        alignment = left;"
                     "        spacer;"
-                    "        : toggle { label = \"Vybrať všetko\"; key = \"all\"; }"
+                    "        : toggle { label = \"Vybrat vsetko\"; key = \"all\"; }"
                     "    }"
                     "    ok_cancel;"
                     "}"
@@ -1391,24 +1391,24 @@
                     "    : text { alignment = right; label = \"JTmenu beta\"; }"
                     "    : boxed_column"
                     "    {"
-                    "        label = \"Dáta atribútov\";"
+                    "        label = \"Data atributov\";"
                     "        : column"
                     "        {"
                     "            : row"
                     "            {"
                     "                : column"
                     "                {"
-                    "                    : txt { label = \"Názov blocku\"; }"
+                    "                    : txt { label = \"Nazov blocku\"; }"
                     "                    : edt { key = \"block\"; }"
                     "                }"
                     "                : column"
                     "                {"
-                    "                    : txt { label = \"Tag atribútu\"; }"
+                    "                    : txt { label = \"Tag atributu\"; }"
                     "                    : edt { key = \"tag\"; }"
                     "                }"
                     "                : column"
                     "                {"
-                    "                    : txt { label = \"Hodnota atribútu\"; }"
+                    "                    : txt { label = \"Hodnota atributu\"; }"
                     "                    : edt { key = \"value\"; }"
                     "                }"
                     "            }"
@@ -1419,11 +1419,11 @@
                     "        {"
                     "            fixed_width = true;"
                     "            alignment = centered;"
-                    "            : but1 { key = \"additem\"; label = \"&Pridať Položku\"; mnemonic = \"P\"; }"
+                    "            : but1 { key = \"additem\"; label = \"&Pridat Polozku\"; mnemonic = \"P\"; }"
                     "            spacer;"
-                    "            : but2 { key = \"select\";  label = \"Vybrať &Block...\"; mnemonic = \"B\"; }"
+                    "            : but2 { key = \"select\";  label = \"Vybrat &Block...\"; mnemonic = \"B\"; }"
                     "            spacer;"
-                    "            : but1 { key = \"delitem\"; label = \"&Odstrániť Položku\"; mnemonic = \"O\"; }"
+                    "            : but1 { key = \"delitem\"; label = \"&Odstranit Polozku\"; mnemonic = \"O\"; }"
                     "        }"
                     "        spacer;"
                     "        : row"
@@ -1431,7 +1431,7 @@
                     "            fixed_width = true;"
                     "            alignment = left;"
                     "            spacer;"
-                    "            : text { label = \"Položku upravíte dvojitým kliknutím\"; }"
+                    "            : text { label = \"Polozku upravite dvojitym kliknutim\"; }"
                     "        }"
                     "        : row"
                     "        {"
@@ -1451,11 +1451,11 @@
                     "        {"
                     "            fixed_width = true;"
                     "            alignment = centered;"
-                    "            : but1 { key = \"load\"; label = \"&Načítať zo súboru\"; mnemonic = \"N\"; }"
+                    "            : but1 { key = \"load\"; label = \"&Nacitat zo suboru\"; mnemonic = \"N\"; }"
                     "            spacer;"
-                    "            : but2 { key = \"clear\"; label = \"&Vymazať\"; mnemonic = \"V\"; }"
+                    "            : but2 { key = \"clear\"; label = \"&Vymazat\"; mnemonic = \"V\"; }"
                     "            spacer;"
-                    "            : but1 { key = \"save\"; label = \"&Uložiť do súboru\"; mnemonic = \"U\"; }"
+                    "            : but1 { key = \"save\"; label = \"&Ulozit do suboru\"; mnemonic = \"U\"; }"
                     "        }"
                     "        spacer;"
                     "    }"
@@ -1466,7 +1466,7 @@
                     "        alignment = centered;"
                     "        : but3 { key = \"accept\"; is_default = true; label = \"&Dalej\"; mnemonic = \"D\"; }"
                     "        spacer_1;"
-                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Zatvoriť\"; mnemonic = \"Z\"; }"
+                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Zatvorit\"; mnemonic = \"Z\"; }"
                     "    }"
                     "}"
                     ""
@@ -1481,14 +1481,14 @@
                     "    : text { alignment = right; label = \"JTmenu beta\"; }"
                     "    : boxed_column"
                     "    {"
-                    "        label = \"Výkresy na spracovanie\";"
+                    "        label = \"Vykresy na spracovanie\";"
                     "        : column"
                     "        {"
-                    "            : txt { label = \"Priečinok\"; }"
+                    "            : txt { label = \"Priecinok\"; }"
                     "            : row"
                     "            {"
                     "                : edt { key = \"directory\"; }"
-                    "                : button { key = \"browse\"; label = \"&Prehľadávať\"; mnemonic = \"P\"; fixed_width = true; }"
+                    "                : button { key = \"browse\"; label = \"&Prehladavat\"; mnemonic = \"P\"; fixed_width = true; }"
                     "            }"
                     "        }"
                     "        spacer_1;"
@@ -1499,7 +1499,7 @@
                     "                fixed_width = true;"
                     "        	      alignment = centered;"
                     "                : dwgbox { key = \"box1\"; }"
-                    "                : but1   { key = \"add\" ; label = \"&Prehľadávať Súbory\"; mnemonic = \"S\"; }"
+                    "                : but1   { key = \"add\" ; label = \"&Prehladavat Subory\"; mnemonic = \"S\"; }"
                     "                spacer;"
                     "            }"
                     "            : column"
@@ -1507,7 +1507,7 @@
                     "                fixed_width = true;"
                     "        	      alignment = centered;"
                     "                : dwgbox { key = \"box2\"; }"
-                    "                : but1   { key = \"del\" ; label = \"&Odstrániť Súbory\"; mnemonic = \"O\"; }"
+                    "                : but1   { key = \"del\" ; label = \"&Odstranit Subory\"; mnemonic = \"O\"; }"
                     "                spacer;"
                     "            }"
                     "        }"
@@ -1517,11 +1517,11 @@
                     "    {"
                     "        fixed_width = true;"
                     "        alignment = centered;"
-                    "        : but3 { key = \"back\"; label = \"Sp&äť\"; mnemonic = \"ä\"; }"
+                    "        : but3 { key = \"back\"; label = \"Sp&at\"; mnemonic = \"ä\"; }"
                     "        spacer_1;"
-                    "        : but3 { key = \"accept\"; is_default = true; label = \"Spus&tiť\"; mnemonic = \"t\"; }"
+                    "        : but3 { key = \"accept\"; is_default = true; label = \"Spus&tit\"; mnemonic = \"t\"; }"
                     "        spacer_1;"
-                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&UUkončiť\"; mnemonic = \"U\"; }"
+                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Ukončit\"; mnemonic = \"U\"; }"
                     "    }"
                     "}"
                     ""
@@ -1876,13 +1876,13 @@
                     (/= 6
                         (BAtte:Popup
                             (BAtte:WSH)
-                            "Našli sa duplicitné položky!" (+ 32 4)
+                            "Nasli sa Duplicitne polozky!" (+ 32 4)
                             (strcat
-                                "Vo výbere blockov sa našlo mnoho duplicitných položiek.\n\n"
-                                "Duplicitné položky vznikajú, keď sa rovnaká kombinácia blocku a tagu objaví v zozname viac, ako raz.\n\n"
-                                "Nasledujúce duplicitne položky boli odstránené zo zoznamu:\n\n"
+                                "Vo vybere blockov sa naslo mnoho duplicitnych poloziek.\n\n"
+                                "Duplicitne polozky vznikaju, ked sa rovnaka kombinacia blocku a tagu objavi v zozname viac, ako raz.\n\n"
+                                "Nasledujuce duplicitne polozky boli odstranene zo zoznamu:\n\n"
                                 (BAtte:lst->str (cadr itm) "\n")
-                                "\n\nPokračovať?"
+                                "\n\nPokracovat?"
                             )
                         )
                     )
@@ -1897,10 +1897,10 @@
                 (BAtte:WSH)
                 "Pozor!" 16
                 (strcat
-                    "Dialógové okno výberu blockov sa nepodarilo načítať.\n\n"
-                    "Zodpovedajúci súbor DLC sa nachádza na nesledujucom umiestnený:\n\n"
+                    "Dialogove okno vyberu blockov sa nepodarilo nacitat.\n\n"
+                    "Zodpovedajuci subor DLC sa nachadza na nesledujucom umiestneny:\n\n"
                     dclfname
-                    "\n\nTento súbor obsahuje chybu, kontaktujte autora programu."
+                    "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                 )
             )
         )
@@ -1959,10 +1959,10 @@
                                         (= 6
                                             (BAtte:Popup
                                                 (BAtte:WSH)
-                                                "Nie sú vybrate žiadne položky!" (+ 32 4)
+                                                "Nie su vybrate ziadne polozky!" (+ 32 4)
                                                 (strcat
-                                                    "Neboli vybrate žiadne položky na priradenie do zoznamu údajov atribútov.\n\n"
-                                                    "Pokračovať do hlavného dialógu?"
+                                                    "Neboli vybrate ziadne polozky na priradenie do zoznamu udajov atributov.\n\n"
+                                                    "Pokracovat do hlavneho dialogu?"
                                                 )
                                             )
                                         )
@@ -2020,13 +2020,13 @@
                                         (= 6
                                             (BAtte:Popup
                                                 (BAtte:WSH)
-                                                "Zrážka položky!" (+ 32 4)
+                                                "Zrazka polozky!" (+ 32 4)
                                                 (strcat
-                                                    "Kombinácia bloku & tagu pre nasledujúce vybrate položky sa už zobrazuje v "
-                                                    "zozname atributných údajov:\n\n"
+                                                    "Kombinacia bloku & tagu pre nasledujuce vybrate polozky sa uz zobrazuje v "
+                                                    "zozname atributnych udajov:\n\n"
                                                     (BAtte:lst->str dupes "\n")
-                                                    "\n\nAk budete pokračovať, vyššie uvedené položky nahradia položky, ktoré sú už v zozname."
-                                                    "\n\nPokračovať"
+                                                    "\n\nAk budete pokracovat, vyssie uvedene polozky nahradia polozky, ktore su uz v zozname."
+                                                    "\n\nPokracovat"
                                                 )
                                             )
                                         )
@@ -2061,11 +2061,11 @@
                 (   (or (null block) (eq "" block))
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Informácia" 48
+                        "Informacia" 48
                         (strcat
-                            "Prosím vložte názov blocku.\n\n"
-                            "Poznámka: v názvoch blockov sa nerozlišujú veľké a malé písmená a môže sa používať zástupné znaky"
-                            " na priradenie viacerých blokov obsahujúcich rovnaký tag atribútu."
+                            "Prosim vlozte nazov blocku.\n\n"
+                            "Poznamka: v nazvoch blockov sa nerozlisuju velke a male pismena a moze sa pouzivat zastupne znaky"
+                            " na priradenie viacerych blokov obsahujucich rovnaky tag atributu."
                         )
                     )
                     (mode_tile "block" 2)
@@ -2073,16 +2073,16 @@
                 (   (or (null tag) (eq "" tag))
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Informácia" 48
+                        "Informacia" 48
                         (strcat
-                            "Prosím vložte atribút tagu.\n\n"
-                            "Poznámka: nerozlišujú sa veľké a malé písmená a nemôže obsahovať medzery."
+                            "Prosim vlozte atribut tagu.\n\n"
+                            "Poznamka: nerozlisuju sa velke a male pismena a nemoze obsahovat medzery."
                         )
                     )
                     (mode_tile "tag" 2)
                 )
                 (   (vl-string-position 32 tag)
-                    (BAtte:Popup (BAtte:WSH) "Informácia" 48 "Atribút tagu nemôže obsahovať medzeru.")
+                    (BAtte:Popup (BAtte:WSH) "Informacia" 48 "Atribut tagu nemoze obsahovat medzeru.")
                     (mode_tile "tag" 2)
                 )
                 (   (setq tmp
@@ -2103,14 +2103,14 @@
                     )
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Zrážka položky!"
+                        "Zrazka polozky!"
                         48
                         (strcat
-                            "Tag atribútu '"
+                            "Tag atributu '"
                             (cadr tmp)
-                            "' v rámci blocku '"
+                            "' v ramci blocku '"
                             (car  tmp)
-                            "' sa už objavil v zozname, ktorý sa ma nastaviť na hodnotu \""
+                            "' sa uz objavil v zozname, ktory sa ma nastavit na hodnotu \""
                             (caddr tmp)
                             "\""
                         )
@@ -2132,10 +2132,10 @@
                 (BAtte:WSH)
                 "Pozor!" 16
                 (strcat
-                    "Dialógové okno úpravy položky sa nepodarilo načítať.\n\n"
-                    "Zodpovedajúci súbor DLS sa nachádza na nasledujúcom umiestnený:\n\n"
+                    "Dialogove okno upravy polozky sa nepodarilo nacitat.\n\n"
+                    "Zodpovedajuci subor DLS sa nachadza na nasledujucom umiestneni:\n\n"
                     dclfname
-                    "\n\nTento súbor obsahuje chybu, kontaktujte autora programu."
+                    "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                 )
             )
         )
@@ -2193,17 +2193,17 @@
         (   (null data)
             nil
         )
-        (   (null (setq name (getfiled "Vytvoriť výstupný súbor" "" "csv;txt" 1)))
+        (   (null (setq name (getfiled "Vytvorit vystupny subor" "" "csv;txt" 1)))
             nil
         )
         (   (null (setq file (open name "w")))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Nedá sa zapisovať do súboru" 16
+                "Neda sa zapisovat do suboru" 16
                 (strcat
-                    "Nasledujúci súbor sa nepodarilo otvoriť na zápis:\n\n"
+                    "Nasledujuci súbor sa nepodarilo otvorit na zapis:\n\n"
                     name
-                    "\n\nUistite sa, že máte oprávnenie na zápis od zvoleného adresára."
+                    "\n\nUistite sa, že mate opravnenie na zapis od zvoleneho adresara."
                 )
             )
             nil
@@ -2220,9 +2220,9 @@
             (setq file (close file))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Uloženie úspešne!" 64
+                "Ulozenie uspesne!" 64
                 (strcat
-                    "Údaje atribútu boli úspešne zapísané do nasledujúceho umiestnenia:\n\n"
+                    "Udaje atributu boli uspesne zapisane do nasledujuceho umiestnenia:\n\n"
                     name
                 )
             )
@@ -2235,17 +2235,17 @@
 
 (defun BAtte:LoadFromFile ( / data file line name removed )
     (cond
-        (   (null (setq name (getfiled "Vyberte súbor na načítanie" "" "csv;txt" 16)))
+        (   (null (setq name (getfiled "Vyberte subor na nacitanie" "" "csv;txt" 16)))
             nil
         )
         (   (null (setq file (open name "r")))
             (BAtte:Popup
                 (BAtte:WSH)
-                "Súbor sa nedá prečítať" 16
+                "Subor sa neda precitat" 16
                 (strcat
-                    "Nasledujúci súbor sa nepodarilo otvoriť na čítanie:\n\n"
+                    "Nasledujuci subor sa nepodarilo otvorit na citanie:\n\n"
                     name
-                    "\n\nUistite sa, že máte povolenie na čítanie vyššie uvedeného súboru."
+                    "\n\nUistite sa, že mate povolenie na citanie vyssie uvedeneho suboru."
                 )
             )
             nil
@@ -2274,8 +2274,8 @@
                 (   (null (setq data (reverse data)))
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Súbor je prázdny!" 48
-                        "Vybraty súbor neobsahoval žiadne údaje."
+                        "Subor je prazdny!" 48
+                        "Vybraty subor neobsahoval ziadne udaje."
                     )
                     nil
                 )
@@ -2318,12 +2318,12 @@
                     )
                     (BAtte:Popup
                         (BAtte:WSH)
-                        "Nesprávny formát súboru!" 48
+                        "Nespravny format suboru!" 48
                         (strcat
-                            "Údaje vo vybranom súbore nie sú vo formáte vyžadovanom týmto programom.\n\n"
-                            "Súbor by mal mať tri slpce pre údaje blocku, tagu a hodnoty."
-                            " Ak používate textový súbor, stĺpce by mali byt oddelene tabulátormi.\n\n"
-                            "Údaje atribútu tagu nemôže obsahovať medzery."
+                            "Udaje vo vybranom subore nie su vo formate vyžadovanom tymto programom.\n\n"
+                            "Subor by mal mat tri slpce pre udaje blocku, tagu a hodnoty."
+                            " Ak pouzivate textovy subor, stĺpce by mali byt oddelene tabulatormi.\n\n"
+                            "Udaje atributu tagu nemoze obsahovat medzery."
                         )
                     )
                     nil
@@ -2336,13 +2336,13 @@
                         (= 6
                             (BAtte:Popup
                                 (BAtte:WSH)
-                                "Položky odstránené!" (+ 32 4)
+                                "Polozky odstranene!" (+ 32 4)
                                 (strcat
-                                    "Údaje vo vybranom súbore nie sú vo formáte vyžadovanom týmto programom.\n\n"
-                                    "Nasledujúce položky boli odstránené zo zoznamu, pretože chýbajú hodnoty blocku alebo tagu"
+                                    "Udaje vo vybranom subore nie su vo formate vyzadovanom tymto programom.\n\n"
+                                    "Nasledujuce polozky boli odstranene zo zoznamu, pretoze chybaju hodnoty blocku alebo tagu"
                                     " alebo hodnota tagu obsahuje medzery:\n\n"
                                     (BAtte:lst->str removed "\n")
-                                    "\n\nPokračovať?"
+                                    "\n\nPokracovat?"
                                 )
                             )
                         )
@@ -2351,13 +2351,13 @@
                                 (= 6
                                     (BAtte:Popup
                                         (BAtte:WSH)
-                                        "Našli sa duplicitné položky!" (+ 32 4)
+                                        "Nasli sa duplicitne polozky!" (+ 32 4)
                                         (strcat
-                                            "Vo vybranom súbore sa našlo viacero duplicitných položiek. Duplicitne položky vznikajú, keď"
-                                            " rovnaká kombinácia blocku a tagu sa v zozname vyskytuje viackrát.\n\n"
-                                            "Nasledujúce duplicitné položky boli odstránené zo zoznamu:\n\n"
+                                            "Vo vybranom subore sa naslo viacero duplicitnych poloziek. Duplicitne polozky vznikaju, ked"
+                                            " rovnaka kombinacia blocku a tagu sa v zozname vyskytuje viackrat.\n\n"
+                                            "Nasledujuce duplicitne polozky boli odstranene zo zoznamu:\n\n"
                                             (BAtte:lst->str (cadr tmp) "\n")
-                                            "\n\nPokračovať?"
+                                            "\n\nPokracovat?"
                                         )
                                     )
                                 )
@@ -2372,13 +2372,13 @@
                         (= 6
                             (BAtte:Popup
                                 (BAtte:WSH)
-                                "Našli sa duplicitné položky!" (+ 32 4)
+                                "Nasli sa duplicitne polozky!" (+ 32 4)
                                 (strcat
-                                    "Vo vybranom súbore sa našlo viacero duplicitných položiek. Duplicitne položky vznikajú, keď"
-                                    " rovnaká kombinácia blocku a tagu sa v zozname vyskytuje viackrát.\n\n"
-                                    "Nasledujúce duplicitné položky boli odstránené zo zoznamu:\n\n"
+                                    "Vo vybranom subore sa naslo viacero duplicitnych poloziek. Duplicitne polozky vznikaju, ked"
+                                    " rovnaka kombinacia blocku a tagu sa v zozname vyskytuje viackrat.\n\n"
+                                    "Nasledujuce duplicitne polozky boli odstranene zo zoznamu:\n\n"
                                     (BAtte:lst->str (cadr tmp) "\n")
-                                    "\n\nPokračovať?"
+                                    "\n\nPokracovat?"
                                 )
                             )
                         )

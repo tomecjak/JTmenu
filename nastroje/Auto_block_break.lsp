@@ -32,18 +32,18 @@
 
     (cond
         (   (= 4 (logand 4 (cdr (assoc 70 (tblsearch "layer" (getvar 'clayer))))))
-            (princ "\nAktuálna hladina je zamknutá.")
+            (princ "\nAktualna hladina je zamknuta.")
         )
         (   (progn
                 (while
                     (not
                         (progn
                             (setvar 'errno 0)
-                            (initget "Prehľadávať Názov Rotácia")
-                            (princ (strcat "\nAutomatická rotácia bloku: " (getenv "LMac\\ABBRotation")))
+                            (initget "Prehladavat Nazov Rotacia")
+                            (princ (strcat "\nAutomaticka rotacia bloku: " (getenv "LMac\\ABBRotation")))
                             (setq sel
                                 (entsel
-                                    (strcat "\nVyberte blok [Prehľadávať/Názov/Rotácia]"
+                                    (strcat "\nVyberte blok [Prehladavat/Nazov/Rotacia]"
                                         (if (= "" (setq blk (getvar 'insname)))
                                             ": "
                                             (strcat " <" blk ">: ")
@@ -53,17 +53,17 @@
                             )
                             (cond
                                 (   (= 7 (getvar 'errno))
-                                    (prompt "\nChyba, skús to znova.")
+                                    (prompt "\nChyba, skus to znova.")
                                 )
                                 (   (null sel)
                                     (not (if (= "" blk) (setq blk nil)))
                                 )
-                                (   (= "Rotácia" sel)
-                                    (initget "Áno Nie")
+                                (   (= "Rotacia" sel)
+                                    (initget "Ano Nie")
                                     (setenv "LMac\\ABBRotation"
                                         (cond
                                             (   (getkword
-                                                    (strcat "\nAutomatická rotácia bloku [Áno/Nie] <"
+                                                    (strcat "\nAutomaticka rotacia bloku [Ano/Nie] <"
                                                         (getenv "LMac\\ABBRotation") ">: "
                                                     )
                                                 )
@@ -73,14 +73,14 @@
                                     )
                                     nil
                                 )
-                                (   (= "Názov" sel)
+                                (   (= "Nazov" sel)
                                     (while
                                         (not
                                             (or
                                                 (= ""
                                                     (setq tmp
                                                         (getstring t
-                                                            (strcat "\nŠpecifikujte názov bloku"
+                                                            (strcat "\nSpecifikujte nazov bloku"
                                                                 (if (= "" blk) ": " (strcat " <" blk ">: "))
                                                             )
                                                         )
@@ -89,19 +89,19 @@
                                                 (tblsearch "block" tmp)
                                             )
                                         )
-                                        (princ (strcat "\nBlok \"" tmp "\" nie je v aktuálnom výkrese definovaný."))
+                                        (princ (strcat "\nBlok \"" tmp "\" nie je v aktualnom vykrese definovany."))
                                     )
                                     (cond
                                         (   (/= "" tmp) (setq blk tmp))
                                         (   (/= "" blk))
                                     )
                                 )
-                                (   (= "Prehľadávať" sel)
+                                (   (= "Prehladavat" sel)
                                     (setq blk (getfiled "Vyberte block" "" "dwg" 16))
                                 )
                                 (   (listp sel)
                                     (if (/= "INSERT" (cdr (assoc 0 (entget (car sel)))))
-                                        (prompt "\nObjekt musí byť block.")
+                                        (prompt "\nObjekt musi byt block.")
                                         (setq obj (vla-copy (vlax-ename->vla-object (car sel)))
                                               blk (LM:blockname obj)
                                         )
@@ -114,7 +114,7 @@
                 (not (or blk obj))
             )
         )
-        (   (setq ins (getpoint (strcat "\nZadajte bod vloženia pre " (vl-filename-base blk) " block: ")))
+        (   (setq ins (getpoint (strcat "\nZadajte bod vlozenia pre " (vl-filename-base blk) " block: ")))
             (LM:startundo (LM:acdoc))
             (if (null obj)
                 (setq obj
@@ -131,12 +131,12 @@
             )
             (if blk (setvar 'insname (vl-filename-base blk)))
             (vla-put-insertionpoint obj (vlax-3D-point (trans ins 1 0)))
-            (LM:autoblockbreak (vlax-vla-object->ename obj) (= "Áno" (getenv "LMac\\ABBRotation")))
+            (LM:autoblockbreak (vlax-vla-object->ename obj) (= "Ano" (getenv "LMac\\ABBRotation")))
             (LM:endundo (LM:acdoc))
         )
     )
     ;hlaska po skonceni programu
-    (princ "\nBlock bol natočený. ")
+    (princ "\nBlock bol natoceny. ")
     (princ)
 )
 
@@ -279,9 +279,10 @@
                     (foreach int lst
                         (if (setq brk (_furthestapart (cdr int)))
                             (command
-                                "_.break" (list  (car int) (trans (car brk) 0 1)) "_F"
-                                "_non"    (trans (car  brk) 0 1)
-                                "_non"    (trans (cadr brk) 0 1)
+                              ; zrusenie orezania blokom
+                              ; "_.break" (list  (car int) (trans (car brk) 0 1)) "_F"
+                              ; "_non"    (trans (car  brk) 0 1)
+                              ; "_non"    (trans (cadr brk) 0 1)
                             )
                         )
                     )
@@ -487,7 +488,7 @@
 ;;----------------------------------------------------------------------;;
 
 (if (null (getenv "LMac\\ABBRotation"))
-    (setenv "LMac\\ABBRotation" "Áno")
+    (setenv "LMac\\ABBRotation" "Ano")
 )
 
 ;;----------------------------------------------------------------------;;

@@ -14,7 +14,7 @@
 ;;  s nazvom "DP Layers".                                               ;;
 ;;----------------------------------------------------------------------;;
 
-;funkcia pre vytvárania hladín v modeli Názov + farba + typ čiary + hrúbka čiary
+;funkcia pre vytvárania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
 (defun CreateLayers(lyrname Color ltype lweight)
   
   ;funkcia pre vytvorenie hladiny
@@ -65,7 +65,7 @@
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
-      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
       (princ)
     )
     
@@ -74,7 +74,7 @@
       (command "_insert" "DPKriziky" "0,0" 1 1 0)
   
       ;hlaska po skonceni programu
-      (princ "\nKrížiky výkresu boli vložené. ")
+      (princ "\nKriziky vykresu boli vlozene. ")
       (princ)
     )
   )

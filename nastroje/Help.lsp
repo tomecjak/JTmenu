@@ -17,7 +17,7 @@
   (princ)
 
   ;hlaska po skonceni programu
-  (princ "\nHelp sa otvoril v internetovom prehliadači. ")
+  (princ "\nHelp sa otvoril v internetovom prehliadaci. ")
   (princ)
   
 )

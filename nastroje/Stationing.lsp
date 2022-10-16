@@ -16,7 +16,7 @@
   ;definovanie chybovej hlasky v programe
   (defun *error* (errmsg)
     (princ)
-    (princ "\nProgram Stationing.lsp sa ukončil. ")
+    (princ "\nProgram Stationing.lsp sa ukoncil. ")
     (terpri)
     (prompt errmsg)
     (princ)
@@ -32,20 +32,20 @@
 
         (setq tot_len (vlax-get-property vlaobj 'Length))
 	
-        (setq p (getpoint "Klikni tam, kde chceš poznať staničenie: "))
+        (setq p (getpoint "Klikni tam, kde chces poznat stanicenie: "))
         
         (setq p (trans p 1 0))
         (setq poloha_bodu (vlax-curve-getDistAtPoint vybrana_entita p))
         (if (/= poloha_bodu nil)
 					(progn
 		        (print (strcat "Bod je:  " (rtos (- tot_len poloha_bodu) 2 (getvar "luprec")) " jednotiek od konca krivky"))
-						(print (strcat "Bod je:  " (rtos poloha_bodu 2 (getvar "luprec")) " jednotiek od začiatku krivky"))
+						(print (strcat "Bod je:  " (rtos poloha_bodu 2 (getvar "luprec")) " jednotiek od zaciatku krivky"))
 					)
-          (print "Bod neleží na krivke!")
+          (print "Bod nelezi na krivke!")
         )
     )
 		(progn
-			(print "Nič nevybraté.")
+			(print "Nic nevybrate.")
 
 		)
 	)

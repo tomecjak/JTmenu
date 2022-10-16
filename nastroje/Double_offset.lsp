@@ -74,7 +74,7 @@
         (progn
           (princ
             (strcat
-              "\nAktuálne nastavenie: Vymazať zdroj="
+              "\nAktualne nastavenie: Vymazat zdroj="
               *dOff:Erase
               "  Hladina="
               *dOff:Layer
@@ -85,7 +85,7 @@
           (initget 6 "Cez vrstvu vymazania")
           (setq of
             (getdist
-              (strcat "\nZadajte vzdialenosť offsetu [Through/Erase/Layer] <"
+              (strcat "\nZadajte vzdialenost offsetu [Through/Erase/Layer] <"
                 (if (minusp (getvar 'OFFSETDIST)) "Through"  (rtos (getvar 'OFFSETDIST))) "> : "
               )
             )
@@ -104,7 +104,7 @@
                 (cond
                   (
                     (getkword
-                      (strcat "\nPo odsadení vymazať zdrojový objekt? [Yes/No] <" *doff:Erase "> : ")
+                      (strcat "\nPo odsadeni vymazat zdrojovy objekt? [Yes/No] <" *doff:Erase "> : ")
                     )
                   )
                   ( *dOff:Erase )
@@ -118,7 +118,7 @@
                 (cond
                   (
                     (getkword
-                      (strcat "\nZadajte vrstvu pre odsadené objekty [Current/Source] <" *dOff:Layer "> : ")
+                      (strcat "\nZadajte vrstvu pre odsadene objekty [Current/Source] <" *dOff:Layer "> : ")
                     )
                   )
                   ( *dOff:Layer )
@@ -154,14 +154,14 @@
                 (if
                   (progn (initget "Exit Multiple")
                     (and
-                      (setq point (getpoint "\nUveďte priamy bod alebo [Exit/Multiple] <Exit> : "))
+                      (setq point (getpoint "\nUvedte priamy bod alebo [Exit/Multiple] <Exit> : "))
                       (not (eq "Exit" point))
                     )
                   )
                   (if (eq "Multiple" point)
                     (while
                       (progn (initget "Exit")
-                        (setq mpoint (getpoint "\nUveďte priamy bod alebo [Exit] <next object> : "))
+                        (setq mpoint (getpoint "\nUvedte priamy bod alebo [Exit] <next object> : "))
 
                         (cond
                           (
@@ -211,7 +211,7 @@
                   (if (eq "Yes" *dOff:Erase) (vla-delete obj))
                 )
               )
-              (princ "\nNemôžem offsetnúť objekt")
+              (princ "\nNemozem offsetnuť objekt")
             )
            t
           )

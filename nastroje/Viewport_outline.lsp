@@ -30,13 +30,13 @@
     ;nastavenie funkcnosti prikazu len v Layoute
     (cond
         (   (/= 1 (getvar 'cvport))
-            (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+            (princ "\nPrikaz nie je dostupny v modelovom priestore.")
         )
         (   (setq sel (LM:ssget "\nVyberte viewport: " '("_+.:E:S" ((0 . "VIEWPORT")))))
             (vpo:main (ssname sel 0))
          
             ;hlaska po skonceni programu
-            (princ "\nViewport hranica bola vytvorená.")
+            (princ "\nViewport hranica bola vytvorena.")
         )
     )
     (LM:endundo (LM:acdoc))
@@ -56,7 +56,7 @@
  
     (cond
         (   (/= 1 (getvar 'cvport))
-            (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+            (princ "\nPrikaz nie je dostupny v modelovom priestore.")
         )
         (   (setq sel (ssget "_X" (list '(0 . "VIEWPORT") '(-4 . "<>") '(69 . 1) (cons 410 (getvar 'ctab)))))
             (LM:startundo (LM:acdoc))
@@ -65,7 +65,7 @@
             )
             (LM:endundo (LM:acdoc))
         )
-        (   (princ "\nNenašiel sa ani jeden viewport."))
+        (   (princ "\nNenasiel sa ani jeden viewport."))
     )
     (princ)
 )
@@ -90,7 +90,7 @@
             )
             (LM:endundo (LM:acdoc))
         )
-        (   (princ "\nNenašiel sa ani jeden viewport."))
+        (   (princ "\nNenasiel sa ani jeden viewport."))
     )
     (princ)
 )
@@ -157,10 +157,10 @@
                         )
                     )
                 )
-                (princ "\nNie je možné vygenerovať obrys Paperspace pre offset.")
+                (princ "\nNie je mozne vygenerovat obrys Paperspace pre offset.")
             )
             (   (vl-catch-all-error-p (setq ofe (vl-catch-all-apply 'vlax-invoke (list (vlax-ename->vla-object tmp) 'offset off))))
-                (princ (strcat "\nRozmery viewportu sú priliz malé na posunutie obrysu " (rtos off) " jednotky."))
+                (princ (strcat "\nRozmery viewportu su priliz male na posunutie obrysu " (rtos off) " jednotky."))
                 (entdel tmp)
             )
             (   (setq ofe (vlax-vla-object->ename (car ofe))
@@ -186,7 +186,7 @@
             )
             (if (and (setq ltp (assoc 6 dpr)) (not (tblsearch "ltype" (cdr ltp))))
                 (progn
-                    (princ  (strcat "\n\"" (cdr ltp) "\" typ čiary nenačítaný - typ čiary nastavený na \"ByLayer\"."))
+                    (princ  (strcat "\n\"" (cdr ltp) "\" typ ciary nenacitany - typ ciary nastaveny na \"ByLayer\"."))
                     (subst '(6 . "BYLAYER") ltp dpr)
                 )
                 dpr

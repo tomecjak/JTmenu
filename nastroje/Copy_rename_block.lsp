@@ -36,16 +36,16 @@
             (setq src (car (entsel (strcat "\nVyberte block na " (if cpy "copy & " "") "premenovanie: "))))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skús to znova.")
+                    (princ "\nChyba, skss to znova.")
                 )
                 (   (= 'ename (type src))
                     (setq dxf (entget src))
                     (cond
                         (   (/= "INSERT" (cdr (assoc 0 dxf)))
-                            (princ "\nProsím vyberte referenciu bloku.")
+                            (princ "\nProsim vyberte referenciu bloku.")
                         )
                         (   (= 4 (logand 4 (cdr (assoc 70 (tblsearch "layer" (cdr (assoc 8 dxf)))))))
-                            (princ "\nVybraný block je v uzamknutej hladine.")
+                            (princ "\nVybrany block je v uzamknutej hladine.")
                         )
                     )
                 )
@@ -62,12 +62,12 @@
             )
             (while (tblsearch "block" (setq def (strcat (vl-string-left-trim "*" old) "_" (itoa (setq tmp (1+ tmp)))))))
             (while
-                (and (/= "" (setq new (getstring t (strcat "\nZadajte nový názov bloku <" def ">: "))))
+                (and (/= "" (setq new (getstring t (strcat "\nZadajte novy nazov bloku <" def ">: "))))
                     (or (not (snvalid new))
                         (tblsearch "block" new)
                     )
                 )
-                (princ "\nNázov bloku je nesprávny alebo už existuje.")
+                (princ "\nNazov bloku je nespravny alebo uz existuje.")
             )
             (if (= "" new)
                 (setq new def)
@@ -83,7 +83,7 @@
                 )
             )
             (if (or (null dbx) (vl-catch-all-error-p dbx))
-                (princ "\nNedá sa vytvoriť rozhranie s ObjectDBX.")
+                (princ "\nNeda sa vytvorit rozhranie s ObjectDBX.")
                 (progn
                     (setq abc (vla-get-blocks doc)
                           dbc (vla-get-blocks dbx)
@@ -124,7 +124,7 @@
         )
     )
     ;hlaska po skonceni programu
-    (princ "\nBlock bol premenovaný. ")
+    (princ "\nBlock bol premenovany. ")
     (princ)
 )
 

@@ -18,7 +18,7 @@
 ;definovanie chybovej hlasky v programe
 (defun *error* (errmsg)
   (princ)
-  (princ "\nProgram Create_layers.lsp sa ukončil. ")
+  (princ "\nProgram Create_layers.lsp sa ukoncil. ")
   (terpri)
   (prompt errmsg)
   (princ)
@@ -26,7 +26,7 @@
   
 ;nastavenie premenej RezimHladin pre vyberr vytvorenej kategorie hladin
 (setq RezimHladin
-  (getstring "\nKtoré hladiny chcete vytvoriť? [Zakladne/Vystuz/Novy stav] <Zakladne>: ")
+  (getstring "\nKtore hladiny chcete vytvorit? [Zakladne/Vystuz/Novy stav] <Zakladne>: ")
 )
   
 (if (or (= RezimHladin "") (= RezimHladin "Z") (= RezimHladin "z"))
@@ -38,7 +38,7 @@
     (if (or (= RezimHladin "N") (= RezimHladin "n"))
      (NewLayers)
     
-    (princ "\nNeplatný výber.")
+    (princ "\nNeplatny vyber.")
     )
   )
 )
@@ -50,12 +50,12 @@
 (if (> (getvar 'CMDACTIVE) 0) (command "")) 
   
 ;hlaska po skonceni programu
-(princ "\nHladiny boli vytvorené. ")
+(princ "\nHladiny boli vytvorene. ")
 (princ)  
   
 )
 
-;funkcia pre vytvárania hladín v modeli Názov + farba + typ čiary + hrúbka čiary
+;funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -68,61 +68,61 @@
   )
 )
 
-;vytvorenie hlavných hladnín do modelu
+;vytvorenie hlavnych hladnin do modelu
 (defun MainLayers()
   (CreateLayers "DP_Hatch" 9 "CONTINUOUS" 0.05)
   (CreateLayers "DP_Koty" 3 "CONTINUOUS" 0.09)
-  (CreateLayers "DP_Nosná konštrukcia" 6 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Nosna konstrukcia" 6 "CONTINUOUS" 0.30)
   (CreateLayers "DP_Os" 7 "DASHDOT" 0.18)
   (CreateLayers "DP_Podpis" 7 "CONTINUOUS" "DEFAULT")
   (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
-  (CreateLayers "DP_Vodný tok" 150 "CONTINUOUS" 0.30)
-  (CreateLayers "DP_Príslušenstvo" 8 "CONTINUOUS" 0.09)
-  (CreateLayers "DP_Rímsa" 2 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Vodny tok" 150 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Prislusenstvo" 8 "CONTINUOUS" 0.09)
+  (CreateLayers "DP_Rimsa" 2 "CONTINUOUS" 0.30)
   (CreateLayers "DP_Rozpiska" 7 "CONTINUOUS" 0.20)
-  (CreateLayers "DP_Spodná stavba" 4 "CONTINUOUS" 0.30)
-  (CreateLayers "DP_Terén" 13 "CONTINUOUS" 0.50)
+  (CreateLayers "DP_Spodna stavba" 4 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Teren" 13 "CONTINUOUS" 0.50)
   (CreateLayers "DP_Vozovka" 1 "CONTINUOUS" 0.30)
   (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
-  (CreateLayers "DP_Prefabrikáty" 5 "CONTINUOUS" 0.30)
-  (CreateLayers "DP_Ložiská" 20 "CONTINUOUS" 0.25)
+  (CreateLayers "DP_Prefabrikaty" 5 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Loziska" 20 "CONTINUOUS" 0.25)
 )
 
-;vytvorenie hladín pre výstuž do modelu
+;vytvorenie hladin pre vystuz do modelu
 (defun RebarLayers()
   (CreateLayers "DP_Vystuz" 7 "CONTINUOUS" "DEFAULT")
-  (CreateLayers "DP_Výstuž_06" 181 "CONTINUOUS" 0.25)
-  (CreateLayers "DP_Výstuž_07" 221 "CONTINUOUS" 0.25)
-  (CreateLayers "DP_Výstuž_08" 11 "CONTINUOUS" 0.30)
-  (CreateLayers "DP_Výstuž_10" 31 "CONTINUOUS" 0.35)
-  (CreateLayers "DP_Výstuž_12" 51 "CONTINUOUS" 0.35)
-  (CreateLayers "DP_Výstuž_14" 81 "CONTINUOUS" 0.40)
-  (CreateLayers "DP_Výstuž_16" 121 "CONTINUOUS" 0.40)
-  (CreateLayers "DP_Výstuž_18" 161 "CONTINUOUS" 0.50)
-  (CreateLayers "DP_Výstuž_20" 201 "CONTINUOUS" 0.50)
-  (CreateLayers "DP_Výstuž_22" 241 "CONTINUOUS" 0.53)
-  (CreateLayers "DP_Výstuž_25" 21 "CONTINUOUS" 0.53)
-  (CreateLayers "DP_Výstuž_26" 41 "CONTINUOUS" 0.53)
-  (CreateLayers "DP_Výstuž_28" 61 "CONTINUOUS" 0.60)
-  (CreateLayers "DP_Výstuž_30" 101 "CONTINUOUS" 0.60)
-  (CreateLayers "DP_Výstuž_32" 141 "CONTINUOUS" 0.60)
+  (CreateLayers "DP_Vystuz_06" 181 "CONTINUOUS" 0.25)
+  (CreateLayers "DP_Vystuz_07" 221 "CONTINUOUS" 0.25)
+  (CreateLayers "DP_Vystuz_08" 11 "CONTINUOUS" 0.30)
+  (CreateLayers "DP_Vystuz_10" 31 "CONTINUOUS" 0.35)
+  (CreateLayers "DP_Vystuz_12" 51 "CONTINUOUS" 0.35)
+  (CreateLayers "DP_Vystuz_14" 81 "CONTINUOUS" 0.40)
+  (CreateLayers "DP_Vystuz_16" 121 "CONTINUOUS" 0.40)
+  (CreateLayers "DP_Vystuz_18" 161 "CONTINUOUS" 0.50)
+  (CreateLayers "DP_Vystuz_20" 201 "CONTINUOUS" 0.50)
+  (CreateLayers "DP_Vystuz_22" 241 "CONTINUOUS" 0.53)
+  (CreateLayers "DP_Vystuz_25" 21 "CONTINUOUS" 0.53)
+  (CreateLayers "DP_Vystuz_26" 41 "CONTINUOUS" 0.53)
+  (CreateLayers "DP_Vystuz_28" 61 "CONTINUOUS" 0.60)
+  (CreateLayers "DP_Vystuz_30" 101 "CONTINUOUS" 0.60)
+  (CreateLayers "DP_Vystuz_32" 141 "CONTINUOUS" 0.60)
 )
 
-;vytvorenie hladín pre nový stav do modelu
+;vytvorenie hladin pre novy stav do modelu
 (defun NewLayers()
   (CreateLayers "NS_Hatch" 10 "CONTINUOUS" 0.05)
   (CreateLayers "NS_Koty" 10 "CONTINUOUS" 0.09)
-  (CreateLayers "NS_Nosná konštrukcia" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Nosna konstrukcia" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Os" 10 "DASHDOT" 0.18)
   (CreateLayers "NS_Popis" 10 "CONTINUOUS" "DEFAULT")
-  (CreateLayers "NS_Vodný tok" 10 "CONTINUOUS" 0.30)
-  (CreateLayers "NS_Príslušenstvo" 10 "CONTINUOUS" 0.09)
-  (CreateLayers "NS_Rímsa" 10 "CONTINUOUS" 0.30)
-  (CreateLayers "NS_Spodná stavba" 10 "CONTINUOUS" 0.30)
-  (CreateLayers "NS_Terén" 10 "CONTINUOUS" 0.50)
+  (CreateLayers "NS_Vodny tok" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Prislusenstvo" 10 "CONTINUOUS" 0.09)
+  (CreateLayers "NS_Rimsa" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Spodna stavba" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Teren" 10 "CONTINUOUS" 0.50)
   (CreateLayers "NS_Vozovka" 10 "CONTINUOUS" 0.30)
-  (CreateLayers "NS_Prefabrikáty" 10 "CONTINUOUS" 0.30)
-  (CreateLayers "NS_Ložiská" 10 "CONTINUOUS" 0.25)
+  (CreateLayers "NS_Prefabrikaty" 10 "CONTINUOUS" 0.30)
+  (CreateLayers "NS_Loziska" 10 "CONTINUOUS" 0.25)
 )
 
 ;;----------------------------------------------------------------------;;

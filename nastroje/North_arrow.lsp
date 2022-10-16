@@ -63,7 +63,7 @@
   
   ;prikaz na vlozenie blocku severky
   (command "._insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
-  (princ "\nUrčite bod vloženia značky severky.")
+  (princ "\nUrcite bod vlozenia znacky severky.")
   (princ)
   
 )

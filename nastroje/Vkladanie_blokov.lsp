@@ -99,7 +99,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky smeru:")
+  (princ "\nUrcite bod vlozenia znacky smeru:")
   (princ)
   
 )
@@ -120,7 +120,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky smeru:")
+  (princ "\nUrcite bod vlozenia znacky smeru:")
   (princ)
   
 )
@@ -141,7 +141,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky smeru toku:")
+  (princ "\nUrcite bod vlozenia znacky smeru toku:")
   (princ)
   
 )
@@ -162,7 +162,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky pohľadu:")
+  (princ "\nUrcite bod vlozenia znacky pohladu:")
   (princ)
   
 )
@@ -183,7 +183,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky rezu:")
+  (princ "\nUrcite bod vlozenia znacky rezu:")
   (princ)
   
 )
@@ -204,7 +204,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky rezu:")
+  (princ "\nUrcite bod vlozenia znacky rezu:")
   (princ)
   
 )
@@ -225,7 +225,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky rezu:")
+  (princ "\nUrcite bod vlozenia znacky rezu:")
   (princ)
   
 )
@@ -246,7 +246,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky zarovnaného textu:")
+  (princ "\nUrcite bod vlozenia znacky zarovnaneho textu:")
   (princ)
   
 )
@@ -267,7 +267,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky sklonu:")
+  (princ "\nUrcite bod vlozenia znacky sklonu:")
   (princ)
   
 )
@@ -288,7 +288,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia značky symbolu osi:")
+  (princ "\nUrcite bod vlozenia znacky symbolu osi:")
   (princ)
   
 )
@@ -306,14 +306,14 @@
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
-      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
       (princ)
     )
 
     (
       ;prikaz na vlozenie blocku DPTabulkaMaterialov
       (command "._insert" "DPTabulkaMaterialov" "_S" 1 "_R" 0)
-      (princ "\nUrčite bod vloženia tabuľky materiálov:")
+      (princ "\nUrcite bod vlozenia tabulky materialov:")
       (princ)
     )
   )
@@ -331,14 +331,14 @@
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
-      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
       (princ)
     )
 
     (
       ;prikaz na vlozenie blocku DPTabulkaOhybov  
       (command "._insert" "DPTabulkaOhybov" "_S" 1 "_R" 0)
-      (princ "\nUrčite bod vloženia tabuľky ohybov:")
+      (princ "\nUrcite bod vlozenia tabulky ohybov:")
       (princ)
     )
   )
@@ -356,14 +356,14 @@
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
-      (princ "\nPríkaz nie je dostupný v modelovom priestore.")
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
       (princ)
     )
 
     (
       ;prikaz na vlozenie blocku DPPoznamka 
       (command "._insert" "DPPoznamka" "_S" 1 "_R" 0)
-      (princ "\nUrčite bod vloženia poznámky:")
+      (princ "\nUrcite bod vlozenia poznamky:")
       (princ)
     )
   )
@@ -389,7 +389,7 @@
     )
   )
   
-  (princ "\nUrčite bod vloženia blocku vystuze:")
+  (princ "\nUrcite bod vlozenia blocku vystuze:")
   (princ)
   
 )
@@ -443,7 +443,7 @@
 
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "JTVystuz" "_S" 1 "_R" 0)
-  (princ "\nUrčite bod vloženia blocku vystuze:")
+  (princ "\nUrcite bod vlozenia blocku vystuze:")
   (princ)
   
 )

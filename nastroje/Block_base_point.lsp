@@ -54,17 +54,17 @@
         (progn (setvar 'errno 0) (setq ent (car (entsel "\nVyberte block: ")))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skús to znova.")
+                    (princ "\nChyba, skss to znova.")
                 )
                 (   (= 'ename (type ent))
                     (if (/= "INSERT" (cdr (assoc 0 (entget ent))))
-                        (princ "\nVybraný objekt nie je block.")
+                        (princ "\nVybrany objekt nie je block.")
                     )
                 )
             )
         )
     )
-    (if (and (= 'ename (type ent)) (setq nbp (getpoint "\nVyberte nový základný bod: ")))
+    (if (and (= 'ename (type ent)) (setq nbp (getpoint "\nVyberte novy základny bod: ")))
         (progn
             (setq mat (car (revrefgeom ent))
                   vec (mxv mat (mapcar '- (trans nbp 1 0) (trans (cdr (assoc 10 (entget ent))) ent 0)))
@@ -113,7 +113,7 @@
     )
   
     ;hlaska po skonceni programu
-    (princ "\nReferenčný bod blocku bol zmenený. ")
+    (princ "\nReferencny bod blocku bol zmeneny. ")
     (princ)
 )
 

@@ -32,7 +32,7 @@
   ;definovanie chybovej hlasky v programe
   (defun *error* (errmsg)
     (princ)
-    (princ "\nProgram Chain_length.lsp sa ukončil. ")
+    (princ "\nProgram Chain_length.lsp sa ukoncil. ")
     (terpri)
     (prompt errmsg)
     (princ)
@@ -76,8 +76,8 @@
                     )
                 )
             )
-            (setq pt1 (getpoint "\nVýber 1. bod: "))
-            (setq pt2 (getpoint "\nVýber 2. bod: " pt1))
+            (setq pt1 (getpoint "\nVyber 1. bod: "))
+            (setq pt2 (getpoint "\nVyber 2. bod: " pt1))
         )
         (if
             (setq tmp
@@ -135,9 +135,9 @@
                 (foreach itm (cdr (reverse (cdr lst)))
                     (setq len (+ len (vlax-curve-getdistatparam (cadr itm) (vlax-curve-getendparam (cadr itm)))))
                 )
-                (princ (strcat "\nDĺžka: " (rtos len)))
+                (princ (strcat "\nDlzka: " (rtos len)))
             )
-            (princ "\nVybrané body neležia na rovnakom reťazci objektov.")
+            (princ "\nVybrane body nelezia na rovnakom retazci objektov.")
         )
     )
     (princ)

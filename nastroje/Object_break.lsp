@@ -54,7 +54,7 @@
 (setq breakobject:dxf
    '(
         (006 . "BYLAYER") ;; Linetype (must be loaded)
-        (008 . "DP_Skrytá čiara")  ;; Layer
+        (008 . "DP_Skryta ciara")  ;; Layer
         (039 . 0.0)       ;; Thickness
         (048 . 1.0)       ;; Linetype Scale
         (062 . 256)       ;; Colour (0 = ByBlock, 256 = ByLayer)
@@ -79,10 +79,10 @@
     (if
         (and
             (setq sel (breakobject:selection))
-            (setq pt1 (getpoint "\nVyberte 1. bod prerušenia: "))
+            (setq pt1 (getpoint "\nVyberte 1. bod prerusenia: "))
             (progn
-                (while (equal pt1 (setq pt2 (getpoint "\nVyberte 2. bod prerušenia: ")) 1e-8)
-                    (princ "\nBody musia byt odlišné.")
+                (while (equal pt1 (setq pt2 (getpoint "\nVyberte 2. bod prerusenia: ")) 1e-8)
+                    (princ "\nBody musia byt odlisne.")
                 )
                 pt2
             )
@@ -113,10 +113,10 @@
     (if (setq sel (breakobject:selection))
         (progn
             (while
-                (progn (setvar 'errno 0) (setq obj (car (entsel "\nVyberte pretinajúci objekt: ")))
+                (progn (setvar 'errno 0) (setq obj (car (entsel "\nVyberte pretinajuci objekt: ")))
                     (cond
                         (   (= 7 (getvar 'errno))
-                            (princ "\nChyba, skúste to znova.")
+                            (princ "\nChyba, skuste to znova.")
                         )
                         (   (= 'ename (type obj))
                             (setq obj (vlax-ename->vla-object obj)
@@ -124,10 +124,10 @@
                             )
                             (cond
                                 (   (not (vlax-method-applicable-p obj 'intersectwith))
-                                    (princ "\nTyp objektu nie je podporovaný.")
+                                    (princ "\nTyp objektu nie je podporovany.")
                                 )
                                 (   (not (cdddr (setq tmp (vlax-invoke obj 'intersectwith (vlax-ename->vla-object ent) acextendnone))))
-                                    (princ "\nObjekt nepretína objekt, ktorý sa ma prerušiť na dvoch miestach.")
+                                    (princ "\nObjekt nepretina objekt, ktory sa ma prerusit na dvoch miestach.")
                                 )
                                 (   t
                                     (repeat (/ (length tmp) 3)
@@ -169,14 +169,14 @@
 
 (defun breakobject:selection ( / sel )
     (while
-        (progn (setvar 'errno 0) (setq sel (entsel "\nVyberte objekt v sekcii, ktorý sa ma skryť: "))
+        (progn (setvar 'errno 0) (setq sel (entsel "\nVyberte objekt v sekcii, ktory sa ma skryt: "))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skúste to znova.")
+                    (princ "\nChyba, skuste to znova.")
                 )
                 (   sel
                     (if (not (wcmatch (cdr (assoc 0 (entget (car sel)))) "ARC,LINE,CIRCLE,ELLIPSE,LWPOLYLINE"))
-                        (princ "\nTyp objektu nie je podporovaný.")
+                        (princ "\nTyp objektu nie je podporovany.")
                     )
                 )
             )
@@ -383,7 +383,7 @@
     )
   
     ;hlaska po skonceni programu
-    (princ "\nČiara alebo objekt bol prerušený. ")
+    (princ "\nCiara alebo objekt bol prerusene. ")
     (princ)
 )
 
