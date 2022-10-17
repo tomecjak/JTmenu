@@ -64,7 +64,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "DPSeverka" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSeverka" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+        (command "._insert" "DPSeverka" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
     )
   )
   
