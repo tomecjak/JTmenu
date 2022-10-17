@@ -26,8 +26,6 @@
 (AUTOLOAD "Text_style" '("JTTextStyle"))
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
-
-(AUTOLOAD "test" '("msv"))
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Bloky symbolov
