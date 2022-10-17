@@ -44,6 +44,20 @@
 ; (AUTOLOAD "NEWCMD" '("NEWCMD"))
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Nastavenie globalnych parametrov ak este neexistuju
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(if (= (getenv "GlobalnaHladinaBlokov") nil)
+  ;nastavenie hladinu na DP_Popis
+  (setenv "GlobalnaHladinaBlokov" "DP_Popis")
+)
+
+(if (= (getenv "GlobalnaDIMSCALEset") nil)
+  ;nastavenie hladinu na DP_Popis
+  (setenv "GlobalnaDIMSCALEset" "Klasicky")
+)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Nastavenie DimScale na hodnotu 1
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (setvar "dimscale" 1)
@@ -60,7 +74,7 @@
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
-    "\nDimScale je nastaveny na mierku 1:" (rtos (getvar "dimscale") 2 0) "!"
+    "\nDimScale je nastaveny na mierku " (rtos (getvar "dimscale") 2 0) "!"
     "\n**********************************************"
   )
 ) 
