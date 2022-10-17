@@ -64,7 +64,13 @@
   )
   
   ;prikaz na vlozenie blocku suradnic
-  (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "DPSuradnice" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "DPSuradnice" "_S" (getvar "dimscale") "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+    )
+  )
+  
   (princ "\nUrcite bod vlozenia znacky suradnic.")
   (princ)
   
