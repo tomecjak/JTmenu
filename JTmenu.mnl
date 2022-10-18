@@ -23,6 +23,9 @@
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
 (AUTOLOAD "Koty" '("JTKoty"))
+
+(AUTOLOAD "Koty_test" '("JTKoty_test"))
+
 (AUTOLOAD "Text_style" '("JTTextStyle"))
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
