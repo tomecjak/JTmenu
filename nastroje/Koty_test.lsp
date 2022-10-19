@@ -15,7 +15,7 @@
   (TextStyleCreator)
   
   ;vytvorenie listu nasobicov pre vytvorenie kot
-  (setq listNasobic (list 1 2 4))
+  (setq listNasobic (list 0.02 0.04 0.1 0.2 0.4 0.5 1 2 4 5 10 20 40))
 
   ;vyhodnotenie pouzitia stylu kot podla modu
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
@@ -87,7 +87,7 @@
 
   ;parametre nasobicMierky = z 50, prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->mm 1000->m  
   (foreach i listNasobic
-    (Kota_50_milimetre i 0 1)
+    (Kota_50_milimetre i 0 1000)
   )
 
 )
@@ -118,18 +118,20 @@
   ;set tab Lines
   (setvar "DIMEXE" (* 0.05 nasobicMierky))
   (setvar "DIMFXLON" prepinacDlzkyCiary)
-  (setvar "DIMFXL" 0.250)
+  (setvar "DIMFXL" (* 0.250 nasobicMierky))
   
   ;set tab Symbols and Arrows
-  (setvar "DIMASZ" 0.07)
+  (setvar "DIMASZ" (* 0.07 nasobicMierky))
+  
+    (setvar "DIMBLK1" "OBLIQUE")
+  (setvar "DIMBLK2" "OBLIQUE")
   
   ;set tab Text
-  (setvar "DIMTXT" 0.125)
-  (setvar "DIMGAP" 0.045)
+  (setvar "DIMTXT" (* 0.125 nasobicMierky))
+  (setvar "DIMGAP" (* 0.045 nasobicMierky))
   
   ;set tab Primary Units
-  (setvar "DIMDEC" 0)
-  (setvar "DIMLFAC" 1000)
+  (setvar "DIMLFAC" prepinacJednotiek)
 
   (command "dimstyle" "s" (strcat "DP_Koty [" (rtos (* 50 nasobicMierky) 2 0) "]"))
   
@@ -154,9 +156,9 @@
   (setvar "DIMEXO" 0)
   
   ;set tab Symbols and Arrows
-  (setvar "DIMBLK1" "Oblique")
-  (setvar "DIMBLK1" "Oblique")
-  (setvar "DIMLDRBLK" "Oblique")
+  (setvar "DIMBLK1" "_Oblique_2")
+  (setvar "DIMBLK2" "Oblique_2")
+  ;(setvar "DIMLDRBLK" "Oblique")
   (setvar "DIMARCSYM" 0)
   
   ;set tab Text
@@ -179,6 +181,7 @@
   (setvar "DIMRND" 0)
   (setvar "DIMAUNIT" 0)
   (setvar "DIMADEC" 0)
+  (setvar "DIMDEC" 0)
 )
 
 ;;----------------------------------------------------------------------;;
