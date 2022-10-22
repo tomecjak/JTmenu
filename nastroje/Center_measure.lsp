@@ -13,7 +13,26 @@
 ;;------------------------------------------------------------;;
 
 (defun c:CMEASURE ( / *error* _StartUndo _EndUndo _SelectIf _IsCurveObject acdoc al bl d0 di en mx nm pt )
-
+  
+  ;vytvorenie premenej VyberTypuMeasure
+  (setq VyberTypuMeasure
+    (getstring "\nVyberte si sposob rozdelenia [Automaticky/Okolo/Stred] <Automaticky: ")
+  )
+  
+  (if (or (= VyberTypuMeasure "") (= VyberTypuMeasure "A") (= VyberTypuMeasure "a"))
+  ;premenna pre automaicky sposob
+  (setq TypCMeasure "Automaticky")
+    (if (or (= VyberTypuMeasure "O") (= VyberTypuMeasure "o"))
+    ;premenna pre sposob okolo
+    (setq TypCMeasure "Okolo")
+      (if (or (= VyberTypuMeasure "S") (= VyberTypuMeasure "s"))
+      ;premenna pre sposob stred
+      (setq TypCMeasure "stred")
+      (princ "\nNeplatny vyber.")
+      )
+    )
+  ) 
+  
   (defun *error* ( msg )
     (if acdoc (_EndUndo acdoc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
@@ -90,9 +109,18 @@
           (setq di (getdist "\nZadajte dlzku segmentu: "))
         )
       )
-      (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
-            d0 (- (/ (- mx (* di (fix (/ mx di)))) 2.) di)
+      
+      ;vyber typu funkckie vypoctu rozdelenia
+      (if (= TypCMeasure "Automaticky")
+        (vzorecVypoctuAutomaticky)
+          (if (= TypCMeasure "Okolo")
+            (vzorecVypoctuOkolo)
+              (if (= TypCMeasure "stred")
+                (vzorecVypoctuStred)
+              )
+          )
       )
+      
       (_StartUndo acdoc)
       (while (and (<= (setq d0 (+ d0 di)) mx) (setq pt (vlax-curve-getpointatdist en d0)))
         (if bl
@@ -126,13 +154,34 @@
   (princ)
 )
 
+;vypocet measure automaticky
+(defun vzorecVypoctuAutomaticky ()
+  (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
+    d0 (- (/ (- mx (* di (fix (/ mx di)))) 2.) di)
+  )
+)
+
+;vypocet measure okolo
+(defun vzorecVypoctuOkolo ()
+  (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
+    d0 (- (/ (- mx (* di (+ 1. (* 2. (fix (/ (/ (- mx di) 2.) di)))))) 2.) di)
+  )
+)
+
+;vypocet measure stred
+(defun vzorecVypoctuStred ()
+  (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
+    d0 (- (/ (- mx (* (* 2 di) (fix (/ (/ mx 2.) di)))) 2.) di)
+  )
+)
+
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nCenter_measure.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nCenter_measure.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko, Michal Kravec | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

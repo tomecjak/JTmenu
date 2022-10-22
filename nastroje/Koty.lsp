@@ -46,6 +46,8 @@
   
     (if (or (= VyberStylKoty "P") (= VyberStylKoty "p"))
     (KotyPevne)
+      
+    (princ "\nNeplatny vyber.")
     )
   )
   
