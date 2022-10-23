@@ -54,18 +54,19 @@
     (SetLayer)
   
     (if (= VytvorenieHladinyPopisu "0")
-    ;bez vytvorenia hladiny a nastavenie na hladinu 0
-    (command "._layer" "s" "0" "")
-    (princ)
+      ;bez vytvorenia hladiny a nastavenie na hladinu 0
+      (command "._layer" "s" "0" "")
+      (princ)
     )
   )
   
   ;prikaz na vlozenie blocku severky
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "DPSeverka" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+    
+      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "DPSeverka" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
-    )
+      )
   )
   
   (princ "\nUrcite bod vlozenia znacky severky.")

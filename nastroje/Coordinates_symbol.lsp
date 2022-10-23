@@ -36,9 +36,9 @@
   
   ;vytvorenie group layer filtru DP Layers  
   (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
-  (if (> (getvar 'CMDACTIVE) 0) (command ""))
+    (if (> (getvar 'CMDACTIVE) 0) (command ""))
   (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
-  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
+    (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
 ;-------------------------------------------------------------------------
@@ -67,7 +67,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "DPSuradnice" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSuradnice" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+      (command "._insert" "DPSuradnice" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
     )
   )
   

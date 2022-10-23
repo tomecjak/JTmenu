@@ -24,7 +24,7 @@
 ;;  Zadavanie udajov atributu                                                    ;;
 ;;  --------------------------------                                             ;;
 ;;                                                                               ;;
-;;  V hornej casti obrazovky sú tri editacne polia, do ktorych moze pouzivatel   ;;
+;;  V hornej casti obrazovky su tri editacne polia, do ktorych moze pouzivatel   ;;
 ;;  zadat nazov bloku, znacku atributu a novu hodnotu pre takyto atribut.        ;;
 ;;  Pole "Nazov bloku" urcije blok, v ktorom sa nachadza atribut, ktory sa ma    ;;
 ;;  upravit. Toto pole nerozlisuje velke a male pismena a moze pouzivat zastupne ;;
@@ -267,7 +267,7 @@
                                     "Pozor!" 16
                                     (strcat
                                         "Dialogove okno programu sa nepodarilo nacitat.\n\n"
-                                        "Zodpovedajuci subor DLC sa nachadza na nasledujucom umiestnení:\n\n"
+                                        "Zodpovedajuci subor DLC sa nachadza na nasledujucom umiestneni:\n\n"
                                         dclfname
                                         "\n\nTento subor obsahuje chybu, kontaktujte autora programu."
                                     )
@@ -1516,11 +1516,11 @@
                     "    {"
                     "        fixed_width = true;"
                     "        alignment = centered;"
-                    "        : but3 { key = \"back\"; label = \"Sp&at\"; mnemonic = \"ä\"; }"
+                    "        : but3 { key = \"back\"; label = \"Sp&at\"; mnemonic = \"a\"; }"
                     "        spacer_1;"
                     "        : but3 { key = \"accept\"; is_default = true; label = \"Spus&tit\"; mnemonic = \"t\"; }"
                     "        spacer_1;"
-                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Ukončit\"; mnemonic = \"U\"; }"
+                    "        : but3 { key = \"cancel\"; is_cancel = true; label = \"&Ukoncit\"; mnemonic = \"U\"; }"
                     "    }"
                     "}"
                     ""
@@ -2200,9 +2200,9 @@
                 (BAtte:WSH)
                 "Neda sa zapisovat do suboru" 16
                 (strcat
-                    "Nasledujuci súbor sa nepodarilo otvorit na zapis:\n\n"
+                    "Nasledujuci subor sa nepodarilo otvorit na zapis:\n\n"
                     name
-                    "\n\nUistite sa, že mate opravnenie na zapis od zvoleneho adresara."
+                    "\n\nUistite sa, ze mate opravnenie na zapis od zvoleneho adresara."
                 )
             )
             nil
@@ -2244,7 +2244,7 @@
                 (strcat
                     "Nasledujuci subor sa nepodarilo otvorit na citanie:\n\n"
                     name
-                    "\n\nUistite sa, že mate povolenie na citanie vyssie uvedeneho suboru."
+                    "\n\nUistite sa, ze mate povolenie na citanie vyssie uvedeneho suboru."
                 )
             )
             nil
@@ -2319,9 +2319,9 @@
                         (BAtte:WSH)
                         "Nespravny format suboru!" 48
                         (strcat
-                            "Udaje vo vybranom subore nie su vo formate vyžadovanom tymto programom.\n\n"
+                            "Udaje vo vybranom subore nie su vo formate vyzadovanom tymto programom.\n\n"
                             "Subor by mal mat tri slpce pre udaje blocku, tagu a hodnoty."
-                            " Ak pouzivate textovy subor, stĺpce by mali byt oddelene tabulatormi.\n\n"
+                            " Ak pouzivate textovy subor, stlpce by mali byt oddelene tabulatormi.\n\n"
                             "Udaje atributu tagu nemoze obsahovat medzery."
                         )
                     )

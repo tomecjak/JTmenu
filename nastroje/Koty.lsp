@@ -45,9 +45,9 @@
     (KotyVlastne)
   
     (if (or (= VyberStylKoty "P") (= VyberStylKoty "p"))
-    (KotyPevne)
+      (KotyPevne)
       
-    (princ "\nNeplatny vyber.")
+      (princ "\nNeplatny vyber.")
     )
   )
   
@@ -71,7 +71,7 @@
     (KotyVlastneMierka)
   
     (if (or (= VyberStylKoty "P") (= VyberStylKoty "p"))
-    (KotyPevneMierka)
+      (KotyPevneMierka)
     )
   )
 

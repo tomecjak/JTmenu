@@ -29,24 +29,24 @@
 )
   
 (if (or (= RezimHladin "") (= RezimHladin "Z") (= RezimHladin "z"))
-(MainLayers)
+  (MainLayers)
   
   (if (or (= RezimHladin "V") (= RezimHladin "v"))
-  (RebarLayers)
+    (RebarLayers)
     
     (if (or (= RezimHladin "N") (= RezimHladin "n"))
-     (NewLayers)
+      (NewLayers)
     
-    (princ "\nNeplatny vyber.")
+      (princ "\nNeplatny vyber.")
     )
   )
 )
   
 ;vytvorenie group layer filtru DP Layers  
 (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
-(if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (if (> (getvar 'CMDACTIVE) 0) (command ""))
 (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
-(if (> (getvar 'CMDACTIVE) 0) (command "")) 
+  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
   
 ;hlaska po skonceni programu
 (princ "\nHladiny boli vytvorene. ")

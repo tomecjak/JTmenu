@@ -31,9 +31,9 @@
   (RezimVystuzeZapnuty)
     
     (if (or (= RezimVystuze "V") (= RezimVystuze "v"))
-    (RezimVystuzeVypnuty)
+      (RezimVystuzeVypnuty)
       
-    (princ "\nNeplatny vyber.")
+      (princ "\nNeplatny vyber.")
     )
       
   )

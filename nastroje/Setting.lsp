@@ -18,9 +18,9 @@
     (NastavenieHladinyBlokov)
   
     (if (or (= SettingMenu "M") (= SettingMenu "m"))
-    ;nastavenie zmeny mierky blokov a kot
-    (NastavenieDIMSCALE)
-    (princ)
+      ;nastavenie zmeny mierky blokov a kot
+      (NastavenieDIMSCALE)
+      (princ)
     )
   )
 
@@ -43,9 +43,9 @@
     (setenv "GlobalnaHladinaBlokov" "DP_Popis")
   
     (if (or (= VyberBlockHladina "N") (= VyberBlockHladina "n"))
-    ;nastavenie hladinu na O
-    (setenv "GlobalnaHladinaBlokov" "0")
-    (princ)
+      ;nastavenie hladinu na O
+      (setenv "GlobalnaHladinaBlokov" "0")
+      (princ)
     )
   )
   
@@ -72,9 +72,9 @@
     (setenv "GlobalnaDIMSCALEset" "Klasicky")
   
     (if (or (= VyberDIMSCALE "M") (= VyberDIMSCALE "m"))
-    ;nastavenie modu na Mierka
-    (setenv "GlobalnaDIMSCALEset" "Mierka")
-    (princ)
+      ;nastavenie modu na Mierka
+      (setenv "GlobalnaDIMSCALEset" "Mierka")
+      (princ)
     )
   )
   

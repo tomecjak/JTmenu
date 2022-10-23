@@ -36,9 +36,9 @@
   
   ;vytvorenie group layer filtru DP Layers 
   (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
-  (if (> (getvar 'CMDACTIVE) 0) (command ""))
+    (if (> (getvar 'CMDACTIVE) 0) (command ""))
   (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
-  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
+    (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
 ;vlozenie krizikov do vykreu
@@ -55,9 +55,9 @@
     (SetLayer)
   
     (if (= VytvorenieHladinyPopisu "0")
-    ;bez vytvorenia hladiny a nastavenie na hladinu 0
-    (command "._layer" "s" "0" "")
-    (princ)
+      ;bez vytvorenia hladiny a nastavenie na hladinu 0
+      (command "._layer" "s" "0" "")
+      (princ)
     )
   )
   

@@ -23,6 +23,7 @@
   )
   )
   
+  ;prednastavenie textoveho stylu DP_ISOCPEUR
   (setvar "textstyle" "DP_ISOCPEUR")
   
   (princ "\nStyl textu bol vytvoreny!")

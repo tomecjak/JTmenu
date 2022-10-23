@@ -17,9 +17,10 @@
   ;vyhodnotenie pouzitia stylu kot podla modu
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (msv_klasika)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+    
+      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (msv_mierka)
-    )
+      )
   )
   
   (princ "\nStyl multileadru bol vytvoreny!")
