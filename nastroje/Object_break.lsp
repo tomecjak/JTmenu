@@ -62,10 +62,34 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;  BRK    -    Prerusenie dvoma bodmi                                  ;;
+;;  BRK                                                                 ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:OB ( / *error* pt1 pt2 sel )
+(defun C:BRK()
+
+  ;vytvrenie premenej VyberBRK
+  (setq VyberBRK
+    (getstring "\nAko prerusit objekt? [Bodmi/Objektom] <Bodmi>: ")
+  )
+  
+  ;vyhodnotenie vyberu BRK pred prikazom
+  (if (or (= VyberBRK "") (= VyberBRK "B") (= VyberBRK "b"))
+    ;nastavenie BRK na OB
+    (OB)
+  
+    (if (or (= VyberBRK "O") (= VyberBRK "o"))
+    ;nastavenie BRK na OBO
+    (OBO)
+    )
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;  OB    -    Prerusenie dvoma bodmi                                   ;;
+;;----------------------------------------------------------------------;;
+
+(defun OB ( / *error* pt1 pt2 sel )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -96,10 +120,10 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;  BRKO   -    Prerusenie objekto                                      ;;
+;;  OBO   -    Prerusenie objekto                                       ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:OBO ( / *error* ent ls1 ls2 lst obj pa1 par sel tmp )
+(defun OBO ( / *error* ent ls1 ls2 lst obj pa1 par sel tmp )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
