@@ -74,7 +74,7 @@
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
-    "\nDimScale je nastaveny na mierku " (rtos (getvar "dimscale") 2 0) "!"
+    "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
     "\n**********************************************"
   )
 ) 
