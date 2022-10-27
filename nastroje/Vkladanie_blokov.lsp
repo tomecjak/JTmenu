@@ -43,9 +43,6 @@
   (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
   (if (> (getvar 'CMDACTIVE) 0) (command "")) 
   
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (command "_.layerp")
-  (command "_-layer" "_filter" "_set" "All" "")
 )
 
 ;;----------------------------------------------------------------------;;
@@ -61,9 +58,18 @@
   (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
   (if (> (getvar 'CMDACTIVE) 0) (command "")) 
   
+)
+
+;;----------------------------------------------------------------------;;
+;;               Navrat na poslednu nastavenu hladinu                   ;;
+;;----------------------------------------------------------------------;;
+
+(defun NavratNaPoslednuHladinu()
+
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (command "_.layerp")
   (command "_-layer" "_filter" "_set" "All" "")
+
 )
 
 ;;----------------------------------------------------------------------;;
@@ -105,8 +111,7 @@
         (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky smeru:")
+  (princ "\nUrcite bod vlozenia znacky smeru:")   
   (princ)
   
 )
