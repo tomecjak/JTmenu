@@ -106,12 +106,16 @@
 
   ;prikaz na vlozenie blocku Smer
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPSmer" "_S" 0.05 "_R" 0)
+      (command "._insert" "DPSmer" "_S" 0.05 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0)
+        (command "._insert" "DPSmer" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
-  (princ "\nUrcite bod vlozenia znacky smeru:")   
+  (princ "\nUrcite bod vlozenia znacky smeru:")
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -126,13 +130,17 @@
 
   ;prikaz na vlozenie blocku Smer2
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPSmer2" "_S" 0.05 "_R" 0)
+      (command "._insert" "DPSmer2" "_S" 0.05 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0)
+        (command "._insert" "DPSmer2" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky smeru:")
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -147,13 +155,17 @@
 
   ;prikaz na vlozenie blocku SmerToku
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPSmerToku" "_S" 1 "_R" 0)
+      (command "._insert" "DPSmerToku" "_S" 1 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSmerToku" "_S" (* (getvar "dimscale") 20) "_R" 0)
+        (command "._insert" "DPSmerToku" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky smeru toku:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -168,13 +180,17 @@
 
   ;prikaz na vlozenie blocku NazovPohladu
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPNazovPohladu" "_S" 0.05 "_R" 0)
+      (command "._insert" "DPNazovPohladu" "_S" 0.05 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPNazovPohladu" "_S" (getvar "dimscale") "_R" 0)
+        (command "._insert" "DPNazovPohladu" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky pohladu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -189,13 +205,17 @@
 
   ;prikaz na vlozenie blocku RezZvisly
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPRezZvisly" "_S" 0.05 "_R" 0)
+      (command "._insert" "DPRezZvisly" "_S" 0.05 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPRezZvisly" "_S" (getvar "dimscale") "_R" 0)
+        (command "._insert" "DPRezZvisly" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky rezu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -210,13 +230,17 @@
 
   ;prikaz na vlozenie blocku RezVodorovny
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPRezVodorovny" "_S" 0.05 "_R" 0)
+      (command "._insert" "DPRezVodorovny" "_S" 0.05 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPRezVodorovny" "_S" (getvar "dimscale") "_R" 0)
+        (command "._insert" "DPRezVodorovny" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky rezu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -231,13 +255,17 @@
 
   ;prikaz na vlozenie blocku RezZlom
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPRezZlom" "_S" 1 "_R" 0)
+      (command "._insert" "DPRezZlom" "_S" 1 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPRezZlom" "_S" (* (getvar "dimscale") 20) "_R" 0)
+        (command "._insert" "DPRezZlom" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky rezu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -252,13 +280,17 @@
 
   ;prikaz na vlozenie blocku ZarovnanyText
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPZarovnanyText" "_S" 0.05 "_R" 0)
+      (command "._insert" "DPZarovnanyText" "_S" 0.05 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPZarovnanyText" "_S" (getvar "dimscale") "_R" 0)
+        (command "._insert" "DPZarovnanyText" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky zarovnaneho textu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -273,13 +305,17 @@
 
   ;prikaz na vlozenie blocku ZarovnanyText
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPSklon" "_S" 1 "_R" 0)
+      (command "._insert" "DPSklon" "_S" 1 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSklon" "_S" (* (getvar "dimscale") 20) "_R" 0)
+        (command "._insert" "DPSklon" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky sklonu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -294,13 +330,17 @@
 
   ;prikaz na vlozenie blocku SymbolOsi
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPSymbolOsi" "_S" 1.5 "_R" 0)
+      (command "._insert" "DPSymbolOsi" "_S" 1.5 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSymbolOsi" "_S" (* (getvar "dimscale") 30) "_R" 0)
+        (command "._insert" "DPSymbolOsi" "_S" (* (getvar "dimscale") 30) "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky symbolu osi:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -319,16 +359,18 @@
   (cond
     ((/= 1 (getvar 'cvport))
       (princ "\nPrikaz nie je dostupny v modelovom priestore.")
-      (princ)
     )
 
     (
       ;prikaz na vlozenie blocku DPTabulkaMaterialov
-      (command "._insert" "DPTabulkaMaterialov" "_S" 1 "_R" 0)
-      (princ "\nUrcite bod vlozenia tabulky materialov:")
-      (princ)
+      (command "._insert" "DPTabulkaMaterialov" "_S" 1 "_R" 0 pause)  
     )
   )
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
   
 )
 
@@ -344,16 +386,19 @@
   (cond
     ((/= 1 (getvar 'cvport))
       (princ "\nPrikaz nie je dostupny v modelovom priestore.")
-      (princ)
     )
 
     (
       ;prikaz na vlozenie blocku DPTabulkaOhybov  
-      (command "._insert" "DPTabulkaOhybov" "_S" 1 "_R" 0)
+      (command "._insert" "DPTabulkaOhybov" "_S" 1 "_R" 0 pause)
       (princ "\nUrcite bod vlozenia tabulky ohybov:")
-      (princ)
     )
   )
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
   
 )
 
@@ -369,16 +414,19 @@
   (cond
     ((/= 1 (getvar 'cvport))
       (princ "\nPrikaz nie je dostupny v modelovom priestore.")
-      (princ)
     )
 
     (
       ;prikaz na vlozenie blocku DPPoznamka 
-      (command "._insert" "DPPoznamka" "_S" 1 "_R" 0)
-      (princ "\nUrcite bod vlozenia poznamky:")
-      (princ)
+      (command "._insert" "DPPoznamka" "_S" 1 "_R" 0 pause)
+      (princ "\nUrcite bod vlozenia poznamky:")   
     )
   )
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
   
 )
 
@@ -395,13 +443,17 @@
 
   ;prikaz na vlozenie blocku vystuze
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "JTPopisVystuze" "_S" 1 "_R" 0)
+      (command "._insert" "JTPopisVystuze" "_S" 1 "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "JTPopisVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0)
+        (command "._insert" "JTPopisVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia blocku vystuze:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
@@ -424,22 +476,25 @@
   (if (or (= VyberJTOznacenieVystuze "") (= VyberJTOznacenieVystuze "V") (= VyberJTOznacenieVystuze "v")) 
       ;prikaz na vlozenie blocku symbolu Popis vystuze
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-        (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0)
+        (command "._insert" "JTOznacenieVystuze" "_S" 1 "_R" 0 pause)
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "JTOznacenieVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0)
+        (command "._insert" "JTOznacenieVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
       )
     )
     
     (if (or (= VyberJTOznacenieVystuze "K") (= VyberJTOznacenieVystuze "k"))
         ;prikaz na vlozenie blocku symbolu Popis kari siete
         (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "JTOznacenieVystuzeKari" "_S" 1 "_R" 0)
+          (command "._insert" "JTOznacenieVystuzeKari" "_S" 1 "_R" 0 pause)
         (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-          (command "._insert" "JTOznacenieVystuzeKari" "_S" (* (getvar "dimscale") 20) "_R" 0)
+          (command "._insert" "JTOznacenieVystuzeKari" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
         )
         )     
     )
   )
+   
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
   
   (princ)
   
@@ -454,8 +509,12 @@
   (SetLayerDPVystuz)
 
   ;prikaz na vlozenie blocku vystuze
-  (command "._insert" "JTVystuz" "_S" 1 "_R" 0)
+  (command "._insert" "JTVystuz" "_S" 1 "_R" 0 pause)
   (princ "\nUrcite bod vlozenia blocku vystuze:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )
