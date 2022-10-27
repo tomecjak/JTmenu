@@ -36,6 +36,10 @@
   (if (> (getvar 'CMDACTIVE) 0) (command ""))
   (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
   (if (> (getvar 'CMDACTIVE) 0) (command "")) 
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (command "_.layerp")
+  (command "_-layer" "_filter" "_set" "All" "")
 )
 
 ;-------------------------------------------------------------------------
