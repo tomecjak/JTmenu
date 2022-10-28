@@ -28,7 +28,7 @@
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
 
-(AUTOLOAD "LayoutFunctions" '("testtest"))
+(AUTOLOAD "LayoutFunctions" '("testtest" "somefunc"))
 
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,7 +36,7 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
                                "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
-                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka" "DPRozpiska"
                                "JTVystuz" "JTPopisVystuze" "JTOznacenieVystuze")
 )
 (print)

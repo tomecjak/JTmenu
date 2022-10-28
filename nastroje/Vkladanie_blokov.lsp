@@ -391,7 +391,6 @@
     (
       ;prikaz na vlozenie blocku DPTabulkaOhybov  
       (command "._insert" "DPTabulkaOhybov" "_S" 1 "_R" 0 pause)
-      (princ "\nUrcite bod vlozenia tabulky ohybov:")
     )
   )
   
@@ -418,8 +417,34 @@
 
     (
       ;prikaz na vlozenie blocku DPPoznamka 
-      (command "._insert" "DPPoznamka" "_S" 1 "_R" 0 pause)
-      (princ "\nUrcite bod vlozenia poznamky:")   
+      (command "._insert" "DPPoznamka" "_S" 1 "_R" 0 pause)  
+    )
+  )
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku TitleBlock
+(defun c:DPRozpiska()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+    )
+
+    (
+      ;prikaz na vlozenie blocku DPRozpiska 
+      (command "._insert" "DPRozpiska" "_S" 1 "_R" 0 pause)  
     )
   )
   
