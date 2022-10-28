@@ -52,4 +52,38 @@
           (mapcar 'cadr (ssnamex (ssget "_x" (list '(0 . "insert") (assoc 2 (entget BlockName)) '(66 . 1))))))
 )
 
+(defun C:mierka()
 
+(if
+  (setq ss (ssget ":E:S" '((0 . "VIEWPORT"))))
+  (princ ss)
+  (vla-get-CustomScale (vlax-ename->vla-object (ssname ss 0)))
+  )
+
+)
+
+(Defun C:test22( / ssVP vpList cnt)
+
+  (foreach X (layoutlist)
+  (if (setq ssVP (ssget "_X" '((0 . "VIEWPORT")
+                                (-4 . "<AND")
+                                  (-4 . "<NOT") (410 . "Model") (-4 . "NOT>")
+                                  (-4 . ">") (69 . 1)
+                                (-4 . "AND>")
+                              )));list/ssget/setq
+    (repeat (setq cnt (sslength ssVP))
+      (setq vpList (cons (ssname ssVP (setq cnt (1- cnt))) vpList))
+    );repeat
+  );if
+    )
+  
+  ;(princ vpList)
+  
+  
+  
+  (setq XxX (nth 0 vpList))  
+  (vla-get-CustomScale (vlax-ename->vla-object XxX))
+  
+
+
+)
