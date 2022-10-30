@@ -28,7 +28,7 @@
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
 
-(AUTOLOAD "LayoutFunctions" '("testtest" "somefunc" "mierka" "test22"))
+(AUTOLOAD "LayoutFunctions" '("JTSheetSize" "JTSheetScale" "JTSheetRename"))
 
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
