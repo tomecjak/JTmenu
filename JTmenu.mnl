@@ -18,7 +18,6 @@
 (AUTOLOAD "Copy_rename_block" '("CB" "RB"))
 (AUTOLOAD "Batch_editor" '("BAtte"))
 (AUTOLOAD "Stationing" '("Stationing"))
-(AUTOLOAD "Drawing_crosses" '("DC"))
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
@@ -28,7 +27,7 @@
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
 
-(AUTOLOAD "LayoutFunctions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska"))
+(AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross"))
 
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -19,13 +19,13 @@
   
   ;vytvorenie premennej s hodnotou poctu A4
   (setq LayoutA4 (* CountLayoutWidth HeightA4))
-  (setq NumberOfA4 (strcat "Pocet A4 vykresu je: " (rtos LayoutA4 2 0) "xA4"))
+  (setq NumberOfA4 (strcat (rtos LayoutA4 2 0) "xA4"))
   
 
   ;vlozenie udejov o pocete A4 do tagu POCETA4 bloku DPRozpiska
   (setq ctr 0
     ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
-  (repeat (sslength ss1) (BlockTagEditor "POCETA4" NumberOfA4 (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  (repeat (sslength ss1) (BlockTagEditor "FORMAT" NumberOfA4 (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
   (princ)
   
@@ -163,7 +163,7 @@
     
     (
       ;prikaz na vlozenie blocku rozpisky
-      (command "_insert" "DPRozpiska" (strcat (rtos LayoutWidth 2 0) ",0") 1 0 0)
+      (command "_insert" "DPRozpiska" (strcat (rtos LayoutWidth 2 0) ",0") 1 1 0 0)
     )
   )
   
@@ -177,6 +177,62 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                   Vlozenie krizikov do vykresu                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTSheetCross (/ ctr ss1)
+  
+  ;vymazanie bloku DPKriziky
+  (BlockDelete "DPKriziky")
+  
+  ;nacitanie velkosty Layoutu
+  (GetPaperSize)
+    
+  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
+  (setq VytvorenieHladinyPopisu
+    (getenv "GlobalnaHladinaBlokov")
+  )
+  
+  ;vyhodnotenie vyberu hladiny pre bloky
+  (if (= VytvorenieHladinyPopisu "DP_Popis")
+    ;vytvorenie a nastavenie hladinu na DP_Popis
+    (SetLayer)
+  
+    (if (= VytvorenieHladinyPopisu "0")
+      ;bez vytvorenia hladiny a nastavenie na hladinu 0
+      (command "._layer" "s" "0" "")
+      (princ)
+    )
+  )
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+      (princ)
+    )
+    
+    (
+      ;prikaz na vlozenie blocku krizikov
+      (command "_insert" "DPKriziky" "0,0" 1 1 0)
+    )
+  )
+  
+  ;nastavenie tagu DLZKA
+  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "DLZKA" LayoutWidth)
+  ;nastavenie tagu VYSKA
+  (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "VYSKA" LayoutHeight)
+  
+  ;hlaska po skonceni programu
+  (princ "\nKriziky vykresu boli vlozene. ")
+  (princ)
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+
+)
+
+;;----------------------------------------------------------------------;;
 ;;       Pomocna funkcia pre zistenie vysky a dlzky layoutu             ;;
 ;;----------------------------------------------------------------------;;
 
@@ -186,7 +242,7 @@
 
   (setq LayoutSice (vla-get-activelayout (vla-get-activedocument (vlax-get-acad-object))))
   (setq PaperSize (vla-getpapersize LayoutSice 'LayoutHeight 'LayoutWidth))
-
+  
 )
 
 ;;----------------------------------------------------------------------;;
@@ -230,6 +286,52 @@
           (mapcar 'cadr (ssnamex (ssget "_x" (list '(0 . "insert") (assoc 2 (entget BlockName)) '(66 . 1)))))
   )
   
+)
+
+;;----------------------------------------------------------------------;;
+;;    Pomocna funkcia pre vkladanie ciselnych hodnoy do tagov blokov    ;;
+;;----------------------------------------------------------------------;;
+
+(defun LM:setdynpropvalue ( blk prp val )
+    (setq prp (strcase prp))
+    (vl-some
+       '(lambda ( x )
+            (if (= prp (strcase (vla-get-propertyname x)))
+                (progn
+                    (vla-put-value x (vlax-make-variant val (vlax-variant-type (vla-get-value x))))
+                    (cond (val) (t))
+                )
+            )
+        )
+        (vlax-invoke blk 'getdynamicblockproperties)
+    )
+)
+
+;;----------------------------------------------------------------------;;
+;;                 Pomocna funkcia pre mazanie blokov                   ;;
+;;----------------------------------------------------------------------;;
+
+(defun BlockDelete (bname / bobj)
+(vlax-for blk (vla-get-blocks (vla-get-activedocument (vlax-get-acad-object)))
+ (if (= bname (vla-get-name blk))
+  (setq bObj blk)
+  (progn
+   (vlax-for ent blk
+    (if (and (= "AcDbBlockReference" (vla-get-objectname ent))
+       (or (= (vla-get-name ent) bname)
+        (and (vlax-property-available-p ent 'effectivename)
+         (= (vla-get-effectivename ent) bname)
+        )
+       )
+     )
+     (vla-delete ent)
+    )
+   )
+  )
+ )
+)
+(if bObj (vla-delete bObj))
+(vla-Regen (vla-get-ActiveDocument (vlax-get-acad-object)) acAllViewports)
 )
 
 ;;----------------------------------------------------------------------;;
