@@ -28,7 +28,7 @@
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
 
-(AUTOLOAD "LayoutFunctions" '("JTSheetSize" "JTSheetScale" "JTSheetRename"))
+(AUTOLOAD "LayoutFunctions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska"))
 
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,7 +36,7 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
                                "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
-                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka" "DPRozpiska"
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
                                "JTVystuz" "JTPopisVystuze" "JTOznacenieVystuze")
 )
 (print)

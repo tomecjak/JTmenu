@@ -66,8 +66,14 @@
     (setq ListOfScale (cons (vla-get-CustomScale (vlax-ename->vla-object (nth i ListOfLayout))) ListOfScale))
   )
 
-  ;vymazanie duplicitnych poloziek v ListOfScale
-  (setq ListOfScale (ListDupliceRemote ListOfScale 1))
+  (if (= LayoutListLength 0)
+    ;hlaska o neexistujucom viewporte
+    (princ "Vo vykresy nie su ziadne viewporty!")
+      (if (> LayoutListLength 1)
+        ;vymazanie duplicitnych poloziek v ListOfScale
+        (setq ListOfScale (ListDupliceRemote ListOfScale 1))
+      )
+  )
   
   ;zistenie poctu poloziek v ListOfScale
   (setq ListOfScaleLength (length ListOfScale))
@@ -120,6 +126,53 @@
 (setvar "cmdecho" 1)
   
 (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;                     Vlozenie rozpisky do layoutu                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DPRozpiska ()
+  
+  (GetPaperSize)
+    
+  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
+  (setq VytvorenieHladinyPopisu
+    (getenv "GlobalnaHladinaBlokov")
+  )
+  
+  ;vyhodnotenie vyberu hladiny pre bloky
+  (if (= VytvorenieHladinyPopisu "DP_Popis")
+    ;vytvorenie a nastavenie hladinu na DP_Popis
+    (SetLayer)
+  
+    (if (= VytvorenieHladinyPopisu "0")
+      ;bez vytvorenia hladiny a nastavenie na hladinu 0
+      (command "._layer" "s" "0" "")
+      (princ)
+    )
+  )
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+      (princ)
+    )
+    
+    (
+      ;prikaz na vlozenie blocku rozpisky
+      (command "_insert" "DPRozpiska" (strcat (rtos LayoutWidth 2 0) ",0") 1 0 0)
+    )
+  )
+  
+  ;hlaska po skonceni programu
+  (princ "\nRozpiska bola vlozena do vykresu. ")
+  (princ)
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
   
 )
 
@@ -205,6 +258,46 @@
       )
     )
   )
+)
+
+;;----------------------------------------------------------------------;;
+;;                Pomocne funkcie pre vytvorenie hladin                 ;;
+;;----------------------------------------------------------------------;;
+
+;funkcia pre vytvárania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
+(defun CreateLayers(lyrname Color ltype lweight)
+  
+  ;funkcia pre vytvorenie hladiny
+  (if (tblsearch "LAYER" lyrname)
+    (command "._Layer" "_Thaw" lyrname "_On" lyrname "_UnLock" lyrname "_Set" lyrname "")
+    (command "._Layer" "_Make" lyrname "_Color"
+      (if (or (null color)(= Color "")) "_White" Color)
+      lyrname "LT" (if (or (null ltype)(= ltype "")) "Continuous" ltype)
+      lyrname "LW" (if (or (null lweight)(= lweight "")) "default" lweight) lyrname ""
+    )
+  )
+
+)
+
+;funkcia pre nastavenie hladiny DP_Popis
+(defun SetLayer()
+  (CreateLayers "DP_Rozpiska" 7 "CONTINUOUS" "DEFAULT")
+  ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
+  (command "._layer" "s" "DP_Rozpiska" "")
+  
+  ;vytvorenie group layer filtru DP Layers 
+  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+    (if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+    (if (> (getvar 'CMDACTIVE) 0) (command "")) 
+)
+
+;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+(defun NavratNaPoslednuHladinu()
+
+  (command "_.layerp")
+  (command "_-layer" "_filter" "_set" "All" "")
+
 )
 
 ;;----------------------------------------------------------------------;;

@@ -429,33 +429,6 @@
 )
 
 ;;----------------------------------------------------------------------;;
-
-;vloženie bloku TitleBlock
-(defun c:DPRozpiska()
-  
-  ;nastavenie hladiny
-  (LayerSetting)
-  
-  ;nastavenie funkcnosti prikazu len v Layoute
-  (cond
-    ((/= 1 (getvar 'cvport))
-      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
-    )
-
-    (
-      ;prikaz na vlozenie blocku DPRozpiska 
-      (command "._insert" "DPRozpiska" "_S" 1 "_R" 0 pause)  
-    )
-  )
-  
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
-  
-  (princ)
-  
-)
-
-;;----------------------------------------------------------------------;;
 ;;                      Bloky pre vystužovanie                          ;;
 ;;----------------------------------------------------------------------;;
 
