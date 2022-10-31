@@ -65,6 +65,12 @@
   (foreach i LayoutCountList
     (setq ListOfScale (cons (vla-get-CustomScale (vlax-ename->vla-object (nth i ListOfLayout))) ListOfScale))
   )
+
+  ;vymazanie duplicitnych poloziek v ListOfScale
+  (setq ListOfScale (ListDupliceRemote ListOfScale 1))
+  
+  ;zistenie poctu poloziek v ListOfScale
+  (setq ListOfScaleLength (length ListOfScale))
   
   ;zoradanie ListOfScale od najvacieho a vymazanie duplicitnych poloziek
   (setq ListOfScale (vl-sort ListOfScale '<))
@@ -75,9 +81,9 @@
   (setq ScaleN3 (nth 2 ListOfScale))
   
   ;vytvorenie premennej s hodnotou mierok
-  (if (= LayoutListLength 1) 
+  (if (= ListOfScaleLength 1) 
     (setq ViewportScale (strcat "1:" (rtos (/ 1000 ScaleN1) 2 0)))
-    (if (= LayoutListLength 2)
+    (if (= ListOfScaleLength 2)
       (setq ViewportScale (strcat "1:" (rtos (/ 1000 ScaleN1) 2 0) ", 1:" (rtos (/ 1000 ScaleN2) 2 0)))
       (setq ViewportScale (strcat "1:" (rtos (/ 1000 ScaleN1) 2 0) ", 1:" (rtos (/ 1000 ScaleN2) 2 0) ", 1:" (rtos (/ 1000 ScaleN3) 2 0)))
       )
@@ -171,6 +177,34 @@
           (mapcar 'cadr (ssnamex (ssget "_x" (list '(0 . "insert") (assoc 2 (entget BlockName)) '(66 . 1)))))
   )
   
+)
+
+;;----------------------------------------------------------------------;;
+;;     Pomocna funkcia pre vymazanie duplicitnych poloziek s listu      ;;
+;;----------------------------------------------------------------------;;
+
+(defun ListDupliceRemote (In_List FuzFac / Out_List NthVal Countr)
+  (setq Out_List (list (car In_List)) In_List (cdr In_List))
+  (reverse
+    (foreach ForElm In_List
+      (if (vl-position ForElm Out_List)
+        Out_List
+        (progn
+          (setq Countr 0)
+          (while (and Countr (setq NthVal (nth Countr Out_List)))
+            (if (equal ForElm NthVal FuzFac)
+              (setq Countr nil)
+              (setq Countr (1+ Countr))
+            )
+          )
+          (if NthVal
+             Out_List
+            (setq Out_List (cons ForElm Out_List))
+          )
+        )
+      )
+    )
+  )
 )
 
 ;;----------------------------------------------------------------------;;
