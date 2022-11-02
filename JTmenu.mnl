@@ -61,11 +61,6 @@
 )
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Nastavenie DimScale na hodnotu 1
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(setvar "dimscale" 1)
-
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Uvitacia hlaska pri nacitany programu JTmenu
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (load "Version" "\nVerzia nenacitana!")
