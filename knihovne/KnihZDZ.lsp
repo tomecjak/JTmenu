@@ -1,5 +1,5 @@
 ; HOTBLOCK.LSP - Created By Lintang Darudjati
-; A block catalog, make dwgs are ready to insert anytime 
+; A block catalog, make dwgs are ready to insert anytime ini_readentry_ZDZ
 ; World-scope variable : 
 ;            wIniList
 ;            wLibTopic ;stringlist ->group
@@ -13,18 +13,18 @@
 ;;; (("[NEWSECTION]" ("NEWVALUE" "100") ("NEXTVALUE" "SAMPLE")) ("[NEXTSECTION]" ("INIPATH" "C:\\TEST.INI")))
 
 
-(defun ini_readentry_ocel (inifile section entry )
+(defun ini_readentry_ZDZ (inifile section entry )
 (if (and (= 'STR (type section)) (/= "[" (substr section 1 1))) (setq section (strcat "[" section "]")))
 (setq section (ini_readsection inifile section))
 (cadr (assoc entry section))
 )
 
-(defun ini_writeentry_ocel (inifile section entry val / ofile ini sec)
+(defun ini_writeentry_ZDZ (inifile section entry val / ofile ini sec)
 (if (not (findfile inifile)) (progn (setq ofile (open inifile "w")) (close ofile)))
 (if (and (= 'STR (type section)) (/= "[" (substr section 1 1))) (setq section (strcat "[" section "]")))
 (if (setq ofile (findfile inifile))
   (progn
-    (setq ini  (ini_readini_ocel inifile))
+    (setq ini  (ini_readini_ZDZ inifile))
     (cond
       ((setq sec (assoc section ini))
         (if (assoc entry (cdr sec))
@@ -68,17 +68,17 @@
 )
 
 
-(defun ini_readsection_ocel (inifile section / ofile line result )
+(defun ini_readsection_ZDZ (inifile section / ofile line result )
 (if (and (= 'STR (type section)) (/= "[" (substr section 1 1))) (setq section (strcat "[" section "]")))
 (if (findfile inifile)
-  (cdr (assoc section (ini_readini_ocel (findfile inifile))))
+  (cdr (assoc section (ini_readini_ZDZ (findfile inifile))))
   (alert (STRCAT inifile "\nChyba!"))
 )
 )
 
 
 
-(defun ini_readini_ocel (inifile / ofile line section result)
+(defun ini_readini_ZDZ (inifile / ofile line section result)
 (if (findfile inifile)
   (progn
     (setq ofile (open (findfile inifile) "r"))
@@ -88,7 +88,7 @@
         (setq section (list line))
         (while (and (setq line (read-line ofile)) (/= "[" (substr line 1 1)))
           (if (and (/= ";"  (substr line 1 1)) (/= "" line))
-            (setq section (cons (ini_iniline_ocel line "=") section))
+            (setq section (cons (ini_iniline_ZDZ line "=") section))
           )
         )
         (setq result (cons (reverse section) result))
@@ -101,7 +101,7 @@
 (reverse result)
 )
 
-(defun ini_iniline_ocel (line sep / line str1 str2 )
+(defun ini_iniline_ZDZ (line sep / line str1 str2 )
   (if (= 'STR (type line))
     (progn
       (setq str1 "" str2 "")
@@ -125,7 +125,7 @@
 ; blank     : allow blank fields
 ;   T=("abc" "" "def" "" "ghi"), NIL=("abc" "def" "ghi")
 
-(defun zStrParse_ocel ( str delimlst blank / currchar idx tempstr strlength strlist )
+(defun zStrParse_ZDZ ( str delimlst blank / currchar idx tempstr strlength strlist )
   (setq strlength (strlen str) idx 0 tempstr "")
   (while (< idx strlength)
     (if (member (setq currchar (substr str (setq idx (1+ idx)) 1)) delimlst)
@@ -156,16 +156,16 @@
       (if (/= (setq inifile (findfile "KnihZDZ.INI")) nil)
         (progn
           (princ "\n\tNacitavam subor ...")
-          (setq wIniList_ocel (ini_readini_ocel inifile))
-          (setq wLibTopic_ocel '())
-          (setq wLibDir_ocel '())
-          (setq wLibItem_ocel '())
-          (foreach m wIniList_ocel
+          (setq wIniList_ZDZ (ini_readini_ZDZ inifile))
+          (setq wLibTopic_ZDZ '())
+          (setq wLibDir_ZDZ '())
+          (setq wLibItem_ZDZ '())
+          (foreach m wIniList_ZDZ
             (progn
-              (setq topic (car (zStrParse_ocel (car m) '("[" "]") nil)))
-              (setq wLibTopic_ocel (cons topic wLibTopic_ocel))
+              (setq topic (car (zStrParse_ZDZ (car m) '("[" "]") nil)))
+              (setq wLibTopic_ZDZ (cons topic wLibTopic_ZDZ))
               (setq subdir (cadr (cadr m)))
-              (setq wLibDir_ocel (cons subdir wLibDir_ocel))
+              (setq wLibDir_ZDZ (cons subdir wLibDir_ZDZ))
               (setq tmplist '())
               (setq c 2 len (length m))
               (while (< c len)
@@ -173,12 +173,12 @@
                 (setq c (1+ c))
               );while
               (setq tmplist (reverse tmplist))
-              (setq wLibItem_ocel (cons tmplist wLibItem_ocel))
+              (setq wLibItem_ZDZ (cons tmplist wLibItem_ZDZ))
             );progn
           );foreach
-          (setq wLibTopic_ocel (reverse wLibTopic_ocel))
-          (setq wLibDir_ocel (reverse wLibDir_ocel))
-          (setq wLibItem_ocel (reverse wLibItem_ocel))
+          (setq wLibTopic_ZDZ (reverse wLibTopic_ZDZ))
+          (setq wLibDir_ZDZ (reverse wLibDir_ZDZ))
+          (setq wLibItem_ZDZ (reverse wLibItem_ZDZ))
           (setq res T)
         );progn
         (princ "\n\tKnihovna dopravneho znacenia [HotBlocks v1.2] - Created by Lintang Darudjati\n\tNeda sa najst subor.")
@@ -195,7 +195,7 @@
 ; ================================================================================================
 
 (defun C:JTKNIHDZD (  /
-            _strpart_ocel _strtrim_ocel _strltrim_ocel _strrtrim_ocel zEDS_ocel _zFixPath_ocel zMsgBox_ocel _aboutbox_ocel _a_ocel
+            _strpart_ZDZ _strtrim_ZDZ _strltrim_ZDZ _strrtrim_ZDZ zEDS_ZDZ _zFixPath_ZDZ zMsgBox_ZDZ _aboutbox_ZDZ _a_ZDZ
             olderr
             
             activetopic                 ; temp active topic
@@ -222,7 +222,7 @@
 ; ROUTINES
 ; ------------------------------------------------------------------------------------------------
 ; LEFT/RIGHT BREAK STRING
-(defun _strpart_ocel (str sym side / a newstr)
+(defun _strpart_ZDZ (str sym side / a newstr)
   (if (= (type str) 'STR)
      (cond
        ((= side "l")
@@ -241,31 +241,31 @@
 )
 ; ------------------------------------------------------------------------------------------------
 ; Trims leading and trailing spaces from strings.
-(defun _strtrim_ocel (s)
+(defun _strtrim_ZDZ (s)
   (cond
     ((/= (type s) 'str) nil)
-    (t (_strltrim_ocel (_strrtrim_ocel s)))
+    (t (_strltrim_ZDZ (_strrtrim_ZDZ s)))
   )
 )
-(defun _strltrim_ocel (s)
+(defun _strltrim_ZDZ (s)
   (cond
     ((eq s "") s)
     ((/= " " (substr s 1 1)) s)
-    (t (_strltrim_ocel (substr s 2)))
+    (t (_strltrim_ZDZ (substr s 2)))
   )
 )
-(defun _strrtrim_ocel (s)
+(defun _strrtrim_ZDZ (s)
   (cond 
     ((eq s "") s)
     (/= " " (substr s (strlen s) 1) s)
-    (t (_strrtrim_ocel (substr s 1 (1- (strlen s)))))
+    (t (_strrtrim_ZDZ (substr s 1 (1- (strlen s)))))
   )
 )
 ; -------------------------------------------------------------------------------------------
 ; Encrypt / decrypt string
 ; Return : string
                
-(defun zEDS_ocel ( instr / outstr c len)
+(defun zEDS_ZDZ ( instr / outstr c len)
   (setq c 1 len (strlen instr) outstr "")
   (while (<= c len)
     (setq outstr (strcat outstr (chr (- 255 (ascii (substr instr c 1))))))
@@ -275,111 +275,25 @@
 )
 ; -------------------------------------------------------------------------------------------
 ; Add a "\\" at the end of path jika nggak ada
-(defun zFixPath_ocel ( strpath / res)
+(defun zFixPath_ZDZ ( strpath / res)
   (if (/= (substr strpath (strlen strpath) 1) "\\") (setq strpath (strcat strpath "\\")))
   strpath
 )
-
-; -------------------------------------------------------------------------------------------
-; MESSAGE / CONFIRMATION DIALOG BOX
-; arg: title=dialog title, msg=message string, yesno=T->YesNo nil->Ok only, centered=T/nil
-
-(defun zMsgBox_ocel (title msg yesno centered / makeDcl_ocel fn bkText txtList dh result)
-  (defun makeDcl_ocel (fileName title textList / fh)
-    (setq fh (open fileName "w"))
-    (write-line "MsgBox : dialog {" fh)
-    (write-line (strcat "label = \"" title "\";") fh)
-    (write-line ": paragraph {" fh)
-    (if centered
-      (foreach item textList (write-line (strcat ": text_part {label = \"" item  "\";alignment=centered;}") fh))
-      (foreach item textList (write-line (strcat ": text_part {label = \"" item  "\";}") fh))
-    )
-    (write-line "}" fh)
-    (write-line "spacer_1;" fh)
-    (if yesno
-      (progn
-        (write-line ": row {alignment=centered; fixed_width=true;" fh)
-        (write-line ": button {key=\"BTYES\";label=\"  Ano  \";}" fh)
-        (write-line ": button {key=\"BTNO\";label=\"  Ne  \";is_cancel=true;}" fh)
-        (write-line "}" fh)
-      )
-      (write-line "ok_only;" fh)
-    )
-    (write-line "}" fh)
-    (close fh)
-  );defun
-  ;;main function
-  (setq fn (strcat (zFixPath_ocel (getenv "TEMP")) "$msgbox.dc$"))
-  (while (wcmatch msg (strcat "*\n*"))
-    (setq bkText (_strpart_ocel msg "\n" "l") msg (_strpart_ocel msg "\n" "r") txtList (cons bkText txtList))
-  )
-  (setq txtList (reverse (cons msg txtList)))
-  (makeDcl_ocel fn title txtList)
-  (setq dh (load_dialog fn))
-  (if (and dh (new_dialog "MsgBox" dh))
-     (progn
-       (if yesno (action_tile "BTYES" "(done_dialog 1)"))
-       (set_tile "message" msg) (if (= (start_dialog) 1) (setq result T) (setq result nil))
-       (unload_dialog dh)
-     ) ;Progn
-  );If
-  result
-);defun zMsgBox_ocel
-
-(defun _aboutbox_ocel ()
-  (zMsgBox_ocel "HotBlocks"
-      (strcat
-          "HotBlocks v1.2 - Freeware"
-          "\n"
-          "Created by Lintang Darudjati"
-          "\n \n"
-          "Visit my website to get many other freeware stuff"
-          "\n"
-          "http://www.geocities.com/RainForest/1073/"
-          "\n"
-          "Email : lintangd@geocities.com"
-      )
-      nil T
-  )
-);defun _aboutbox_ocel
-(defun _a_ocel (n / str strn)
-  (setq strn (strcat  "\n \n"
-                      (zEDS_ocel "¼‘‹žœ‹ß’šß‹ß˜š‹ß‹—šß‰šŒ–‘ßˆ–‹—Š‹")
-                      "\n"
-                      (zEDS_ocel "‹—–Œß‘ž˜ß›–ž“˜ß‡Ñßß¶‹ØŒßÎÏÏÚß™ššÑ")
-             )
-  )
-  (setq str
-      (strcat
-          (zEDS_ocel "·‹½“œ”Œß‰ÎÑÍ")
-          "\n \n"
-          (zEDS_ocel "¼šž‹š›ß†ß³–‘‹ž‘˜ß»žŠ›•ž‹–")
-          "\n"
-          (zEDS_ocel "š’ž–“ßÅß“–‘‹ž‘˜›¿˜šœ–‹–šŒÑœ’")
-          "\n \n"
-          (zEDS_ocel "³–‘‹ž‘˜ß‘ß‹—šß¨šßÑß¹ššˆžšß™ß¾Š‹¼¾»ßŠŒšŒ")
-          "\n"
-          (zEDS_ocel "—‹‹ÅÐÐˆˆˆÑ˜šœ–‹–šŒÑœ’Ð­ž–‘¹šŒ‹ÐÎÏÈÌÐ")
-      )
-  )
-  (if n (setq str (strcat str strn)))
-  (zMsgBox_ocel (zEDS_ocel "·‹½“œ”Œ") str nil T)
-);defun _a_ocel
 
 ; ------------------------------------------------------------------------------------------------
 ; END OF ROUTINES
 ; ================================================================================================
 
   ; HANDLING ICONS
-  (defun setico_ocel ( / sisa a dx dy slib sld)
+  (defun setico_ZDZ ( / sisa a dx dy slib sld)
 
     (setq dx (dimx_tile "0") dy (dimy_tile "0"))
     (setq sisa (rem (length items) 20))
     (if (= 0 sisa ) (setq sisa 20))
-    (setq slib (nth (atoi (get_tile "cb")) wLibDir_ocel ))
+    (setq slib (nth (atoi (get_tile "cb")) wLibDir_ZDZ ))
     (setq curdir slib)
     (if (wcmatch slib "*`\\*")
-      (setq sld (_strpart_ocel slib "\\" "r"))
+      (setq sld (_strpart_ZDZ slib "\\" "r"))
       (setq sld slib)
     )
     (setq curpath (findfile (strcat slib "\\" sld ".slb")))
@@ -430,10 +344,10 @@
     );;if
   )
   ; INIT PAGING
-  (defun init_items_ocel ( value / a b)
+  (defun init_items_ZDZ ( value / a b)
     (set_tile "cb" value)
     (start_list "lb")
-    (setq items (nth (atoi value) wLibItem_ocel))
+    (setq items (nth (atoi value) wLibItem_ZDZ))
     (mapcar ' add_list items)
     (end_list)
     (setq page 0)
@@ -446,29 +360,29 @@
 
     (if (not (null oldsel)) (mode_tile (itoa (rem (atoi oldsel) 20)) 4)) ; RESET SELECTION
     (setq oldsel nil) ; RESET SELECTION
-    (setico_ocel)
+    (setico_ZDZ)
 
-    ;;; (ic_act_ocel "0") ; DO INITIAL SELECTION
+    ;;; (ic_act_ZDZ "0") ; DO INITIAL SELECTION
   )
   ; ENABLE/DISABLE BUTTONS
-  (defun setbut_ocel (pg)
+  (defun setbut_ZDZ (pg)
     (if (= pg 0)(mode_tile "btPrev" 1)(mode_tile "btPrev" 0))
     (if (= pg (1- npage))(mode_tile "btNext" 1)(mode_tile "btNext" 0))
   )
   ; LISTBOX ACT
-  (defun lb_act_ocel (value / oldpg)
+  (defun lb_act_ZDZ (value / oldpg)
     (setq cursel value)
     (setq oldpg page)
     (setq page (fix (/ (atoi cursel) 20)))
-    (setbut_ocel page)
-    (if (/= page oldpg) (setico_ocel) (if (not (null oldsel)) (mode_tile (itoa (rem (atoi oldsel) 20)) 4)))
+    (setbut_ZDZ page)
+    (if (/= page oldpg) (setico_ZDZ) (if (not (null oldsel)) (mode_tile (itoa (rem (atoi oldsel) 20)) 4)))
 
     (mode_tile (itoa (rem (atoi cursel) 20)) 4)
     (setq oldsel cursel)
     (set_tile "error" (strcat "Subor : " curpath (nth (atoi cursel) items ) ".dwg"))
   )
   ; ICON ACT
-  (defun ic_act_ocel (key)
+  (defun ic_act_ZDZ (key)
     (setq cursel (itoa (+ (* page 20) (atoi key))))
     (if (not (null oldsel)) (mode_tile (itoa (rem (atoi oldsel) 20)) 4))
     (mode_tile (itoa (rem (atoi cursel) 20)) 4)
@@ -477,27 +391,27 @@
     (set_tile "error" (strcat "File : " curpath (nth (atoi cursel) items ) ".dwg"))
   )
   ; COMBOBOX ACT
-  (defun cb_act_ocel (value)
+  (defun cb_act_ZDZ (value)
     (set_tile "error" "")
     (setq cursel nil)
-    (init_items_ocel value)
+    (init_items_ZDZ value)
     (setq activetopic (atoi value))
   )
   ; PREVIOUS ACT
-  (defun pr_act_ocel ()
+  (defun pr_act_ZDZ ()
     (setq page (1- page))
     (if (not (null oldsel)) (mode_tile (itoa (rem (atoi oldsel) 20)) 4))
     (setq oldsel nil)
-    (setbut_ocel page)
-    (setico_ocel)
+    (setbut_ZDZ page)
+    (setico_ZDZ)
   )
   ; NEXT ACT
-  (defun ne_act_ocel ()
+  (defun ne_act_ZDZ ()
     (setq page (1+ page))
     (if (not (null oldsel)) (mode_tile (itoa (rem (atoi oldsel) 20)) 4))
     (setq oldsel nil)
-    (setbut_ocel page)
-    (setico_ocel)
+    (setbut_ZDZ page)
+    (setico_ZDZ)
   )
 
   ; BEGIN PROCESS =======================================================>>>>
@@ -507,42 +421,44 @@
   (if (not (new_dialog "lib" dcl_id) ) (exit))
 
   (set_tile "capt" "Knihovna dopravneho znacenia")
+  (mode_tile "blockScale" 2)
 
   ; ASSIGN ACTION FOR TILES
-  (action_tile "cb" "(cb_act_ocel $value)")
-  (action_tile "lb" "(lb_act_ocel $value)")
+  (action_tile "cb" "(cb_act_ZDZ $value)")
+  (action_tile "lb" "(lb_act_ZDZ $value)")
   (action_tile "tgExp" "(setq explod (atoi $value))")
-  (action_tile "btPrev" "(pr_act_ocel)")
-  (action_tile "btNext" "(ne_act_ocel)")
-  (action_tile "btAbt" "(_a_ocel nil)")
+  (action_tile "btPrev" "(pr_act_ZDZ)")
+  (action_tile "btNext" "(ne_act_ZDZ)")
+  (action_tile "btAbt" "(_a_ZDZ nil)")
+  (action_tile "blockScale" "(setq DimBlockScale (atof $value))")
   (setq count 0)
   (repeat 20
-    (action_tile (itoa count) "(ic_act_ocel $key)")
+    (action_tile (itoa count) "(ic_act_ZDZ $key)")
     (setq count (1+ count))
   )
-
+  
   ; SET TOPICS ( COMBOBOX )
   (start_list "cb")
-  (mapcar ' add_list wLibTopic_ocel)
+  (mapcar ' add_list wLibTopic_ZDZ)
   (end_list)
 
   ; INIT DEFAULT ITEMS & SELECTION
 
-  (init_items_ocel (itoa (setq activetopic wActiveTopic_ocel)))
+  (init_items_ZDZ (itoa (setq activetopic wActiveTopic_ZDZ)))
 
   ; START
   (set_tile "capt" "Knihovna dopravneho znacenia")
   (setq result (start_dialog))
-  (if (= result 1)(setq wActiveTopic_ocel activetopic))
+  (if (= result 1)(setq wActiveTopic_ZDZ activetopic))
 
   ; END
   (unload_dialog dcl_id)
-
+   
   ; INSERT IT
   (if (and (= result 1)(not (null cursel)))
     (if (= explod 1)
-      (command "_insert" (strcat "*.\\" curdir "\\" (nth (atoi cursel) items )) pause "1" "" pause)
-      (command "_insert" (strcat ".\\" curdir "\\" (nth (atoi cursel) items )) pause "1" "" pause)
+      (command "_insert" (strcat "*.\\" curdir "\\" (nth (atoi cursel) items )) pause (/ DimBlockScale 1000) (/ DimBlockScale 1000) "" pause)
+      (command "_insert" (strcat ".\\" curdir "\\" (nth (atoi cursel) items )) pause (/ DimBlockScale 1000) (/ DimBlockScale 1000) "" pause)
     )
   )
 
@@ -552,7 +468,7 @@
 );defun C:HOTB
 
 ; ================================================================================================
-(setq wActiveTopic_ocel 0)
+(setq wActiveTopic_ZDZ 0)
 (setvar "CMDECHO" 0)
 (princ "\n\tKnihovna dopravneho znacenia")
 (princ "\n\tZadejte KNIHDZD pre spustenie.")
@@ -562,4 +478,4 @@
 
 
 (princ)
-Î
+ï¿½
