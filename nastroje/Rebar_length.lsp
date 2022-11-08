@@ -24,6 +24,19 @@
   (setq PercentoStykovanejVystuzeList (list "<25%" "33%" "50%" ">50%"))
   (setq SucinitelPercentoStykovanejVystuzeList (list "1,00" "1,15" "1,40" "1,50"))
   
+  ;definovanie vypoctovych hodnot (nemených)
+  (setq alfacc 0,85) ;koeficient zohladnujuci vplyvy dlhodobych ucinkov na pevnost v tlaku
+  (setq alfact 1,00) ;koeficient zohladnujuci vplyv dlhodobych ucinkov na pevnost v tahu
+  
+  (setq Asreq 1,00) ;potrebná plocha vystuze (strana bezpecna)
+  (setq Aspor 1,00) ;navrhnuta pevnost betonarskej vystuze
+  
+  (setq afla1 1,00) ;sucinitel vplyvu tvaru za primeranej hrubky krytia
+  (setq alfa2 1,00) ;sucinitel vplyvu minimalneho krytia
+  (setq alfa3 1,00) ;sucinitel vplyvu ovinutia priecnou vystuzou neprivarenou k hlavnej vystuzi
+  (setq alfa4 1,00) ;sucinitel vplyvu ovinutia priecnych privarenych prutov
+  (setq alfa5 1,00) ;sucinitel vplyvu priecneho tlaku kolmeho na rovinu trhlin
+  
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Rebar_length.dcl"))
 
@@ -122,7 +135,6 @@
 
 
 ;(defun VypocetPresahov ())
-
 
 
 ;(defun VypocetKotvenia (x x x))

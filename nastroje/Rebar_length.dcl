@@ -34,6 +34,7 @@ Rebar_length //nazov dcl
     //stlpec triedy betonu
     : column
     {
+      width = 20;
       : text
       {
         label = "Trieda betonu";
@@ -49,6 +50,7 @@ Rebar_length //nazov dcl
     //stlpec triedy ocele
     : column
     {
+      width = 20;
       : text
       {
         label = "Trieda ocele";
@@ -64,6 +66,7 @@ Rebar_length //nazov dcl
     //stlpec priemeru ocele
     : column
     {
+      width = 20;
       : text
       {
         label = "Priemer ocele";
@@ -84,6 +87,7 @@ Rebar_length //nazov dcl
       //stlpec situacie pouzitia
       : column
       {
+        width = 20;
         : text
         {
           label = "Navrhove situacie";
@@ -99,6 +103,7 @@ Rebar_length //nazov dcl
       //stlpec podmienok sudrznosti
       : column
       {
+        width = 20;
         : text
         {
           label = "Podmienky sudrznosti";
@@ -114,6 +119,7 @@ Rebar_length //nazov dcl
       //stlpec percento stykovanej vystuze
       : column
       {
+        width = 20;
         : text
         {
           label = "Per. styk. vystuze";
