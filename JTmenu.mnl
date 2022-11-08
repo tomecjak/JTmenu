@@ -29,6 +29,8 @@
 
 (AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross"))
 
+(AUTOLOAD "Rebar_length" '("JTRebarLength"))
+
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Kniznice blokov
