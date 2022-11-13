@@ -80,6 +80,7 @@ Rebar_length //nazov dcl
     }
   }
 
+  //treti riadok dialogu
   : boxed_row
   {
     label = "Podmienky";
@@ -130,10 +131,87 @@ Rebar_length //nazov dcl
           key = "percentoStykovanejVystuze";
           value = "3";
         }
-      }
+      }      
+  }
   
+   //stvrty riadok dialogu
+  : boxed_row
+  {
+    label = "Plocha vystuze";
+
+      //stlpec potreba plocha vystuze
+      : column
+      {
+        width = 30;
+        //editacne pole pre potrebnu plochu vystuze
+        : edit_box
+        {
+          label = "Potrebna:";
+          key = "potrebaPlochaVystuze";
+          value = "1.0";
+        }
+      }
+
+      //stlpec navrhnuta plocha vystuzy
+      : column
+      {
+        width = 30;
+        //editacne pole pre navrhnuta plocha vystuze
+        : edit_box
+        {
+          label = "Navrhnuta:";
+          key = "navrhnutaPlochaVystuze";
+          value = "1.0";
+        }
+      }
+
+    
   }
 
+   //piati riadok dialogu
+  : boxed_row
+  {
+    label = "Vysledky";
+
+      //stlpec potreba plocha vystuze
+      : column
+      {
+        width = 30;
+        : row {
+        //text vysledku napisany
+        : text
+        {
+          label = "Kotevna dlzka:";
+        }
+        //text vysledku pocitany
+        : text
+        {
+          label = "";
+          key = "kotevnaDlzka";
+        }
+        }
+      }
+
+      //stlpec navrhnuta plocha vystuzy
+      : column
+      {
+        width = 30;
+        : row {
+        //text vysledku napisany
+        : text
+        {
+          label = "Dlzka presahu:";
+        }
+        //text vysledku pocitany
+        : text
+        {
+          label = "";
+          key = "dlzkaPresahu";
+        }
+        }
+      }
+  }
+  
   //posleny riadok dialogu s tlacidlami
   : row
   {
@@ -145,11 +223,11 @@ Rebar_length //nazov dcl
       is_default = true;
     }  
 
-    //tlacidlo cancel
+    //tlacidlo zavriet
     : button
     {
       key = "cancel";
-      label = "Cancel";
+      label = "Zavriet";
       is_cancel = true;
     }  
   }
