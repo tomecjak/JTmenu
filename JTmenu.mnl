@@ -26,9 +26,7 @@
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
-
 (AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross"))
-
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 
 (print)
