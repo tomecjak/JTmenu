@@ -81,10 +81,10 @@
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
-    "(VypocetDlzky)(done_dialog)"
+    "(done_dialog)"
   )
   
-  ;definovanie tlacidla vypocitj
+  ;definovanie tlacidla vypocitaj
   (action_tile "vypocitaj"
     "(VypocetDlzky)"
   )

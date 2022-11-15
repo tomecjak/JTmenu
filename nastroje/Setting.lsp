@@ -7,81 +7,87 @@
 
 (defun C:JTsetting()
   
-  ;vytvorenie premenej SettingMenu pre vyber polozky nastavenia
-  (setq SettingMenu
-    (getstring "\nCo chcete nastavit? [Hladinu blokov/Mierku blokov] <Hladinu blokov>: ")
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Setting.dcl"))
+  
+  ;test existencie dialogu
+  (if (not (new_dialog "Setting" dcl_id))
+    (exit)
   )
   
-  ;vyhodnotenie vyberu nastavenia
-  (if (or (= SettingMenu "") (= SettingMenu "H") (= SettingMenu "h"))
-    ;nastavenie zmeny hladiny blokov
-    (NastavenieHladinyBlokov)
+  ;nastavenie prepinaca hladin dialogu podla GlobalnaHladinaBlokov
+  (if (= (getenv "GlobalnaHladinaBlokov") "DP_Popis")
+    ;splnena podmienka
+    (set_tile "hladinaDpPopis" "1")
+    ;nesplnena podmienka
+    (set_tile "hladinaNula" "1")
+  )
   
-    (if (or (= SettingMenu "M") (= SettingMenu "m"))
-      ;nastavenie zmeny mierky blokov a kot
-      (NastavenieDIMSCALE)
-      (princ)
-    )
+  ;nastavenie prepinaca modov dialogu podla GlobalnaDIMSCALEset
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+    ;splnena podmienka
+    (set_tile "modKlasicky" "1")
+    ;nesplnena podmienka
+    (set_tile "modDimscale" "1")
   )
-
-)
-
-;;----------------------------------------------------------------------;;
-;;                      Nastavenie hladiny blokov                       ;;
-;;----------------------------------------------------------------------;;
-
-(defun NastavenieHladinyBlokov()
-
-  ;vytvorenie premenej VyberBlockHladina pre vyber hladiny pre vlozene bloky
-  (setq VyberBlockHladina
-    (getstring "\nV akej hladine chcete vkladat bloky? [DP_Popis/Nula] <DP_Popis>: ")
+  
+  ;nacitanie verzie JTmenu do dialogu
+  (set_tile "verziaJtMenu" (JTmenuVersion))
+  
+  ;definovanie tlacidla cancel
+  (action_tile "cancel"
+    "(done_dialog)"
   )
+  
+  ;definovanie tlacidla ulozit
+  (action_tile "ulozit"
+    "(UlozitNastavenia)(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
   
   ;vyhodnotenie vyberu hladiny pre bloky
-  (if (or (= VyberBlockHladina "") (= VyberBlockHladina "D") (= VyberBlockHladina "d"))
+  (if (= hladinaDpPopis "1")
     ;nastavenie hladinu na DP_Popis
     (setenv "GlobalnaHladinaBlokov" "DP_Popis")
   
-    (if (or (= VyberBlockHladina "N") (= VyberBlockHladina "n"))
+    (if (= hladinaNula "1")
       ;nastavenie hladinu na O
       (setenv "GlobalnaHladinaBlokov" "0")
       (princ)
     )
   )
   
-  ;hlaska o nastavenej hladine vkladanych blokoch
-  (princ (strcat "\nNastavily ste hladinu " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"))
-  (princ)
-
-)
-
-;;----------------------------------------------------------------------;;
-;;                      Nastavenie DIMSCALE                             ;;
-;;----------------------------------------------------------------------;;
-
-(defun NastavenieDIMSCALE()
-
-  ;vytvorenie premenej VyberDIMSCALE pre vyber modu pre vlozene bloky a koty
-  (setq VyberDIMSCALE
-    (getstring "\nV ako mode chcete pouzivat bloky a koty? [Klacicky/Mierka] <Klasicky>: ")
-  )
-  
   ;vyhodnotenie vyberu modu pre bloky
-  (if (or (= VyberDIMSCALE "") (= VyberDIMSCALE "K") (= VyberDIMSCALE "k"))
+  (if (= modKlasicky "1")
     ;nastavenie modu na Klasicky
     (setenv "GlobalnaDIMSCALEset" "Klasicky")
   
-    (if (or (= VyberDIMSCALE "M") (= VyberDIMSCALE "m"))
+    (if (= modDimscale "1")
       ;nastavenie modu na Mierka
       (setenv "GlobalnaDIMSCALEset" "Mierka")
       (princ)
     )
   )
   
-  ;hlaska o nastaveneho modu vkladanych blokoch
-  (princ (strcat "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky a koty!"))
+  ;hlaska o nastavenych parametroch
+  (princ (strcat "\nNastavily ste hladinu " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
+                 "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky a koty!"))
+  
   (princ)
 
+)
+
+;funkcia ulozenia nastavenia
+(defun UlozitNastavenia ()
+  (setq hladinaDpPopis (get_tile "hladinaDpPopis"))
+  (setq hladinaNula (get_tile "hladinaNula"))
+  (setq modKlasicky (get_tile "modKlasicky"))
+  (setq modDimscale (get_tile "modDimscale"))
 )
 
 ;;----------------------------------------------------------------------;;

@@ -2,7 +2,7 @@ Rebar_length //nazov dcl
 
 : dialog 
 {
-  // nazov dialogu
+  //nazov dialogu
   label = "Vypocet dlzky presahu a kotvenia ocele"; 
 
   //prvy riadok dialogu
