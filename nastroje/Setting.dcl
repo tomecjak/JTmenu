@@ -36,7 +36,7 @@ Setting //nazov dcl
   //druhy riadok dialogu - nastavenie DIMSCALE pre vkladane bloky
   : boxed_radio_column
   {
-    label = "V akom mode pouzivat bloky a koty?";
+    label = "V akom mode pouzivat bloky?";
     //prepinac pre mod klasicky
     : radio_button
     {
@@ -62,11 +62,54 @@ Setting //nazov dcl
     //treti riadok poznamky nastavenia
     : text_part
     { 
-      label = "bloky vkladaju podla mierky kot (dimscale).";
+      label = "bloky vkladaju podla mierky kot (DIMSCALE).";
     }
   }
 
-  //treti riadok dialogu - verzia JTmenu
+  //treti riadok dialogu - nastavenie geenrovanych kot
+  : boxed_radio_column
+  {
+    label = "V akom mode vygenerovat koty?";
+    //prepinac pre mod klasicky
+    : radio_button
+    {
+      key = "modKotyKlasicky";
+      label = "Kladicky";
+    }
+    //prepinac pre mod dimscale
+    : radio_button
+    {
+      key = "modKotyDimscale";
+      label = "Dimscale";
+    }
+    //prvy riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "Pri nastaveny modu klasicky sa koty";
+    }
+    //druhy riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "generaju samostatne pre vsetky mierky.";
+    }
+    //treti riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "Pri nastaveny modu dimscale sa vygeneraje.";
+    }
+    //stvrty riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "len jedna kota, ktorej velkost je";
+    }
+    //piaty riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "riadena hodnotou DIMSCALE.";
+    }
+  }
+
+  //stvrty riadok dialogu - verzia JTmenu
   : boxed_row
   {
     label = "Verzia JTmenu";

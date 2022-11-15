@@ -31,6 +31,14 @@
     (set_tile "modDimscale" "1")
   )
   
+  ;nastavenie prepinaca modov dialogu podla GlobalnaKotyDIMSCALEset
+  (if (= (getenv "GlobalnaKotyDIMSCALEset") "Klasicky")
+    ;splnena podmienka
+    (set_tile "modKotyKlasicky" "1")
+    ;nesplnena podmienka
+    (set_tile "modKotyDimscale" "1")
+  )
+  
   ;nacitanie verzie JTmenu do dialogu
   (set_tile "verziaJtMenu" (JTmenuVersion))
   
@@ -74,9 +82,22 @@
     )
   )
   
+  ;vyhodnotenie vyberu modu pre bloky
+  (if (= modKotyKlasicky "1")
+    ;nastavenie modu na Klasicky
+    (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
+  
+    (if (= modKotyDimscale "1")
+      ;nastavenie modu na Mierka
+      (setenv "GlobalnaKotyDIMSCALEset" "Mierka")
+      (princ)
+    )
+  )
+  
   ;hlaska o nastavenych parametroch
   (princ (strcat "\nNastavily ste hladinu " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
-                 "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky a koty!"))
+                 "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
+                 "\nNastavily ste mod na " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"))
   
   (princ)
 
@@ -88,6 +109,8 @@
   (setq hladinaNula (get_tile "hladinaNula"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
+  (setq modKotyKlasicky (get_tile "modKotyKlasicky"))
+  (setq modKotyDimscale (get_tile "modKotyDimscale"))
 )
 
 ;;----------------------------------------------------------------------;;

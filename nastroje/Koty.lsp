@@ -18,9 +18,9 @@
   (setq listNasobic (list 0.02 0.04 0.1 0.2 0.4 0.5 1 2 4 5 10 20 40))
 
   ;vyhodnotenie pouzitia stylu kot podla modu
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+  (if (= (getenv "GlobalnaKotyDIMSCALEset") "Klasicky")
       (KotyKlasickyMod)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+    (if (= (getenv "GlobalnaKotyDIMSCALEset") "Mierka")
         (KotyMierkaMod)
     )
   )
@@ -167,7 +167,7 @@
   )
   
   ;nastavenie zatvoriek v nazve koty
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+  (if (= (getenv "GlobalnaKotyDIMSCALEset") "Klasicky")
     (setq mierkaZatvorka (strcat "[" (rtos (* 50 nasobicMierky) 2 0) "] "))
     (setq mierkaZatvorka " ")
   )

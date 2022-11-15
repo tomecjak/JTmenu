@@ -63,8 +63,13 @@
 )
 
 (if (= (getenv "GlobalnaDIMSCALEset") nil)
-  ;nastavenie hladinu na DP_Popis
+  ;nastavenie modu blokov na klasicky
   (setenv "GlobalnaDIMSCALEset" "Klasicky")
+)
+
+(if (= (getenv "GlobalnaKotyDIMSCALEset") nil)
+  ;nastavenie modu kot na klasicky
+  (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
 )
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,6 +84,7 @@
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
+    "\nNastaveny mod " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"
     "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
     "\n**********************************************"
   )
