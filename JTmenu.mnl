@@ -26,7 +26,7 @@
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
-(AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross"))
+(AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross" "TEST"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 
 (print)
@@ -69,6 +69,10 @@
   ;nastavenie modu kot na klasicky
   (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
 )
+
+;(load "Layout_functions" "\nVerzia nenacitana!")
+;(c:JTSheetScale)
+;(c:JTSheetSize)
 
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Uvitacia hlaska pri nacitany programu JTmenu
