@@ -396,6 +396,7 @@
   (setq RozpiskaTagNazovVykresu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "NAZOV_VYKRESU"))
   (setq RozpiskaTagNazovZakazky (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "NAZOV_ZAKAZKY"))
   (setq RozpiskaTagCisloVykresu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "CISLO_VYKRESU"))
+  (setq RozpiskaTagCisloObjektu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "CISLO_OBJEKTU"))
 )
 
 (defun RospiskaTagsUp (/ ctr ss1)
@@ -479,6 +480,11 @@
     ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_VYKRESU" RozpiskaTagCisloVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
+  ;vlozenie udejov do tagu CISLO_OBJEKTU bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "CISLO_OBJEKTU" RozpiskaTagCisloObjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
 )
 
 ;;----------------------------------------------------------------------;;
@@ -537,3 +543,48 @@
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
 ;;----------------------------------------------------------------------;;
+
+(defun c:test33 ()
+  (setq NazovDWG (getvar "dwgname"))
+  
+  (setq CisloObjektu (substr NazovDWG 1 6))
+  (setq CisloVykresu (substr NazovDWG 8 2))
+  (setq NazovVykresu (substr NazovDWG 11))
+  
+  
+  
+  (princ CisloObjektu)
+  (princ CisloVykresu)
+  (princ NazovVykresu)
+  (princ)
+)
+
+(defun c:LayoutSetting ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Layout_setting.dcl"))
+  
+  ;test existenice dialogu
+  (if (not (new_dialog "Layout_setting" dcl_id))
+    (exit)
+  )
+  
+  
+  
+  ;definovanie tlacidla cancel
+  (action_tile "cancel"
+    "(done_dialog)"
+  )
+  
+  ;definovanie tlacitla aktualizovat
+  (action_tile "aktualizovat"
+    "(LayoutSettingAktualizacia)(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
