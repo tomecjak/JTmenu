@@ -571,7 +571,7 @@
   
   
   
-  ;definovanie tlacidla cancel
+  ;definovanie tlacidla cancel 
   (action_tile "cancel"
     "(done_dialog)"
   )
