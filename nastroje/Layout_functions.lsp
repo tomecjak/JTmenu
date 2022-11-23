@@ -9,7 +9,7 @@
 ;;                Zistenie poctu A4 vykresy v layoute                   ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTSheetSize(/ ctr ss1)
+(defun JTSheetSize(/ ctr ss1)
   
   ;funkcia pre ziskanie rozmerov layoutu
   (GetPaperSize)
@@ -22,7 +22,7 @@
   (setq NumberOfA4 (strcat (rtos LayoutA4 2 0) "xA4"))
   
 
-  ;vlozenie udejov o pocete A4 do tagu POCETA4 bloku DPRozpiska
+  ;vlozenie udejov o pocte A4 do tagu POCETA4 bloku DPRozpiska
   (setq ctr 0
     ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "FORMAT" NumberOfA4 (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
@@ -35,7 +35,7 @@
 ;;                Zistenie poctu a mierok viewportov                    ;;
 ;;----------------------------------------------------------------------;;
 
-(defun C:JTSheetScale( / ssVP ListOfLayout cnt ListOfScale LayoutCountList ctr ss1)
+(defun JTSheetScale( / ssVP ListOfLayout cnt ListOfScale LayoutCountList ctr ss1)
 
   ;zistenie poctu viewportov nachadzajucich sa v layoute a vytvorenie listu
   (foreach X (layoutlist)
@@ -108,24 +108,24 @@
 ;;                Premenovanie layoutu podla rozmeru                    ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTSheetRename()
+(defun JTSheetRename()
   
-;funkcia pre ziskanie rozmerov layoutu
-(GetPaperSize)
-  
-;funkcia pre ziskanie poctu A4
-(CountSheetA4)
-  
-;vytvorenie premennej s hodnotou poctu A4
-(setq LayoutA4 (* CountLayoutWidth HeightA4))
-  
-(setq SheetName (strcat (rtos LayoutHeight 2 0) "x" (rtos LayoutWidth 2 0) "_" (rtos LayoutA4 2 0) "xA4"))
+  ;funkcia pre ziskanie rozmerov layoutu
+  (GetPaperSize)
+    
+  ;funkcia pre ziskanie poctu A4
+  (CountSheetA4)
+    
+  ;vytvorenie premennej s hodnotou poctu A4
+  (setq LayoutA4 (* CountLayoutWidth HeightA4))
+    
+  (setq SheetName (strcat (rtos LayoutHeight 2 0) "x" (rtos LayoutWidth 2 0) "_" (rtos LayoutA4 2 0) "xA4"))
 
-(command "layout" "rename" "" SheetName)
+  (command "layout" "rename" "" SheetName)
 
-(setvar "cmdecho" 1)
-  
-(princ)
+  (setvar "cmdecho" 1)
+    
+  (princ)
   
 )
 
@@ -544,32 +544,112 @@
 ;;                             End of File                              ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:test33 ()
+
+
+(defun JTObjectNumber (/ ctr ss1)
+
+  ;nastavenie premenej nazvu dwg
   (setq NazovDWG (getvar "dwgname"))
   
+  ;nastavenie premenej cisla objektu
   (setq CisloObjektu (substr NazovDWG 1 6))
-  (setq CisloVykresu (substr NazovDWG 8 2))
-  (setq NazovVykresu (substr NazovDWG 11))
   
+  ;vlozenie udejov o cisle objektu do tagu CISLO_OBJEKTU bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "CISLO_OBJEKTU" CisloObjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  
-  (princ CisloObjektu)
-  (princ CisloVykresu)
-  (princ NazovVykresu)
   (princ)
+  
 )
 
-(defun c:LayoutSetting ()
+(defun JTSheetNumber (/ ctr ss1)
+
+  ;nastavenie premenej nazvu dwg
+  (setq NazovDWG (getvar "dwgname"))
+  
+  ;nastavenie premenej cisla vykresu
+  (setq CisloVykresu (substr NazovDWG 8 (+ 2 FormatovanieCislovaniaPosun)))
+
+  
+  ;vlozenie udejov o cisle vykresu do tagu CISLO_VYKRESU bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "CISLO_VYKRESU" CisloVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  (princ)
+  
+)
+
+(defun JTSheetName (/ ctr ss1)
+
+  ;nastavenie premenej nazvu dwg
+  (if (= vykresNazovUppercase "0")
+    (setq NazovDWG (getvar "dwgname"))
+    (setq NazovDWG (strcase (getvar "dwgname")))
+  )
+  
+  ;zistenie poctu pismen v prvku
+  (if (= (getenv "GlobalnyFormatCislaVykresu") "0")
+    (setq DlzkaNazvuDWG (- (strlen NazovDWG) 14))
+    (setq DlzkaNazvuDWG (- (strlen NazovDWG) 15))
+  )
+  
+  ;nastavenie premenej nazvu vykresu
+  (setq NazovVykresu (substr NazovDWG (+ 11 FormatovanieCislovaniaPosun) DlzkaNazvuDWG))
+  
+  ;vlozenie udejov onazve vykresu do tagu NAZOV_VYKRESU bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "NAZOV_VYKRESU" NazovVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  (princ)
+  
+)
+
+(defun c:JTLayoutUpdate ()
+  
+  ;definovanie listu formatu cisla vykresu
+  (setq CisloFormatList (list "2" "3"))
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Layout_setting.dcl"))
+  (setq dcl_id (load_dialog "Layout_update.dcl"))
   
   ;test existenice dialogu
-  (if (not (new_dialog "Layout_setting" dcl_id))
+  (if (not (new_dialog "Layout_update" dcl_id))
     (exit)
   )
   
+  ;spustenie a naplnenie listu formatok
+  (start_list "formatCislovania")
+  (mapcar 'add_list CisloFormatList)
+  (end_list)
   
+  ;nastavenie prepinaca formatu cislovania vykresu
+  (if (= (getenv "GlobalnyFormatCislaVykresu") "0")
+    ;splnena podmienka
+    (set_tile "formatCislovania" "0")
+    ;nesplnena podmienka
+    (set_tile "formatCislovania" "1")
+  )
+  
+  ;nastavenie mena vyhotovotela vykresu
+  (if (= (getenv "GlobalneVyhotovilVykres") "Meno")
+    ;splnena podmienka
+    (set_tile "vykresVypracoval" "Meno")
+    ;nesplnena podmienka
+    (set_tile "vykresVypracoval" (getenv "GlobalneVyhotovilVykres"))
+  )
+  
+  ;definovanie tlacidla oznacit vsetko
+  (action_tile "oznacitVsetko"
+    "(OznacitVsetkoFunkcia)"
+  )
+  
+    ;definovanie tlacidla odznacit vsekto
+  (action_tile "odznacitVsetko"
+    "(OdznacitVsetkoFunkcia)"
+  )
   
   ;definovanie tlacidla cancel 
   (action_tile "cancel"
@@ -586,5 +666,107 @@
   
   ;unload dialogu
   (unload_dialog dcl_id)
+  
+  ;spustenie jednotlivych funkcii po zavreti dialogoveho okna
+  
+  (if (= formatCislovaniaVyber "1")
+    (setenv "GlobalnyFormatCislaVykresu" "1")
+    (setenv "GlobalnyFormatCislaVykresu" "0")
+  )
+  
+   (if (= formatCislovaniaVyber "1")
+    (setq FormatovanieCislovaniaPosun 1)
+    (setq FormatovanieCislovaniaPosun 0)
+  )
+  
+  (if (/= vykresVypracoval "Meno")
+    (setenv "GlobalneVyhotovilVykres" vykresVypracoval)
+    (setenv "GlobalneVyhotovilVykres" "Meno")
+  )
+  
+  
+  
 
+  
+  ;aktualizacia cisla objektu
+  (if (= cisloObjektu "1")
+    (JTObjectNumber)
+  )
+  ;aktualizacia velkosti vykresu
+  (if (= velkostVykresu "1")
+    (JTSheetSize)
+  )
+  ;aktualizacia mierky vykresu
+  (if (= mierkaVykresu "1")
+    (JTSheetScale)
+  )
+  ;aktualizacia nazov vykresu
+  (if (= nazovVykresu "1")
+    (JTSheetName)
+  )
+  ;aktualizacia cislo vykresu
+  (if (= cisloVykresu "1")
+    (JTSheetNumber)
+  )
+  ;aktualizacia vyhotovil
+  (if (= vykresVypracovalAktualizacia "1")
+    (JTSheetCreate)
+  )
+  ;aktualizacia premenovanie layoutu
+  (if (= layoutRename "1")
+    (JTSheetRename)
+  )
+  
+  (princ)
+
+)
+
+;funkcia tlacidla oznacit vsetko
+(defun OznacitVsetkoFunkcia ()
+  (set_tile "cisloObjektu" "1")
+  (set_tile "velkostVykresu" "1")
+  (set_tile "mierkaVykresu" "1")
+  (set_tile "nazovVykresu" "1")
+  (set_tile "cisloVykresu" "1")
+  (set_tile "vykresVypracovalAktualizacia" "1")
+  (set_tile "vykresNazovUppercase" "1")
+  (set_tile "layoutRename" "1")
+)
+
+;funkcia tlacidla odznacit vsetko
+(defun OdznacitVsetkoFunkcia ()
+  (set_tile "cisloObjektu" "0")
+  (set_tile "velkostVykresu" "0")
+  (set_tile "mierkaVykresu" "0")
+  (set_tile "nazovVykresu" "0")
+  (set_tile "cisloVykresu" "0")
+  (set_tile "vykresVypracovalAktualizacia" "0")
+  (set_tile "vykresNazovUppercase" "0")
+  (set_tile "layoutRename" "0")
+)
+
+;funkcia tlacidla aktualizovat
+(defun LayoutSettingAktualizacia ()
+  ;definovanie premenych pre vyhodnotenie
+  (setq cisloObjektu (get_tile "cisloObjektu"))
+  (setq velkostVykresu (get_tile "velkostVykresu"))
+  (setq mierkaVykresu (get_tile "mierkaVykresu"))
+  (setq nazovVykresu (get_tile "nazovVykresu"))
+  (setq cisloVykresu (get_tile "cisloVykresu"))
+  (setq formatCislovaniaVyber (get_tile "formatCislovania"))
+  (setq vykresVypracoval (get_tile "vykresVypracoval"))
+  (setq vykresVypracovalAktualizacia (get_tile "vykresVypracovalAktualizacia"))
+  (setq vykresNazovUppercase (get_tile "vykresNazovUppercase"))
+  (setq layoutRename (get_tile "layoutRename"))
+)
+
+
+(defun JTSheetCreate ()
+  ;vlozenie udajov o mene vyhotovil do tagu VYPRACOVAL bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "VYPRACOVAL" (getenv "GlobalneVyhotovilVykres") (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+ 
+(princ)
 )

@@ -26,7 +26,7 @@
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
-(AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross" "test33" "LayoutSetting"))
+(AUTOLOAD "Layout_functions" '("DPRozpiska" "JTSheetCross" "JTFileNameGenerator" "JTLayoutUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 
 (print)
@@ -70,6 +70,17 @@
   (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
 )
 
+(if (= (getenv "GlobalnyFormatCislaVykresu") nil)
+  ;nastavenie formatu cislovanie vykresu na 2
+  (setenv "GlobalnyFormatCislaVykresu" "0")
+)
+
+(if (= (getenv "GlobalneVyhotovilVykres") nil)
+  ;nastavenie mena vyhotovil na hodnotu menu
+  (setenv "GlobalneVyhotovilVykres" "Meno")
+)
+
+
 ;(load "Layout_functions" "\nVerzia nenacitana!")
 ;(c:JTSheetScale)
 ;(c:JTSheetSize)
@@ -88,6 +99,8 @@
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"
     "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
+    "\nFormat cislovania vykresu je nastaveny na: " (getenv "GlobalnyFormatCislaVykresu") "."
+    "\nMeno tagu vyhotovil pre rozpisku je nastavene na: " (getenv "GlobalneVyhotovilVykres") "."
     "\n**********************************************"
   )
 ) 
