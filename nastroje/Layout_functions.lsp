@@ -610,10 +610,10 @@
 (defun c:JTLayoutUpdate ()
   
   ;definovanie listu formatu cisla vykresu
-  (setq CisloFormatList (list "2" "3"))
+  (setq CisloFormatList (list "01" "001"))
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Layout_update.dcl"))
+  (setq dcl_id (load_dialog "Layout_update_new.dcl"))
   
   ;test existenice dialogu
   (if (not (new_dialog "Layout_update" dcl_id))
@@ -767,6 +767,21 @@
     ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "VYPRACOVAL" (getenv "GlobalneVyhotovilVykres") (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
- 
 (princ)
+)
+
+(defun c:txtzapis ()
+  (setq file (open "testfile.dat" "w"))
+  (write-line "Prvy riadok-ah!" file)
+  (write-line "" file)
+  (write-line "Druhy riadok" file)
+  (close file)
+)
+
+(defun c:txtcitanie ()
+  (setq file (open "testfile.dat" "r"))
+  (princ (read-line file))
+  (princ (read-line file))
+  (princ (read-line file))
+  (close file)
 )
