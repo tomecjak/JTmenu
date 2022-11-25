@@ -26,7 +26,7 @@
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
 (AUTOLOAD "Networks" '("JTCiary"))
-(AUTOLOAD "Layout_functions" '("DPRozpiska" "JTSheetCross" "JTFileNameGenerator" "JTTitleBlockUpdate" "test33"))
+(AUTOLOAD "Layout_functions" '("DPRozpiska" "JTSheetCross" "JTFileNameGenerator" "JTTitleBlockUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 
 (print)
@@ -80,15 +80,16 @@
   (setenv "GlobalneVyhotovilVykres" "Meno")
 )
 
-
-;(load "Layout_functions" "\nVerzia nenacitana!")
-;(c:JTSheetScale)
-;(c:JTSheetSize)
-
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Uvitacia hlaska pri nacitany programu JTmenu
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+;nastavenie premennej pre urcenie tvaru formatu cislovania
+(setq FormatCislaVykresu (if (= (getenv "GlobalnyFormatCislaVykresu") "0") (setq FormatCislaVykresu "01")(setq FormatCislaVykresu "001")))
+
+;nacitanie verzie programu
 (load "Version" "\nVerzia nenacitana!")
+
+;vypisanie statusu o stave globalnych premenych
 (princ
   (strcat
     "\n**********************************************"
@@ -99,9 +100,11 @@
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"
     "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
-    "\nFormat cislovania vykresu je nastaveny na: " (getenv "GlobalnyFormatCislaVykresu") "."
+    "\nFormat cislovania vykresu je nastaveny na: " FormatCislaVykresu "."
     "\nMeno tagu vyhotovil pre rozpisku je nastavene na: " (getenv "GlobalneVyhotovilVykres") "."
     "\n**********************************************"
   )
 ) 
 (print)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

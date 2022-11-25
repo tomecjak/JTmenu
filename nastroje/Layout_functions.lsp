@@ -528,22 +528,8 @@
 )
 
 ;;----------------------------------------------------------------------;;
-
-(vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
-(princ
-    (strcat
-        "\nLayoutFunctions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
-        (menucmd "m=$(edtime,0,yyyy)")
-        "\n"
-    )
-)
-(princ)
-
+;;          Pomocna funkcia pre pre zistenie cisla objektu              ;;
 ;;----------------------------------------------------------------------;;
-;;                             End of File                              ;;
-;;----------------------------------------------------------------------;;
-
 
 
 (defun JTObjectNumber (/ ctr ss1)
@@ -563,6 +549,10 @@
   
 )
 
+;;----------------------------------------------------------------------;;
+;;            Pomocna funkcia pre zistenie cisla vykresu                ;;
+;;----------------------------------------------------------------------;;
+
 (defun JTSheetNumber (/ ctr ss1)
 
   ;nastavenie premenej nazvu dwg
@@ -580,6 +570,10 @@
   (princ)
   
 )
+
+;;----------------------------------------------------------------------;;
+;;             Pomocna funkcia pre zistenie nazvu vykresu               ;;
+;;----------------------------------------------------------------------;;
 
 (defun JTSheetName (/ ctr ss1)
 
@@ -607,8 +601,21 @@
   
 )
 
+;;----------------------------------------------------------------------;;
+;;                  Hlavna funkcia JTTitleBlockUpdate                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun c:JTTitleBlockUpdate ()
   
+  ;ukoncenie programu ak nieje vykres este ulozeny + hlaska
+  (if (= (getvar "dwgtitled") 0)
+    (progn
+      (princ "\nSubor je potrebne najprv ulozit!\n")
+      (exit)
+    )
+  )
+
+  ;nastavenie cesty do korenoveho adresara vykresu
   (setq CestaPlnaSuboru (findfile (getvar "dwgname")))
   (setq CestaNazovSuboru (getvar "dwgname"))
   (setq CestaSkratenaSuboru (substr CestaPlnaSuboru 1 (- (strlen CestaPlnaSuboru) (strlen CestaNazovSuboru))))
@@ -675,7 +682,7 @@
     "(OznacitVsetkoFunkcia)"
   )
   
-    ;definovanie tlacidla odznacit vsekto
+  ;definovanie tlacidla odznacit vsekto
   (action_tile "odznacitVsetko"
     "(OdznacitVsetkoFunkcia)"
   )
@@ -687,7 +694,7 @@
   
   ;definovanie tlacidla cancel 
   (action_tile "cancel"
-    "(done_dialog)"
+    "(done_dialog)(exit)"
   )
   
   ;definovanie tlacitla aktualizovat
@@ -702,7 +709,6 @@
   (unload_dialog dcl_id)
   
   ;spustenie jednotlivych funkcii po zavreti dialogoveho okna
-  
   (if (= formatCislovaniaVyber "1")
     (setenv "GlobalnyFormatCislaVykresu" "1")
     (setenv "GlobalnyFormatCislaVykresu" "0")
@@ -915,3 +921,20 @@
   ;nastavenie oznamovacie hlasky
   (set_tile "oznamovaciaHlaska" "Data uspesne ulozene.")
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nLayoutFunctions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+        "\n"
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
