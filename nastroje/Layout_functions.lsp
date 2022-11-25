@@ -607,13 +607,18 @@
   
 )
 
-(defun c:JTLayoutUpdate ()
+(defun c:JTTitleBlockUpdate ()
+  
+  (setq CestaPlnaSuboru (findfile (getvar "dwgname")))
+  (setq CestaNazovSuboru (getvar "dwgname"))
+  (setq CestaSkratenaSuboru (substr CestaPlnaSuboru 1 (- (strlen CestaPlnaSuboru) (strlen CestaNazovSuboru))))
+  (setq CestaTitleBlockData (strcat CestaSkratenaSuboru "TitleBlockData.dat"))
   
   ;definovanie listu formatu cisla vykresu
   (setq CisloFormatList (list "01" "001"))
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Layout_update_new.dcl"))
+  (setq dcl_id (load_dialog "Layout_update.dcl"))
   
   ;test existenice dialogu
   (if (not (new_dialog "Layout_update" dcl_id))
@@ -641,6 +646,30 @@
     (set_tile "vykresVypracoval" (getenv "GlobalneVyhotovilVykres"))
   )
   
+  ;podmienka ak neexistuje subor TitleBlockData.dat
+  (if (= (open CestaTitleBlockData "r") nil)
+    ;nastavenie oznamovacej hlasky
+    (set_tile "oznamovaciaHlaska" "Data nenacitane, ulozte data pomoccou \"Ulozit\"")
+    (progn
+      ;nastavenie oznamovacie hlasky
+      (set_tile "oznamovaciaHlaska" "Data uspesne nacitane.")
+      ;nacitanie udajov zo suboru TitleBlockData.dat
+      (setq file (open CestaTitleBlockData "r"))
+      (set_tile "vykresZodpovednyProjektant" (read-line file))
+      (set_tile "vykresHlavnyInzinierProjektu" (read-line file))
+      (set_tile "vykresKontroloval" (read-line file))
+      (set_tile "vykresOkresStavby" (read-line file))
+      (set_tile "vykresObjednavatel" (read-line file))
+      (set_tile "vykresNazovZakazky" (read-line file))
+      (set_tile "vykresNazovObjektu" (read-line file))
+      (set_tile "vykresArchivneCislo" (read-line file))
+      (set_tile "vykresStupenDokumentacie" (read-line file))
+      (set_tile "vykresDatum" (read-line file))
+      (set_tile "vykresCisloZakzky" (read-line file))
+      (close file)
+    )  
+  )
+    
   ;definovanie tlacidla oznacit vsetko
   (action_tile "oznacitVsetko"
     "(OznacitVsetkoFunkcia)"
@@ -649,6 +678,11 @@
     ;definovanie tlacidla odznacit vsekto
   (action_tile "odznacitVsetko"
     "(OdznacitVsetkoFunkcia)"
+  )
+  
+  ;definovanie tlacidla ulozit
+  (action_tile "ulozitUdajeRozpisky"
+    "(UlozitDataRozpisky)"
   )
   
   ;definovanie tlacidla cancel 
@@ -684,10 +718,6 @@
     (setenv "GlobalneVyhotovilVykres" "Meno")
   )
   
-  
-  
-
-  
   ;aktualizacia cisla objektu
   (if (= cisloObjektu "1")
     (JTObjectNumber)
@@ -716,6 +746,10 @@
   (if (= layoutRename "1")
     (JTSheetRename)
   )
+  ;aktualizacia externych udajov rozpisky
+  (if (= vykresExterneDataAktualizovat "1")
+    (JTUpdateRozpiska)
+  )
   
   (princ)
 
@@ -731,6 +765,8 @@
   (set_tile "vykresVypracovalAktualizacia" "1")
   (set_tile "vykresNazovUppercase" "1")
   (set_tile "layoutRename" "1")
+  (set_tile "zakazkaNazovUppercase" "1")
+  (set_tile "vykresExterneDataAktualizovat" "1")
 )
 
 ;funkcia tlacidla odznacit vsetko
@@ -743,6 +779,8 @@
   (set_tile "vykresVypracovalAktualizacia" "0")
   (set_tile "vykresNazovUppercase" "0")
   (set_tile "layoutRename" "0")
+  (set_tile "zakazkaNazovUppercase" "0")
+  (set_tile "vykresExterneDataAktualizovat" "0")
 )
 
 ;funkcia tlacidla aktualizovat
@@ -758,8 +796,22 @@
   (setq vykresVypracovalAktualizacia (get_tile "vykresVypracovalAktualizacia"))
   (setq vykresNazovUppercase (get_tile "vykresNazovUppercase"))
   (setq layoutRename (get_tile "layoutRename"))
+  ;definovnaie premenych pre vyhodnotenie z externeho uloziska
+  (setq vykresExterneDataAktualizovat (get_tile "vykresExterneDataAktualizovat"))
+  (setq vykresZodpovednyProjektant (get_tile "vykresZodpovednyProjektant"))
+  (setq vykresHlavnyInzinierProjektu (get_tile "vykresHlavnyInzinierProjektu"))
+  (setq vykresKontroloval (get_tile "vykresKontroloval"))
+  (setq vykresOkresStavby (get_tile "vykresOkresStavby"))
+  (setq vykresObjednavatel (get_tile "vykresObjednavatel"))
+  (setq vykresNazovZakazky (get_tile "vykresNazovZakazky"))
+  (setq vykresNazovObjektu (get_tile "vykresNazovObjektu"))
+  (setq vykresArchivneCislo (get_tile "vykresArchivneCislo"))
+  (setq vykresStupenDokumentacie (get_tile "vykresStupenDokumentacie"))
+  (setq vykresDatum (get_tile "vykresDatum"))
+  (setq vykresCisloZakzky (get_tile "vykresCisloZakzky"))
+  ;spojenie cisla objektu a nazvu objektu
+  (setq cisloObjektuAvykresNazovObjektu (strcat (substr (getvar "dwgname") 1 6) " " vykresNazovObjektu))
 )
-
 
 (defun JTSheetCreate ()
   ;vlozenie udajov o mene vyhotovil do tagu VYPRACOVAL bloku DPRozpiska
@@ -770,18 +822,96 @@
 (princ)
 )
 
-(defun c:txtzapis ()
-  (setq file (open "testfile.dat" "w"))
-  (write-line "Prvy riadok-ah!" file)
-  (write-line "" file)
-  (write-line "Druhy riadok" file)
-  (close file)
+(defun JTUpdateRozpiska ()
+  ;vlozenie udajov o mene vyhotovil do tagu ZOP bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "ZOP" vykresZodpovednyProjektant (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu HIP bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "HIP" vykresHlavnyInzinierProjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu KONTROLOVAL bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "KONTROLOVAL" vykresKontroloval (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu OKRES_STAVBY bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "OKRES_STAVBY" vykresOkresStavby (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu OBJEDNAVATEL bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "OBJEDNAVATEL" vykresObjednavatel (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu NAZOV_ZAKAZKY bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "NAZOV_ZAKAZKY" vykresNazovZakazky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu OBJEKT bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "OBJEKT" cisloObjektuAvykresNazovObjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu CISLO_ARCHIVNE bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "CISLO_ARCHIVNE" vykresArchivneCislo (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu STUPEN bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "STUPEN" vykresStupenDokumentacie (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu DATUM bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "DATUM" vykresDatum (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  ;vlozenie udajov o mene vyhotovil do tagu CISLO_ZAKAZKY bloku DPRozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "CISLO_ZAKAZKY" vykresCisloZakzky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
+  
+  (princ)
+
 )
 
-(defun c:txtcitanie ()
-  (setq file (open "testfile.dat" "r"))
-  (princ (read-line file))
-  (princ (read-line file))
-  (princ (read-line file))
+;funkcie pre tlacidlo Ulozit
+(defun UlozitDataRozpisky()
+  ;definovanie premenych
+  (setq vykresZodpovednyProjektant (get_tile "vykresZodpovednyProjektant"))
+  (setq vykresHlavnyInzinierProjektu (get_tile "vykresHlavnyInzinierProjektu"))
+  (setq vykresKontroloval (get_tile "vykresKontroloval"))
+  (setq vykresOkresStavby (get_tile "vykresOkresStavby"))
+  (setq vykresObjednavatel (get_tile "vykresObjednavatel"))
+  (setq vykresNazovZakazky (get_tile "vykresNazovZakazky"))
+  (setq vykresNazovObjektu (get_tile "vykresNazovObjektu"))
+  (setq vykresArchivneCislo (get_tile "vykresArchivneCislo"))
+  (setq vykresStupenDokumentacie (get_tile "vykresStupenDokumentacie"))
+  (setq vykresDatum (get_tile "vykresDatum"))
+  (setq vykresCisloZakzky (get_tile "vykresCisloZakzky"))
+  
+  ;ulozenie udajov do suboru TitleBlockData.dat
+  (setq file (open CestaTitleBlockData "w"))
+  (write-line vykresZodpovednyProjektant file)
+  (write-line vykresHlavnyInzinierProjektu file)
+  (write-line vykresKontroloval file)
+  (write-line vykresOkresStavby file)
+  (write-line vykresObjednavatel file)
+  (write-line vykresNazovZakazky file)
+  (write-line vykresNazovObjektu file)
+  (write-line vykresArchivneCislo file)
+  (write-line vykresStupenDokumentacie file)
+  (write-line vykresDatum file)
+  (write-line vykresCisloZakzky file)
   (close file)
+  
+  ;nastavenie oznamovacie hlasky
+  (set_tile "oznamovaciaHlaska" "Data uspesne ulozene.")
 )
