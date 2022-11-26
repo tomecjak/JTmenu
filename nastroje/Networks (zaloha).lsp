@@ -11,35 +11,73 @@
 
 (defun c:JTCiary ()
 
-  ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
-  
-  ;test existencie dialogu
-  (if (not (new_dialog "Networks" dcl_id))
-    (exit)
+  ;vytvorenie premenej VyberCiary
+  (setq VyberCiary
+    (getstring "\nAky typ ciar chete nacitat? [Vsetky/0 Hranice/1 Zvodidla/2 Vodovod/3 Kanalizacia/4 Hrdlove vedenie/5 Plynovod/6 Tepelne potrubie/7 Elektricke vedenie/8 Slaboprudove vedenie/9 Voda a vrstvenice] <Vsetky>: ")
+  )
+    
+  ;vyhodnotenie vyberu ciary
+  (if (or (= VyberCiary "") (= VyberCiary "V") (= VyberCiary "v"))
+    ;vsetky ciary
+    (VsetkyCiary)
+    
+    (if (or (= VyberCiary "0"))
+      ;ciary hranic
+      (CiaryHranic)
+      
+      (if (or (= VyberCiary "1"))
+        ;ciery zvodidiel a zabradlia
+        (CiaryZvodidla)
+        
+        (if (or (= VyberCiary "2"))
+          ;ciary vodovodu
+          (CiaryVodovod)
+          
+          (if (or (= VyberCiary "3"))
+            ;ciary kanalizacie
+            (CiaryKanalizacie)
+            
+            (if (or (= VyberCiary "4"))
+              ;ciary hrdloveho vedenia
+              (CiaryHrdloveVedenie)
+              
+              (if (or (= VyberCiary "5"))
+                ;ciary plynovodu
+                (CiaryPlynovodu)
+                
+                (if (or (= VyberCiary "6"))
+                  ;ciary tepelneho potrubia
+                  (CiaryTeplenePotrubie)
+                  
+                  (if (or (= VyberCiary "7"))
+                    ;ciary elektrickeho vedenia
+                    (CiarySilovehoVedenia)
+                    
+                    (if (or (= VyberCiary "8"))
+                      ;ciary slaboprudoveho vedenia
+                      (CiarySlaboprudovehoVedenia)
+                      
+                      (if (or (= VyberCiary "9"))
+                        ;ciary vody a vrstvenice
+                        (CiaryVodaVrstvenice)
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
   )
   
-  
-  
-  
-  ;definovanie tlacidla cancel
-  (action_tile "cancel"
-    "(done_dialog)"
-  )
-  
-  ;definovanie tlacidla cancel
-  (action_tile "nacitat"
-    ""
-  )
-  
-  ;spustenie dialogu
-  (start_dialog)
-  
-  ;unload dialogu
-  (unload_dialog dcl_id)
-  
-  
+  ;regeneracia vsetkych objektov v autocade
+  (setq thisdrawing 
+       (vla-get-activedocument 
+               (vlax-get-acad-object)))
 
+  (vla-Regen thisdrawing acAllViewports)
   
   (princ)
   

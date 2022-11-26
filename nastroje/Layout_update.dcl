@@ -517,6 +517,7 @@ Layout_update //nazov dcl
     {
       key = "ulozitUdajeRozpisky";
       label = "Ulozit";
+      mnemonic = "U";
     }
 
     //tlacidlo aktualizovat
@@ -525,6 +526,7 @@ Layout_update //nazov dcl
       key = "aktualizovat";
       label = "Aktualizovat";
       is_default = true;
+      mnemonic = "A";
     }  
 
     //tlacidlo zavriet
@@ -533,6 +535,7 @@ Layout_update //nazov dcl
       key = "cancel";
       label = "Zavriet";
       is_cancel = true;
+      mnemonic = "Z";
     }
   }
 }

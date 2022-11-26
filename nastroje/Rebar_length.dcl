@@ -221,6 +221,7 @@ Rebar_length //nazov dcl
       key = "vypocitaj";
       label = "Vypocitaj";
       is_default = true;
+      mnemonic = "V";
     }  
 
     //tlacidlo zavriet
@@ -229,6 +230,7 @@ Rebar_length //nazov dcl
       key = "cancel";
       label = "Zavriet";
       is_cancel = true;
+      mnemonic = "Z";
     }  
   }
 

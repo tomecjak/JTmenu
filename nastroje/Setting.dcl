@@ -129,6 +129,7 @@ Setting //nazov dcl
       key = "ulozit";
       label = "Ulozit";
       is_default = true;
+      mnemonic = "U";
     }  
 
     //tlacidlo zavriet
@@ -137,6 +138,7 @@ Setting //nazov dcl
       key = "cancel";
       label = "Zavriet";
       is_cancel = true;
+      mnemonic = "Z";
     }
   }
 }
