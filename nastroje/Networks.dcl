@@ -23,6 +23,7 @@ Networks //nazov dcl
         {
           key = "sieteVsetkyCiaryInfo";
           label = "Info";
+          width = 10;
         }
     }
 
