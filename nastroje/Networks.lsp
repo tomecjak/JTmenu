@@ -19,17 +19,84 @@
     (exit)
   )
   
+  ;definicnia tlacicla sieteVsetkyCiaryInfo
+  (action_tile "sieteVsetkyCiaryInfo"
+    "(SieteVsetkyCiaryInfo)"
+  )
   
+  ;definicnia tlacicla sieteCiaryHranicInfo
+  (action_tile "sieteCiaryHranicInfo"
+    "(SieteCiaryHranicInfo)"
+  )
   
+  ;definicnia tlacicla sieteCiaryZvodidlaInfo
+  (action_tile "sieteCiaryZvodidlaInfo"
+    "(SieteCiaryZvodidlaInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiaryVodovoduInfo
+  (action_tile "sieteCiaryVodovoduInfo"
+    "(SieteCiaryVodovoduInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiaryKanalizacieInfo
+  (action_tile "sieteCiaryKanalizacieInfo"
+    "(SieteCiaryKanalizacieInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiaryHrdlovehoVedeniaInfo
+  (action_tile "sieteCiaryHrdlovehoVedeniaInfo"
+    "(SieteCiaryHrdlovehoVedeniaInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiaryPlynovoduInfo
+  (action_tile "sieteCiaryPlynovoduInfo"
+    "(SieteCiaryPlynovoduInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiaryTepelnehoPotrubiaInfo
+  (action_tile "sieteCiaryTepelnehoPotrubiaInfo"
+    "(SieteCiaryTepelnehoPotrubiaInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiarySilovehoVedeniaInfo
+  (action_tile "sieteCiarySilovehoVedeniaInfo"
+    "(SieteCiarySilovehoVedeniaInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiarySlaboprudehoVedeniaInfo
+  (action_tile "sieteCiarySlaboprudehoVedeniaInfo"
+    "(SieteCiarySlaboprudehoVedeniaInfo)"
+  )
+  
+  ;definicnia tlacicla sieteCiaryVodaVrstveniceInfo
+  (action_tile "sieteCiaryVodaVrstveniceInfo"
+    "(SieteCiaryVodaVrstveniceInfo)"
+  )
+  
+  ;definicia tlacidla oznacit vsetko
+  (action_tile "tlacidloOznacitVsetko"
+    "(OznacitVsetkoFunkcia)"
+  )
+  
+    ;definicia tlacidla odznacit vsetko
+  (action_tile "tlacidloOdznacitVsetko"
+    "(OdznacitVsetkoFunkcia)"
+  )
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
-    "(done_dialog)"
+    "(done_dialog)(exit)"
   )
   
   ;definovanie tlacidla cancel
   (action_tile "nacitat"
-    ""
+    "(NacitanieHodnotPoloziek)(done_dialog)"
+  )
+  
+  ;definovanie tlacidla cancel
+  (action_tile "nacitat"
+    "(NacitanieHodnotPoloziek)(done_dialog)"
   )
   
   ;spustenie dialogu
@@ -37,12 +104,377 @@
   
   ;unload dialogu
   (unload_dialog dcl_id)
+   
+  ;nacitanie vsetkych ciar
+  (if (= sieteVsetkyCiary "1")
+    (VsetkyCiary)
+  )
   
+  ;nacitanie ciar hranic
+  (if (= sieteCiaryHranic "1")
+    (CiaryHranic)
+  )
   
+  ;nacitanie ciar hranic
+  (if (= sieteCiaryZvodidla "1")
+    (CiaryZvodidla)
+  )
+  
+  ;nacitanie ciar vodovodu
+  (if (= sieteCiaryVodovodu "1")
+    (CiaryVodovod)
+  )
+  
+  ;nacitanie ciar kanalizacie
+  (if (= sieteCiaryKanalizacie "1")
+    (CiaryKanalizacie)
+  )
+  
+  ;nacitanie ciar hrdloveho vedenia
+  (if (= sieteCiaryHrdlovehoVedenia "1")
+    (CiaryHrdloveVedenie)
+  )
+  
+  ;nacitanie ciar plynovodu
+  (if (= sieteCiaryPlynovodu "1")
+    (CiaryPlynovodu)
+  )
+  
+  ;nacitanie ciar tepelneho potrubia
+  (if (= sieteCiaryTepelnehoPotrubia "1")
+    (CiaryTeplenePotrubie)
+  )
+  
+  ;nacitanie ciar siloveho vedenia
+  (if (= sieteCiarySilovehoVedenia  "1")
+    (CiarySilovehoVedenia)
+  )
+  
+  ;nacitanie ciar slaboprudeho vedenia
+  (if (= sieteCiarySlaboprudehoVedenia "1")
+    (CiarySlaboprudovehoVedenia)
+  )
+  
+  ;nacitanie ciar voda a vrstvenice
+  (if (= sieteCiaryVodaVrstvenice "1")
+    (CiaryVodaVrstvenice)
+  )
+  
+  ;regeneracia vykresu
+  (vla-Regen (vla-get-activedocument (vlax-get-acad-object)) acAllViewports)
 
+  ;ukoncovacia hlaska funkcie
+  (princ "Vsetky ciary boli uspesne nacitane.")
   
   (princ)
   
+)
+
+;funkcia tlacidla sieteVsetkyCiaryInfo
+(defun SieteVsetkyCiaryInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteVsetkyCiaryInfo
+  (if (not (new_dialog "SieteVsetkyCiaryInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryHranicInfo
+(defun SieteCiaryHranicInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryHranicInfo
+  (if (not (new_dialog "SieteCiaryHranicInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryZvodidlaInfo
+(defun SieteCiaryZvodidlaInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryZvodidlaInfo
+  (if (not (new_dialog "SieteCiaryZvodidlaInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryVodovoduInfo
+(defun SieteCiaryVodovoduInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryVodovoduInfo
+  (if (not (new_dialog "SieteCiaryVodovoduInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryKanalizacieInfo
+(defun SieteCiaryKanalizacieInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryKanalizacieInfo
+  (if (not (new_dialog "SieteCiaryKanalizacieInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryHrdlovehoVedeniaInfo
+(defun SieteCiaryHrdlovehoVedeniaInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryHrdlovehoVedeniaInfo
+  (if (not (new_dialog "SieteCiaryHrdlovehoVedeniaInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla SieteCiaryPlynovoduInfo
+(defun SieteCiaryPlynovoduInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryPlynovoduInfo
+  (if (not (new_dialog "SieteCiaryPlynovoduInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryTepelnehoPotrubiaInfo
+(defun SieteCiaryTepelnehoPotrubiaInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryTepelnehoPotrubiaInfo
+  (if (not (new_dialog "SieteCiaryTepelnehoPotrubiaInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla SieteCiarySilovehoVedeniaInfo
+(defun SieteCiarySilovehoVedeniaInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiarySilovehoVedeniaInfo
+  (if (not (new_dialog "SieteCiarySilovehoVedeniaInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla SieteCiarySlaboprudehoVedenia
+(defun SieteCiarySlaboprudehoVedeniaInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiarySlaboprudehoVedeniaInfo
+  (if (not (new_dialog "SieteCiarySlaboprudehoVedeniaInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla sieteCiaryVodaVrstveniceInfo
+(defun SieteCiaryVodaVrstveniceInfo ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Networks.dcl"))
+  
+  ;test existencie dialogu SieteCiaryVodaVrstveniceInfo
+  (if (not (new_dialog "SieteCiaryVodaVrstveniceInfo" dcl_id))
+    (exit)
+  )
+  
+  ;definicnia tlacidla zatvorit info
+  (action_tile "zatvoritInfo"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+
+)
+
+;funkcia tlacidla oznacit vsetko
+(defun OznacitVsetkoFunkcia ()
+  (set_tile "sieteCiaryHranic" "1")
+  (set_tile "sieteCiaryZvodidla" "1")
+  (set_tile "sieteCiaryVodovodu" "1")
+  (set_tile "sieteCiaryKanalizacie" "1")
+  (set_tile "sieteCiaryHrdlovehoVedenia" "1")
+  (set_tile "sieteCiaryPlynovodu" "1")
+  (set_tile "sieteCiaryTepelnehoPotrubia" "1")
+  (set_tile "sieteCiarySilovehoVedenia" "1")
+  (set_tile "sieteCiarySlaboprudehoVedenia" "1")
+  (set_tile "sieteCiaryVodaVrstvenice" "1")  
+)
+
+;funkcia tlacidla odznacit vsetko
+(defun OdznacitVsetkoFunkcia ()
+  (set_tile "sieteCiaryHranic" "0")
+  (set_tile "sieteCiaryZvodidla" "0")
+  (set_tile "sieteCiaryVodovodu" "0")
+  (set_tile "sieteCiaryKanalizacie" "0")
+  (set_tile "sieteCiaryHrdlovehoVedenia" "0")
+  (set_tile "sieteCiaryPlynovodu" "0")
+  (set_tile "sieteCiaryTepelnehoPotrubia" "0")
+  (set_tile "sieteCiarySilovehoVedenia" "0")
+  (set_tile "sieteCiarySlaboprudehoVedenia" "0")
+  (set_tile "sieteCiaryVodaVrstvenice" "0")  
+)
+
+;funkcia tlacidla nacitat
+(defun NacitanieHodnotPoloziek ()
+  (setq sieteVsetkyCiary (get_tile "sieteVsetkyCiary"))
+  (setq sieteCiaryHranic (get_tile "sieteCiaryHranic"))
+  (setq sieteCiaryZvodidla (get_tile "sieteCiaryZvodidla"))
+  (setq sieteCiaryVodovodu (get_tile "sieteCiaryVodovodu"))
+  (setq sieteCiaryKanalizacie (get_tile "sieteCiaryKanalizacie"))
+  (setq sieteCiaryHrdlovehoVedenia (get_tile "sieteCiaryHrdlovehoVedenia"))
+  (setq sieteCiaryPlynovodu (get_tile "sieteCiaryPlynovodu"))
+  (setq sieteCiaryTepelnehoPotrubia (get_tile "sieteCiaryTepelnehoPotrubia"))
+  (setq sieteCiarySilovehoVedenia (get_tile "sieteCiarySilovehoVedenia"))
+  (setq sieteCiarySlaboprudehoVedenia (get_tile "sieteCiarySlaboprudehoVedenia"))
+  (setq sieteCiaryVodaVrstvenice (get_tile "sieteCiaryVodaVrstvenice"))
 )
 
 ;funkcia pre nacitanie vsetkych ciar
@@ -87,7 +519,7 @@
 ;funkcia pre nacitanie ciar vodovod
 (defun CiaryVodovod()
 
-  (setq listCiaryVodovod (list "616A" "616B" "616C" "617A" "617B" "617C"))
+  (setq listCiaryVodovod (list "615A" "615B" "615C" "616A" "616B" "616C" "617A" "617B" "617C"))
 
   (setvar "expert" 3)
     (foreach i listCiaryVodovod
