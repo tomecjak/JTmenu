@@ -174,10 +174,10 @@
 (defun SieteVsetkyCiaryInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id1 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteVsetkyCiaryInfo
-  (if (not (new_dialog "SieteVsetkyCiaryInfo" dcl_id))
+  (if (not (new_dialog "SieteVsetkyCiaryInfo" dcl_id1))
     (exit)
   )
   
@@ -190,7 +190,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id1)
 
 )
 
@@ -198,10 +198,10 @@
 (defun SieteCiaryHranicInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id2 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryHranicInfo
-  (if (not (new_dialog "SieteCiaryHranicInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryHranicInfo" dcl_id2))
     (exit)
   )
   
@@ -214,7 +214,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id2)
 
 )
 
@@ -222,10 +222,10 @@
 (defun SieteCiaryZvodidlaInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id3 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryZvodidlaInfo
-  (if (not (new_dialog "SieteCiaryZvodidlaInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryZvodidlaInfo" dcl_id3))
     (exit)
   )
   
@@ -238,7 +238,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id3)
 
 )
 
@@ -246,10 +246,10 @@
 (defun SieteCiaryVodovoduInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id4 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryVodovoduInfo
-  (if (not (new_dialog "SieteCiaryVodovoduInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryVodovoduInfo" dcl_id4))
     (exit)
   )
   
@@ -262,7 +262,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id4)
 
 )
 
@@ -270,10 +270,10 @@
 (defun SieteCiaryKanalizacieInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id5 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryKanalizacieInfo
-  (if (not (new_dialog "SieteCiaryKanalizacieInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryKanalizacieInfo" dcl_id5))
     (exit)
   )
   
@@ -286,7 +286,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id5)
 
 )
 
@@ -294,10 +294,10 @@
 (defun SieteCiaryHrdlovehoVedeniaInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id6 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryHrdlovehoVedeniaInfo
-  (if (not (new_dialog "SieteCiaryHrdlovehoVedeniaInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryHrdlovehoVedeniaInfo" dcl_id6))
     (exit)
   )
   
@@ -310,7 +310,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id6)
 
 )
 
@@ -318,10 +318,10 @@
 (defun SieteCiaryPlynovoduInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id7 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryPlynovoduInfo
-  (if (not (new_dialog "SieteCiaryPlynovoduInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryPlynovoduInfo" dcl_id7))
     (exit)
   )
   
@@ -334,7 +334,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id7)
 
 )
 
@@ -342,10 +342,10 @@
 (defun SieteCiaryTepelnehoPotrubiaInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id8 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryTepelnehoPotrubiaInfo
-  (if (not (new_dialog "SieteCiaryTepelnehoPotrubiaInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryTepelnehoPotrubiaInfo" dcl_id8))
     (exit)
   )
   
@@ -358,7 +358,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id8)
 
 )
 
@@ -366,10 +366,10 @@
 (defun SieteCiarySilovehoVedeniaInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id9 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiarySilovehoVedeniaInfo
-  (if (not (new_dialog "SieteCiarySilovehoVedeniaInfo" dcl_id))
+  (if (not (new_dialog "SieteCiarySilovehoVedeniaInfo" dcl_id9))
     (exit)
   )
   
@@ -382,7 +382,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id9)
 
 )
 
@@ -390,10 +390,10 @@
 (defun SieteCiarySlaboprudehoVedeniaInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id10 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiarySlaboprudehoVedeniaInfo
-  (if (not (new_dialog "SieteCiarySlaboprudehoVedeniaInfo" dcl_id))
+  (if (not (new_dialog "SieteCiarySlaboprudehoVedeniaInfo" dcl_id10))
     (exit)
   )
   
@@ -406,7 +406,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id10)
 
 )
 
@@ -414,10 +414,10 @@
 (defun SieteCiaryVodaVrstveniceInfo ()
   
   ;nacitanie dialogoveho okna
-  (setq dcl_id (load_dialog "Networks.dcl"))
+  (setq dcl_id11 (load_dialog "Networks.dcl"))
   
   ;test existencie dialogu SieteCiaryVodaVrstveniceInfo
-  (if (not (new_dialog "SieteCiaryVodaVrstveniceInfo" dcl_id))
+  (if (not (new_dialog "SieteCiaryVodaVrstveniceInfo" dcl_id11))
     (exit)
   )
   
@@ -430,7 +430,7 @@
   (start_dialog)
   
   ;unload dialogu
-  (unload_dialog dcl_id)
+  (unload_dialog dcl_id11)
 
 )
 
