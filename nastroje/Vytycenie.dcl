@@ -3,46 +3,55 @@ Vytycenie //nazov dcl
 : dialog
 {
   //nazov dialogu
-  label = "Vytycenie";
+  label = "Vytycenie bodov";
 
-  //prvy riadok
+
+  //prvy stlpec prveho riadku
   : row
   {
-    //prvy stlpec prveho riadku
-    : column
+    //tlacidla vybrat krivku
+    : button 
     {
-      //tlacidla vybrat krivku
-      : button 
-      {
-        key = "vybratPolyline";
-        label = "Vybrat polyline";
-      }
-    }  
-
-    //druhy stlpec prveho riadku
-    : column
-    { 
-      //stavovy riadok o vybranej krivke
-      : text
-      {
-        label = "Test";
-        key = "polylineInfoText";
-      }
+      key = "vybratPolyline";
+      label = "Vybrat polyline";
+      is_default = true;
+      mnemonic = "V";
     }
-  }
+  }  
 
-  //druhy riadok
+  //druhy stlpec prveho riadku
   : boxed_row
-  {
+  { 
     //nazov riadku
-    label = "Poznamka";
-    : text 
+    label = "Pocet bodov/suradnic";
+    //stavovy riadok o vybranej krivke
+    : text
     {
       label = "";
+      key = "polylineInfoText";
     }
   }
 
   //treti riadok
+  : boxed_column
+  {
+    //nazov riadku
+    label = "Poznamka";
+    : row {
+    : text
+    {
+      label = "Suradnice ulozite ako csv subor,";
+    }
+    }
+    : row {
+    : text 
+    {
+      label = "ktory je mozne otvorit v exceli.";
+    }
+    }
+  }
+
+  //stvrti riadok
   : row
   {
     //tlacidlo ulozit
@@ -50,7 +59,6 @@ Vytycenie //nazov dcl
     {
       key = "ulozit";
       label = "Ulozit";
-      is_default = true;
       mnemonic = "U";
     }
 
