@@ -89,6 +89,7 @@
   (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
   (CreateLayers "DP_Prefabrikaty" 5 "CONTINUOUS" 0.30)
   (CreateLayers "DP_Loziska" 20 "CONTINUOUS" 0.25)
+  (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
 )
 
 ;vytvorenie hladin pre vystuz do modelu
@@ -109,6 +110,7 @@
   (CreateLayers "DP_Vystuz_28" 61 "CONTINUOUS" 0.60)
   (CreateLayers "DP_Vystuz_30" 101 "CONTINUOUS" 0.60)
   (CreateLayers "DP_Vystuz_32" 141 "CONTINUOUS" 0.60)
+  (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
 )
 
 ;vytvorenie hladin pre novy stav do modelu
@@ -126,6 +128,7 @@
   (CreateLayers "NS_Vozovka" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Prefabrikaty" 10 "CONTINUOUS" 0.30)
   (CreateLayers "NS_Loziska" 10 "CONTINUOUS" 0.25)
+  (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
 )
 
 ;;----------------------------------------------------------------------;;

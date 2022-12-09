@@ -203,6 +203,8 @@
   (setvar "DIMCLRT" 0)
   (setvar "DIMTFILL" 0)
   (setvar "DIMTAD" 1)
+  (setvar "DIMTIH" 0)
+  (setvar "DIMTOH" 0)
   (setvar "DIMJUST" 0)
   (setvar "DIMTXTDIRECTION" 0)
   

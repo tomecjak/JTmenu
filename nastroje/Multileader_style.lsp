@@ -72,7 +72,7 @@
 	     (list
 	       "ArrowSize"
 	        (/ (vla-get-arrowsize (vla-item mldrdict "Standard"))
-		       40
+		       1.5
 		    )
 	     )
 	     '("BitFlags" 0)

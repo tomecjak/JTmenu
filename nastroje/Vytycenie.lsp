@@ -39,7 +39,7 @@
     ;ak je stav rovny 4 spusti sa tento script
     (if (= flag 4)
       (progn
-        (setq objectPolyline (vlax-ename->vla-object (car (entsel "Vyberte Polylinu!"))))
+        (setq objectPolyline (vlax-ename->vla-object (car (entsel "Vyberte Polylinu:"))))
         (setq listOfCoordinates (vlax-get objectPolyline 'coordinates))
         (setq lengthOfCoordinates (length listOfCoordinates))
         (setq polylineInfoText (strcat (rtos (/ lengthOfCoordinates 2) 2 0) " bodov" " / " (rtos lengthOfCoordinates 2 0) " suradnic YX"))
@@ -64,8 +64,8 @@
       (< pocitadlo (/ lengthOfCoordinates 2))
       (progn
         
-      (setq suradnicaX (rtos (nth pocitadloX listOfCoordinates)))
-      (setq suradnicaY (rtos (nth pocitadloY listOfCoordinates)))
+      (setq suradnicaX (rtos (* (nth pocitadloX listOfCoordinates) -1)))
+      (setq suradnicaY (rtos (* (nth pocitadloY listOfCoordinates) -1)))
       (setq suradnice (strcat suradnicaX ";" suradnicaY))
       (write-line suradnice suborCSV)
 
@@ -74,6 +74,8 @@
       (setq pocitadloX (+ pocitadloX 2))
       (setq pocitadloY (+ pocitadloY 2))
       )
+      
+      (setq polylineInfoText "Subor ulozeny.")
     )
     )
   )
