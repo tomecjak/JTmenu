@@ -42,7 +42,7 @@
                             (princ (strcat "\nAutomaticka rotacia bloku: " (getenv "LMac\\ABBRotation")))
                             (setq sel
                                 (entsel
-                                    (strcat "\nVyberte blok [Prehladavat/Nazov/Rotacia]"
+                                    (strcat "\nVyberte blok k zarovnaniu [Prehladavat/Nazov/Rotacia]"
                                         (if (= "" (setq blk (getvar 'insname)))
                                             ": "
                                             (strcat " <" blk ">: ")

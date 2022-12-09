@@ -50,10 +50,10 @@
     )
 
     (while
-        (progn (setvar 'errno 0) (setq ent (car (entsel "\nVyberte block: ")))
+        (progn (setvar 'errno 0) (setq ent (car (entsel "\nVyberte block pre jeho zmenu basepointu: ")))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nChyba, skss to znova.")
+                    (princ "\nChyba, skus to znova.")
                 )
                 (   (= 'ename (type ent))
                     (if (/= "INSERT" (cdr (assoc 0 (entget ent))))
@@ -63,7 +63,7 @@
             )
         )
     )
-    (if (and (= 'ename (type ent)) (setq nbp (getpoint "\nVyberte novy základny bod: ")))
+    (if (and (= 'ename (type ent)) (setq nbp (getpoint "\nVyberte novy basepoint: ")))
         (progn
             (setq mat (car (revrefgeom ent))
                   vec (mxv mat (mapcar '- (trans nbp 1 0) (trans (cdr (assoc 10 (entget ent))) ent 0)))
@@ -112,7 +112,7 @@
     )
   
     ;hlaska po skonceni programu
-    (princ "\nReferencny bod blocku bol zmeneny. ")
+    (princ "\nBasepoint blocku bol zmeneny. ")
     (princ)
 )
 
