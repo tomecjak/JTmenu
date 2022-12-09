@@ -656,7 +656,7 @@
   ;podmienka ak neexistuje subor TitleBlockData.dat
   (if (= (open CestaTitleBlockData "r") nil)
     ;nastavenie oznamovacej hlasky
-    (set_tile "oznamovaciaHlaska" "Data nenacitane, ulozte data pomoccou \"Ulozit\"")
+    (set_tile "oznamovaciaHlaska" "Data nenacitane, ulozte data pomocou \"Ulozit\"")
     (progn
       ;nastavenie oznamovacie hlasky
       (set_tile "oznamovaciaHlaska" "Data uspesne nacitane.")

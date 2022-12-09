@@ -57,7 +57,7 @@
 
 (if (= (getenv "GlobalnaHladinaBlokov") nil)
   ;nastavenie hladinu na DP_Popis
-  (setenv "GlobalnaHladinaBlokov" "DP_Popis")
+  (setenv "GlobalnaHladinaBlokov" "0")
 )
 
 (if (= (getenv "GlobalnaDIMSCALEset") nil)

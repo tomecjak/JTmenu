@@ -16,7 +16,7 @@ Rebar_length //nazov dcl
       //prvy riadok textu
       : text_part
       {
-        label = "Vypocet sluzi pre rychly vypocet dlzky presahu a kotvenia vystuze.";  
+        label = "Kalkulacka sluzi pre rychly vypocet dlzky presahu a kotvenia vystuze.";  
       }
       //druhy riadok textu
       : text_part

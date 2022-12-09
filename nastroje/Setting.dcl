@@ -29,7 +29,7 @@ Setting //nazov dcl
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "budu v hladine DP_Popis alebo v haldine 0.";
+      label = "budu v hladine DP_Popis alebo v hladine 0.";
     }
   }
 
@@ -95,7 +95,7 @@ Setting //nazov dcl
     //treti riadok poznamky nastavenia
     : text_part
     { 
-      label = "Pri nastaveny modu dimscale sa vygeneraje.";
+      label = "Pri nastaveny modu dimscale sa vygeneraje,";
     }
     //stvrty riadok poznamky nastavenia
     : text_part

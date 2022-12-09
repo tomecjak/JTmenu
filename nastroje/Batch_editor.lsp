@@ -1498,7 +1498,7 @@
                     "                fixed_width = true;"
                     "        	      alignment = centered;"
                     "                : dwgbox { key = \"box1\"; }"
-                    "                : but1   { key = \"add\" ; label = \"&Prehladavat Subory\"; mnemonic = \"S\"; }"
+                    "                : but1   { key = \"add\" ; label = \"&Ppridat Subory\"; mnemonic = \"S\"; }"
                     "                spacer;"
                     "            }"
                     "            : column"
