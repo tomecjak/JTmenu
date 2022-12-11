@@ -12,23 +12,38 @@
 (AUTOLOAD "Auto_block_break" '("ABB" "ABBE" "ABBS"))
 (AUTOLOAD "Center_measure" '("CMEASURE"))
 (AUTOLOAD "Viewport_outline" '("VPO" "VPOL" "VPOA"))
-(AUTOLOAD "Object_break" '("OB" "OBO"))
-(AUTOLOAD "Chain_length" '("CHAINLEN"))
+(AUTOLOAD "Object_break" '("BRK"))
 (AUTOLOAD "Double_offset" '("DOFF"))
 (AUTOLOAD "Copy_rename_block" '("CB" "RB"))
 (AUTOLOAD "Batch_editor" '("BAtte"))
-(AUTOLOAD "Update_titleblock" '("utb"))
 (AUTOLOAD "Stationing" '("Stationing"))
-(AUTOLOAD "Drawing_crosses" '("DC"))
 (AUTOLOAD "North_arrow" '("NorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("Coordinates"))
-(AUTOLOAD "Reinforcement_anchoring" '("TEST_DCL"))
-(AUTOLOAD "Hydrotechnical_calculation" '("div3" "div4"))
+(AUTOLOAD "Help" '("JTHelp"))
+(AUTOLOAD "Koty" '("JTKoty"))
+(AUTOLOAD "Text_style" '("JTTextStyle"))
+(AUTOLOAD "Multileader_style" '("JTMultileader"))
+(AUTOLOAD "Setting" '("JTsetting"))
+(AUTOLOAD "Networks" '("JTCiary"))
+(AUTOLOAD "Layout_functions" '("DPRozpiska" "JTSheetCross" "JTFileNameGenerator" "JTTitleBlockUpdate"))
+(AUTOLOAD "Rebar_length" '("JTRebarLength"))
+(AUTOLOAD "Vytycenie" '("JTVytycenie"))
+(AUTOLOAD "Material_update" '("JTMaterialUpdate"))
+
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; BLoky symbolov
+; Kniznice blokov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2"))
+(AUTOLOAD "KnihZDZ" '("JTKNIHDZD"))
+(print)
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Bloky symbolov
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
+                               "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
+                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
+                               "JTVystuz" "JTPopisVystuze" "JTOznacenieVystuze")
+)
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ; Priklady
@@ -37,5 +52,60 @@
 ; (AUTOLOAD "CMDS" '("CMD1" "CMD2" "CMD3")) 
 ; (AUTOLOAD "NEWCMD" '("NEWCMD"))
 
-(princ "\n******                   ******\n  JTmenu (0.10) nacitane\n  Vytvoril Jakub Tomecko � 2022\n******                   ******")
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Nastavenie globalnych parametrov ak este neexistuju
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+(if (= (getenv "GlobalnaHladinaBlokov") nil)
+  ;nastavenie hladinu na DP_Popis
+  (setenv "GlobalnaHladinaBlokov" "0")
+)
+
+(if (= (getenv "GlobalnaDIMSCALEset") nil)
+  ;nastavenie modu blokov na klasicky
+  (setenv "GlobalnaDIMSCALEset" "Klasicky")
+)
+
+(if (= (getenv "GlobalnaKotyDIMSCALEset") nil)
+  ;nastavenie modu kot na klasicky
+  (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
+)
+
+(if (= (getenv "GlobalnyFormatCislaVykresu") nil)
+  ;nastavenie formatu cislovanie vykresu na 2
+  (setenv "GlobalnyFormatCislaVykresu" "0")
+)
+
+(if (= (getenv "GlobalneVyhotovilVykres") nil)
+  ;nastavenie mena vyhotovil na hodnotu menu
+  (setenv "GlobalneVyhotovilVykres" "Meno")
+)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+; Uvitacia hlaska pri nacitany programu JTmenu
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+;nastavenie premennej pre urcenie tvaru formatu cislovania
+(setq FormatCislaVykresu (if (= (getenv "GlobalnyFormatCislaVykresu") "0") (setq FormatCislaVykresu "01")(setq FormatCislaVykresu "001")))
+
+;nacitanie verzie programu
+(load "Version" "\nVerzia nenacitana!")
+
+;vypisanie statusu o stave globalnych premenych
+(princ
+  (strcat
+    "\n**********************************************"
+    "\nJTmenu | " (JTmenuVersion) " | Jakub Tomecko | "
+    (menucmd "m=$(edtime,0,yyyy)")
+    "\n**********************************************"
+    "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
+    "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
+    "\nNastaveny mod " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"
+    "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
+    "\nFormat cislovania vykresu je nastaveny na: " FormatCislaVykresu "."
+    "\nMeno tagu vyhotovil pre rozpisku je nastavene na: " (getenv "GlobalneVyhotovilVykres") "."
+    "\n**********************************************"
+  )
+) 
 (print)
+
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
