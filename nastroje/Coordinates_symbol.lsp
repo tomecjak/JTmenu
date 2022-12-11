@@ -86,7 +86,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nAuto_block_break.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        "\nCoordinates_symbol.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

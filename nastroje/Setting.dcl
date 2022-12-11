@@ -126,8 +126,8 @@ Setting //nazov dcl
     //tlacidlo ulozit
     : button
     {
-      key = "ulozit";
       label = "Ulozit";
+      key = "ulozit";
       is_default = true;
       mnemonic = "U";
     }  
@@ -135,8 +135,8 @@ Setting //nazov dcl
     //tlacidlo zavriet
     : button
     {
-      key = "cancel";
       label = "Zavriet";
+      key = "cancel";
       is_cancel = true;
       mnemonic = "Z";
     }

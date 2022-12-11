@@ -1,5 +1,5 @@
 ;=========================================================================
-; LayoutFunctions.lsp
+; Layout_functions.lsp
 ; (c) Copyright 2022 Tomecko Jakub
 ;
 ; Zistenie mierol viewportov, zistenie poctu A4 layoutu
@@ -658,7 +658,7 @@
     ;nastavenie oznamovacej hlasky
     (set_tile "oznamovaciaHlaska" "Data nenacitane, ulozte data pomocou \"Ulozit\"")
     (progn
-      ;nastavenie oznamovacie hlasky
+      ;nastavenie oznamovacej hlasky
       (set_tile "oznamovaciaHlaska" "Data uspesne nacitane.")
       ;nacitanie udajov zo suboru TitleBlockData.dat
       (setq file (open CestaTitleBlockData "r"))
@@ -694,7 +694,7 @@
   
   ;definovanie tlacidla cancel 
   (action_tile "cancel"
-    "(done_dialog)(exit)"
+    "(UkoncenieRozpiskyUpdate)"
   )
   
   ;definovanie tlacitla aktualizovat
@@ -922,13 +922,19 @@
   (set_tile "oznamovaciaHlaska" "Data uspesne ulozene.")
 )
 
+(defun UkoncenieRozpiskyUpdate()
+  (done_dialog)
+  (princ "\nNeboli aktualizovane ziadne data rozpisky.\n")
+  (exit)
+)
+
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nLayoutFunctions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        "\nLayout_functions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
         "\n"
     )

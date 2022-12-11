@@ -81,7 +81,7 @@
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
-    "(done_dialog)"
+    "(UkoncenieRebarLength)"
   )
   
   ;definovanie tlacidla vypocitaj
@@ -198,6 +198,12 @@
 (defun VypocetPresahu ()
   ;navrhovana dlzka presahu
   (setq DlzaPresahu (* alfa1 alfa2 alfa3 alfa4 alfa5 (atof i_alfa6) lbrqd))
+)
+
+(defun UkoncenieRebarLength()
+  (done_dialog)
+  (princ "\nUkoncenie kalkulacky.\n")
+  (exit)
 )
 
 ;;----------------------------------------------------------------------;;

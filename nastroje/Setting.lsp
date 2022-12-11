@@ -44,7 +44,7 @@
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
-    "(done_dialog)"
+    "(UkoncenieNastavenia)"
   )
   
   ;definovanie tlacidla ulozit
@@ -104,13 +104,20 @@
 )
 
 ;funkcia ulozenia nastavenia
-(defun UlozitNastavenia ()
+(defun UlozitNastavenia()
   (setq hladinaDpPopis (get_tile "hladinaDpPopis"))
   (setq hladinaNula (get_tile "hladinaNula"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
   (setq modKotyKlasicky (get_tile "modKotyKlasicky"))
   (setq modKotyDimscale (get_tile "modKotyDimscale"))
+)
+
+;funkcia tlacidla zatvorit
+(defun UkoncenieNastavenia()
+  (done_dialog)
+  (princ "\nNastavenia zostali bez zmeny.\n")
+  (exit)
 )
 
 ;;----------------------------------------------------------------------;;

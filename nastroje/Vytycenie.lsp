@@ -1,3 +1,10 @@
+;=========================================================================
+; Vytycenie.lsp
+; (c) Copyright 2022 Tomecko Jakub
+;
+; Program pre ulozenie udajov vytycenia do suboru CSV
+;-------------------------------------------------------------------------
+
 (defun C:JTVytycenie()
 
   ;nastavenie stavu na 4
@@ -16,6 +23,7 @@
       (exit)
     )
     
+    ;nastavenie textu polylineInfoText
     (set_tile "polylineInfoText" polylineInfoText)
     
     ;definovanie tlacitla vybrat
@@ -25,7 +33,7 @@
     
     ;definovanie tlacidla cancel
     (action_tile "cancel"
-      "(done_dialog)(setq result nil)(exit)"
+      "(UkoncenieVytycenia)"
     )
     
     ;definovanie tlacidla ulozti
@@ -46,8 +54,7 @@
       )
     )
     
-
-    ;(princ listOfCoordinates)
+    ;ak je stav rovny 5 spusti sa tento script (zapisanie suradnic)
     (if (= flag 5)
     (progn
      (setq cestaSuboru (getfiled "Text File" "" "csv" 1)) 
@@ -55,7 +62,7 @@
       (setq suborCSV (open cestaSuboru "a"))
 
       (write-line "sep=;" suborCSV)
-      (write-line "Y;X" suborCSV)
+      (write-line "X;Y" suborCSV)
       
       (setq pocitadlo 0)
       (setq pocitadloX 0)
@@ -64,8 +71,8 @@
       (< pocitadlo (/ lengthOfCoordinates 2))
       (progn
         
-      (setq suradnicaX (rtos (* (nth pocitadloX listOfCoordinates) -1)))
-      (setq suradnicaY (rtos (* (nth pocitadloY listOfCoordinates) -1)))
+      (setq suradnicaY (vl-string-subst "," "." (rtos (* (nth pocitadloY listOfCoordinates) -1))))
+      (setq suradnicaX (vl-string-subst "," "." (rtos (* (nth pocitadloX listOfCoordinates) -1))))
       (setq suradnice (strcat suradnicaX ";" suradnicaY))
       (write-line suradnice suborCSV)
 
@@ -87,6 +94,29 @@
 
 )
 
+;funkcia tlacidla zatvorit
+(defun UkoncenieVytycenia()
+  (done_dialog)
+  (setq result nil)
+  (princ "\nUkoncenie vytycenia.\n")
+  (exit)
+)
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nVytycenie.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
 
 
 

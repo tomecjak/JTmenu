@@ -28,6 +28,7 @@
 (AUTOLOAD "Layout_functions" '("DPRozpiska" "JTSheetCross" "JTFileNameGenerator" "JTTitleBlockUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 (AUTOLOAD "Vytycenie" '("JTVytycenie"))
+(AUTOLOAD "Material_update" '("JTMaterialUpdate"))
 
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

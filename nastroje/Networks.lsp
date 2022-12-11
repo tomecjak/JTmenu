@@ -86,7 +86,7 @@
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
-    "(done_dialog)(exit)"
+    "(UkoncenieNetworks)"
   )
   
   ;definovanie tlacidla cancel
@@ -181,7 +181,7 @@
     (exit)
   )
   
-  ;definicnia tlacidla zatvorit info
+  ;definicia tlacidla zatvorit info
   (action_tile "zatvoritInfo"
     "(done_dialog)"
   )
@@ -618,6 +618,13 @@
     )
   (setvar "expert" 0)
 
+)
+
+;funkcia tlacidla zavriet
+(defun UkoncenieNetworks()
+  (done_dialog)
+  (princ "\nNenacitane ziadne ciary.\n")
+  (exit)
 )
 
 ;;----------------------------------------------------------------------;;

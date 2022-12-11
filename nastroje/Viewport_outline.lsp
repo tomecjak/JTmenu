@@ -6,7 +6,7 @@
 ; Vytvorenie hranice v nútri viewportu
 ;-------------------------------------------------------------------------
 
-;;------------=={ VVytvorenie hranice v nútri viewportu }==-------------;;
+;;------------=={ Vytvorenie hranice v nútri viewportu }==--------------;;
 ;;                                                                      ;;
 ;;  Tento program umoznuje vytvorit v nútri viewportu hranicu, pre      ;;
 ;;  lepsie najdenenie daneho pohladu v modeli autocadu. Hranica sa      ;;
