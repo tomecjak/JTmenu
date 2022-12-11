@@ -41,7 +41,7 @@ Setting //nazov dcl
     : radio_button
     {
       key = "modKlasicky";
-      label = "Kladicky";
+      label = "Klasicky";
     }
     //prepinac pre mod dimscale
     : radio_button
@@ -74,7 +74,7 @@ Setting //nazov dcl
     : radio_button
     {
       key = "modKotyKlasicky";
-      label = "Kladicky";
+      label = "Klasicky";
     }
     //prepinac pre mod dimscale
     : radio_button
