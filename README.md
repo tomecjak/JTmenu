@@ -1,4 +1,4 @@
-# JTmenu
+# JTmenu v1.0
 JTmenu beta pre AutoCAD
 
 ## Úvodne informácie
