@@ -29,6 +29,7 @@
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 (AUTOLOAD "Vytycenie" '("JTVytycenie"))
 (AUTOLOAD "Material_update" '("JTMaterialUpdate"))
+(AUTOLOAD "Slope" '("Sklon"))
 
 (print)
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -40,7 +41,7 @@
 ; Bloky symbolov
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 (AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
-                               "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPSklon" 
+                               "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPZnackaSklonu" 
                                "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
                                "JTVystuz" "JTPopisVystuze" "JTOznacenieVystuze")
 )

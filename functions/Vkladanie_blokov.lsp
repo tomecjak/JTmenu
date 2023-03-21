@@ -298,7 +298,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;vloženie bloku Sklon
-(defun c:DPSklon()
+(defun c:DPZnackaSklonu()
   
   ;nastavenie hladiny
   (LayerSetting)
