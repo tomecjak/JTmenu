@@ -62,7 +62,7 @@
       (setq suborCSV (open cestaSuboru "a"))
 
       (write-line "sep=;" suborCSV)
-      (write-line "X;Y" suborCSV)
+      (write-line "Y;X" suborCSV)
       
       (setq pocitadlo 0)
       (setq pocitadloX 0)
