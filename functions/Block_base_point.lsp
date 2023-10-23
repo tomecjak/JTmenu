@@ -256,7 +256,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nBlock_base_point.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nBlock_base_point.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Material_update.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Aktualizacia materialov v tabulke DPTabulkaMaterialov
 ;-------------------------------------------------------------------------
@@ -434,7 +434,7 @@
   (BlockTagEditor BlockTabulkaMaterialov "MATERIAL_08" (nth (+ 22 NasobisRiadku) ListOfMaterials))
   ;konstrukcia 09
   (BlockTagEditor BlockTabulkaMaterialov "KONSTRUKCIA_09" (nth 24 ListOfMaterials))
-  (BlockTagEditor BlockTabulkaMaterialov "MATERIAL_09" (nth (+ 25 NasobisRiadku) ListOfMaterials))
+  (BlockTagEditor BlockTabulkaMaterialov "MATERIAL_09" (nth (                                                                                                                                                                                                       + 25 NasobisRiadku) ListOfMaterials))
   ;konstrukcia 10
   (BlockTagEditor BlockTabulkaMaterialov "KONSTRUKCIA_10" (nth 27 ListOfMaterials))
   (BlockTagEditor BlockTabulkaMaterialov "MATERIAL_10" (nth (+ 28 NasobisRiadku) ListOfMaterials))

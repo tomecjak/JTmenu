@@ -1,3 +1,10 @@
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+// Material_update.dcl
+// (c) Copyright 2023 Tomecko Jakub
+//
+// Dialog pre funkciu Material_update.lsp 
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+
 Material_update //nazod dcl
 
 : dialog

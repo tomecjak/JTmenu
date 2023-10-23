@@ -13,7 +13,7 @@
 ;;  zdrojoveho objektu a offset vrstvy.                       ;;
 ;;------------------------------------------------------------;;
 
-(defun c:DOFF nil (c:DoubleOffset))
+(defun c:JTDoubleOffset nil (c:DoubleOffset))
 
 (defun c:DoubleOffset ( / *error* _StartUndo _EndUndo DoubleOffset doc exitflag layer mpoint obj object of point sel symbol value )
 
@@ -227,7 +227,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nDouble_offset.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nDouble_offset.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

@@ -3,7 +3,7 @@
 ; (c) Copyright 2015 Lee Mac
 ; Prelozil Jakub Tomecko
 ;
-; Vytvorenie hranice v nútri viewportu
+; Vytvorenie hranice vnútri viewportu
 ;-------------------------------------------------------------------------
 
 ;;------------=={ Vytvorenie hranice v nútri viewportu }==--------------;;
@@ -14,7 +14,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;VPO - Nacrtnutie orysu vybraneho vyrezu v aktivnom Paperspace layout
-(defun c:VPO ( / *error* sel )
+(defun c:JTViewportOutline ( / *error* sel )
  
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))
@@ -29,7 +29,7 @@
     ;nastavenie funkcnosti prikazu len v Layoute
     (cond
         (   (/= 1 (getvar 'cvport))
-            (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+            (alert "\nPrikaz nie je dostupny v modelovom priestore.")
         )
         (   (setq sel (LM:ssget "\nVyberte viewport: " '("_+.:E:S" ((0 . "VIEWPORT")))))
             (vpo:main (ssname sel 0))
@@ -356,7 +356,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nViewport_outline.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nViewport_outline.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

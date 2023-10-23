@@ -1,3 +1,10 @@
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+// Setting.dcl
+// (c) Copyright 2023 Tomecko Jakub
+//
+// Dialog pre funkciu Setting.lsp 
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+
 Setting //nazov dcl
 
 : dialog
@@ -9,11 +16,11 @@ Setting //nazov dcl
   : boxed_radio_column
   {
     label = "Aku hladinu pouzit pre vkladane bloky?";
-    //prepinac pre hladinu DP_Popis
+    //prepinac pre hladinu Prefix_Popis
     : radio_button
     {
-      key = "hladinaDpPopis";
-      label = "Hladina DP_Popis";
+      key = "hladinaPrefixPopis";
+      label = "Hladina XX_Popis";
     }
     //prepinac pre hlaidnu 0
     : radio_button
@@ -29,11 +36,51 @@ Setting //nazov dcl
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "budu v hladine DP_Popis alebo v hladine 0.";
+      label = "budu v hladine XX_Popis alebo v hladine 0.";
     }
   }
 
-  //druhy riadok dialogu - nastavenie DIMSCALE pre vkladane bloky
+  //druhy riadok dialogu - nastavenie prexifu hladiny
+  : boxed_column
+  {
+    label = "Aky prefix pouzivat pri vytvorany hladin?";
+    //nazov prefixu pre klasicke hladiny
+    : row {
+      : text 
+      {  
+        label = "Klasicke hladiny:";
+      }
+      : edit_box
+      {  
+        fixed_width = true;
+        key = "layerPrefix";
+      }
+    }
+    //nazov prefixu pre hladiny noveho stavu
+    : row {
+      : text 
+      {  
+        label = "Hladiny noveho stavu:";
+      }
+      : edit_box
+      {  
+        fixed_width = true;
+        key = "layerPrefixNew";
+      }
+    }
+    //prvy riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "Moznost si nastavit prexif pred nazvom hladiny,";
+    }
+    //druhy riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "pri vytvarany novych hladin.";
+    }
+  }
+
+  //treti riadok dialogu - nastavenie DIMSCALE pre vkladane bloky
   : boxed_radio_column
   {
     label = "V akom mode pouzivat bloky?";
@@ -66,7 +113,7 @@ Setting //nazov dcl
     }
   }
 
-  //treti riadok dialogu - nastavenie geenrovanych kot
+  //stvrty riadok dialogu - nastavenie geenrovanych kot
   : boxed_radio_column
   {
     label = "V akom mode vygenerovat koty?";
@@ -109,7 +156,7 @@ Setting //nazov dcl
     }
   }
 
-  //stvrty riadok dialogu - verzia JTmenu
+  //piaty riadok dialogu - verzia JTmenu
   : boxed_row
   {
     label = "Verzia JTmenu";

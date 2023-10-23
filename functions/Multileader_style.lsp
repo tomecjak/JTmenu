@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Multileader_style.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Vytvorenie stylu multileadru
 ;-------------------------------------------------------------------------

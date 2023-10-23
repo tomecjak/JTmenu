@@ -1,3 +1,10 @@
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+// Networks.dcl
+// (c) Copyright 2023 Tomecko Jakub
+//
+// Dialog pre funkciu Networks.lsp 
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+
 Networks //nazov dcl
 
 : dialog

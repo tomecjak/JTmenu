@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Setting.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Nastavenie pre JTmenu
 ;-------------------------------------------------------------------------
@@ -16,11 +16,27 @@
   )
   
   ;nastavenie prepinaca hladin dialogu podla GlobalnaHladinaBlokov
-  (if (= (getenv "GlobalnaHladinaBlokov") "DP_Popis")
+  (if (= (getenv "GlobalnaHladinaBlokov") (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
     ;splnena podmienka
-    (set_tile "hladinaDpPopis" "1")
+    (set_tile "hladinaPrefixPopis" "1")
     ;nesplnena podmienka
     (set_tile "hladinaNula" "1")
+  )
+  
+  ;nastavenie klasickeho prefixu hladiny
+  (if (= (getenv "GlobalnaPrefixHladiny") "JT_")
+    ;splnena podmienka
+    (set_tile "layerPrefix" "JT_")
+    ;nesplnena podmienka
+    (set_tile "layerPrefix" (getenv "GlobalnaPrefixHladiny"))
+  )
+  
+  ;nastavenie prefixu hladiny noveho stavu
+  (if (= (getenv "GlobalnaPrefixHladinyNew") "NS_")
+    ;splnena podmienka
+    (set_tile "layerPrefixNew" "NS_")
+    ;nesplnena podmienka
+    (set_tile "layerPrefixNew" (getenv "GlobalnaPrefixHladinyNew"))
   )
   
   ;nastavenie prepinaca modov dialogu podla GlobalnaDIMSCALEset
@@ -59,15 +75,27 @@
   (unload_dialog dcl_id)
   
   ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= hladinaDpPopis "1")
-    ;nastavenie hladinu na DP_Popis
-    (setenv "GlobalnaHladinaBlokov" "DP_Popis")
+  (if (= hladinaPrefixPopis "1")
+    ;nastavenie hladinu na Prefix_Popis
+    (setenv "GlobalnaHladinaBlokov" (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
   
     (if (= hladinaNula "1")
       ;nastavenie hladinu na O
       (setenv "GlobalnaHladinaBlokov" "0")
       (princ)
     )
+  )
+  
+  ;vyhodnotenie nastavenie prefixu hladiny
+  (if (/= vykresVypracoval "JT_")
+    (setenv "GlobalnaPrefixHladiny" layerPrefix)
+    (setenv "GlobalnaPrefixHladiny" "JT_")
+  )
+  
+  ;vyhodnotenie nastavenie prefixu hladiny pre novy stav
+  (if (/= vykresVypracoval "NS_")
+    (setenv "GlobalnaPrefixHladinyNew" layerPrefixNew)
+    (setenv "GlobalnaPrefixHladinyNew" "NS_")
   )
   
   ;vyhodnotenie vyberu modu pre bloky
@@ -96,6 +124,8 @@
   
   ;hlaska o nastavenych parametroch
   (princ (strcat "\nNastavily ste hladinu " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
+                 "\nNastavily ste prefix hladiny na: " (getenv "GlobalnaPrefixHladiny") "!"
+                 "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
                  "\nNastavily ste mod na " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"))
   
@@ -105,8 +135,10 @@
 
 ;funkcia ulozenia nastavenia
 (defun UlozitNastavenia()
-  (setq hladinaDpPopis (get_tile "hladinaDpPopis"))
+  (setq hladinaPrefixPopis (get_tile "hladinaPrefixPopis"))
   (setq hladinaNula (get_tile "hladinaNula"))
+  (setq layerPrefix (get_tile "layerPrefix"))
+  (setq layerPrefixNew (get_tile "layerPrefixNew"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
   (setq modKotyKlasicky (get_tile "modKotyKlasicky"))

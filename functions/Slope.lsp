@@ -5,7 +5,7 @@
 ; Vytvorenie ciary v sklone v % alebo pomere x:x
 ;-------------------------------------------------------------------------
 
-(defun c:Sklon ()
+(defun c:JTSlope ()
 
   ;vybratie pociatocneho bodu ciary
   (setq pointOne (getpoint "\n Prvy bod ciary:"))

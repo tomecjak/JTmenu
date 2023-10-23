@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Networks.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Vytvorenie typu ciar
 ;-------------------------------------------------------------------------
@@ -9,7 +9,7 @@
 ;;                Vytvorenie jednotlivych typov ciar                    ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTCiary ()
+(defun c:JTNetworks ()
 
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Networks.dcl"))

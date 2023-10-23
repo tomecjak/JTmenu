@@ -1,3 +1,10 @@
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+// Rebar_length.dcl
+// (c) Copyright 2023 Tomecko Jakub
+//
+// Dialog pre funkciu Rebar_length.lsp 
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+
 Rebar_length //nazov dcl
 
 : dialog 

@@ -1,8 +1,8 @@
 ;=========================================================================
 ; Layout_functions.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
-; Zistenie mierol viewportov, zistenie poctu A4 layoutu
+; Zistenie mierok viewportov, zistenie poctu A4 layoutu
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
@@ -22,9 +22,9 @@
   (setq NumberOfA4 (strcat (rtos LayoutA4 2 0) "xA4"))
   
 
-  ;vlozenie udejov o pocte A4 do tagu POCETA4 bloku DPRozpiska
+  ;vlozenie udejov o pocte A4 do tagu POCETA4 bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "FORMAT" NumberOfA4 (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
   (princ)
@@ -95,9 +95,9 @@
       )
     )
   
-  ;vlozenie udejov o mierke do tagu MIERKA bloku DPRozpiska
+  ;vlozenie udejov o mierke do tagu MIERKA bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "MIERKA" ViewportScale (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
 
   (princ)
@@ -133,15 +133,15 @@
 ;;                     Vlozenie rozpisky do layoutu                     ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:DPRozpiska (/ ctr ss1)
+(defun c:JTTitleBlock (/ ctr ss1)
   
   ;ak existuje rozpiska, skopiruj jej tag hodnoty
-  (if (setq ss (ssget "X" '((2 . "DPRozpiska"))))
+  (if (setq ss (ssget "X" '((2 . "Rozpiska"))))
     (RospiskaTagsDown)
   )
   
-  ;vymazanie bloku DPRozpiska
-  (BlockDelete "DPRozpiska")
+  ;vymazanie bloku Rozpiska
+  (BlockDelete "Rozpiska")
   
   ;ziskanie rozmeru Layoutu
   (GetPaperSize)
@@ -152,7 +152,7 @@
   )
   
   ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= VytvorenieHladinyPopisu "DP_Popis")
+  (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
     ;vytvorenie a nastavenie hladinu na DP_Popis
     (SetLayer)
   
@@ -166,24 +166,24 @@
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
-      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
       (princ)
     )
     
     (
       ;prikaz na vlozenie blocku rozpisky
-      (command "_insert" "DPRozpiska" (strcat (rtos LayoutWidth 2 0) ",0") 1 1 0 0)
+      (command "_insert" "Rozpiska" (strcat (rtos LayoutWidth 2 0) ",0") 1 1 0 0 pause pause)
     )
   )
   
-  ;vlozenie hodnout do tagu rozpisky
-  (RospiskaTagsUp)
-
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
+   
+  ;vlozenie hodnout do tagu rozpisky
+  (RospiskaTagsUp)
   
   ;hlaska po skonceni programu
-  (princ "\nRozpiska bola vlozena do vykresu. ")
+  (princ "\nRozpiska bola vlozena do vykresu. ")  
   (princ)
   
 )
@@ -194,8 +194,8 @@
 
 (defun c:JTSheetCross (/ ctr ss1)
   
-  ;vymazanie bloku DPKriziky
-  (BlockDelete "DPKriziky")
+  ;vymazanie bloku Kriziky
+  (BlockDelete "Kriziky")
   
   ;nacitanie velkosty Layoutu
   (GetPaperSize)
@@ -206,7 +206,7 @@
   )
   
   ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= VytvorenieHladinyPopisu "DP_Popis")
+  (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
     ;vytvorenie a nastavenie hladinu na DP_Popis
     (SetLayer)
   
@@ -220,13 +220,13 @@
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
-      (princ "\nPrikaz nie je dostupny v modelovom priestore.")
+      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
       (princ)
     )
     
     (
       ;prikaz na vlozenie blocku krizikov
-      (command "_insert" "DPKriziky" "0,0" 1 1 0)
+      (command "_insert" "Kriziky" "0,0" 1 1 0)
     )
   )
   
@@ -380,109 +380,109 @@
 
 (defun RospiskaTagsDown ()
   ;vytvorenie premennej a zapis hodnoty tagu rospisky
-  (setq RozpiskaTagVypracoval (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "VYPRACOVAL"))
-  (setq RozpiskaTagZop (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "ZOP"))
-  (setq RozpiskaTagHip (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "HIP"))
-  (setq RozpiskaTagKontroloval (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "KONTROLOVAL"))
-  (setq RozpiskaTagOkresStavby (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "OKRES_STAVBY"))
-  (setq RozpiskaTagObjednavatel (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "OBJEDNAVATEL"))
-  (setq RozpiskaTagStupen (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "STUPEN"))
-  (setq RozpiskaTagFormat (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "FORMAT"))
-  (setq RozpiskaTagCisloZakazky (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "CISLO_ZAKAZKY"))
-  (setq RozpiskaTagDatum (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "DATUM"))
-  (setq RozpiskaTagMierka (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "MIERKA"))
-  (setq RozpiskaTagCisloArchivne (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "CISLO_ARCHIVNE"))
-  (setq RozpiskaTagObjekt (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "OBJEKT"))
-  (setq RozpiskaTagNazovVykresu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "NAZOV_VYKRESU"))
-  (setq RozpiskaTagNazovZakazky (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "NAZOV_ZAKAZKY"))
-  (setq RozpiskaTagCisloVykresu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "CISLO_VYKRESU"))
-  (setq RozpiskaTagCisloObjektu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "DPRozpiska"))) 0) "CISLO_OBJEKTU"))
+  (setq RozpiskaTagVypracoval (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "VYPRACOVAL"))
+  (setq RozpiskaTagZop (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "ZOP"))
+  (setq RozpiskaTagHip (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "HIP"))
+  (setq RozpiskaTagKontroloval (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "KONTROLOVAL"))
+  (setq RozpiskaTagOkresStavby (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "OKRES_STAVBY"))
+  (setq RozpiskaTagObjednavatel (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "OBJEDNAVATEL"))
+  (setq RozpiskaTagStupen (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "STUPEN"))
+  (setq RozpiskaTagFormat (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "FORMAT"))
+  (setq RozpiskaTagCisloZakazky (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "CISLO_ZAKAZKY"))
+  (setq RozpiskaTagDatum (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "DATUM"))
+  (setq RozpiskaTagMierka (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "MIERKA"))
+  (setq RozpiskaTagCisloArchivne (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "CISLO_ARCHIVNE"))
+  (setq RozpiskaTagObjekt (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "OBJEKT"))
+  (setq RozpiskaTagNazovVykresu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "NAZOV_VYKRESU"))
+  (setq RozpiskaTagNazovZakazky (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "NAZOV_ZAKAZKY"))
+  (setq RozpiskaTagCisloVykresu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "CISLO_VYKRESU"))
+  (setq RozpiskaTagCisloObjektu (getpropertyvalue (ssname (ssget "_X" '((0 . "INSERT") (2 . "Rozpiska"))) 0) "CISLO_OBJEKTU"))
 )
 
 (defun RospiskaTagsUp (/ ctr ss1)
-  ;vlozenie udejov do tagu VYPRACOVAL bloku DPRozpiska
+  ;vlozenie udejov do tagu VYPRACOVAL bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "VYPRACOVAL" RozpiskaTagVypracoval (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu ZOP bloku DPRozpiska
+  ;vlozenie udejov do tagu ZOP bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "ZOP" RozpiskaTagZop (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu HIP bloku DPRozpiska
+  ;vlozenie udejov do tagu HIP bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "HIP" RozpiskaTagHip (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu KONTROLOVAL bloku DPRozpiska
+  ;vlozenie udejov do tagu KONTROLOVAL bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "KONTROLOVAL" RozpiskaTagKontroloval (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu OKRES_STAVBY bloku DPRozpiska
+  ;vlozenie udejov do tagu OKRES_STAVBY bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "OKRES_STAVBY" RozpiskaTagOkresStavby (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu OBJEDNAVATEL bloku DPRozpiska
+  ;vlozenie udejov do tagu OBJEDNAVATEL bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "OBJEDNAVATEL" RozpiskaTagObjednavatel (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu STUPEN bloku DPRozpiska
+  ;vlozenie udejov do tagu STUPEN bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "STUPEN" RozpiskaTagStupen (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu FORMAT bloku DPRozpiska
+  ;vlozenie udejov do tagu FORMAT bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "FORMAT" RozpiskaTagFormat (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu CISLO_ZAKAZKY bloku DPRozpiska
+  ;vlozenie udejov do tagu CISLO_ZAKAZKY bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_ZAKAZKY" RozpiskaTagCisloZakazky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu DATUM bloku DPRozpiska
+  ;vlozenie udejov do tagu DATUM bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "DATUM" RozpiskaTagDatum (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu MIERKA bloku DPRozpiska
+  ;vlozenie udejov do tagu MIERKA bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "MIERKA" RozpiskaTagMierka (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu CISLO_ARCHIVNE bloku DPRozpiska
+  ;vlozenie udejov do tagu CISLO_ARCHIVNE bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_ARCHIVNE" RozpiskaTagCisloArchivne (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu OBJEKT bloku DPRozpiska
+  ;vlozenie udejov do tagu OBJEKT bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "OBJEKT" RozpiskaTagObjekt (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu NAZOV_VYKRESU bloku DPRozpiska
+  ;vlozenie udejov do tagu NAZOV_VYKRESU bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "NAZOV_VYKRESU" RozpiskaTagNazovVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu NAZOV_ZAKAZKY bloku DPRozpiska
+  ;vlozenie udejov do tagu NAZOV_ZAKAZKY bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "NAZOV_ZAKAZKY" RozpiskaTagNazovZakazky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu CISLO_VYKRESU bloku DPRozpiska
+  ;vlozenie udejov do tagu CISLO_VYKRESU bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_VYKRESU" RozpiskaTagCisloVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udejov do tagu CISLO_OBJEKTU bloku DPRozpiska
+  ;vlozenie udejov do tagu CISLO_OBJEKTU bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_OBJEKTU" RozpiskaTagCisloObjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
 )
@@ -506,16 +506,17 @@
 
 )
 
-;funkcia pre nastavenie hladiny DP_Popis
+;funkcia pre nastavenie hladiny XX_Rozpiska
 (defun SetLayer()
-  (CreateLayers "DP_Rozpiska" 7 "CONTINUOUS" "DEFAULT")
+  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Rozpiska") 7 "CONTINUOUS" "DEFAULT")
   ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
-  (command "._layer" "s" "DP_Rozpiska" "")
+  (command "._layer" "s" (strcat (getenv "GlobalnaPrefixHladiny") "Rozpiska") "")
   
   ;vytvorenie group layer filtru DP Layers 
-  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
+  (setq GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "*,0,Defpoints," (getenv "GlobalnaPrefixHladinyNew") "*"))
+  (command "_.LAYER" "_FILTER" "_Delete" (strcat (getenv "GlobalnaPrefixHladiny") "Layers") "")
     (if (> (getvar 'CMDACTIVE) 0) (command ""))
-  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "Layers"))
     (if (> (getvar 'CMDACTIVE) 0) (command "")) 
 )
 
@@ -540,9 +541,9 @@
   ;nastavenie premenej cisla objektu
   (setq CisloObjektu (substr NazovDWG 1 6))
   
-  ;vlozenie udejov o cisle objektu do tagu CISLO_OBJEKTU bloku DPRozpiska
+  ;vlozenie udejov o cisle objektu do tagu CISLO_OBJEKTU bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_OBJEKTU" CisloObjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
   (princ)
@@ -562,9 +563,9 @@
   (setq CisloVykresu (substr NazovDWG 8 (+ 2 FormatovanieCislovaniaPosun)))
 
   
-  ;vlozenie udejov o cisle vykresu do tagu CISLO_VYKRESU bloku DPRozpiska
+  ;vlozenie udejov o cisle vykresu do tagu CISLO_VYKRESU bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_VYKRESU" CisloVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
   (princ)
@@ -592,9 +593,9 @@
   ;nastavenie premenej nazvu vykresu
   (setq NazovVykresu (substr NazovDWG (+ 11 FormatovanieCislovaniaPosun) DlzkaNazvuDWG))
   
-  ;vlozenie udejov onazve vykresu do tagu NAZOV_VYKRESU bloku DPRozpiska
+  ;vlozenie udejov onazve vykresu do tagu NAZOV_VYKRESU bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "NAZOV_VYKRESU" NazovVykresu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
   (princ)
@@ -610,7 +611,7 @@
   ;ukoncenie programu ak nieje vykres este ulozeny + hlaska
   (if (= (getvar "dwgtitled") 0)
     (progn
-      (princ "\nSubor je potrebne najprv ulozit!\n")
+      (alert "\nSubor je potrebne najprv ulozit!\n")
       (exit)
     )
   )
@@ -820,68 +821,68 @@
 )
 
 (defun JTSheetCreate ()
-  ;vlozenie udajov o mene vyhotovil do tagu VYPRACOVAL bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu VYPRACOVAL bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "VYPRACOVAL" (getenv "GlobalneVyhotovilVykres") (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
 (princ)
 )
 
 (defun JTUpdateRozpiska ()
-  ;vlozenie udajov o mene vyhotovil do tagu ZOP bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu ZOP bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "ZOP" vykresZodpovednyProjektant (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu HIP bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu HIP bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "HIP" vykresHlavnyInzinierProjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu KONTROLOVAL bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu KONTROLOVAL bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "KONTROLOVAL" vykresKontroloval (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu OKRES_STAVBY bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu OKRES_STAVBY bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "OKRES_STAVBY" vykresOkresStavby (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu OBJEDNAVATEL bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu OBJEDNAVATEL bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "OBJEDNAVATEL" vykresObjednavatel (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu NAZOV_ZAKAZKY bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu NAZOV_ZAKAZKY bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "NAZOV_ZAKAZKY" vykresNazovZakazky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu OBJEKT bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu OBJEKT bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "OBJEKT" cisloObjektuAvykresNazovObjektu (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu CISLO_ARCHIVNE bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu CISLO_ARCHIVNE bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_ARCHIVNE" vykresArchivneCislo (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu STUPEN bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu STUPEN bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "STUPEN" vykresStupenDokumentacie (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu DATUM bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu DATUM bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "DATUM" vykresDatum (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
-  ;vlozenie udajov o mene vyhotovil do tagu CISLO_ZAKAZKY bloku DPRozpiska
+  ;vlozenie udajov o mene vyhotovil do tagu CISLO_ZAKAZKY bloku Rozpiska
   (setq ctr 0
-    ss1 (ssget "_x" '((0 . "insert") (2 . "DPRozpiska")))) ;nazov bloku
+    ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_ZAKAZKY" vykresCisloZakzky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
   (princ)

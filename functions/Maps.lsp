@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Maps.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Vyhladavanie miesta na mape podľa JTSK
 ;-------------------------------------------------------------------------
@@ -13,7 +13,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie prikazu "Mapa"
-(defun c:Maps ()
+(defun c:JTMaps ()
   
   ;definovanie chybovej hlasky v programe + nastavenie 
   (defun *error* (errmsg)
@@ -66,7 +66,7 @@
   (princ)
 )
 
-;-------------------------------------------------------------------------
+;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie "getSuradniceMapaURL" pre získanie plného tvaru url adresy
 (defun getSuradniceMapaURL (pp_point)
@@ -287,7 +287,7 @@
 
 )
 
-;-------------------------------------------------------------------------
+;;----------------------------------------------------------------------;;
 
 ;definovanie matematickej funkciet tangens
 (defun tan ( x )

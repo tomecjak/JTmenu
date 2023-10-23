@@ -65,7 +65,7 @@
 ;;  BRK                                                                 ;;
 ;;----------------------------------------------------------------------;;
 
-(defun C:BRK()
+(defun C:JTObjectBreak()
 
   ;vytvrenie premenej VyberBRK
   (setq VyberBRK
@@ -516,7 +516,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nObject_break.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nObject_break.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

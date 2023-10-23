@@ -1,6 +1,6 @@
 ;=========================================================================
 ; North_arrow.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Vlozenie severky podla UCS World
 ;-------------------------------------------------------------------------
@@ -27,25 +27,47 @@
 
 ;funkcia pre nastavenie hladiny DP_Popis a skupiny
 (defun SetLayer()
-  (CreateLayers "DP_Popis" 7 "CONTINUOUS" "DEFAULT")
+  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Popis") 7 "CONTINUOUS" "DEFAULT")
   ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
-  (command "._layer" "s" "DP_Popis" "")
+  (command "._layer" "s" (strcat (getenv "GlobalnaPrefixHladiny") "Popis") "")
   
   ;vytvorenie group layer filtru DP Layers  
-  (command "_.LAYER" "_FILTER" "_Delete" "DP Layers" "")
-  (if (> (getvar 'CMDACTIVE) 0) (command ""))
-  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" "0,Defpoints,DP_*,NS_*" "DP Layers")
-  (if (> (getvar 'CMDACTIVE) 0) (command "")) 
-  
+  (setq GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "*,0,Defpoints," (getenv "GlobalnaPrefixHladinyNew") "*"))
+  (command "_.LAYER" "_FILTER" "_Delete" (strcat (getenv "GlobalnaPrefixHladiny") "Layers") "")
+    (if (> (getvar 'CMDACTIVE) 0) (command ""))
+  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "Layers"))
+    (if (> (getvar 'CMDACTIVE) 0) (command "")) 
+)
+
+;;----------------------------------------------------------------------;;
+;;               Navrat na poslednu nastavenu hladinu                   ;;
+;;----------------------------------------------------------------------;;
+
+(defun NavratNaPoslednuHladinu()
+
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (command "_.layerp")
   (command "_-layer" "_filter" "_set" "All" "")
+
 )
 
-;-------------------------------------------------------------------------
+;;----------------------------------------------------------------------;;
+;;                    Rescale symbol from milimeter                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun ScaleRefactorToMeter()
+  (if (= (getvar "INSUNITS") 4)
+    (setq Refactor 1000)
+    (setq Refactor 1)
+  )
+)
+
+;;----------------------------------------------------------------------;;
+
+
 
 ;vlozenie bloku Severka
-(defun c:NorthArrow ()
+(defun c:JTNorthArrow ()
   
   ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
   (setq VytvorenieHladinyPopisu
@@ -53,10 +75,10 @@
   )
   
   ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= VytvorenieHladinyPopisu "DP_Popis")
+  (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
     ;vytvorenie a nastavenie hladinu na DP_Popis
     (SetLayer)
-  
+    
     (if (= VytvorenieHladinyPopisu "0")
       ;bez vytvorenia hladiny a nastavenie na hladinu 0
       (command "._layer" "s" "0" "")
@@ -64,16 +86,23 @@
     )
   )
   
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+  
   ;prikaz na vlozenie blocku severky
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "DPSeverka" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+      (command "._insert" "Severka" "_S" (/ 1.0 Refactor) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
     
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "DPSeverka" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) )
+        (command "._insert" "Severka" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
       )
   )
   
   (princ "\nUrcite bod vlozenia znacky severky.")
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
   (princ)
   
 )

@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Rebar_scheme.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Prepinanie farebnosti hladin vystuze
 ;-------------------------------------------------------------------------
@@ -11,7 +11,7 @@
 ;;  a pre finalne pouzitie vo vykrese.                                  ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:RS ()
+(defun c:JTRebarScheme ()
   
   ;definovanie chybovej hlasky v programe
   (defun *error* (errmsg)
@@ -45,21 +45,21 @@
 ;zmena farby hladin pre vystuz pre pracovny rezim
 (defun RezimVystuzeZapnuty ()
   (setvar "cmdecho" 0)
-  (command "_.layer" "_color" 181 "DP_Vystuz_06" "")
-  (command "_.layer" "_color" 221 "DP_Vystuz_07" "")
-  (command "_.layer" "_color" 11 "DP_Vystuz_08" "")
-  (command "_.layer" "_color" 31 "DP_Vystuz_10" "")
-  (command "_.layer" "_color" 51 "DP_Vystuz_12" "")
-  (command "_.layer" "_color" 81 "DP_Vystuz_14" "")
-  (command "_.layer" "_color" 121 "DP_Vystuz_16" "")
-  (command "_.layer" "_color" 161 "DP_Vystuz_18" "")
-  (command "_.layer" "_color" 201 "DP_Vystuz_20" "")
-  (command "_.layer" "_color" 241 "DP_Vystuz_22" "")
-  (command "_.layer" "_color" 21 "DP_Vystuz_25" "")
-  (command "_.layer" "_color" 41 "DP_Vystuz_26" "")
-  (command "_.layer" "_color" 61 "DP_Vystuz_28" "")
-  (command "_.layer" "_color" 101 "DP_Vystuz_30" "")
-  (command "_.layer" "_color" 141 "DP_Vystuz_32" "")
+  (command "_.layer" "_color" 181 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_06") "")
+  (command "_.layer" "_color" 221 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_07") "")
+  (command "_.layer" "_color" 11 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_08") "")
+  (command "_.layer" "_color" 31 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_10") "")
+  (command "_.layer" "_color" 51 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_12") "")
+  (command "_.layer" "_color" 81 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_14") "")
+  (command "_.layer" "_color" 121 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_16") "")
+  (command "_.layer" "_color" 161 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_18") "")
+  (command "_.layer" "_color" 201 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_20") "")
+  (command "_.layer" "_color" 241 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_22") "")
+  (command "_.layer" "_color" 21 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_25") "")
+  (command "_.layer" "_color" 41 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_26") "")
+  (command "_.layer" "_color" 61 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_28") "")
+  (command "_.layer" "_color" 101 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_30") "")
+  (command "_.layer" "_color" 141 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_32") "")
   (setvar "cmdecho" 1)
   ;hlaska po skonceni programu
   (princ "\nFarebna schema vystuze zapnuta. ")
@@ -68,21 +68,21 @@
 ;zmena farby hladin pre vystuz pre finalny rezim
 (defun RezimVystuzeVypnuty ()
   (setvar "cmdecho" 0)
-  (command "_.layer" "_color" 1 "DP_Vystuz_06" "")
-  (command "_.layer" "_color" 2 "DP_Vystuz_07" "")
-  (command "_.layer" "_color" 3 "DP_Vystuz_08" "")
-  (command "_.layer" "_color" 4 "DP_Vystuz_10" "")
-  (command "_.layer" "_color" 5 "DP_Vystuz_12" "")
-  (command "_.layer" "_color" 6 "DP_Vystuz_14" "")
-  (command "_.layer" "_color" 1 "DP_Vystuz_16" "")
-  (command "_.layer" "_color" 2 "DP_Vystuz_18" "")
-  (command "_.layer" "_color" 3 "DP_Vystuz_20" "")
-  (command "_.layer" "_color" 4 "DP_Vystuz_22" "")
-  (command "_.layer" "_color" 5 "DP_Vystuz_25" "")
-  (command "_.layer" "_color" 6 "DP_Vystuz_26" "")
-  (command "_.layer" "_color" 1 "DP_Vystuz_28" "")
-  (command "_.layer" "_color" 2 "DP_Vystuz_30" "")
-  (command "_.layer" "_color" 3 "DP_Vystuz_32" "")
+  (command "_.layer" "_color" 1 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_06") "")
+  (command "_.layer" "_color" 2 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_07") "")
+  (command "_.layer" "_color" 3 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_08") "")
+  (command "_.layer" "_color" 4 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_10") "")
+  (command "_.layer" "_color" 5 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_12") "")
+  (command "_.layer" "_color" 6 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_14") "")
+  (command "_.layer" "_color" 1 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_16") "")
+  (command "_.layer" "_color" 2 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_18") "")
+  (command "_.layer" "_color" 3 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_20") "")
+  (command "_.layer" "_color" 4 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_22") "")
+  (command "_.layer" "_color" 5 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_25") "")
+  (command "_.layer" "_color" 6 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_26") "")
+  (command "_.layer" "_color" 1 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_28") "")
+  (command "_.layer" "_color" 2 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_30") "")
+  (command "_.layer" "_color" 3 (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_32") "")
   (setvar "cmdecho" 1)
   ;hlaska po skonceni programu
   (princ "\nFarebna schema vystuze vypnuta. ")

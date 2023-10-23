@@ -1,61 +1,93 @@
+;============================================================================
+; JTmenu.mnl
+; (c) Copyright 2023 Tomecko Jakub
+;
+; Autoload pre JTmenu
+;----------------------------------------------------------------------------
 (print)
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Menu
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Funkcie
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Cadastre" '("Cadastre"))
-(AUTOLOAD "Maps" '("Maps"))
-(AUTOLOAD "Rebar_scheme" '("RS"))
-(AUTOLOAD "Create_layers" '("CL"))
-(AUTOLOAD "Block_base_point" '("CBP" "CBPR"))
-(AUTOLOAD "Auto_block_break" '("ABB" "ABBE" "ABBS"))
-(AUTOLOAD "Center_measure" '("CMEASURE"))
-(AUTOLOAD "Viewport_outline" '("VPO" "VPOL" "VPOA"))
-(AUTOLOAD "Object_break" '("BRK"))
-(AUTOLOAD "Double_offset" '("DOFF"))
-(AUTOLOAD "Copy_rename_block" '("CB" "RB"))
-(AUTOLOAD "Batch_editor" '("BAtte"))
-(AUTOLOAD "Stationing" '("Stationing"))
-(AUTOLOAD "North_arrow" '("NorthArrow"))
-(AUTOLOAD "Coordinates_symbol" '("Coordinates"))
+;----------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------;;
+;;                               Funkcie                                ;;
+;;----------------------------------------------------------------------;;
+(AUTOLOAD "Cadastre" '("JTCadastre"))
+(AUTOLOAD "Maps" '("JTMaps"))
+(AUTOLOAD "Rebar_scheme" '("JTRebarScheme"))
+(AUTOLOAD "Create_layers" '("JTCreateLayers"))
+(AUTOLOAD "Block_base_point" '("JTBlockBasePoint"))
+(AUTOLOAD "Auto_block_break" '("JTBlockBreak"))
+(AUTOLOAD "Center_measure" '("JTCenterMeasure"))
+(AUTOLOAD "Viewport_outline" '("JTViewportOutline"))
+(AUTOLOAD "Object_break" '("JTObjectBreak"))
+(AUTOLOAD "Double_offset" '("JTDoubleOffset"))
+(AUTOLOAD "Rename_block" '("JTRenameBlock"))
+(AUTOLOAD "Stationing" '("JTStationing"))
+(AUTOLOAD "North_arrow" '("JTNorthArrow"))
+(AUTOLOAD "Coordinates_symbol" '("JTCoordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
-(AUTOLOAD "Koty" '("JTKoty"))
+(AUTOLOAD "Create_dimensions" '("JTCreateDimensions"))
 (AUTOLOAD "Text_style" '("JTTextStyle"))
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
-(AUTOLOAD "Networks" '("JTCiary"))
-(AUTOLOAD "Layout_functions" '("DPRozpiska" "JTSheetCross" "JTFileNameGenerator" "JTTitleBlockUpdate"))
+(AUTOLOAD "Networks" '("JTNetworks"))
+(AUTOLOAD "Layout_functions" '("JTTitleBlock" "JTSheetCross" "JTTitleBlockUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
-(AUTOLOAD "Vytycenie" '("JTVytycenie"))
+(AUTOLOAD "Laying_out" '("JTLayingOut"))
 (AUTOLOAD "Material_update" '("JTMaterialUpdate"))
-(AUTOLOAD "Slope" '("Sklon"))
+(AUTOLOAD "Slope" '("JTSlope"))
+(AUTOLOAD "Template_units" '("JTTemplateUnits"))
+(AUTOLOAD "Rebar_table" '("JTRebatTable"))
+(print)
 
+;;----------------------------------------------------------------------;;
+;;                              Dokumentaci                             ;;
+;;----------------------------------------------------------------------;;
+(AUTOLOAD "Doc_VL_TP" '("VL01"))
+(AUTOLOAD "Doc_VL_TP" '("VL01_1"))
+(AUTOLOAD "Doc_VL_TP" '("VL02"))
+(AUTOLOAD "Doc_VL_TP" '("VL02_1"))
+(AUTOLOAD "Doc_VL_TP" '("VL02_2"))
+(AUTOLOAD "Doc_VL_TP" '("VL02_3"))
+(AUTOLOAD "Doc_VL_TP" '("VL022"))
+(AUTOLOAD "Doc_VL_TP" '("VL04"))
+(AUTOLOAD "Doc_VL_TP" '("VL05"))
+(AUTOLOAD "Doc_VL_TP" '("VL061"))
+(AUTOLOAD "Doc_VL_TP" '("VL061V"))
+(AUTOLOAD "Doc_VL_TP" '("VL062"))
+(AUTOLOAD "Doc_VL_TP" '("VL062V"))
+(AUTOLOAD "Doc_VL_TP" '("VL063"))
+(AUTOLOAD "Doc_VL_TP" '("VL063V"))
+(AUTOLOAD "Doc_VL_TP" '("VL064"))
+(AUTOLOAD "Doc_VL_TP" '("VL064V"))
+(AUTOLOAD "Doc_VL_TP" '("VL10"))
+(AUTOLOAD "Doc_VL_TP" '("TP113"))
 (print)
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Kniznice blokov
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "KnihZDZ" '("JTKNIHDZD"))
+
+;;----------------------------------------------------------------------;;
+;;                           Pracovne funkcie                           ;;
+;;----------------------------------------------------------------------;;
+(AUTOLOAD "SLD_factory" '("SLDFAC"))
 (print)
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Bloky symbolov
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-(AUTOLOAD "Vkladanie_blokov" '("DPSmer" "DPSmer2" "DPSmerToku" "DPNazovPohladu" "DPRezZvisly" 
-                               "DPRezVodorovny" "DPRezZlom" "DPZarovnanyText" "DPZnackaSklonu" 
-                               "DPSymbolOsi" "DPTabMaterialov" "DPTabOhybov" "DPPoznamka"
-                               "JTVystuz" "JTPopisVystuze" "JTOznacenieVystuze")
+
+;;----------------------------------------------------------------------;;
+;;                             Kniznica blokov                          ;;
+;;----------------------------------------------------------------------;;
+(AUTOLOAD "Traffic_signs" '("JTTrafficSigns"))
+(print)
+
+;;----------------------------------------------------------------------;;
+;;                              Bloky symbolov                          ;;
+;;----------------------------------------------------------------------;;
+(AUTOLOAD "Inserting_blocks" '("JTDirection" "JTDirection2" "JTWaterDirection" "JTViewName" "JTSectionVertical" 
+                               "JTSectionHorizontal" "JTSectionBreak" "JTAlignedText" "JTSlopeSymbol" 
+                               "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
+                               "JTRebar" "JTRebarDescription" "JTRebarMark")
 )
 (print)
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Priklady
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; (AUTOLOAD "SOUBOR" '("PRIKAZ"))
-; (AUTOLOAD "CMDS" '("CMD1" "CMD2" "CMD3")) 
-; (AUTOLOAD "NEWCMD" '("NEWCMD"))
 
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Nastavenie globalnych parametrov ak este neexistuju
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+;;----------------------------------------------------------------------;;
+;;         Nastavenie globalnych parametrov ak este neexistuju          ;;
+;;----------------------------------------------------------------------;;
 
 (if (= (getenv "GlobalnaHladinaBlokov") nil)
   ;nastavenie hladinu na DP_Popis
@@ -82,9 +114,19 @@
   (setenv "GlobalneVyhotovilVykres" "Meno")
 )
 
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-; Uvitacia hlaska pri nacitany programu JTmenu
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(if (= (getenv "GlobalnaPrefixHladiny") nil)
+  ;nastavenie nazvu prefixu hlafiny
+  (setenv "GlobalnaPrefixHladiny" "JT_")
+)
+
+(if (= (getenv "GlobalnaPrefixHladinyNew") nil)
+  ;nastavenie nazvu prefixu hlafiny noveho stavu
+  (setenv "GlobalnaPrefixHladinyNew" "NS_")
+)
+
+;;----------------------------------------------------------------------;;
+;;           Uvitacia hlaska pri nacitany programu JTmenu               ;;
+;;----------------------------------------------------------------------;;
 ;nastavenie premennej pre urcenie tvaru formatu cislovania
 (setq FormatCislaVykresu (if (= (getenv "GlobalnyFormatCislaVykresu") "0") (setq FormatCislaVykresu "01")(setq FormatCislaVykresu "001")))
 
@@ -104,9 +146,13 @@
     "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
     "\nFormat cislovania vykresu je nastaveny na: " FormatCislaVykresu "."
     "\nMeno tagu vyhotovil pre rozpisku je nastavene na: " (getenv "GlobalneVyhotovilVykres") "."
+    "\nPrexif nazvu hladiny je nastavene na: " (getenv "GlobalnaPrefixHladiny") "."
+    "\nPrexif nazvu hladiny pre novy stav je nastavene na: " (getenv "GlobalnaPrefixHladinyNew") "."
     "\n**********************************************"
   )
 ) 
 (print)
 
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;

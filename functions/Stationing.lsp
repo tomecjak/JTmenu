@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Stationing.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Zobrazenie stanicenia na krivke od zaciatku a konca
 ;-------------------------------------------------------------------------
@@ -9,7 +9,7 @@
 ;;                          Funkcia stanicenia                          ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:Stationing( / vybrana_entita p tot_len poloha_bodu vlaobj)
+(defun c:JTStationing( / vybrana_entita p tot_len poloha_bodu vlaobj)
   
   ;definovanie chybovej hlasky v programe
   (defun *error* (errmsg)

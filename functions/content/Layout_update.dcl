@@ -1,3 +1,10 @@
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+// Layout_update.dcl
+// (c) Copyright 2023 Tomecko Jakub
+//
+// Dialog pre funkciu TitleBlockUpdate, suboru Layout_functions.lsp 
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -//
+
 Layout_update //nazov dcl
 
 : dialog

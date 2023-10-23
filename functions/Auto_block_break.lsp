@@ -16,7 +16,7 @@
 ;;  aby zadal bod vlozenia bloku. Ak sa v bode bloku detekuje objekt    ;;
 ;;  krivky (oblúk, elepticke obluk, elipsa, kruh, ciara, XLine, Spline  ;;
 ;;  LWPolyline alebo Polyline), tak sa vlozeni blok autmaticky otoci,   ;;
-;;  aby bol zarovnany s krivkou. 
+;;  aby bol zarovnany s krivkou.                                        ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:ABB ( / *error* blk obj ins sel tmp )
@@ -496,7 +496,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nAuto_block_break.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nAuto_block_break.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

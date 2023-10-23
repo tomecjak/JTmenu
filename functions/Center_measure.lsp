@@ -12,7 +12,7 @@
 ;;  centruje delenie pozdlz vybraneho objektu                 ;;
 ;;------------------------------------------------------------;;
 
-(defun c:CMEASURE ( / *error* _StartUndo _EndUndo _SelectIf _IsCurveObject acdoc al bl d0 di en mx nm pt )
+(defun c:JTCenterMeasure ( / *error* _StartUndo _EndUndo _SelectIf _IsCurveObject acdoc al bl d0 di en mx nm pt )
   
   ;vytvorenie premenej VyberTypuMeasure
   (setq VyberTypuMeasure
@@ -181,7 +181,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nCenter_measure.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko, Michal Kravec | "
+        "\nCenter_measure.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko, upravil: Michal Kravec | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

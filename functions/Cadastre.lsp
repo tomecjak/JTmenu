@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Cadastre.lsp
-; (c) Copyright 2022 Tomecko Jakub
+; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Vyhladavanie miesta na katastri podľa JTSK
 ;-------------------------------------------------------------------------
@@ -13,7 +13,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;definovanie funkcie prikazu "Kataster"
-(defun c:Cadastre ()
+(defun c:JTCadastre ()
   
   ;definovanie chybovej hlasky v programe + nastavenie 
   (defun *error* (errmsg)
