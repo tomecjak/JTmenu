@@ -191,6 +191,136 @@
   (princ)  
 )
 
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 010                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP010 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP010.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;              Technicke podmienky 010 - dodatok c. 1                  ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP010_1 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP010_1.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 019                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP019 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP019.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                Technicke podmienky 019 - komentar                    ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP019_K () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP019_K.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 037                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP037 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP037.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 063                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP063 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP063.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 068                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP068 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP068.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;              Technicke podmienky 068 - dodatok c. 1                  ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP068_1 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP068_1.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 075                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP075 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP075.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 108                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP108 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "TP/TP108.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
 
 ;;----------------------------------------------------------------------;;
 ;;                       Technicke podmienky 113                        ;;
@@ -202,6 +332,32 @@
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                    Slovenske technicke podmienky                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TPSK () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq SKURL "https://www.ssc.sk/sk/technicke-predpisy-rezortu.ssc")
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" SKURL)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                      Ceske technicke podmienky                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TPCZ () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq CZURL "https://pjpk.rsd.cz/predpisy/")
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" CZURL)
   (princ)  
 )
 

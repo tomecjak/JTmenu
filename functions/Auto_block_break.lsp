@@ -19,7 +19,7 @@
 ;;  aby bol zarovnany s krivkou.                                        ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:ABB ( / *error* blk obj ins sel tmp )
+(defun c:JTBlockBreak ( / *error* blk obj ins sel tmp )
 
     (defun *error* ( msg )
         (LM:endundo (LM:acdoc))

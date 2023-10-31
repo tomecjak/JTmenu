@@ -15,7 +15,7 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:CB nil (LM:RenameBlockReference   t))
-(defun c:RB nil (LM:RenameBlockReference nil))
+(defun c:JTRenameBlock nil (LM:RenameBlockReference nil))
 
 (defun LM:RenameBlockReference ( cpy / *error* abc app dbc dbx def doc dxf new old prp src tmp vrs )
 

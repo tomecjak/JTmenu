@@ -30,7 +30,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;; Zachova suradnice bodu vlozenia
-(defun c:CBP  nil (LM:changeblockbasepoint nil))
+(defun c:JTBlockBasePoint  nil (LM:changeblockbasepoint nil))
 
 ;; Zachova referencnu polohu bloku
 (defun c:CBPR nil (LM:changeblockbasepoint t))
