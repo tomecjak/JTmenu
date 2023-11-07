@@ -90,6 +90,19 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                    Vzorove list 04 - dodatok 1                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL04_1 () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq PDFFileName (findfile "VL/VL04_1.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" PDFFileName)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
 ;;                           Vzorove list 05                            ;;
 ;;----------------------------------------------------------------------;;
 
