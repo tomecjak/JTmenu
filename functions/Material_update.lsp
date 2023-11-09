@@ -125,7 +125,7 @@
   ;unload dialogu
   (unload_dialog dcl_id)
   
-  (setq BlockTabulkaMaterialov (BlockNameToVLAName "DPTabulkaMaterialov"))
+  (setq BlockTabulkaMaterialov (BlockNameToVLAName "TabulkaMaterialov"))
   
   ;nastavenie typu tabulky (beton/ocel, okruhla/hranata) 
   (NastavenieTypuTabulky)

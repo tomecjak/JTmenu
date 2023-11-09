@@ -40,7 +40,7 @@
 (print)
 
 ;;----------------------------------------------------------------------;;
-;;                              Dokumentaci                             ;;
+;;                              Dokumentacia                            ;;
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Doc_VL_TP" '("VL01"))
 (AUTOLOAD "Doc_VL_TP" '("VL01_1"))
@@ -94,7 +94,7 @@
 (AUTOLOAD "Inserting_blocks" '("JTDirection" "JTDirection2" "JTWaterDirection" "JTViewName" "JTSectionVertical" 
                                "JTSectionHorizontal" "JTSectionBreak" "JTAlignedText" "JTSlopeSymbol" 
                                "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
-                               "JTRebar" "JTRebarDescription" "JTRebarMark")
+                               "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark")
 )
 (print)
 

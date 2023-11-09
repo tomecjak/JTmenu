@@ -547,6 +547,25 @@
 
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku Spony vystuze
+(defun c:JTRebarClip()
+  
+  ;nastavenie hladiny
+  (SetLayerPrefixVystuz)
+
+  ;prikaz na vlozenie blocku vystuze
+  (command "._insert" "VystuzSpona" "_S" 1 "_R" 0 pause)
+  (princ "\nUrcite bod vlozenia blocku spony vystuze:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
 (load "Version" "\nVerzia nenacitana!")
 (princ
