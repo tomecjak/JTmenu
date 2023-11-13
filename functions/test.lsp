@@ -105,89 +105,6 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;       Pomocne funkcie pre zmenu stavu hide dynamickeho bloku         ;;
-;;----------------------------------------------------------------------;;
-
-(defun Getdynpropallowedvalues ( blk prp )
-    (setq prp (strcase prp))
-    (vl-some '(lambda ( x ) (if (= prp (strcase (vla-get-propertyname x))) (vlax-get x 'allowedvalues)))
-        (vlax-invoke blk 'getdynamicblockproperties)
-    )
-)
-
-(defun Getvisibilityparametername ( blk / vis )  
-    (if
-        (and
-            (vlax-property-available-p blk 'effectivename)
-            (setq blk
-                (vla-item
-                    (vla-get-blocks (vla-get-document blk))
-                    (vla-get-effectivename blk)
-                )
-            )
-            (= :vlax-true (vla-get-isdynamicblock blk))
-            (= :vlax-true (vla-get-hasextensiondictionary blk))
-            (setq vis
-                (vl-some
-                   '(lambda ( pair )
-                        (if
-                            (and
-                                (= 360 (car pair))
-                                (= "BLOCKVISIBILITYPARAMETER" (cdr (assoc 0 (entget (cdr pair)))))
-                            )
-                            (cdr pair)
-                        )
-                    )
-                    (dictsearch
-                        (vlax-vla-object->ename (vla-getextensiondictionary blk))
-                        "ACAD_ENHANCEDBLOCK"
-                    )
-                )
-            )
-        )
-        (cdr (assoc 301 (entget vis)))
-    )
-)
-
-(defun SetVisibilityState ( blk val / vis )
-    (if
-        (and
-            (setq vis (Getvisibilityparametername blk))
-            (member (strcase val) (mapcar 'strcase (Getdynpropallowedvalues blk vis)))
-        )
-        (Setdynpropvalue blk vis val)
-    )
-)
-
-;;----------------------------------------------------------------------;;
-;;           Pomocna funkcia pre zmenu blocku na VLA objekt             ;;
-;;----------------------------------------------------------------------;;
-
-(defun BlockNameToVLAName (BlockToVLA / ssBN)
-  (if (setq ssBN (ssget "_X" (list '(0 . "INSERT") (cons 2 BlockToVLA))))
-    (vlax-ename->vla-object (ssname ssBN 0)))
-)
-
-;;----------------------------------------------------------------------;;
-;;       Pomocna funkcia pre vkladanie udajov do value blokov           ;;
-;;----------------------------------------------------------------------;;
-
-(defun Setdynpropvalue ( BlockVLAName ValueName NewValue )
-    (setq ValueName (strcase ValueName))
-    (vl-some
-       '(lambda ( x )
-            (if (= ValueName (strcase (vla-get-propertyname x)))
-                (progn
-                    (vla-put-value x (vlax-make-variant NewValue (vlax-variant-type (vla-get-value x))))
-                    (cond (NewValue) (t))
-                )
-            )
-        )
-        (vlax-invoke BlockVLAName 'getdynamicblockproperties)
-    )
-)
-
-;;----------------------------------------------------------------------;;
 ;;                Premenovanie layoutu podla rozmeru                    ;;
 ;;----------------------------------------------------------------------;;
 
@@ -689,7 +606,7 @@
 ;;                  Hlavna funkcia JTTitleBlockUpdate                   ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTTitleBlockUpdate ()
+(defun c:JTTitleBlockUpdate-test ()
   
   ;vyber rozpisky a jej resetovanie
   (setq VyberBloku (entsel "Vyberte rozpisku:" ))
@@ -796,8 +713,6 @@
   ;unload dialogu
   (unload_dialog dcl_id)
   
-  (setq BlockRozpiska (BlockNameToVLAName "Rozpiska"))
-    
   ;spustenie jednotlivych funkcii po zavreti dialogoveho okna
   (if (= formatCislovaniaVyber "1")
     (setenv "GlobalnyFormatCislaVykresu" "1")
@@ -847,9 +762,6 @@
     (JTUpdateRozpiska)
   )
   
-  ;nastavenie typu rozpisky (klasika/titulka/vytycovacia)
-  (nastavenieTypuRozpisky)
-  
   (princ)
 
 )
@@ -880,12 +792,6 @@
   (set_tile "vykresExterneDataAktualizovat" "0")
 )
 
-(defun UkoncenieRozpiskyUpdate()
-  (done_dialog)
-  (princ "\nNeboli aktualizovane ziadne data rozpisky.\n")
-  (exit)
-)
-
 ;funkcia tlacidla aktualizovat
 (defun LayoutSettingAktualizacia ()
   ;definovanie premenych pre vyhodnotenie
@@ -897,7 +803,6 @@
   (setq formatCislovaniaVyber (get_tile "formatCislovania"))
   (setq vykresVypracoval (get_tile "vykresVypracoval"))
   (setq vykresVypracovalAktualizacia (get_tile "vykresVypracovalAktualizacia"))
-  (setq vykresNazovUppercase (get_tile "vykresNazovUppercase"))
   (setq layoutRename (get_tile "layoutRename"))
   ;definovnaie premenych pre vyhodnotenie z externeho uloziska
   (setq vykresExterneDataAktualizovat (get_tile "vykresExterneDataAktualizovat"))
@@ -914,10 +819,6 @@
   (setq vykresCisloZakzky (get_tile "vykresCisloZakzky"))
   ;spojenie cisla objektu a nazvu objektu
   (setq cisloObjektuAvykresNazovObjektu (strcat (substr (getvar "dwgname") 1 6) " " vykresNazovObjektu))
-  ;ziskanie udajov o type rozpisky
-  (setq vyberTypRozpiskyKlasicka (get_tile "rozpiskaKlasicka"))
-  (setq vyberTypRozpiskyTitulka (get_tile "rozpiskaTitulka"))
-  (setq vyberTypRozpiskyVytycenia (get_tile "rozpiskaVytycenie"))
 )
 
 (defun JTSheetCreate ()
@@ -925,7 +826,8 @@
   (setq ctr 0
     ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "VYPRACOVAL" (getenv "GlobalneVyhotovilVykres") (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
-
+  
+(princ)
 )
 
 (defun JTUpdateRozpiska ()
@@ -984,6 +886,7 @@
     ss1 (ssget "_x" '((0 . "insert") (2 . "Rozpiska")))) ;nazov bloku
   (repeat (sslength ss1) (BlockTagEditor "CISLO_ZAKAZKY" vykresCisloZakzky (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
+  (princ)
 
 )
 
@@ -1021,23 +924,10 @@
   (set_tile "oznamovaciaHlaska" "Data uspesne ulozene.")
 )
 
-
-;nastavenie typu rozpisky
-(defun nastavenieTypuRozpisky()
-  ;vyhodnotenie tabulky - klasicka rozpiska
-  (if (= vyberTypRozpiskyKlasicka "1")
-    (SetVisibilityState BlockRozpiska "KLASICKA")
-  )
-  
-  ;vyhodnotenie tabulky - rozpiska titulky
-  (if (= vyberTypRozpiskyTitulka "1")
-    (SetVisibilityState BlockRozpiska "TITULKA")
-  )
-  
-  ;vyhodnotenie tabulky - vytycovacia rozpiska
-  (if (= vyberTypRozpiskyVytycenia "1")
-    (SetVisibilityState BlockRozpiska "VYTYCOVACIA")
-  )
+(defun UkoncenieRozpiskyUpdate()
+  (done_dialog)
+  (princ "\nNeboli aktualizovane ziadne data rozpisky.\n")
+  (exit)
 )
 
 ;;----------------------------------------------------------------------;;

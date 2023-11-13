@@ -191,16 +191,6 @@ Layout_update //nazov dcl
         {
           : toggle
           {
-            key = "zakazkaNazovUppercase";
-            label = "Uppercase nazov zakazky";
-            width = 40;
-          }
-        }
-        //piaty riadok - Uppercase nazov vykresu
-        : row
-        {
-          : toggle
-          {
             key = "vykresNazovUppercase";
             label = "Uppercase nazov vykresu";
             value = "1";
@@ -449,7 +439,44 @@ Layout_update //nazov dcl
     }
   }
 
-  //druhi riadok - nastavenie formatovanie cislovanie vykresu
+  //druhy riadok - nastavenie rozpisky
+  : boxed_row
+  {
+    label = "Typ rozpisky";
+      //checkbox - klasicka rozpiska
+      : column
+      {
+        : toggle
+        {
+          key = "rozpiskaKlasicka";
+          label = "Klasicka";
+          width = 5;
+          value = "1";
+        }
+      }
+      //checkbox - rozpiska titulky
+      : column
+      {
+        : toggle
+        {
+          key = "rozpiskaTitulka";
+          label = "Titulka";
+          width = 5;
+        }
+      }
+      //checkbox - rozpiska vytycenie
+      : column
+      {
+        : toggle
+        {
+          key = "rozpiskaVytycenie";
+          label = "Vytycovacia";
+          width = 5;
+        }
+      }
+  }
+
+  //treti riadok - nastavenie formatovanie cislovanie vykresu
   : row {
     : boxed_column
     {
@@ -491,7 +518,7 @@ Layout_update //nazov dcl
     }
   }
 
-  //treti riadok dialogu s ukazkou formatovania nazvu suboru
+  //stvrty riadok dialogu s ukazkou formatovania nazvu suboru
   : boxed_column
   {
     label = "Priklady naformatovania nazvu suboru";
@@ -502,7 +529,7 @@ Layout_update //nazov dcl
     }
   }
 
-  //treti riadok - tlacidla
+  //piaty riadok - tlacidla
   : row
   {
     //tlacidlo oznacit vsetko
