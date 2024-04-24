@@ -33,6 +33,6 @@
 
 (defun c:JTFolder ()
   (vl-load-com)
-  ;(LM:createdirectory "C:\\Users\\jakubtomecko\\Documents\\Folder1")
-  (vl-file-copy "C:/Users/jakubtomecko/Documents/abc.txt" "C:/Users/jakubtomecko/Documents/Folder1/abc.txt")
+  (LM:createdirectory "C:\\Users\\tomecko\\Documents\\Folder1")
+  (vl-file-copy "C:/Users/tomecko/Documents/abc.txt" "C:/Users/tomecko/Documents/Folder1/abc.txt")
 )

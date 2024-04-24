@@ -37,7 +37,7 @@
 (AUTOLOAD "Slope" '("JTSlope"))
 (AUTOLOAD "Template_units" '("JTTemplateUnits"))
 (AUTOLOAD "Rebar_table" '("JTRebatTable"))
-(AUTOLOAD "folder" '("JTFolder"))
+(AUTOLOAD "Folders_scheme" '("JTFolder"))
 (print)
 
 ;;----------------------------------------------------------------------;;
