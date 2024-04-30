@@ -368,6 +368,64 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                         Bloky pre vytycenie                          ;;
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Vyska bodu
+(defun c:JTPointHeight()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku SymbolOsi
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "VyskaBodu" "_S" 0.05 "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "VyskaBodu" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky vysky bodu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Hektometricka siet
+(defun c:JTHectometricNetwork()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku SymbolOsi
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "HectometricNetwork" "_S" 0.05 "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "HectometricNetwork" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky hektometrickej siete:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
 ;;                           Bloky do Layoutu                           ;;
 ;;----------------------------------------------------------------------;;
 
