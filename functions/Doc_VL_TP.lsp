@@ -10,20 +10,20 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:VL01 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL01.pdf"))
+  ;definovanie premenej "URL_VL01" do ktorej je zapísana url adresa
+  (setq URL_VL01 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl1_2019.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL01)
   (princ)  
 )
 
 (defun c:VL01_1 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL01_1.pdf"))
+  ;definovanie premenej "URL_VL01_1" do ktorej je zapísana url adresa
+  (setq URL_VL01_1 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/dodatok_1_2021_vl_1.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL01_1)
   (princ)  
 )
 
@@ -31,48 +31,12 @@
 ;;                           Vzorove list 02                            ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:VL02 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL02.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL02_1 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL02_1.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL02_2 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL02_2.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL02_3 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL02_3.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
 (defun c:VL022 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL02.2.pdf"))
+  ;definovanie premenej "URL_VL022" do ktorej je zapísana url adresa
+  (setq URL_VL022 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl_2_2_2021.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL022)
   (princ)  
 )
 
@@ -81,11 +45,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:VL04 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL04.pdf"))
+  ;definovanie premenej "URL_VL04" do ktorej je zapísana url adresa
+  (setq URL_VL04 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl4_2021.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL04)
   (princ)  
 )
 
@@ -94,11 +58,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:VL04_1 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL04_1.pdf"))
+  ;definovanie premenej "URL_VL04_1" do ktorej je zapísana url adresa
+  (setq URL_VL04_1 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/dodatok_1_2023_vl_4.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL04_1)
   (princ)  
 )
 
@@ -107,87 +71,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:VL05 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL05.pdf"))
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl5_2022_tunely.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-;;----------------------------------------------------------------------;;
-;;                           Vzorove list 06                            ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:VL061 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.1.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL061V () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.1_V.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL062 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.2.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL062V () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.2_V.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL063 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.3.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL063V () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.3_V.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL064 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.4.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
-  (princ)  
-)
-
-(defun c:VL064V () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL06.4_V.pdf"))
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL05)
   (princ)  
 )
 
@@ -196,11 +84,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:VL10 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "VL/VL10.pdf"))
+  ;definovanie premenej "URL_VL10" do ktorej je zapísana url adresa
+  (setq URL_VL10 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl-10_2018.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_VL10)
   (princ)  
 )
 
@@ -209,11 +97,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP010 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP010.pdf"))
+  ;definovanie premenej "URL_TP010" do ktorej je zapísana url adresa
+  (setq URL_TP010 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_010_2019.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP010)
   (princ)  
 )
 
@@ -222,11 +110,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP010_1 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP010_1.pdf"))
+  ;definovanie premenej "URL_TP010_1" do ktorej je zapísana url adresa
+  (setq URL_TP010_1 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_010_dodatok_1.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP010_1)
   (princ)  
 )
 
@@ -235,11 +123,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP019 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP019.pdf"))
+  ;definovanie premenej "URL_TP019" do ktorej je zapísana url adresa
+  (setq URL_TP019 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_019_2021.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP019)
   (princ)  
 )
 
@@ -248,11 +136,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP019_K () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP019_K.pdf"))
+  ;definovanie premenej "URL_TP019_K" do ktorej je zapísana url adresa
+  (setq URL_TP019_K "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_019_2021_komentar.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP019_K)
   (princ)  
 )
 
@@ -262,11 +150,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP037 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP037.pdf"))
+  ;definovanie premenej "URL_TP037" do ktorej je zapísana url adresa
+  (setq URL_TP037 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_037_2019.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP037)
   (princ)  
 )
 
@@ -275,11 +163,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP063 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP063.pdf"))
+  ;definovanie premenej "URL_TP063" do ktorej je zapísana url adresa
+  (setq URL_TP063 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_063.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP063)
   (princ)  
 )
 
@@ -288,11 +176,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP068 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP068.pdf"))
+  ;definovanie premenej "URL_TP068" do ktorej je zapísana url adresa
+  (setq URL_TP068 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_068.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP068)
   (princ)  
 )
 
@@ -301,11 +189,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP068_1 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP068_1.pdf"))
+  ;definovanie premenej "URL_TP068_1" do ktorej je zapísana url adresa
+  (setq URL_TP068_1 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_068_dodatok_1_2022.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP068_1)
   (princ)  
 )
 
@@ -314,11 +202,24 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP075 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP075.pdf"))
+  ;definovanie premenej "URL_TP075" do ktorej je zapísana url adresa
+  (setq URL_TP075 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_075.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP075)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Technicke podmienky 104                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:TP104 () 
+  ;definovanie premenej "URL_TP104" do ktorej je zapísana url adresa
+  (setq URL_TP104 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp%20104_2023.pdf")
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_TP104)
   (princ)  
 )
 
@@ -327,11 +228,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP108 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP108.pdf"))
+  ;definovanie premenej "URL_TP108" do ktorej je zapísana url adresa
+  (setq URL_TP108 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_108_2019.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP108)
   (princ)  
 )
 
@@ -340,11 +241,11 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:TP113 () 
-  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
-  (setq PDFFileName (findfile "TP/TP113.pdf"))
+  ;definovanie premenej "URL_TP113" do ktorej je zapísana url adresa
+  (setq URL_TP113 "https://www.ssc.sk/files/documents/technicke-predpisy/tp/tp_113_2019.pdf")
 
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" PDFFileName)
+  (command "browser" URL_TP113)
   (princ)  
 )
 
