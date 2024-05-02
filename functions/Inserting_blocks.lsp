@@ -193,7 +193,7 @@
 
   ;prikaz na vlozenie blocku NazovPohladu
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "NazovPohladu" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "NazovPohladu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "NazovPohladu" "_S" (getvar "dimscale") "_R" 0 pause)
     )

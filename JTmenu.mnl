@@ -32,7 +32,6 @@
 (AUTOLOAD "Networks" '("JTNetworks"))
 (AUTOLOAD "Layout_functions" '("JTTitleBlock" "JTSheetCross" "JTTitleBlockUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
-(AUTOLOAD "Laying_out" '("JTLayingOut"))
 (AUTOLOAD "Material_update" '("JTMaterialUpdate"))
 (AUTOLOAD "Slope" '("JTSlope"))
 (AUTOLOAD "Template_units" '("JTTemplateUnits"))
@@ -128,6 +127,11 @@
   (setenv "GlobalnaPrefixHladinyNew" "NS_")
 )
 
+(if (= (getenv "GlobalnaBlocksScale") nil)
+  ;nastavenie nazvu prefixu hlafiny noveho stavu
+  (setenv "GlobalnaBlocksScale" "50")
+)
+
 ;;----------------------------------------------------------------------;;
 ;;           Uvitacia hlaska pri nacitany programu JTmenu               ;;
 ;;----------------------------------------------------------------------;;
@@ -146,6 +150,7 @@
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
+    "\nNastavena mierka je 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"
     "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
     "\nFormat cislovania vykresu je nastaveny na: " FormatCislaVykresu "."

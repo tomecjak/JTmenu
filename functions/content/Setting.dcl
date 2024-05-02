@@ -104,7 +104,7 @@ Setting //nazov dcl
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "bloky v mierke 1:50. V mode dimscale sa";
+      label = "bloky v mierke 1:X. V mode dimscale sa";
     }
     //treti riadok poznamky nastavenia
     : text_part
@@ -113,7 +113,30 @@ Setting //nazov dcl
     }
   }
 
-  //stvrty riadok dialogu - nastavenie geenrovanych kot
+  //stvrty riadok dialogu - nastavenie mierky vkladanych blokov
+  : boxed_column
+  {
+    label = "Aku mierku pouzit pre vkladane bloky:";
+    //nazov prefixu pre klasicke hladiny
+    : row {
+      : text 
+      {  
+        label = "Miekra blokov:";
+      }
+      : edit_box
+      {  
+        fixed_width = true;
+        key = "blocksScale";
+      }
+    }
+    //prvy riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "Moznost si nastavit mierku vkladanych blokov.";
+    }
+  }
+
+  //piaty riadok dialogu - nastavenie geenrovanych kot
   : boxed_radio_column
   {
     label = "V akom mode vygenerovat koty?";
@@ -156,7 +179,7 @@ Setting //nazov dcl
     }
   }
 
-  //piaty riadok dialogu - verzia JTmenu
+  //siesty riadok dialogu - verzia JTmenu
   : boxed_row
   {
     label = "Verzia JTmenu";

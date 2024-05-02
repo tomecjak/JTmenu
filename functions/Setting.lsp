@@ -24,9 +24,9 @@
   )
   
   ;nastavenie klasickeho prefixu hladiny
-  (if (= (getenv "GlobalnaPrefixHladiny") "JT_")
+  (if (= (getenv "GlobalnaPrefixHladiny") "DP_")
     ;splnena podmienka
-    (set_tile "layerPrefix" "JT_")
+    (set_tile "layerPrefix" "DP_")
     ;nesplnena podmienka
     (set_tile "layerPrefix" (getenv "GlobalnaPrefixHladiny"))
   )
@@ -45,6 +45,14 @@
     (set_tile "modKlasicky" "1")
     ;nesplnena podmienka
     (set_tile "modDimscale" "1")
+  )
+  
+  ;nastavenie prepinaca mierky vkladanych blokov GlobalnaBlocksScale
+  (if (= (getenv "GlobalnaBlocksScale") "50")
+    ;splnena podmienka
+    (set_tile "blocksScale" "50")
+    ;nesplnena podmienka
+    (set_tile "blocksScale" (getenv "GlobalnaBlocksScale"))
   )
   
   ;nastavenie prepinaca modov dialogu podla GlobalnaKotyDIMSCALEset
@@ -110,6 +118,12 @@
     )
   )
   
+  ;vyhodnotenie vyberu modu pre mierku blokov
+  (if (/= blocksScale "50")
+    (setenv "GlobalnaBlocksScale" blocksScale)
+    (setenv "GlobalnaBlocksScale" "50")
+  )
+  
   ;vyhodnotenie vyberu modu pre bloky
   (if (= modKotyKlasicky "1")
     ;nastavenie modu na Klasicky
@@ -127,6 +141,7 @@
                  "\nNastavily ste prefix hladiny na: " (getenv "GlobalnaPrefixHladiny") "!"
                  "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
+                 "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
                  "\nNastavily ste mod na " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"))
   
   (princ)
@@ -141,6 +156,7 @@
   (setq layerPrefixNew (get_tile "layerPrefixNew"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
+  (setq blocksScale (get_tile "blocksScale"))
   (setq modKotyKlasicky (get_tile "modKotyKlasicky"))
   (setq modKotyDimscale (get_tile "modKotyDimscale"))
 )
