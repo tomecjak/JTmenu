@@ -84,7 +84,8 @@
                                "JTSectionHorizontal" "JTSectionBreak" "JTAlignedText" "JTSlopeSymbol" 
                                "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
                                "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark" "JTPointHeight"
-                               "JTHectometricNetwork")
+                               "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
+                               "JTGeodeticMark")
 )
 (print)
 

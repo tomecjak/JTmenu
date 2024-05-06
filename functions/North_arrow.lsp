@@ -91,7 +91,7 @@
   
   ;prikaz na vlozenie blocku severky
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Severka" "_S" (/ 1.0 Refactor) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+      (command "._insert" "Severka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
     
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "Severka" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)

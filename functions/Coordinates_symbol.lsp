@@ -92,7 +92,7 @@
   
   ;prikaz na vlozenie blocku suradnic
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Suradnice" "_S" (/ 1.0 Refactor) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+      (command "._insert" "Suradnice" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
       (command "._insert" "Suradnice" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
     )

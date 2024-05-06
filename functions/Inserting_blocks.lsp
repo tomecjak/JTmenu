@@ -119,7 +119,7 @@
 
   ;prikaz na vlozenie blocku Smer
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Smer" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "Smer" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "Smer" "_S" (getvar "dimscale") "_R" 0 pause)
     )
@@ -143,7 +143,7 @@
 
   ;prikaz na vlozenie blocku Smer2
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Smer2" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "Smer2" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "Smer2" "_S" (getvar "dimscale") "_R" 0 pause)
     )
@@ -168,7 +168,7 @@
 
   ;prikaz na vlozenie blocku SmerToku
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "SmerToku" "_S" 1 "_R" 0 pause)
+      (command "._insert" "SmerToku" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "SmerToku" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
@@ -218,7 +218,7 @@
 
   ;prikaz na vlozenie blocku RezZvisly
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "RezZvisly" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "RezZvisly" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "RezZvisly" "_S" (getvar "dimscale") "_R" 0 pause)
     )
@@ -243,7 +243,7 @@
 
   ;prikaz na vlozenie blocku RezVodorovny
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "RezVodorovny" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "RezVodorovny" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "RezVodorovny" "_S" (getvar "dimscale") "_R" 0 pause)
     )
@@ -268,7 +268,7 @@
 
   ;prikaz na vlozenie blocku RezZlom
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "RezZlom" "_S" 1 "_R" 0 pause)
+      (command "._insert" "RezZlom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "RezZlom" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
@@ -296,13 +296,41 @@
 
   ;prikaz na vlozenie blocku ZarovnanyText
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "ZarovnanyText" "_S" (/ 0.05 Refactor) "_R" 0 pause)
+      (command "._insert" "ZarovnanyText" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "ZarovnanyText" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky zarovnaneho textu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Text z bodom
+(defun c:JTDotText()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku TextZBodom
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "TextZBodom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "TextZBodom" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky text z bodom:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -324,7 +352,7 @@
 
   ;prikaz na vlozenie blocku Sklon
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Sklon" "_S" (/ 1.0 Refactor) "_R" 0 pause)
+      (command "._insert" "Sklon" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "Sklon" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
@@ -352,7 +380,7 @@
 
   ;prikaz na vlozenie blocku SymbolOsi
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "SymbolOsi" "_S" (/ 1.5 Refactor) "_R" 0 pause)
+      (command "._insert" "SymbolOsi" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "SymbolOsi" "_S" (* (getvar "dimscale") 30) "_R" 0 pause)
     )
@@ -380,15 +408,43 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
 
-  ;prikaz na vlozenie blocku SymbolOsi
+  ;prikaz na vlozenie blocku VyskaBodu
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "VyskaBodu" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "VyskaBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "VyskaBodu" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky vysky bodu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Tabulka vysok
+(defun c:JTHeightTable()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku TabulkaVysok
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "TabulkaVysok" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "TabulkaVysok" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky tabulka vysok:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -408,15 +464,71 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
 
-  ;prikaz na vlozenie blocku SymbolOsi
+  ;prikaz na vlozenie blocku HectometricNetwork
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "HectometricNetwork" "_S" 0.05 "_R" 0 pause)
+      (command "._insert" "HectometricNetwork" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "HectometricNetwork" "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
   (princ "\nUrcite bod vlozenia znacky hektometrickej siete:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku znacka loziska
+(defun c:JTBearingSymbol()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku ZnackaLoziska
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "ZnackaLoziska" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "ZnackaLoziska" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky loziska:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku geodetickej znacky
+(defun c:JTGeodeticMark()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku GeodetickaZnacka
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "GeodetickaZnacka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "ZGeodetickaZnacka" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia geodetickej znacky:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -524,7 +636,7 @@
 
   ;prikaz na vlozenie blocku vystuze
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "PopisVystuze" "_S" (/ 1.0 Refactor) "_R" 0 pause)
+      (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "PopisVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
     )
