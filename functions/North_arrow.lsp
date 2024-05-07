@@ -89,12 +89,25 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
   
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq blockType "SeverkaSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq blockType "SeverkaCZK")
+      ;nesplnena podmienka
+      (setq blockType "SeverkaENG")
+      )
+  )
+  
   ;prikaz na vlozenie blocku severky
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Severka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+      (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
     
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "Severka" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+        (command "._insert" blockType "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
       )
   )
   

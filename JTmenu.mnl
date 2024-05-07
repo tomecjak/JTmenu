@@ -133,6 +133,11 @@
   (setenv "GlobalnaBlocksScale" "50")
 )
 
+(if (= (getenv "GlobalnaBlocksLanguage") nil)
+  ;nastavenie nazvu prefixu hlafiny noveho stavu
+  (setenv "GlobalnaBlocksLanguage" "SVK")
+)
+
 ;;----------------------------------------------------------------------;;
 ;;           Uvitacia hlaska pri nacitany programu JTmenu               ;;
 ;;----------------------------------------------------------------------;;
@@ -152,6 +157,7 @@
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
+    "\nNastaveny jazyk pre vkladane bloky je: " (getenv "GlobalnaBlocksLanguage") "!"
     "\nNastaveny mod " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"
     "\nDimScale je nastaveny na hodnotu " (rtos (getvar "dimscale") 2 0) "!"
     "\nFormat cislovania vykresu je nastaveny na: " FormatCislaVykresu "."
