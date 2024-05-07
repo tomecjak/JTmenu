@@ -121,7 +121,7 @@ Setting //nazov dcl
     : row {
       : text 
       {  
-        label = "Miekra blokov:";
+        label = "Mierka blokov:";
       }
       : edit_box
       {  
