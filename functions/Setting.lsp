@@ -55,6 +55,19 @@
     (set_tile "blocksScale" (getenv "GlobalnaBlocksScale"))
   )
   
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (set_tile "blocksLanguageSK" "1")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (set_tile "blocksLanguageCZ" "1")
+      ;nesplnena podmienka
+      (set_tile "blocksLanguageEN" "1")
+      )
+  )
+  
   ;nastavenie prepinaca modov dialogu podla GlobalnaKotyDIMSCALEset
   (if (= (getenv "GlobalnaKotyDIMSCALEset") "Klasicky")
     ;splnena podmienka
@@ -124,6 +137,23 @@
     (setenv "GlobalnaBlocksScale" "50")
   )
   
+  ;vyhodnotenie vyberu jazyka pre bloky
+  (if (= blocksLanguageSK "1")
+    ;nastavenie jazyka SK
+    (setenv "GlobalnaBlocksLanguage" "SVK")
+  
+    (if (= blocksLanguageCZ "1")
+      ;nastavenie jazyka CZ
+      (setenv "GlobalnaBlocksLanguage" "CZK")
+      
+      (if (= blocksLanguageEN "1")
+      ;nastavenie jazyka EN
+      (setenv "GlobalnaBlocksLanguage" "ENG")
+      (princ)
+      )
+    )
+  )
+  
   ;vyhodnotenie vyberu modu pre bloky
   (if (= modKotyKlasicky "1")
     ;nastavenie modu na Klasicky
@@ -142,6 +172,7 @@
                  "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
+                 "\nNastavily ste jazyk pre vkladane bloky na: " (getenv "GlobalnaBlocksLanguage") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"))
   
   (princ)
@@ -157,6 +188,9 @@
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
   (setq blocksScale (get_tile "blocksScale"))
+  (setq blocksLanguageSK (get_tile "blocksLanguageSK"))
+  (setq blocksLanguageCZ (get_tile "blocksLanguageCZ"))
+  (setq blocksLanguageEN (get_tile "blocksLanguageEN"))
   (setq modKotyKlasicky (get_tile "modKotyKlasicky"))
   (setq modKotyDimscale (get_tile "modKotyDimscale"))
 )

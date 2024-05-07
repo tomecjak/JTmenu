@@ -190,12 +190,25 @@
   
   ;nastavenie hladiny
   (LayerSetting)
+  
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq blockType "NazovPohladuSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq blockType "NazovPohladuCZK")
+      ;nesplnena podmienka
+      (setq blockType "NazovPohladuENG")
+      )
+  )
 
   ;prikaz na vlozenie blocku NazovPohladu
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "NazovPohladu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "NazovPohladu" "_S" (getvar "dimscale") "_R" 0 pause)
+        (command "._insert" blockType "_S" (getvar "dimscale") "_R" 0 pause)
     )
   )
   
@@ -547,6 +560,19 @@
   ;nastavenie hladiny
   (LayerSetting)
   
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq blockType "TabulkaMaterialovSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq blockType "TabulkaMaterialovCZK")
+      ;nesplnena podmienka
+      (setq blockType "TabulkaMaterialovENG")
+      )
+  )
+  
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
@@ -555,7 +581,7 @@
 
     (
       ;prikaz na vlozenie blocku TabulkaMaterialov
-      (command "._insert" "TabulkaMaterialov" "_S" 1 "_R" 0 pause)  
+      (command "._insert" blockType "_S" 1 "_R" 0 pause)  
     )
   )
   
@@ -574,6 +600,19 @@
   ;nastavenie hladiny
   (LayerSetting)
   
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq blockType "TabulkaOhybovSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq blockType "TabulkaOhybovCZK")
+      ;nesplnena podmienka
+      (setq blockType "TabulkaOhybovENG")
+      )
+  )
+  
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
@@ -582,7 +621,7 @@
 
     (
       ;prikaz na vlozenie blocku TabulkaOhybov  
-      (command "._insert" "TabulkaOhybov" "_S" 1 "_R" 0 pause)
+      (command "._insert" blockType "_S" 1 "_R" 0 pause)
     )
   )
   
@@ -601,6 +640,19 @@
   ;nastavenie hladiny
   (LayerSetting)
   
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq blockType "PoznamkaSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq blockType "PoznamkaCZK")
+      ;nesplnena podmienka
+      (setq blockType "PoznamkaENG")
+      )
+  )
+  
   ;nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
@@ -609,7 +661,7 @@
 
     (
       ;prikaz na vlozenie blocku Poznamka 
-      (command "._insert" "Poznamka" "_S" 1 "_R" 0 pause)  
+      (command "._insert" blockType "_S" 1 "_R" 0 pause)  
     )
   )
   

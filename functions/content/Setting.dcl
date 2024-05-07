@@ -136,7 +136,31 @@ Setting //nazov dcl
     }
   }
 
-  //piaty riadok dialogu - nastavenie geenrovanych kot
+  //piaty riadok dialogu - nastavenie jazyku blokov
+  : boxed_radio_column
+  {
+    label = "V akom jazyku maju byt vkladane bloky?";
+    //prepinac pre slovensky jazyk
+    : radio_button
+    {
+      key = "blocksLanguageSK";
+      label = "Slovensky";
+    }
+    //prepinac pre cesky jazyk
+    : radio_button
+    {
+      key = "blocksLanguageCZ";
+      label = "Cesky";
+    }
+    //prepinac pre anglicky jazyk
+    : radio_button
+    {
+      key = "blocksLanguageEN";
+      label = "Anglicky";
+    }
+  }
+
+  //siesty riadok dialogu - nastavenie generovanych kot
   : boxed_radio_column
   {
     label = "V akom mode vygenerovat koty?";
