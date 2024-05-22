@@ -223,6 +223,31 @@
 
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku NazovPohladuNAsic
+(defun c:JTViewNameBasic()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+
+  ;prikaz na vlozenie blocku RezZvisly
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "NazovPohladuBasic" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "NazovPohladuBasic" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky rezu:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
 ;vloženie bloku RezZvisly
 (defun c:JTSectionVertical()
   
@@ -724,7 +749,7 @@
   (if (or (= VyberJTOznacenieVystuze "") (= VyberJTOznacenieVystuze "V") (= VyberJTOznacenieVystuze "v")) 
       ;prikaz na vlozenie blocku symbolu Popis vystuze
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-        (command "._insert" "OznacenieVystuze" "_S" (/ 1.0 Refactor) "_R" 0 pause)
+        (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
       )
@@ -733,7 +758,7 @@
     (if (or (= VyberJTOznacenieVystuze "K") (= VyberJTOznacenieVystuze "k"))
         ;prikaz na vlozenie blocku symbolu Popis kari siete
         (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "OznacenieVystuzeKari" "_S" (/ 1.0 Refactor) "_R" 0 pause)
+          (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
         (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
           (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
         )

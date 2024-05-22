@@ -172,7 +172,7 @@
     (setq mierkaZatvorka " ")
   )
 
-  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty))
+  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
   
 )
 

@@ -85,7 +85,7 @@
                                "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
                                "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark" "JTPointHeight"
                                "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
-                               "JTGeodeticMark")
+                               "JTGeodeticMark" "JTViewNameBasic")
 )
 (print)
 
