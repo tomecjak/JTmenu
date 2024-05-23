@@ -1,6 +1,6 @@
 ;=========================================================================
 ; North_arrow.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create bu Jakub Tomecko
 ;
 ; Vlozenie severky podla UCS World
 ;-------------------------------------------------------------------------

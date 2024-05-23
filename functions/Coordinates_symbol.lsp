@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Coordinates_symbol.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Vlozenie blocku suradnic
 ;-------------------------------------------------------------------------

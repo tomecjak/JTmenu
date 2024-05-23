@@ -1,8 +1,8 @@
 ;=========================================================================
 ; Template_units.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
-; Vytvorenie....
+; Nastavenie jednotiek v projekte
 ;-------------------------------------------------------------------------
 
 ;definovanie funkcie prikazu "JTTemplateUnits"

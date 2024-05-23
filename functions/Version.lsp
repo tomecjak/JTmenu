@@ -1,10 +1,10 @@
 ;=========================================================================
 ; Version.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Nastavenie hodnoty verzie
 ;-------------------------------------------------------------------------
 
 (defun JTmenuVersion()
-  (setq JTversion "1.0.2")
+  (setq JTversion "1.0.9beta")
 )

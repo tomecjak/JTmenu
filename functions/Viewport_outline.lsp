@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Viewport_outline.lsp
-; (c) Copyright 2015 Lee Mac
-; Prelozil Jakub Tomecko
+; Create by Lee Mac from https://www.lee-mac.com
+; Edit by Jakub Tomecko
 ;
 ; Vytvorenie hranice vnútri viewportu
 ;-------------------------------------------------------------------------

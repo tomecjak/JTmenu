@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Rebar_length.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Pocitanie dlzok kotvenia a presahu betonarskej vystuze
 ;-------------------------------------------------------------------------

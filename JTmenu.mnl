@@ -37,6 +37,7 @@
 (AUTOLOAD "Template_units" '("JTTemplateUnits"))
 (AUTOLOAD "Rebar_table" '("JTRebatTable"))
 (AUTOLOAD "Folders_scheme" '("JTFolder"))
+(AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove"))
 (print)
 
 ;;----------------------------------------------------------------------;;

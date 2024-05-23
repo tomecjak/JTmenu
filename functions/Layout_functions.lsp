@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Layout_functions.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Zistenie mierok viewportov, zistenie poctu A4 layoutu
 ;-------------------------------------------------------------------------

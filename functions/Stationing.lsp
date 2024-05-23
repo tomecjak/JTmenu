@@ -1,6 +1,7 @@
 ;=========================================================================
 ; Stationing.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Lee Mac from https://www.lee-mac.com
+; Edit by Jakub Tomecko
 ;
 ; Zobrazenie stanicenia na krivke od zaciatku a konca
 ;-------------------------------------------------------------------------

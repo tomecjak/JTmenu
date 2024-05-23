@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Center_measure.lsp
-; (c) Copyright 2011 Lee Mac
-; Prelozil a upravil Jakub Tomecko, Michal Kravec
+; Create by Lee Mac from https://www.lee-mac.com
+; Edit by Jakub Tomecko, Michal Kravec
 ;
 ; Rozmiestnenie objektov od stredu ciary
 ;-------------------------------------------------------------------------

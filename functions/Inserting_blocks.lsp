@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Inserting_blocks.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Vkladanie roznych blockov do modelu a layoutu autocadu
 ;-------------------------------------------------------------------------

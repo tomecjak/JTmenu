@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Object_break.lsp
-; (c) Copyright 2013 Lee Mac
-; Prelozil Jakub Tomecko
+; Create by Lee Mac from https://www.lee-mac.com
+; Edit by Jakub Tomecko
 ;
 ; Vytvorenie skrytej (ciarkovanej) ciary za objektom
 ;-------------------------------------------------------------------------

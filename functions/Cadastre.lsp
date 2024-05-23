@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Cadastre.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Vyhladavanie miesta na katastri podľa JTSK
 ;-------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 ;=========================================================================
 ; Double_offset.lsp
-; (c) Copyright 2011 Lee Mac
-; Prelozil Jakub Tomecko
+; Create by Lee Mac from https://www.lee-mac.com
+; Edit by Jakub Tomecko
 ;
 ; Ofset ciary do oboch smerov naraz
 ;-------------------------------------------------------------------------

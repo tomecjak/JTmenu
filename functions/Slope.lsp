@@ -1,6 +1,6 @@
 ;=========================================================================
 ; Slope.lsp
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Vytvorenie ciary v sklone v % alebo pomere x:x
 ;-------------------------------------------------------------------------
