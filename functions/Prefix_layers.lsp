@@ -46,7 +46,7 @@
         )
       )
       (prompt
-        (strcat "\n" (itoa i) " hladina" (if (= 1 i) "s " " ") "odstranena. ")
+        (strcat "\n" (itoa i) " hladin" (if (= 1 i) "s " " ") "zmenenych. ")
       )    
     )
   )
