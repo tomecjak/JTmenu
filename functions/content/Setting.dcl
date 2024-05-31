@@ -226,6 +226,15 @@ Setting //nazov dcl
       mnemonic = "U";
     }  
 
+    //tlacidlo about
+    : button
+    {
+      label = "About";
+      key = "about";
+      is_default = true;
+      mnemonic = "A";
+    }  
+
     //tlacidlo zavriet
     : button
     {
@@ -234,5 +243,30 @@ Setting //nazov dcl
       is_cancel = true;
       mnemonic = "Z";
     }
+  }
+}
+
+/////// DIALOGOVE OKNO ABOUT ///////
+
+About
+
+: dialog
+{
+  label = "About";
+  : boxed_row
+  {
+    label = "Poznamka";
+    : text{ label = "Do suboru sa nacitajaju vsetky ciary podla ISO 128."; }
+  }
+
+  : button
+  {
+    key = "zatvoritAbout";
+    label = "OK";
+    is_default = true;
+    is_cancel = true;
+    width = 15;
+    fixed_width = true;
+    alignment = centered;
   }
 }

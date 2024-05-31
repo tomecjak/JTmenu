@@ -79,6 +79,11 @@
   ;nacitanie verzie JTmenu do dialogu
   (set_tile "verziaJtMenu" (JTmenuVersion))
   
+    ;definicnia tlacicla sieteVsetkyCiaryInfo
+  (action_tile "about"
+    "(About)"
+  )
+  
   ;definovanie tlacidla cancel
   (action_tile "cancel"
     "(UkoncenieNastavenia)"
@@ -200,6 +205,30 @@
   (done_dialog)
   (princ "\nNastavenia zostali bez zmeny.\n")
   (exit)
+)
+
+;funkcia tlacidla about
+(defun About ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id1 (load_dialog "Setting.dcl"))
+  
+  ;test existencie dialogu SieteVsetkyCiaryInfo
+  (if (not (new_dialog "About" dcl_id1))
+    (exit)
+  )
+  
+  ;definicia tlacidla zatvorit info
+  (action_tile "zatvoritAbout"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id1)
+
 )
 
 ;;----------------------------------------------------------------------;;
