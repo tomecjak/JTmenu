@@ -128,17 +128,17 @@
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
     ;splnena podmienka
-    (setq TabulkaMaterialovType "TabulkaMaterialovSVK")
+    (setq TabulkaMaterialovVersion "TabulkaMaterialovSVK")
       ;nesplnena podmienka
       (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
       ;splnena podmienka
-      (setq TabulkaMaterialovType "TabulkaMaterialovCZK")
+      (setq TabulkaMaterialovVersion "TabulkaMaterialovCZK")
       ;nesplnena podmienka
-      (setq TabulkaMaterialovType "TabulkaMaterialovENG")
+      (setq TabulkaMaterialovVersion "TabulkaMaterialovENG")
       )
   )
   
-  (setq BlockTabulkaMaterialov (BlockNameToVLAName TabulkaMaterialovType))
+  (setq BlockTabulkaMaterialov (BlockNameToVLAName TabulkaMaterialovVersion))
   
   ;nastavenie typu tabulky (beton/ocel, okruhla/hranata) 
   (NastavenieTypuTabulky)
