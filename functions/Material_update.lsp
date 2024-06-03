@@ -125,7 +125,20 @@
   ;unload dialogu
   (unload_dialog dcl_id)
   
-  (setq BlockTabulkaMaterialov (BlockNameToVLAName "TabulkaMaterialov"))
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq TabulkaMaterialovType "TabulkaMaterialovSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq TabulkaMaterialovType "TabulkaMaterialovCZK")
+      ;nesplnena podmienka
+      (setq TabulkaMaterialovType "TabulkaMaterialovENG")
+      )
+  )
+  
+  (setq BlockTabulkaMaterialov (BlockNameToVLAName TabulkaMaterialovType))
   
   ;nastavenie typu tabulky (beton/ocel, okruhla/hranata) 
   (NastavenieTypuTabulky)
