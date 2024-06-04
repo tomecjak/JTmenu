@@ -1,3 +1,18 @@
+;=========================================================================
+; Folders_scheme.lsp
+; Create by Jakub Tomecko
+;
+; Vytvorenie struktry priecinkov projektu
+;-------------------------------------------------------------------------
+
+(defun c:JTFolder ()
+  (LM:createdirectory "C:\\Users\\jakubtomecko\\Documents\\Folder1\\Folder2")
+)
+
+;;----------------------------------------------------------------------;;
+;;              Pomocna funkcia pre vytvorenie priecinkov               ;;
+;;----------------------------------------------------------------------;;
+
 ;; Create Directory  -  Lee Mac
 ;; dir - [str] directory to create ("C:\\Folder1\\Folder2")
 ;; Returns:  T if directory creation is successful, else nil
@@ -31,7 +46,18 @@
     )
 )
 
-(defun c:JTFolder ()
-  (vl-load-com)
-  (LM:createdirectory "C:\\Users\\jakubtomecko\\Documents\\Folder1\\Folder2")
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nFolders_scheme.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
 )
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
