@@ -6,7 +6,11 @@
 ;-------------------------------------------------------------------------
 
 (defun c:JTFolder ()
-  (LM:createdirectory "C:\\Users\\jakubtomecko\\Documents\\Folder1\\Folder2")
+  (setq FilePath (getfiled "Vyberte subor" "" "txt" 4))
+  ;nastavenie cesty vytvorenia suborov
+  (setq SelectedFolderPath (LM:browseforfolder "Select a folder" "C:\\" 0))
+  (setq CreateFolderPath (strcat SelectedFolderPath "\\Folder1\\Folder2\\Test"))
+  (LM:createdirectory CreateFolderPath)
 )
 
 ;;----------------------------------------------------------------------;;
@@ -14,6 +18,7 @@
 ;;----------------------------------------------------------------------;;
 
 ;; Create Directory  -  Lee Mac
+;; https://lee-mac.com/createdirectory.html
 ;; dir - [str] directory to create ("C:\\Folder1\\Folder2")
 ;; Returns:  T if directory creation is successful, else nil
 
@@ -43,6 +48,42 @@
     (if (setq pos (vl-string-search del str))
         (cons (substr str 1 pos) (LM:str->lst (substr str (+ pos 1 (strlen del))) del))
         (list str)
+    )
+)
+
+;; Browse for Folder  -  Lee Mac
+;; Displays a dialog prompting the user to select a folder.
+;; https://lee-mac.com/directorydialog.html
+;; msg - [str] message to display at top of dialog
+;; dir - [str] [optional] root directory (or nil)
+;; bit - [int] bit-coded flag specifying dialog display settings
+;; Returns: [str] Selected folder filepath, else nil.
+ 
+(defun LM:browseforfolder ( msg dir bit / err fld pth shl slf )
+    (setq err
+        (vl-catch-all-apply
+            (function
+                (lambda ( / app hwd )
+                    (if (setq app (vlax-get-acad-object)
+                              shl (vla-getinterfaceobject app "shell.application")
+                              hwd (vl-catch-all-apply 'vla-get-hwnd (list app))
+                              fld (vlax-invoke-method shl 'browseforfolder (if (vl-catch-all-error-p hwd) 0 hwd) msg bit dir)
+                        )
+                        (setq slf (vlax-get-property fld 'self)
+                              pth (vlax-get-property slf 'path)
+                              pth (vl-string-right-trim "\\" (vl-string-translate "/" "\\" pth))
+                        )
+                    )
+                )
+            )
+        )
+    )
+    (if slf (vlax-release-object slf))
+    (if fld (vlax-release-object fld))
+    (if shl (vlax-release-object shl))
+    (if (vl-catch-all-error-p err)
+        (prompt (vl-catch-all-error-message err))
+        pth
     )
 )
 
