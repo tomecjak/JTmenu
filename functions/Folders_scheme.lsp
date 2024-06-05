@@ -6,9 +6,19 @@
 ;-------------------------------------------------------------------------
 
 (defun c:JTFolder ()
+  ;vybratie suboru z priecinku
   (setq FilePath (getfiled "Vyberte subor" "" "txt" 4))
+  ;otvorenie suboru a vytvorenie prazdneho listu
+  (setq FilePathOpen (open FilePath "r") ListOfPath'())
+  ;zapis kazdeho riadku do listu
+  (while (setq ListLine (read-line FilePathOpen))
+    (setq ListOfPath (cons ListLine ListOfPath))
+  )
+  ;zavretie suboru
+  (close FilePathOpen)
   ;nastavenie cesty vytvorenia suborov
   (setq SelectedFolderPath (LM:browseforfolder "Select a folder" "C:\\" 0))
+  ;vytvorenie priecinkov
   (setq CreateFolderPath (strcat SelectedFolderPath "\\Folder1\\Folder2\\Test"))
   (LM:createdirectory CreateFolderPath)
 )
