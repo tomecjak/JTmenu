@@ -89,12 +89,7 @@
     "(UkoncenieNetworks)"
   )
   
-  ;definovanie tlacidla cancel
-  (action_tile "nacitat"
-    "(NacitanieHodnotPoloziek)(done_dialog)"
-  )
-  
-  ;definovanie tlacidla cancel
+  ;definovanie tlacidla nacitat
   (action_tile "nacitat"
     "(NacitanieHodnotPoloziek)(done_dialog)"
   )

@@ -6,8 +6,65 @@
 ;-------------------------------------------------------------------------
 
 (defun c:JTFolder ()
+  
+  ;nacitanie dialogoveho okna
+  (setq dcl_id (load_dialog "Folders_scheme.dcl"))
+  
+  ;test ecistencie dialogu
+  (if (not (new_dialog "Folders_scheme" dcl_id))
+    (exit)
+  )
+  
+  ;definovanie tlacidla cancel
+  (action_tile "cancel"
+    "(UkoncenieFoldersScheme)"
+  )
+  
+  ;definovanie tlacidla nacitat
+  (action_tile "vytvorit"
+    "(VytvorenieFoldersScheme)(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id)
+  
+  ;vyhodnotenie spustenia vytvorenia struktury XXX
+  (if (= x1 "1")
+    (progn
+    (setq ListOfPath '(
+      "\\ahoj"
+    ))
+    (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia vlastnej struktury
+  (if (= vlastnaStruktura "1")
+    (progn
+    (SearchFilepath)
+    (CreateFoldersScheme)
+    )
+  )
+  
+  ;hlaska ukoncenia
+  (princ "\nVytvorena struktura dokumentacie.\n")
+  (princ)
+
+)
+
+;funkcia tlacidla vytvorit
+(defun VytvorenieFoldersScheme ()
+  (setq x1 (get_tile "x1"))
+  (setq vlastnaStruktura (get_tile "vlastnaStruktura"))
+)
+
+;funkcia pre nacitanie suboru vyberom
+(defun SearchFilepath ()
   ;vybratie suboru z priecinku
-  (setq FilePath (getfiled "Vyberte subor" "" "txt" 4))
+  (setq FilePath (getfiled "Vyberte subor pre vytvorenie struktury" "" "txt" 4))
   ;otvorenie suboru a vytvorenie prazdneho listu
   (setq FilePathOpen (open FilePath "r") ListOfPath'())
   ;zapis kazdeho riadku do listu
@@ -16,11 +73,42 @@
   )
   ;zavretie suboru
   (close FilePathOpen)
+  ;prevratenie listu
+  (setq ListofPath (reverse ListOfPath))  
+)
+
+;funkcia pre nacitanie suboru automaticky
+(defun AddFilepath ()
+  ;otvorenie suboru a vytvorenie prazdneho listu
+  (setq FilePathOpen (open FilePath "r") ListOfPath'())
+  ;zapis kazdeho riadku do listu
+  (while (setq ListLine (read-line FilePathOpen))
+    (setq ListOfPath (cons ListLine ListOfPath))
+  )
+  ;zavretie suboru
+  (close FilePathOpen)
+  ;prevratenie listu
+  (setq ListofPath (reverse ListOfPath))  
+)
+
+;funkcia pre vyvorenie priecinkov
+(defun CreateFoldersScheme ()
   ;nastavenie cesty vytvorenia suborov
-  (setq SelectedFolderPath (LM:browseforfolder "Select a folder" "C:\\" 0))
-  ;vytvorenie priecinkov
-  (setq CreateFolderPath (strcat SelectedFolderPath "\\Folder1\\Folder2\\Test"))
-  (LM:createdirectory CreateFolderPath)
+  (setq SelectedFolderPath (LM:browseforfolder "Vyberte cestu pre vytvorenie struktury" "" 0))
+  ;vytvorenie priecinkov zo zoznamu
+  (foreach ListItem ListofPath
+    ;spojenie vybranej cesty a struktury priecinkov
+    (setq CreateFolderPath (strcat SelectedFolderPath ListItem))
+    ;vytvorenie jednotlivych priecinkov
+    (LM:createdirectory CreateFolderPath)
+  )
+)
+
+;funkcia tlacidla zavriet
+(defun UkoncenieFoldersScheme()
+  (done_dialog)
+  (princ "\nNevytvorena ziadna struktura dokumentacie.\n")
+  (exit)
 )
 
 ;;----------------------------------------------------------------------;;
