@@ -30,7 +30,7 @@ Folders_scheme //nazov dcl
       key = "dokumentaciaStavebnehoZameru";
       label = "Dokumentacia stavebneho zameru (DSZ)";
     }
-,
+
     //treti riadok - dokumentacia pre uzemne rozhodnutie (str 76)
     : radio_button
     {
@@ -66,6 +66,27 @@ Folders_scheme //nazov dcl
       label = "Dokumentacia na realizaciu stavby (DRS)";
     }
 
+    //osmi riadok - dokumentacia na stavebne povolenie a realizaciu stavby (str 280)
+    : radio_button
+    {
+      key = "dokumentaciaNaStavebnePovolenieRealizaciuStavby";
+      label = "Dokumentacia na stavebne povolenie a realizaciu stavby (DSPRS)";
+    }
+
+    //deviaty riadok - dokumentacia na vykonanie prac (str 332)
+    : radio_button
+    {
+      key = "dokumentaciaNaVykonanieprac";
+      label = "Dokumentacia na vykonanie prac (DVP)";
+    }
+
+    //desiaty riadok - dokumentacie skutocneho realizovania stavby (str 336)
+    : radio_button
+    {
+      key = "dokumentaciaSkutocnehoRealizovaniaStavby";
+      label = "Dokumentacia skutocneho realizovania stavby (DSRS)";
+    }
+
     //posledny riadok - vlastna struktura
     : radio_button
     {
@@ -84,7 +105,7 @@ Folders_scheme //nazov dcl
       key = "vytvorit";
       label = "Vytvorit";
       is_default = true;
-      mnemonic = "N";
+      mnemonic = "V";
     }  
 
     //tlacidlo zavriet
