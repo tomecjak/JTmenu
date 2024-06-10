@@ -38,6 +38,7 @@
 (AUTOLOAD "Rebar_table" '("JTRebatTable"))
 (AUTOLOAD "Folders_scheme" '("JTFolder"))
 (AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove"))
+(AUTOLOAD "VerticalLine" '("JTVerticalLine"))
 (print)
 
 ;;----------------------------------------------------------------------;;
