@@ -34,7 +34,14 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Studie uskutocnitelnosti"
   (if (= studiaUskutocnitelnosti "1") 
     (progn 
-      (setq ListOfPath '("\\STU"))
+      (setq ListOfPath '("\\STU"
+                         "\\STU\\A Sprievodna sprava"
+                         "\\STU\\B Technicka cast"
+                         "\\STU\\C Ekonomicka cast"
+                         "\\STU\\D Graficka cast"
+                         "\\STU\\E Doklady a povolenia"
+                         "\\STU\\F prieskumy a studie"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -42,7 +49,13 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie stavebneho zameru"
   (if (= dokumentaciaStavebnehoZameru "1") 
     (progn 
-      (setq ListOfPath '("\\DSZ"))
+      (setq ListOfPath '("\\DSZ"
+                         "\\DSZ\\A Sprievodna sprava"
+                         "\\DSZ\\B Technicka sprava"
+                         "\\DSZ\\C Ekonomicka sprava"
+                         "\\DSZ\\D Vykresy pre pozemne komunikacie"
+                         "\\DSZ\\E Doklady a povolenia"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -50,7 +63,15 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie pre uzemne rozhodnutie"
   (if (= dokumentaciaPreUzemneRozhodnutie "1") 
     (progn 
-      (setq ListOfPath '("\\DUR"))
+      (setq ListOfPath '("\\DUR"
+                         "\\DUR\\A Sprievodna sprava"
+                         "\\DUR\\B Suhrna technicka sprava"
+                         "\\DUR\\C Ekonomicka sprava"
+                         "\\DUR\\D Pisomnosti a vykresy objektov"
+                         "\\DUR\\E Doklady a povolenia"
+                         "\\DUR\\F Prieskumy a studie"
+                         "\\DUR\\G Suvisiaca dokumentacia"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -58,7 +79,15 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie na stavebne pov"
   (if (= dokumentaciaNaStavebnePovolenie "1") 
     (progn 
-      (setq ListOfPath '("\\DSP"))
+      (setq ListOfPath '("\\DSP"
+                         "\\DSP\\A Sprievodna sprava"
+                         "\\DSP\\B Technicka sprava"
+                         "\\DSP\\C Ekonomica sprava"
+                         "\\DSP\\D Pisomnosti a vykresy objektov"
+                         "\\DSP\\E Dokladova cast"
+                         "\\DSP\\F Prieskumy a studie"
+                         "\\DSP\\G Suvisiaca dokumentacia"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -66,7 +95,14 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie na ohlasenie stavby"
   (if (= dokumentaciaNaOhlasenieStavby "1") 
     (progn 
-      (setq ListOfPath '("\\DOS"))
+      (setq ListOfPath '("\\DOS"
+                         "\\DOS\\A Sprievodna sprava"
+                         "\\DOS\\B Technicka cast"
+                         "\\DOS\\C Ekonomicka sprava"
+                         "\\DOS\\D Pisomnosti a vykresy objektov"
+                         "\\DOS\\E Dokladova cast"
+                         "\\DOS\\F Prieskumy a studie"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -74,7 +110,15 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie na uzemne rozhodnutie a stavebne povolenie"
   (if (= dokumentaciaNaUzemneRozhodnutieStavebnePovenie "1") 
     (progn 
-      (setq ListOfPath '("\\DURSP"))
+      (setq ListOfPath '("\\DURSP"
+                         "\\DURSP\\A Sprievodna sprava"
+                         "\\DURSP\\B Technicka sprava"
+                         "\\DURSP\\C Ekonomicka sprava"
+                         "\\DURSP\\D Pisomnosti a vykresy objektov"
+                         "\\DURSP\\E Doklady a povolenia"
+                         "\\DURSP\\F Prieskumy a studie"
+                         "\\DURSP\\G Suvisiaca dokumentacia"
+                         ))  
       (CreateFoldersScheme)
     )
   )
@@ -82,7 +126,15 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacia na realizaciu stavby"
   (if (= dokumentaciaNaRealizaciuStavby "1") 
     (progn 
-      (setq ListOfPath '("\\DRS"))
+      (setq ListOfPath '("\\DRS"
+                         "\\DRS\\A Sprievodna sprava"
+                         "\\DRS\\B Technicka sprava"
+                         "\\DRS\\C Ekonomicka sprava"
+                         "\\DRS\\D Pisomnosti a vykresy objektov"
+                         "\\DRS\\E Doklady a povolenia"
+                         "\\DRS\\F Prieskumy a studie"
+                         "\\DRS\\G Suvisiaca dokumentacia"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -90,7 +142,15 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacia na stavebne povolenia a realizaciu stavby"
   (if (= dokumentaciaNaStavebnePovolenieRealizaciuStavby "1") 
     (progn 
-      (setq ListOfPath '("\\DSPRS"))
+      (setq ListOfPath '("\\DSPRS"
+                         "\\DSPRS\\A Sprievodana sprava"
+                         "\\DSPRS\\B Technicka sprava"
+                         "\\DSPRS\\C Ekonomicka sprava"
+                         "\\DSPRS\\D Pisomnosti a vykresy objektov"
+                         "\\DSPRS\\E Dokladova cast"
+                         "\\DSPRS\\F Prieskumy a studie"
+                         "\\DSPRS\\G Suvisiaca dokumentacia"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -98,7 +158,9 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacia na vykonanie prac"
   (if (= dokumentaciaNaVykonanieprac "1") 
     (progn 
-      (setq ListOfPath '("\\DVP"))
+      (setq ListOfPath '("\\DVP"
+                         "\\DVP\\D Pisomnosti a vykresy objektov"
+                         ))
       (CreateFoldersScheme)
     )
   )
@@ -106,7 +168,10 @@
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie skutocneho realizovania stavby                                 "
   (if (= dokumentaciaSkutocnehoRealizovaniaStavby "1") 
     (progn 
-      (setq ListOfPath '("\\DSRS"));#region description
+      (setq ListOfPath '("\\DSRS"
+                         "\\DSRS\\D Dokumentacia objektov"
+                         "\\DSRS\\G Suvisiaca dokumentacia"
+                         ));#region description
       
       ;#endregion
       (CreateFoldersScheme)

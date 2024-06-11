@@ -10,7 +10,7 @@ Folders_scheme //nazov dcl
 : dialog
 {
   //nazov dialogu
-  label = "Vytvorenie struktury";
+  label = "Vytvorenie struktury dokumentacie";
 
   //definovanie stlpca
   : boxed_radio_column
@@ -95,6 +95,15 @@ Folders_scheme //nazov dcl
     }
 
   }  
+
+  //predposledny box - Informacie o strukture dokumentacie
+  : boxed_column
+  {
+    label = "Informacie";
+    : text{ label = "Struktura dokumentacia sa vytvara podla TP 019 - Dokumentacia stavieb ciest."; }
+    : text{ label = "Pre vytvorenie vlastnej struktury je potrebne vytvorit subor .txt v ktorom bude"; }
+    : text{ label = "kazda cesta v novom riadku v formate: \\\\Folder1; \\\\Folder1\\\\Folder2"; }
+  }
 
   //posledny riadok dialogu s tlacidlami
   : row
