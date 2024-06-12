@@ -15,7 +15,7 @@
 (AUTOLOAD "Rebar_scheme" '("JTRebarScheme"))
 (AUTOLOAD "Create_layers" '("JTCreateLayers"))
 (AUTOLOAD "Block_base_point" '("JTBlockBasePoint"))
-(AUTOLOAD "Auto_block_break" '("JTBlockBreak"))
+(AUTOLOAD "Auto_block_break" '("JTBlockBreak")) ;archivovane (nepouzivane)
 (AUTOLOAD "Center_measure" '("JTCenterMeasure"))
 (AUTOLOAD "Viewport_outline" '("JTViewportOutline"))
 (AUTOLOAD "Object_break" '("JTObjectBreak"))
@@ -39,6 +39,7 @@
 (AUTOLOAD "Folders_scheme" '("JTFolder"))
 (AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove"))
 (AUTOLOAD "VerticalLine" '("JTVerticalLine"))
+(AUTOLOAD "Select_by_layer" '("JTSelectbylayer"))
 (print)
 
 ;;----------------------------------------------------------------------;;
