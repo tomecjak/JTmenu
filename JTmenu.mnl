@@ -1,6 +1,6 @@
 ;============================================================================
 ; JTmenu.mnl
-; (c) Copyright 2023 Tomecko Jakub
+; Create by Jakub Tomecko
 ;
 ; Autoload pre JTmenu
 ;----------------------------------------------------------------------------
@@ -40,6 +40,7 @@
 (AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove"))
 (AUTOLOAD "VerticalLine" '("JTVerticalLine"))
 (AUTOLOAD "Select_by_layer" '("JTSelectbylayer"))
+(AUTOLOAD "Measurement" '("JTMeasurement"))
 (print)
 
 ;;----------------------------------------------------------------------;;
