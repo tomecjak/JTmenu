@@ -8,7 +8,7 @@
 (defun c:JTSlope ()
 
   ;vybratie pociatocneho bodu ciary
-  (setq pointOne (getpoint "\n Prvy bod ciary:"))
+  (setq pointOne (getpoint "\n Pociatocny bod ciary:"))
   ;ziskanie suradnice X a Y pociatocneho bodu
   (setq pointOne_X (nth 0 pointOne))
   (setq pointOne_Y (nth 1 pointOne))
