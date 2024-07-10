@@ -628,6 +628,25 @@
 )
 
 ;;----------------------------------------------------------------------;;
+
+;vloženie bloku znacky konca valca
+(defun c:JTCylinderEnd()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+
+  ;prikaz na vlozenie znacky konca valca
+  (command "._insert" "SymbolUkoncenieValca" "_S" 1 "_R" 0 pause)
+  (princ "\nUrcite bod vlozenia blocku znacky:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
 ;;                           Bloky do Layoutu                           ;;
 ;;----------------------------------------------------------------------;;
 
