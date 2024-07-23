@@ -41,6 +41,8 @@
 (AUTOLOAD "VerticalLine" '("JTVerticalLine"))
 (AUTOLOAD "Select_by_layer" '("JTSelectbylayer"))
 (AUTOLOAD "Measurement" '("JTMeasurement"))
+(AUTOLOAD "Block_renumber" '("JTReNumber"))
+(AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (print)
 
 ;;----------------------------------------------------------------------;;
@@ -89,7 +91,7 @@
                                "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
                                "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark" "JTPointHeight"
                                "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
-                               "JTGeodeticMark" "JTViewNameBasic" "JTSymmetry")
+                               "JTGeodeticMark" "JTViewNameBasic" "JTSymmetry" "JTDetailSymbol" "JTCylinderEnd")
 )
 (print)
 

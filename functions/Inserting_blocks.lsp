@@ -431,7 +431,7 @@
 
 ;;----------------------------------------------------------------------;;
 
-;vloženie bloku Sklon
+;vloženie bloku Symbol Osi
 (defun c:JTAxisSymbol()
   
   ;nastavenie hladiny
@@ -449,6 +449,34 @@
   )
   
   (princ "\nUrcite bod vlozenia znacky symbolu osi:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku Symbol Detailu
+(defun c:JTDetailSymbol()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku SymbolDetailu
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "SymbolDetailu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "SymbolDetailu" "_S" (* (getvar "dimscale") 30) "_R" 0 pause)
+    )
+  )
+  
+  (princ "\nUrcite bod vlozenia znacky symbolu detailu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -591,6 +619,25 @@
   )
   
   (princ "\nUrcite bod vlozenia geodetickej znacky:")
+    
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+
+;vloženie bloku znacky konca valca
+(defun c:JTCylinderEnd()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+
+  ;prikaz na vlozenie znacky konca valca
+  (command "._insert" "SymbolUkoncenieValca" "_S" 1 "_R" 0 pause)
+  (princ "\nUrcite bod vlozenia blocku znacky:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
