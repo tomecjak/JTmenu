@@ -42,6 +42,7 @@
 (AUTOLOAD "Select_by_layer" '("JTSelectbylayer"))
 (AUTOLOAD "Measurement" '("JTMeasurement"))
 (AUTOLOAD "Block_renumber" '("JTReNumber"))
+(AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (print)
 
 ;;----------------------------------------------------------------------;;
