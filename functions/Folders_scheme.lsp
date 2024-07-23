@@ -59,6 +59,7 @@
                          "\\STU\\F prieskumy a studie\\F2 Environmentalne prieskumy a studie"
                          "\\STU\\F prieskumy a studie\\F3 Geologicke prieskumy a studie"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -73,6 +74,7 @@
                          "\\DSZ\\D Vykresy pre pozemne komunikacie"
                          "\\DSZ\\E Doklady a povolenia"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -117,6 +119,7 @@
                          "\\DUR\\G Suvisiaca dokumentacia\\G6 Dokumentacia pre ZSR"
                          "\\DUR\\G Suvisiaca dokumentacia\\G7 Podklady k ziadosti o usporiadanie cestnej siete"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -165,6 +168,7 @@
                          "\\DSP\\G Suvisiaca dokumentacia\\G7 Dokumentacia pre ZSR"
                          "\\DSP\\G Suvisiaca dokumentacia\\G8 Podklady k ziadosti o usporiadanie cestnej siete"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -196,6 +200,7 @@
                          "\\DOS\\F Prieskumy a studie\\F4 Bezpecnost"
                          "\\DOS\\F Prieskumy a studie\\F5 Monitoring"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -245,6 +250,7 @@
                          "\\DURSP\\G Suvisiaca dokumentacia\\G6 Dokumentacia pre ZSR"
                          "\\DURSP\\G Suvisiaca dokumentacia\\G7 Podklady k ziadosti o usporiadanie cestnej siete"
                          ))  
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -286,6 +292,7 @@
                          "\\DRS\\G Suvisiaca dokumentacia\\G5 Dokumentacia pre ZSR"
                          "\\DRS\\G Suvisiaca dokumentacia\\G6 Podklady k ziadosti o usporiadanie cestnej siete"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -330,6 +337,7 @@
                          "\\DSPRS\\G Suvisiaca dokumentacia\\G6 Dokumentacia pre ZSR"
                          "\\DSPRS\\G Suvisiaca dokumentacia\\G7 Podklady k ziadnosti o usporiadanie cestnej siete"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -342,11 +350,12 @@
                          "\\DVP\\D Pisomnosti a vykresy objektov\\D1 Pozemne komunikacie"
                          "\\DVP\\D Pisomnosti a vykresy objektov\\D2 Mostne objekty, tunely a ostatne objekty"
                          ))
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
 
-  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie skutocneho realizovania stavby                                 "
+  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentacie skutocneho realizovania stavby"
   (if (= dokumentaciaSkutocnehoRealizovaniaStavby "1") 
     (progn 
       (setq ListOfPath '("\\DSRS"
@@ -370,9 +379,367 @@
                          "\\DSRS\\G Suvisiaca dokumentacia\\G5 Dokumentacia monitorovania betonoveho ostenia tunelov"
                          "\\DSRS\\G Suvisiaca dokumentacia\\G6 Geotechnicky monitoring pocas prevadzkty"
                          "\\DSRS\\G Suvisiaca dokumentacia\\G7 Dokumentacia monitorovania ochrannych opatreni pre obmedzenie vplyvu bludnych prudov"
-                         ));#region description
-      
-      ;#endregion
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Vyhledavaci studie (CZ)"                              
+  (if (= vyhledavaciStudie_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\VST"
+                         "\\VST\\A Pruvodni zprava"
+                         "\\VST\\B Vykresy"
+                         "\\VST\\B Vykresy\\B1 Prehledna situace"
+                         "\\VST\\B Vykresy\\B2 Situace variant"
+                         "\\VST\\B Vykresy\\B3 Podelne profily variant"
+                         "\\VST\\B Vykresy\\B4 Vzorove pricne rezy variant"
+                         "\\VST\\C Podklady a pruzkumy"
+                         "\\VST\\D Doklady"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Technicej studie (CZ)"                              
+  (if (= technickaStudie_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\TST"
+                         "\\TST\\A Pruvodni zprava"
+                         "\\TST\\B Vykresy"
+                         "\\TST\\B Vykresy\\B1 Prehledna situace"
+                         "\\TST\\B Vykresy\\B2 Situace"
+                         "\\TST\\B Vykresy\\B3 Podelne profily variant"
+                         "\\TST\\B Vykresy\\B4 Vzorove pricne rezy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mimourovnove krizovatky"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\A Pruvodni zprava"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\B Vykresy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\B Vykresy\\B1 Prehledna situace"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\B Vykresy\\B2 Mapa se zakreslenim ekologickeho vyhodnoceni zajmoveho uzemi"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\B Vykresy\\B3 Pudorys"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\B Vykresy\\B4 Podelny rez"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\B Vykresy\\B5 Dalsi prehledne vykresy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\C Souvisici dokumentace"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Mostni objekty\\D Dokaldy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\A Pruvodni zprava"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\B Vykresy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\B Vykresy\\B1 Prehledna situace"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\B Vykresy\\B2 Vzorove pricne rezy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\B Vykresy\\B3 Situace variant"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\B Vykresy\\B4 Podelne rezy"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\B Vykresy\\B5 Synteticka mapa"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\C Souvisici dokumentace"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Tunely\\D Doklady"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Galerie"
+                         "\\TST\\B Vykresy\\B5 Vykresy dulezitych objektu stavby\\Zdi"
+                         "\\TST\\C Souvisici dokumentace"
+                         "\\TST\\C Souvisici dokumentace\\C1 Dopravne inzenyrske udaje"
+                         "\\TST\\C Souvisici dokumentace\\C2 Zivotni prostredi - pozadavky EIA"
+                         "\\TST\\C Souvisici dokumentace\\C3 Vazba na uzemne planovaci podklady"
+                         "\\TST\\C Souvisici dokumentace\\C4 Odhad nakladu stavby"
+                         "\\TST\\C Souvisici dokumentace\\C5 Zabory"
+                         "\\TST\\C Souvisici dokumentace\\C6 Orientacni geotechnicky-inzenyrskogeologicky pruzkum"
+                         "\\TST\\C Souvisici dokumentace\\C7 Predbezny harmonogram pripravy a realizace stavby"
+                         "\\TST\\D Doklady"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentace pro vydani uzemniho rozhodnuti (CZ)"                              
+  (if (= dokumentaceProVydaniUzemnihoRozhodnuti_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\DUR"
+                         "\\DUR\\A Pruvodni zprava"
+                         "\\DUR\\B Souhrnna technicka zprava"
+                         "\\DUR\\C Situacni vykresy"
+                         "\\DUR\\C Situacni vykresy\\C1 Situacni vykres sirsich vztahu"
+                         "\\DUR\\C Situacni vykresy\\C2 Katastralni situacni vykres"
+                         "\\DUR\\C Situacni vykresy\\C3 Koordinacni situacni vykres"
+                         "\\DUR\\C Situacni vykresy\\C4 Specialni vykresy"
+                         "\\DUR\\D Dokumentace objektu"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D11 Objekty pozemnich komunikaci"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D12 Mostni objekty a zdi"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D13 Vodohospodarske objekty"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D14 Elektro a sdelovaci objekty"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D15 Objkety trubnich vedeni"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D16 Objekty podzemnich staveb"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D17 Objekty drah"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D18 Objekty pozemnich staveb"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D19 Objekty upravy uzemi"
+                         "\\DUR\\D Dokumentace objektu\\D1 Stavebni cast\\D110 Ostatni stavebni objekty"
+                         "\\DUR\\D Dokumentace objektu\\D2 Technologicka cast"
+                         "\\DUR\\Dokladova cast"
+                         "\\DUR\\Dokladova cast\\1 Zavazna stanoviska, stanoviska, rozhodnuti, vyjadreni dotcenych organu"
+                         "\\DUR\\Dokladova cast\\2 Dokumentace vlivu zameru na zivotni prostredi"
+                         "\\DUR\\Dokladova cast\\3 Doklad podle zvlastniho pravniho predpisu"
+                         "\\DUR\\Dokladova cast\\4 Stanoviska vlastniku verejne dopravni a technicke infrastruktury"
+                         "\\DUR\\Dokladova cast\\5 Geodeticky podklad pro projektovou cinnost zpracovany podle jinych pravnich predpisu"
+                         "\\DUR\\Dokladova cast\\6 Inzenyrskogeologicke, diagnosticke a dopravni pruzkumy"
+                         "\\DUR\\Dokladova cast\\7 Ostatni stanoviska, vyjadreni, posudky, studie a vysledky jednani"
+                         "\\DUR\\Souvisici dokumentace"
+                         "\\DUR\\Souvisici dokumentace\\1 Pruzkumy zajistovane v ramci DUR"
+                         "\\DUR\\Souvisici dokumentace\\2 Hlukova studie"
+                         "\\DUR\\Souvisici dokumentace\\3 Rozptylova (exhalacni) studie"
+                         "\\DUR\\Souvisici dokumentace\\4 Bilancie zemin a ornice"
+                         "\\DUR\\Souvisici dokumentace\\5 Podklady pro odneti ze ZPF a PUPFL"
+                         "\\DUR\\Souvisici dokumentace\\6 Dokumentace pro projednani s prislusnymi utvary drahy"
+                         "\\DUR\\Souvisici dokumentace\\7 Odhad stavebnich nakladu"
+                         "\\DUR\\Souvisici dokumentace\\8 Projekt odpadoveho hospodarstvi"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentace pro vydani spolecneho povoleni (CZ)"                              
+  (if (= dokumentaceProVydaniSpolocnehoPovoleni_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\DUSP"
+                         "\\DUSP\\A Pruvodni zprava"
+                         "\\DUSP\\B Souhrnna technicka zprava"
+                         "\\DUSP\\C Situacni vykresy"
+                         "\\DUSP\\C Situacni vykresy\\C1 Situacni vykres sirsich vztahu"
+                         "\\DUSP\\C Situacni vykresy\\C2 Katastralni situacni vykres"
+                         "\\DUSP\\C Situacni vykresy\\C3 Koordinacni situacni vykres"
+                         "\\DUSP\\C Situacni vykresy\\C4 Specialni vykresy"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D11 Objekty pozemnich komunikaci vcetne propustku"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D12 Mostni objekty a zdi"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D13 Vodohospodarske objekty"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D14 Objekty osvetleni pozemni komunikace"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D15 Objekty podzemnich staveb"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D16 objekty zarizeni pro provozni informace a telematiku"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D17 Objekty drah"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D18 objekty pozemnich staveb"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D19 Ostatni stavebni objekty"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D110 Pozarnebezpecnostni reseni"
+                         "\\DUSP\\D Dokumentace objektu a technickych a technologickych zarizeni\\D2 Technologicka cast"
+                         "\\DUSP\\Dokladova cast"
+                         "\\DUSP\\Dokladova cast\\1 Zavazna stanoviska, stanoviska, rozhodnuti, vyjadreni dotcenych organu"
+                         "\\DUSP\\Dokladova cast\\2 Dokumentace vlivu zameru na zivotni prostredi"
+                         "\\DUSP\\Dokladova cast\\3 Doklad podle jineho pravniho predpisu"
+                         "\\DUSP\\Dokladova cast\\4 Stanoviska vlastniku verejne dopravni a technicke infrastruktury"
+                         "\\DUSP\\Dokladova cast\\5 Geodeticky podklad pro projektovou cinnost zpracovany podle jinych pravnich predpisu"
+                         "\\DUSP\\Dokladova cast\\6 Projekt zpracovany banskym projektantem"
+                         "\\DUSP\\Dokladova cast\\7 Prukaz energeticke narocnosti budovy podle zakona a o hospodareni s energii"
+                         "\\DUSP\\Dokladova cast\\8 Inzenyrskogeologicke, diagnosticke a dopravni pruzkumy"
+                         "\\DUSP\\Dokladova cast\\9 Ostatni stanoviska, vyjadreni, posudky, studie a vysledky jednani"
+                         "\\DUSP\\Souvisici dokumentace"
+                         "\\DUSP\\Souvisici dokumentace\\1 Ucinky stavby"
+                         "\\DUSP\\Souvisici dokumentace\\2 Podklady a pruzkumy"
+                         "\\DUSP\\Odhad stavebnich nakladu"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentace pro vydani spolocneho povoleni u staveb dopravni infrastruktury (CZ)"                              
+  (if (= dokumentaceProVydaniSpolocnehoPovoleniUStavebDopravniInfrastruktury_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\DUSP-DI"
+                         "\\DUSP-DI\\A Pruvodni zprava"
+                         "\\DUSP-DI\\B Souhrnna technicka zprava"
+                         "\\DUSP-DI\\C Situacni vykresy"
+                         "\\DUSP-DI\\C Situacni vykresy\\C1 Situacni vykres sirsich vztahu"
+                         "\\DUSP-DI\\C Situacni vykresy\\C2 Katastralni situacni vykres"
+                         "\\DUSP-DI\\C Situacni vykresy\\C3 Koordinacni situacni vykres"
+                         "\\DUSP-DI\\C Situacni vykresy\\C4 Specialni vykresy"
+                         "\\DUSP-DI\\C Situacni vykresy\\C5 Situacni vykres zaboru"
+                         "\\DUSP-DI\\D Dokumentace objketu"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D11 Objekty pozemnich komunikaci vcetne porpustku"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D12 Mostni objekty a zdi"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D13 Vodohospodarske objekty"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D14 Objekty osvetleni pozemni komunikace"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D15 objekty podzemnich staveb"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D16 Objekty zarizeni pro provozni informace a telematiku"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D17 Objekty drah"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D18 Objekty pozemnich staveb"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D1 Stavebni cast\\D19 Ostatni stavebni objekty"
+                         "\\DUSP-DI\\D Dokumentace objketu\\D2 Technologicka cast"
+                         "\\DUSP-DI\\Dokladova cast"
+                         "\\DUSP-DI\\Dokladova cast\\1 Zavazna stanoviska, stanoviska, rozhodnuti a vyjadreni dotcenych organu"
+                         "\\DUSP-DI\\Dokladova cast\\2 Dokumentace vlivu zameru na zivotne prostredi"
+                         "\\DUSP-DI\\Dokladova cast\\3 Doklad podle jineho pravniho predpisu"
+                         "\\DUSP-DI\\Dokladova cast\\4 Stanoviska vlastniku verejne dopravni a technicke infrastruktury"
+                         "\\DUSP-DI\\Dokladova cast\\5 Geodeticky podklad pro projektovou cinnost zpracovany podle jinych pravnich predpisu"
+                         "\\DUSP-DI\\Dokladova cast\\6 Projekt zpracovany banskym projektantem"
+                         "\\DUSP-DI\\Dokladova cast\\7 Prukaz energeticke narocnosti budoby"
+                         "\\DUSP-DI\\Dokladova cast\\8 Inzenyrskogeologicke, diagnosticke a dopravni pri"
+                         "\\DUSP-DI\\Dokladova cast\\9 Ostatni stanoviska, vyjadreni, posudky, studie e                                                          xcx"
+                         "\\DUSP-DI\\Souvisici dokumentace"
+                         "\\DUSP-DI\\Souvisici dokumentace\\1 Ucinky stavby"
+                         "\\DUSP-DI\\Souvisici dokumentace\\2 Podklady a pruzkumy"
+                         "\\DUSP-DI\\Odhad stavebnich nakladu"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Projektove dokumentace pro vydani stavebniho povoleni (CZ)"                              
+  (if (= projektovaDokumentaceProVydaniStavebnihoPovoleni_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\DSP"
+                         "\\DSP\\A Pruvodni zprava"
+                         "\\DSP\\B Souhrnna technicka zprava"
+                         "\\DSP\\C Situacni vykresy"
+                         "\\DSP\\C Situacni vykresy\\C1 Situacni vykres sirsich vztahu"
+                         "\\DSP\\C Situacni vykresy\\C2 Katastralni situacni vykres"
+                         "\\DSP\\C Situacni vykresy\\C3 Koordinacni situacni vykres"
+                         "\\DSP\\C Situacni vykresy\\C4 Specialni situacni vykres"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D11 Objekty pozemnich komunikaci vcetne propustku"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D12 Mostni objekty a zdi"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D13 Vodohospodarske objekty"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D14 Objekty osvetleni pozemni komunikace"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D15 Objkety podzemnich staveb"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D16 Objekty zarizeni pro provozni informace"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D17 Objkety drah"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D18 Objkety pozemnich staveb"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D19 Ostatni stavebni objekty"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\D110 Pozarnebezpecnostni reseni"
+                         "\\DSP\\D Sokumentace objektu a technickych a technologickych zarizeni\\D2 Technologicka cast"
+                         "\\DSP\\Dokladova cast"
+                         "\\DSP\\Dokladova cast\\1 Zavazna stanoviska, stanoviska, rozhodnuti, vyjadreni dotcenych organu"
+                         "\\DSP\\Dokladova cast\\2 Doklad podle jineho pravniho predpisu"
+                         "\\DSP\\Dokladova cast\\3 Stanovisko  vlastniku verejne dopravni a technicke infrastruktu"
+                         "\\DSP\\Dokladova cast\\4 Geodeticky podklad pro projektovou cinnost zpracovany podle jinych pravnich predpisu"
+                         "\\DSP\\Dokladova cast\\5 Projekt zpracovany banskychm projektantem"
+                         "\\DSP\\Dokladova cast\\6 Inzenyrskogeologicke, diagnositcke a dopravni pruzkumy"
+                         "\\DSP\\Dokladova cast\\7 Ostatni stanoviska, vyjadreni, posudky a vysledky jednani vedenych v prubehu zpracovani dokumentace"
+                         "\\DSP\\Souvisici dokumentace"
+                         "\\DSP\\Souvisici dokumentace\\1 Ucinky stavby"
+                         "\\DSP\\Souvisici dokumentace\\2 Podklady a pruzkumy"
+                         "\\DSP\\Odhad stavebnich nakladu"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Projektove dokumentace pro provadeni stavby (CS)"                              
+  (if (= projektovaDokumentaceProProvadeniStavby_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\PDPS"
+                         "\\PDPS\\A Pruvodni zprava"
+                         "\\PDPS\\B Souhrnna technicka zprava"
+                         "\\PDPS\\C Situacni vykresy"
+                         "\\PDPS\\C Situacni vykresy\\C1 Situacni vykres sirsich vzthau"
+                         "\\PDPS\\C Situacni vykresy\\C2 Koordinacni situacni vykres"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\000 Objekty pripravy staveniste"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\100 Objekty pozemnich komunikaca"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\200 Mostni objekty a zdi"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\300 Vodohospodarske objekty"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\400 Elektro a sdelovaci objekty"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\500 Objekty trubnich vedeni"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\600 Objekty podzemnich staveb"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\650 Objekty drah"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\700 Objekty pozemnich staveb"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\800 Objekty upravy uzemi"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\900 Volna rada objektu"
+                         "\\PDPS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D2 Technologicka cast"
+                         "\\PDPS\\Dokladova cast"
+                         "\\PDPS\\Dokladova cast\\1 Projekt zpracovany banskym projektantem"
+                         "\\PDPS\\Dokladova cast\\2 Geodeticka dokumentace"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Vybrane dokumenty zadavaci dokumentace stavby (CZ)"                              
+  (if (= vybraneDokumentyZadavaciDokumentaceStavby_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\VD-ZDS"
+                         "\\VD-ZDS\\A Pruvodni zprava"
+                         "\\VD-ZDS\\B Souhrnna technicka zprava"
+                         "\\VD-ZDS\\C Situacni vykresy"
+                         "\\VD-ZDS\\C Situacni vykresy\\C1 Situacni vykres sirsich vzthau"
+                         "\\VD-ZDS\\C Situacni vykresy\\C2 Koordinacni situacni vykres"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\000 Objekty pripravy staveniste"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\100 Objekty pozemnich komunikaca"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\200 Mostni objekty a zdi"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\300 Vodohospodarske objekty"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\400 Elektro a sdelovaci objekty"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\500 Objekty trubnich vedeni"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\600 Objekty podzemnich staveb"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\650 Objekty drah"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\700 Objekty pozemnich staveb"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\800 Objekty upravy uzemi"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D1 Stavebni cast\\900 Volna rada objektu"
+                         "\\VD-ZDS\\D Dokumentace objektu a technickych a technologickych zarizeni\\D2 Technologicka cast"
+                         "\\VD-ZDS\\Dokladova cast"
+                         "\\VD-ZDS\\Dokladova cast\\1 Projekt zpracovany banskym projektantem"
+                         "\\VD-ZDS\\Dokladova cast\\2 Geodeticka dokumentace"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentace bouracich praci (CZ)"                              
+  (if (= dokumentaceBouracichPraci_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\DBP"
+                         "\\DBP\\A Pruvodni zprava"
+                         "\\DBP\\B Souhrnna technicka zprava"
+                         "\\DBP\\C Situacni vykresy"
+                         "\\DBP\\C Situacni vykresy\\C1 Situacni vykres sirsich vztahu"
+                         "\\DBP\\C Situacni vykresy\\C2 Katastralni situacni vykres"
+                         "\\DBP\\D Dokumentace objektu a technickych a technologickych zarizeni"
+                         "\\DBP\\Dokladova cast"
+                         "\\DBP\\Dokladova cast\\1 Zavazna stanoviska, stanoviska, rozhodnuti, vyjadreni dotcenych organu"
+                         "\\DBP\\Dokladova cast\\2 Stanoviska vlastnoku verejne dopravni a technicke infrastruktury"
+                         "\\DBP\\Dokladova cast\\3 Projekt zpracovany banskym projektantem"
+                         "\\DBP\\Dokladova cast\\4 Ostatni stanoviska, vyjadreni, posudky, studie a vysledky jednani"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Realizacni dokumentace stavby (CZ)"                              
+  (if (= realizacniDokumentaceStavby_CZ "1") 
+    (progn 
+      (setq ListOfPath '("\\RDS"
+                         "\\RDS\\A Vyrobne technicka dokumentace pro zhotovovaci prace"
+                         "\\RDS\\B Vyrobne technicka dokumentace pro pomocne prace"
+                         "\\RDS\\C Dokumentace vyrobku dodanych na stavbu"
+                         "\\RDS\\D Technologicke celky"
+                         ));
+      ;vytvorenie priecinkov
+      (CreateFoldersScheme)
+    )
+  )
+  
+  ;vyhodnotenie spustenia vytvorenia struktury "Dokumentace skutecneho provedeni stavby (CZ)"                              
+  (if (= dokumentaceSkutocnehoProvedeniStavby_CZ"1") 
+    (progn 
+      (setq ListOfPath '("\\DSPS"
+                         "\\DSPS\\A Pruvodni zprava"
+                         "\\DSPS\\B Souhrnna technicka zprava"
+                         "\\DSPS\\C Situacni vykresy"
+                         "\\DSPS\\C Situacni vykresy\\C1 Katastralni situacni vykres"
+                         "\\DSPS\\C Situacni vykresy\\C2 Koordinacni situacni vykres"
+                         "\\DSPS\\D Vykresova dokumentace"
+                         ));
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -381,6 +748,7 @@
   (if (= vlastnaStruktura "1") 
     (progn 
       (SearchFilepath)
+      ;vytvorenie priecinkov
       (CreateFoldersScheme)
     )
   )
@@ -402,6 +770,17 @@
   (setq dokumentaciaNaStavebnePovolenieRealizaciuStavby (get_tile "dokumentaciaNaStavebnePovolenieRealizaciuStavby"))
   (setq dokumentaciaNaVykonanieprac (get_tile "dokumentaciaNaVykonanieprac"))
   (setq dokumentaciaSkutocnehoRealizovaniaStavby (get_tile "dokumentaciaSkutocnehoRealizovaniaStavby"))
+  (setq vyhledavaciStudie_CZ (get_tile "vyhledavaciStudie_CZ"))
+  (setq technickaStudie_CZ (get_tile "technickaStudie_CZ"))
+  (setq dokumentaceProVydaniUzemnihoRozhodnuti_CZ (get_tile "dokumentaceProVydaniUzemnihoRozhodnuti_CZ"))
+  (setq dokumentaceProVydaniSpolocnehoPovoleni_CZ (get_tile "dokumentaceProVydaniSpolocnehoPovoleni_CZ"))
+  (setq dokumentaceProVydaniSpolocnehoPovoleniUStavebDopravniInfrastruktury_CZ (get_tile "dokumentaceProVydaniSpolocnehoPovoleniUStavebDopravniInfrastruktury_CZ"))
+  (setq projektovaDokumentaceProVydaniStavebnihoPovoleni_CZ (get_tile "projektovaDokumentaceProVydaniStavebnihoPovoleni_CZ"))
+  (setq projektovaDokumentaceProProvadeniStavby_CZ (get_tile "projektovaDokumentaceProProvadeniStavby_CZ"))
+  (setq vybraneDokumentyZadavaciDokumentaceStavby_CZ (get_tile "vybraneDokumentyZadavaciDokumentaceStavby_CZ"))
+  (setq dokumentaceBouracichPraci_CZ (get_tile "dokumentaceBouracichPraci_CZ"))
+  (setq realizacniDokumentaceStavby_CZ (get_tile "realizacniDokumentaceStavby_CZ"))
+  (setq okumentaceSkutocnehoProvedeniStavby_CZ (get_tile "okumentaceSkutocnehoProvedeniStavby_CZ"))
   (setq vlastnaStruktura (get_tile "vlastnaStruktura"))
 )
 
