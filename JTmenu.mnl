@@ -29,13 +29,8 @@
 (AUTOLOAD "Text_style" '("JTTextStyle"))
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
 (AUTOLOAD "Setting" '("JTsetting"))
-<<<<<<< Updated upstream
 (AUTOLOAD "Networks" '("JTNetworks"))
 (AUTOLOAD "Layout_functions" '("JTTitleBlock" "JTSheetCross" "JTTitleBlockUpdate"))
-=======
-(AUTOLOAD "Networks" '("JTCiary"))
-(AUTOLOAD "Layout_functions" '("JTSheetSize" "JTSheetScale" "JTSheetRename" "DPRozpiska" "JTSheetCross" "test33" "LayoutSetting"))
->>>>>>> Stashed changes
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 (AUTOLOAD "Material_update" '("JTMaterialUpdate"))
 (AUTOLOAD "Slope" '("JTSlope"))
@@ -48,7 +43,6 @@
 (AUTOLOAD "Measurement" '("JTMeasurement"))
 (AUTOLOAD "Block_renumber" '("JTReNumber"))
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
-(AUTOLOAD "toolpallete" '("JTPallete"))
 (print)
 
 ;;----------------------------------------------------------------------;;
