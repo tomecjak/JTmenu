@@ -43,6 +43,7 @@
 (AUTOLOAD "Measurement" '("JTMeasurement"))
 (AUTOLOAD "Block_renumber" '("JTReNumber"))
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
+(AUTOLOAD "toolpallete" '("JTPallete"))
 (print)
 
 ;;----------------------------------------------------------------------;;
@@ -81,6 +82,7 @@
 ;;                             Kniznica blokov                          ;;
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Traffic_signs" '("JTTrafficSigns"))
+(AUTOLOAD "Traffic_signs" '("DZ101"))
 (print)
 
 ;;----------------------------------------------------------------------;;
