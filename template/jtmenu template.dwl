@@ -1,3 +1,3 @@
 tomecko
 TOMECKO 
-streda 24. júla 2024  9:24:22
+štvrtok 25. júla 2024  9:14:13
