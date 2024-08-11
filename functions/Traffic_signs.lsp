@@ -1,7 +1,7 @@
 (defun c:JTTrafficSigns()
   
 
-(command "._TPNAVIGATE" "_G" "Dopravne znacenie" pause)
+(command "._TPNAVIGATE" "_G" "Dopravne znacenie" "100" pause)
 (princ)
   
 )
