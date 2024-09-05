@@ -136,7 +136,30 @@ Setting //nazov dcl
     }
   }
 
-  //piaty riadok dialogu - nastavenie jazyku blokov
+  //piaty riadok dialogu - nastavenie mierky vkladanych blokov dopravneho znacenia
+  : boxed_column
+  {
+    label = "Aku mierku pouzit pre vkladane bloky dopravneho znacenia:";
+    //nazov prefixu pre klasicke hladiny
+    : row {
+      : text 
+      {  
+        label = "Mierka dopravneho znacenia:";
+      }
+      : edit_box
+      {  
+        fixed_width = true;
+        key = "signBlocksScale";
+      }
+    }
+    //prvy riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "Moznost si nastavit mierku vkladanych blokov dopravneh znacenia.";
+    }
+  }
+
+  //siesty riadok dialogu - nastavenie jazyku blokov
   : boxed_radio_column
   {
     label = "V akom jazyku maju byt vkladane bloky?";
@@ -160,7 +183,7 @@ Setting //nazov dcl
     }
   }
 
-  //siesty riadok dialogu - nastavenie generovanych kot
+  //siedmi riadok dialogu - nastavenie generovanych kot
   : boxed_radio_column
   {
     label = "V akom mode vygenerovat koty?";
@@ -203,7 +226,7 @@ Setting //nazov dcl
     }
   }
 
-  //siesty riadok dialogu - verzia JTmenu
+  //osmi riadok dialogu - verzia JTmenu
   : boxed_row
   {
     label = "Verzia JTmenu";

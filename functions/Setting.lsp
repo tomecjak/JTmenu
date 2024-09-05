@@ -55,6 +55,14 @@
     (set_tile "blocksScale" (getenv "GlobalnaBlocksScale"))
   )
   
+  ;nastavenie prepinaca mierky vkladanych blokov DZ GlobalnaSignBlocksScale
+  (if (= (getenv "GlobalnaSignBlocksScale") "1000")
+    ;splnena podmienka
+    (set_tile "signBlocksScale" "1000")
+    ;nesplnena podmienka
+    (set_tile "signBlocksScale" (getenv "GlobalnaSignBlocksScale"))
+  )
+  
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
     ;splnena podmienka
@@ -142,6 +150,12 @@
     (setenv "GlobalnaBlocksScale" "50")
   )
   
+  ;vyhodnotenie vyberu modu pre mierku blokov dopravneho znacenia
+  (if (/= signBlocksScale "1000")
+    (setenv "GlobalnaSignBlocksScale" signBlocksScale)
+    (setenv "GlobalnaSignBlocksScale" "1000")
+  )
+  
   ;vyhodnotenie vyberu jazyka pre bloky
   (if (= blocksLanguageSK "1")
     ;nastavenie jazyka SK
@@ -177,6 +191,7 @@
                  "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
+                 "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
                  "\nNastavily ste jazyk pre vkladane bloky na: " (getenv "GlobalnaBlocksLanguage") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"))
   
@@ -193,6 +208,7 @@
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
   (setq blocksScale (get_tile "blocksScale"))
+  (setq signBlocksScale (get_tile "signBlocksScale"))
   (setq blocksLanguageSK (get_tile "blocksLanguageSK"))
   (setq blocksLanguageCZ (get_tile "blocksLanguageCZ"))
   (setq blocksLanguageEN (get_tile "blocksLanguageEN"))
