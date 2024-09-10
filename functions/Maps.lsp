@@ -273,7 +273,7 @@
       (if (or (= VyberMapovehoPodkladu "Z") (= VyberMapovehoPodkladu "z"))
       ;spojenie stringov do jedného url - https://zbgis.skgeodesy.sk/mkzbgis/sk/zakladna-mapa?pos=49.014939,21.208333,18
       (strcat
-        "https://zbgis.skgeodesy.sk/mkzbgis/sk/zakladna-mapa?pos="
+        "https://zbgis.skgeodesy.sk/mapka/sk/zakladna-mapa?pos="
         ;prevedenie čísla do stringu (2-decimal, 0-precision)
         (rtos Fl2 2 6)
         ","

@@ -246,7 +246,7 @@
   
   ;spojenie stringov do jedného url
   (strcat
-    "https://zbgis.skgeodesy.sk/mkzbgis/sk/kataster/identification/point/"
+    "https://zbgis.skgeodesy.sk/mapka/sk/kataster/identification/point/"
     ;prevedenie čísla do stringu (2-decimal, 0-precision)
     (rtos Fl2 2 6)
     ","
