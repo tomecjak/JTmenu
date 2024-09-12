@@ -90,3 +90,17 @@
   )
   
 )
+
+
+
+;; Get Dynamic Block Property Value  -  Lee Mac
+;; Returns the value of a Dynamic Block property (if present)
+;; blk - [vla] VLA Dynamic Block Reference object
+;; prp - [str] Dynamic Block property name (case-insensitive)
+
+(defun LM:getdynpropvalue ( blk prp )
+    (setq prp (strcase prp))
+    (vl-some '(lambda ( x ) (if (= prp (strcase (vla-get-propertyname x))) (vlax-get x 'value)))
+        (vlax-invoke blk 'getdynamicblockproperties)
+    )
+)
