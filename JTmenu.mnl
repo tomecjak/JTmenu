@@ -656,6 +656,10 @@
 (AUTOLOAD "Traffic_signs" '("DZ533_J"))
 (print)
 
+(AUTOLOAD "Test" '("test"))
+(AUTOLOAD "Test" '("test2"))
+(AUTOLOAD "Test" '("GetBlkName"))
+
 ;;----------------------------------------------------------------------;;
 ;;                              Bloky symbolov                          ;;
 ;;----------------------------------------------------------------------;;
