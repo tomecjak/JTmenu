@@ -45,7 +45,7 @@
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (AUTOLOAD "Layers_order" '("JTLayersOrder"))
 (print)
-
+í
 ;;----------------------------------------------------------------------;;
 ;;                              Dokumentacia                            ;;
 ;;----------------------------------------------------------------------;;
