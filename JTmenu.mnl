@@ -659,6 +659,7 @@
 (AUTOLOAD "Test" '("test"))
 (AUTOLOAD "Test" '("test2"))
 (AUTOLOAD "Test" '("GetBlkName"))
+(AUTOLOAD "Test" '("test3"))
 
 ;;----------------------------------------------------------------------;;
 ;;                              Bloky symbolov                          ;;

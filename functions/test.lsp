@@ -7,18 +7,10 @@
 (setq VyberBloku (nentsel "Vyberte rozpisku:" ))
   
   
-(setq BlockName (vla-get-effectivename (vlax-ename->vla-object (car (last VyberBloku)))))
-
-(princ (strcat BlockName ",'**"))
+(setq BlockName (strcat "Zrusene " (vla-get-effectivename (vlax-ename->vla-object (car (last VyberBloku))))))
 
   
 
-  
- (setq blkname (EffectiveName BlockName))  
-  
-  (setq ctr 0
-  ss1 (ssget "_x" '((0 . "INSERT") (2 . "`*U*,ZDZ") (66 . 1))))
-  (repeat (sslength ss1) (BlockTagEditor "OBJEKT" "xxxx" (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
 
 (setq Tmatrix (nth 2 VyberBloku))
@@ -30,8 +22,12 @@
 (princ yscale)  
 
 
-(command "._insert" "KrizikDopravnehoZnacenia" (strcat (rtos xscale 2 2) "," (rtos yscale 2 2)) (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) ang pause)
+(command "._insert" "KrizikDopravnehoZnacenia" (strcat (rtos xscale 2 2) "," (rtos yscale 2 2)) (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) ang pause)
 
+    ;vlozenie udejov do tagu VYPRACOVAL bloku Rozpiska
+  (setq ctr 0
+    ss1 (ssget "_x" '((0 . "insert") (2 . "KrizikDopravnehoZnacenia")))) ;nazov bloku
+  (repeat (sslength ss1) (BlockTagEditor "ZRUSENE_DZ" BlockName (ssname ss1 ctr)) (setq ctr (1+ ctr))) ; nazov tagu a jeho hodnota
   
 )
 
@@ -89,4 +85,31 @@
           (mapcar 'cadr (ssnamex (ssget "_x" (list '(0 . "insert") (assoc 2 (entget BlockName)) '(66 . 1)))))
   )
   
+)
+
+
+
+
+(defun c:test3()
+  
+  
+(vl-load-com)
+
+(LM:setdynpropvalue (vlax-ename->vla-object (car (entsel))) "OBJEKT" xxx)
+
+)
+
+(defun LM:setdynpropvalue ( blk prp val )
+    (setq prp (strcase prp))
+    (vl-some
+       '(lambda ( x )
+            (if (= prp (strcase (vla-get-propertyname x)))
+                (progn
+                    (vla-put-value x (vlax-make-variant val (vlax-variant-type (vla-get-value x))))
+                    (cond (val) (t))
+                )
+            )
+        )
+        (vlax-invoke blk 'getdynamicblockproperties)
+    )
 )
