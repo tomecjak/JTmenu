@@ -1,12 +1,27 @@
+;=========================================================================
+; Traffic_signs.lsp
+; Create by Jakub Tomecko
+;
+; Dopravne znacenie
+;-------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------;;
+;;                Zapnutie panulu nastrojov zo znackami                 ;;
+;;----------------------------------------------------------------------;;
+
 (defun c:JTTrafficSigns()
   
 ;zapnutie postraneho panelu dopravneho znacenia  
 (command "._TPNAVIGATE" "_G" "Dopravne znacenie" "100" pause)
+  
 (princ)
   
 )
 
-;vloženie bloku dopravne znacenie 1xx
+;;----------------------------------------------------------------------;;
+;;               Vlozenie bloku dopravneho znacenia 1xx                 ;;
+;;----------------------------------------------------------------------;;
+
 (defun c:DZ101()
   (command "._insert" "ZDZ_101" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
@@ -142,7 +157,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 2xx
+;;----------------------------------------------------------------------;;
+;;               Vlozenie bloku dopravneho znacenia 2xx                 ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ201()
   (command "._insert" "ZDZ_201" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -419,7 +436,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 3xx
+;;----------------------------------------------------------------------;;
+;;               Vlozenie bloku dopravneho znacenia 3xx                 ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ301()
   (command "._insert" "ZDZ_301" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -876,7 +895,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 4xx
+;;----------------------------------------------------------------------;;
+;;               Vlozenie bloku dopravneho znacenia 4xx                 ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ401()
   (command "._insert" "ZDZ_401" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -1003,7 +1024,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 5xx
+;;----------------------------------------------------------------------;;
+;;               Vlozenie bloku dopravneho znacenia 5xx                 ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ501()
   (command "._insert" "ZDZ_501" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -1416,16 +1439,22 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;          Zapnutie panulu nastrojov zo jestujucimi znackami           ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:JTTrafficSignsExisting()
   
 ;zapnutie postraneho panelu dopravneho znacenia  
 (command "._TPNAVIGATE" "_G" "Jestujuce dopravne znacenie" "J100" pause)
+  
 (princ)
   
 )
 
-;vloženie bloku dopravne znacenie 1xx
+;;----------------------------------------------------------------------;;
+;;          Vlozenie bloku dopravneho znacenia jestujuceho 1xx          ;;
+;;----------------------------------------------------------------------;;
+
 (defun c:DZ101_J()
   (command "._insert" "ZDZ_101_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
@@ -1561,7 +1590,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 2xx
+;;----------------------------------------------------------------------;;
+;;          Vlozenie bloku dopravneho znacenia jestujuceho 2xx          ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ201_J()
   (command "._insert" "ZDZ_201_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -1838,7 +1869,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 3xx
+;;----------------------------------------------------------------------;;
+;;          Vlozenie bloku dopravneho znacenia jestujuceho 3xx          ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ301_J()
   (command "._insert" "ZDZ_301_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -2295,7 +2328,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 4xx
+;;----------------------------------------------------------------------;;
+;;          Vlozenie bloku dopravneho znacenia jestujuceho 4xx          ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ401_J()
   (command "._insert" "ZDZ_401_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -2412,7 +2447,9 @@
   (princ)
 )
 
-;vloženie bloku dopravne znacenie 5xx
+;;----------------------------------------------------------------------;;
+;;          Vlozenie bloku dopravneho znacenia jestujuceho 5xx          ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:DZ501_J()
   (command "._insert" "ZDZ_501_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
@@ -2823,3 +2860,63 @@
   (command "._insert" "ZDZ_533_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
+
+;;----------------------------------------------------------------------;;
+;;          Zapnutie panulu nastrojov zo jestujucimi znackami           ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTSignsCanceled()
+  
+  ;oznacenie bloku dopravneho znacenia
+  (setq VyberBloku (nentsel "Vyberte dopravne znacenie:"))
+
+  ;vypocet suradnic vybraneho bloku a jeho natocenie
+  (setq Tmatrix (nth 2 VyberBloku))
+  (setq blk_pt (nth 3 Tmatrix))
+  (setq ang (/ (* 180.0 (angle '(0 0 0) (nth 0 Tmatrix))) pi))
+  (setq xscale (nth 0 blk_pt))
+  (setq yscale (nth 1 blk_pt))
+  (princ xscale)
+  (princ yscale)  
+
+  ;vlozenie bloku krizika k dopravnej znacke
+  (command "._insert" "KrizikDopravnehoZnacenia" (strcat (rtos xscale 2 2) "," (rtos yscale 2 2)) (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) ang pause)
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;          Zapnutie panulu nastrojov zo jestujucimi znackami           ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTSignsScale()
+  
+  ;zapis hodnoty parametru mierku dopravneho znacenia
+  (setq signBlocksScale (getstring "Mierka dopravneho znacenia 1:"))
+
+  ;nastavenie globalneho parametru
+  (setenv "GlobalnaSignBlocksScale" signBlocksScale)
+    
+  ;hlaska o nastavenych parametroch
+  (princ (strcat "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"))
+    
+  (princ)
+
+)
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nTraffic_signs.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;

@@ -82,6 +82,8 @@
 ;;                   Kniznica blokov dopravne znacenia                  ;;
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Traffic_signs" '("JTTrafficSigns"))
+(AUTOLOAD "Traffic_signs" '("JTSignsCanceled"))
+(AUTOLOAD "Traffic_signs" '("JTSignsScale"))
 ;dopravne znacenie 1xx
 (AUTOLOAD "Traffic_signs" '("DZ101"))
 (AUTOLOAD "Traffic_signs" '("DZ110"))
@@ -655,10 +657,6 @@
 (AUTOLOAD "Traffic_signs" '("DZ532_J"))
 (AUTOLOAD "Traffic_signs" '("DZ533_J"))
 (print)
-
-(AUTOLOAD "Test" '("test"))
-(AUTOLOAD "Test" '("test2"))
-(AUTOLOAD "Test" '("GetBlkName"))
 
 ;;----------------------------------------------------------------------;;
 ;;                              Bloky symbolov                          ;;
