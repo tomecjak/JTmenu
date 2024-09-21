@@ -1,10 +1,10 @@
 (defun c:Setup()
   
-    ;nastavenie cesty kde kopirovat subory
-  (setq SelectedFolderPathx (LM:browseforfolder "Vyberte cestu pre instalaciu JTmenu" ""0))
+  ;nastavenie cesty skade kopirovat subory JTmenu
+  (setq SelectedFolderPathx (LM:browseforfolder "Vyberte priecinok z JTmenu." "" 0))
   
-  ;nastavenie cesty kde kopirovat subory
-  (setq SelectedFolderPath (LM:browseforfolder "Vyberte cestu pre instalaciu JTmenu" ""0))
+  ;nastavenie cesty kde kopirovat subory JTmenu
+  (setq SelectedFolderPath (LM:browseforfolder "Vyberte cestu kde chceta nainstalovat JTmenu." "" 0))
   
   ;kopirovanie priecinku JTmenu - pociatocna cesta, koncova cesta, povolenie nahradit
   (LM:CopyFolder SelectedFolderPathx (strcat SelectedFolderPath "\\JTmenu") T)
@@ -13,20 +13,59 @@
   ;nastavenie premennej FileSupportPath
   (setq FilePath (vla-get-files (vla-get-preferences (vlax-get-Acad-object))))
   
-  ;nastavenie Support file path
-  ;
+  ;ziskanie jestujucich Support path 
   (setq FileSupportPathExisting (vla-get-SupportPath FilePath))
-  (setq FileSupportPath (strcat SelectedFolderPath "\\JTmenu;"))
+  ;nastavenie a spojenie jednotlivych ciest pre Support path
+  (setq FileSupportPath 
+    (strcat
+      SelectedFolderPath "\\JTmenu;"
+      SelectedFolderPath "\\JTmenu\\functions;"
+      SelectedFolderPath "\\JTmenu\\functions\\content;"
+      SelectedFolderPath "\\JTmenu\\icons;"
+      SelectedFolderPath "\\JTmenu\\resource;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\CZK;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\ENG;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\SVK;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\1xx;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\2xx;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\3xx;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\4xx;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\5xx;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\1xx_J;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\2xx_J;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\3xx_J;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\4xx_J;"
+      SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\5xx_J;"
+      SelectedFolderPath "\\JTmenu\\resource\\lines;"
+    ))
+  ;spojenie novej cesty pre JTmenu a jestvujucich ciest
   (setq FileSupportPathNew (strcat FileSupportPath FileSupportPathExisting))
+  ;vlozenie ciest do Suppurt Path
   (vla-put-SupportPath FilePath FileSupportPathNew)
   
+  ;vytvorenie premenej VyberTemplatePath pre vyber instalacie template suboru
+  (setq VyberTemplatePath
+    (getstring "\nChcese si naistalovat aj JTmenu template subor? [Ano/Nie] <Ano>: ")
+  )
+  
+  ;vyhodnotenie VyberTemplatePath
+  (if (or (= VyberTemplatePath "A") (= VyberTemplatePath "a"))
+    ;nastavenie TemplatePath - True
+    (vla-put-QnewTemplateFile FilePath (strcat SelectedFolderPath "\\JTmenu\\template\\JTmenu_template.dwt"))
+
+    ;nastavenie TemplatePath - False
+    (if (or (= VyberTemplatePath "") (= VyberTemplatePath "N") (= VyberTemplatePath "n"))
+    ;bez zmeny
+    (princ)
+    )    
+  )
+  
+  ;nacitanie menu JTmenu.cuix
+  (vla-load (vla-get-menugroups (vlax-get-acad-object)) "JTmenu.cuix")
+  
 )
-
-
-
-
-
-
 
 ;;----------------------------------------------------------------------;;
 ;;                  Funkcia na kopirovanie priecinku                    ;;
@@ -105,7 +144,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nSetup.lsp | "  " | Jakub Tomecko | "
+        "\nSetup.lsp | " "Pre instalaciu zadajte prikaz Setup" " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

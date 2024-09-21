@@ -795,6 +795,16 @@
   (princ)
 )
 
+(defun c:DZ342_J()
+  (command "._insert" "ZDZ_342_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (princ)
+)
+
+(defun c:DZ343_J()
+  (command "._insert" "ZDZ_343_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (princ)
+)
+
 (defun c:DZ344_J()
   (command "._insert" "ZDZ_344_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
