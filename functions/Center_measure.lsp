@@ -6,12 +6,6 @@
 ; Rozmiestnenie objektov od stredu ciary
 ;-------------------------------------------------------------------------
 
-;;-------------------=={ Stredové zarovnie }==----------------;;
-;;                                                            ;;
-;;  Emuluje spravenie standartneho prikazu "Measure", ale     ;;
-;;  centruje delenie pozdlz vybraneho objektu                 ;;
-;;------------------------------------------------------------;;
-
 (defun c:JTCenterMeasure ( / *error* _StartUndo _EndUndo _SelectIf _IsCurveObject acdoc al bl d0 di en mx nm pt )
   
   ;vytvorenie premenej VyberTypuMeasure

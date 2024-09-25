@@ -56,20 +56,7 @@
 (AUTOLOAD "Doc_VL_TP" '("VL04_1"))
 (AUTOLOAD "Doc_VL_TP" '("VL05"))
 (AUTOLOAD "Doc_VL_TP" '("VL10"))
-(AUTOLOAD "Doc_VL_TP" '("TP010"))
-(AUTOLOAD "Doc_VL_TP" '("TP010_1"))
-(AUTOLOAD "Doc_VL_TP" '("TP019"))
-(AUTOLOAD "Doc_VL_TP" '("TP019_K"))
-(AUTOLOAD "Doc_VL_TP" '("TP037"))
-(AUTOLOAD "Doc_VL_TP" '("TP063"))
-(AUTOLOAD "Doc_VL_TP" '("TP068"))
-(AUTOLOAD "Doc_VL_TP" '("TP068_1"))
-(AUTOLOAD "Doc_VL_TP" '("TP075"))
-(AUTOLOAD "Doc_VL_TP" '("TP104"))
-(AUTOLOAD "Doc_VL_TP" '("TP108"))
-(AUTOLOAD "Doc_VL_TP" '("TP113"))
-(AUTOLOAD "Doc_VL_TP" '("TPSK"))
-(AUTOLOAD "Doc_VL_TP" '("TPCZ"))
+(AUTOLOAD "Doc_VL_TP" '("JTTP"))
 (print)
 
 ;;----------------------------------------------------------------------;;
@@ -673,7 +660,7 @@
 (AUTOLOAD "Inserting_blocks" '("JTDirection" "JTDirection2" "JTWaterDirection" "JTViewName" "JTSectionVertical" 
                                "JTSectionHorizontal" "JTSectionBreak" "JTAlignedText" "JTSlopeSymbol" 
                                "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
-                               "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark" "JTPointHeight"
+                               "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark" "JTPointBlock" "JTPointHeight"
                                "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
                                "JTGeodeticMark" "JTViewNameBasic" "JTSymmetry" "JTDetailSymbol" "JTCylinderEnd")
 )

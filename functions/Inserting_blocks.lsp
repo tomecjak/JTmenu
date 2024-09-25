@@ -489,9 +489,35 @@
 ;;                         Bloky pre vytycenie                          ;;
 ;;----------------------------------------------------------------------;;
 
+;vloženie bloku Point Block
+(defun c:JTPointBlock()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+    
+  ;nastavenie Rescalingu
+  (ScaleRefactorToMeter)
+
+  ;prikaz na vlozenie blocku OznacenieBodu
+  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (command "._insert" "OznacenieBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+      (command "._insert" "OznacenieBodu" "_S" (getvar "dimscale") "_R" 0 pause)
+    )
+  )
+    
+  (princ "\nUrcite bod vlozenia znacky vysky bodu:")
+      
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
 ;vloženie bloku Vyska bodu
 (defun c:JTPointHeight()
-  
+
   ;nastavenie hladiny
   (LayerSetting)
   
@@ -510,7 +536,7 @@
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
-  
+
   (princ)
   
 )

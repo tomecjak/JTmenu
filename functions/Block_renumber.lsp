@@ -3,15 +3,49 @@
 ; Create by Lee Mac from https://www.lee-mac.com
 ; Edit by Jakub Tomecko
 ;
-; Zmena zakladneho bodu v bloku v modeli
+; Automaticke cislovanie textu a blokov
 ;-------------------------------------------------------------------------
- 
+
+;;----------------------------------------------------------------------;;
+;;                 Dynamic Mode Positioning Controls                    ;;
+;;----------------------------------------------------------------------;;
+
+;  [ Enter ]  -  (alebo medzernik/kliknutie pravym tlacidlom) ukoncit program [Zrusit]
+;  [ Click ]  -  umiestnenie objektu
+;  [   <   ]  -  otocit objekt proti smeru hodinovuch rusiciek
+;  [   >   ]  -  otocit objekt v smere hodinovych ruciciek
+;  [   O   ]  -  zadana rotacia objektu
+;  [  Tab  ]  -  otocit objekt o 90º
+;  [   M   ]  -  otocenie zrkadloveho objektu
+;  [   C   ]  -  zarovnej objekt podla krivky
+;  [   R   ]  -  nahradit existujuci textovy retazec/retazec atributov
+;  [   T   ]  -  pripinanie prirastku pocitadla
+;  [   I   ]  -  prirastok retazca
+;  [   B   ]  -  otocit polygonalny okrej
+;  [   A   ]  -  prepnutie masky pozadia MText 
+
+;;----------------------------------------------------------------------;;
+;;                      Curve Alignment Controls                        ;;
+;;----------------------------------------------------------------------;;
+
+;  [ Enter ]  -  (alebo medzernik/kliknutie pravym tlacidlom) ukoncit program [Zrusit]
+;  [ Click ]  -  umiestnenie objektu
+;  [  +/-  ]  -  zvysit/znizit odsadenie objektu
+;  [   O   ]  -  zadanie odsadenia objektu
+;  [   P   ]  -  prepinanie kolmosti objektu
+;  [   B   ]  -  otocit polygonalny okrej
+;  [   A   ]  -  prepnutie masky pozadia MText 
+
+;;----------------------------------------------------------------------;;
+;;                           RuNumber program                           ;;
+;;----------------------------------------------------------------------;;
+
 (setq numincversion "3.9")
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun c:JTReNumber
- 
+
     (
         /
         *error*
@@ -130,7 +164,7 @@
         x
         xa
     )
- 
+
     (defun *error* ( msg )
         (if
             (and
@@ -179,20 +213,20 @@
         )
         (princ)
     )
- 
+
     (setq varlst '(dimzin modemacro)
           vallst  (mapcar 'getvar varlst)
     )
- 
+
     (cond
         (   (= 4 (logand 4 (cdr (assoc 70 (tblsearch "layer" (getvar 'clayer))))))
-            (princ "\nCurrent layer locked.")
+            (princ "\nAktualna vrstva je uzamknuta.")
         )
         (   (not (vl-file-directory-p (setq savepath (numinc:getsavepath))))
-            (numinc:popup "Save Path Invalid" 16
+            (numinc:popup "Cesta ulozenia je neplatna" 16
                 (princ
                     (strcat
-                        "The following path does not exist or is invalid:\n\n"
+                        "Nasledujuca cesta neexistuje alebo je neplatna:\n\n"
                         savepath
                     )
                 )
@@ -204,23 +238,23 @@
                 )
                 (not (numinc:writedcl dclfname))
             )
-            (numinc:popup "DCL File could not be Written" 16
+            (numinc:popup "Subor DCL sa nepodarilo zapisat" 16
                 (princ
                     (strcat
-                        "The DCL file required by this application was unable to be written to the following location:\n\n"
+                        "Subor DCL pozadovany touto aplikaciou nebolo mozne zapisat do nasledujuceho umiestnenia:\n\n"
                         dclfname
-                        "\n\nPlease ensure that you have write permissions for this directory."
+                        "\n\nUistite sa, ze mate opravnenie na zapis do tohto adresara."
                     )
                 )
             )
         )
         (   (<= (setq dclID (load_dialog dclfname)) 0)
-            (numinc:popup "DCL File could not be Loaded" 16
+            (numinc:popup "Subor DCL sa nepodarilo nacitat" 16
                 (princ
                     (strcat
-                        "The following DCL file could not be loaded:\n\n"
+                        "Nasledujuci subor DCL sa nepodarilo nacitat:\n\n"
                         dclfname
-                        "\n\nPlease check the integrity of this file."
+                        "\n\nSkontrolujte integritu tohto suboru."
                     )
                 )
             )
@@ -247,7 +281,7 @@
                     (cons 'obj-typ "obj-txt")
                     (cons 'blk-nme "")
                     (cons 'att-nme "")
-                    (cons 'blk-scl "1.0")
+                    (cons 'blk-scl "1")
                     (cons 'scl-var "0")
                     (cons 'scl-pop "DIMSCALE")
                     (cons 'bor-enc "0")
@@ -294,12 +328,12 @@
                     (set (car x) (cdr x))
                 )
             )
- 
+
             (setq _layers (numinc:gettableitems "layer")
                   _styles (numinc:gettableitems "style")
                   _blocks (numinc:getblockdata)
             )
- 
+
             (setq Alignment
                 (list
                     (cons "Left"          acAlignmentLeft)
@@ -317,7 +351,7 @@
                     (cons "Bottom-Right"  acAlignmentBottomRight)
                 )
             )
- 
+
             (setq Attachment
                 (list
                     (cons "Top-Left"      acAttachmentPointTopLeft)
@@ -331,10 +365,10 @@
                     (cons "Bottom-Right"  acAttachmentPointBottomRight)
                 )
             )
- 
+
             (setq _Alignment  (mapcar 'car Alignment))
             (setq _Attachment (mapcar 'car Attachment))
- 
+
             (setq ScaleVars
                 (vl-remove-if 'null
                     (mapcar
@@ -371,7 +405,7 @@
                 )
             )
             (setq _ScaleVars (mapcar 'car ScaleVars))
- 
+
             (
                 (lambda ( / i j x y )
                     (repeat (setq i 20)
@@ -459,7 +493,7 @@
                     )
                 )
             )
- 
+
             (setq mode_color
                 (lambda ( key col )
                     (start_image key)
@@ -479,36 +513,38 @@
             (while (not (member dclflag '(1 0)))
                 (cond
                     (   (not (new_dialog "numinc" dclID))
-                        (numinc:popup "NumInc Dialog could not be Loaded" 16
+                        (numinc:popup "Dialog NumInc sa nepodarilo nacitat" 16
                             (princ
                                 (strcat
-                                    "The Incremental Numbering Suite dialog could not be loaded. "
-                                    "The DCL file required by the application resides in the following location:\n\n"
+                                    "Dialogove okno ReNumber sa nepodarilo nacitat. "
+                                    "Subor DCL pozadovany aplikaciou sa nachadza v nasledujucom umiestneni:\n\n"
                                     dclfname
-                                    "\n\nPlease check the integrity of this file."
+                                    "\n\nSkontrolujte integritu tohto suboru."
                                 )
                             )
                         )
                     )
                     (   (eval (read (vl-list->string '(40 110 117 109 105 110 99 58 109 105 115 99 41))))
+
+                        ;;----------------------------------------------------------------------;;
+                        ;;                    Horny dialog [Top of Dialog]                      ;;
+                        ;;----------------------------------------------------------------------;;                     
+                     
                         
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                        Top of Dialog                                          ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
                      
                         (set_tile "dyn-flg" dyn-flg)
                         (action_tile "dyn-flg" "(setq dyn-flg $value)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                  Top-Left Increment Format Panel                              ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+                        ;; Panele formatu prirastku hore vlavo [Top-Left Increment Format Panel];;
+                        ;;----------------------------------------------------------------------;;                     
+
                         (foreach symb '(pre-str mid-str suf-str inc-str)
                             (setq tile (strcase (vl-symbol-name symb) t))
                             (set_tile tile (eval symb))
                             (action_tile tile (strcat "(setq " tile " $value)"))
                         )
- 
+
                         (
                             (lambda ( / bit )
                                 (setq bit 1)
@@ -521,10 +557,10 @@
                                 )
                             )
                         )
-                     
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                     Right Formatting Panel                                    ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
+               
+                        ;;----------------------------------------------------------------------;;
+                        ;;          Pravy panel formatovania [Right Formatting Panel]           ;;
+                        ;;----------------------------------------------------------------------;;                     
                      
                         (numinc:makelist "txt-lay" _layers)
                      
@@ -537,9 +573,9 @@
                             )
                         )
                         (action_tile "txt-lay" "(setq txt-lay (nth (atoi $value) _layers))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (numinc:MakeList "txt-sty" _styles)
                      
                         (set_tile "txt-sty"
@@ -572,10 +608,10 @@
                         )
                         (action_tile "txt-sty" "(txt-sty-fun (setq txt-sty (nth (atoi $value) _styles)))")
                      
-                        ;;-----------------------------------------------------------------------------------------------;;
+                        ;;----------------------------------------------------------------------;;
                      
                         (numinc:MakeList "txt-aln" (if (= "obj-mtx" obj-typ) _Attachment _Alignment))
- 
+
                         (set_tile "txt-aln"
                             (itoa
                                 (cond
@@ -594,7 +630,7 @@
                                 )
                             )
                         )
- 
+
                         (action_tile "txt-aln"
                             (vl-prin1-to-string
                                 (quote
@@ -609,12 +645,12 @@
                                 )
                             )
                         )
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile    "txt-sze" txt-sze)
                         (action_tile "txt-sze" "(setq txt-sze $value)")
- 
+
                         (if (= "1" txt-bst)
                             (if (zerop (setq tmp (cdr (assoc 40 (tblsearch "style" txt-sty)))))
                                 (progn
@@ -643,11 +679,11 @@
                                 )
                             )
                         )
- 
+
                         (action_tile "txt-pik" "(done_dialog 4)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile "msk-trn" msk-trn)
                         (
                             (setq msk-trn-fun
@@ -683,16 +719,16 @@
                                 )
                             )
                         )
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile "msk-off" msk-off)
                         (action_tile "msk-off" "(setq msk-off $value)")
- 
+
                         (action_tile "msk-pik" "(done_dialog 7)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile "msk-use" msk-use)
                         (
                             (setq msk-use-fun
@@ -716,11 +752,11 @@
                             msk-use
                         )
                         (action_tile "msk-use" "(msk-use-fun (setq msk-use $value))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                   Bottom-Left Border Panel                                    ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+                        ;;         Panel spodneho laveho pola [Bottom-Left Array Panel]         ;;
+                        ;;----------------------------------------------------------------------;;                     
+
                         (set_tile "bor-enc" bor-enc)
                         (
                             (setq bor-enc-fun
@@ -772,11 +808,11 @@
                             bor-enc
                         )
                         (action_tile "bor-enc" "(bor-enc-fun (setq bor-enc $value))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (numinc:makelist "bor-shp" '("Circle" "Rectangle" "Slot" "Polygon"))
- 
+
                         (set_tile "bor-shp" bor-shp)
                         (
                             (setq bor-shp-fun
@@ -809,14 +845,14 @@
                             bor-shp
                         )
                         (action_tile "bor-shp" "(bor-shp-fun (setq bor-shp $value))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile "bor-sid" bor-sid)
                         (action_tile "bor-sid" "(setq bor-sid $value)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (numinc:makelist "bor-lay" _layers)
                      
                         (set_tile "bor-lay"
@@ -828,9 +864,9 @@
                             )
                         )
                         (action_tile "bor-lay" "(setq bor-lay (nth (atoi $value) _layers))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile bor-typ "1")
                         (
                             (setq bor-typ-fun
@@ -856,20 +892,20 @@
                         )
                         (action_tile "bor-off" "(bor-typ-fun (setq bor-typ $key))")
                         (action_tile "bor-fix" "(bor-typ-fun (setq bor-typ $key))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (foreach symb '(off-ed1 fix-ed1 fix-ed2)
                             (setq tile (strcase (vl-symbol-name symb) t))
                             (set_tile tile (eval symb))
                             (action_tile tile (strcat "(setq " tile " $value)"))
                         )
- 
+
                         (action_tile "bor-pik" "(done_dialog 3)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                    Bottom-Middle Array Panel                                  ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
+
+                        ;;----------------------------------------------------------------------;;
+                        ;;      Panel spodneho stredneho pola [Bottom-Middle Array Panel]       ;;
+                        ;;----------------------------------------------------------------------;;                     
                      
                         (set_tile "arr-use" arr-use)
                         (
@@ -916,14 +952,14 @@
                             arr-use
                         )
                         (action_tile "arr-use" "(arr-use-fun (setq arr-use $value))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
+
+                        ;;----------------------------------------------------------------------;;
                      
                         (set_tile "arr-qty" arr-qty)
                         (action_tile "arr-qty" "(setq arr-qty $value)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile arr-typ "1")
                         (
                             (setq arr-typ-fun
@@ -956,23 +992,23 @@
                             )
                             (action_tile tile "(arr-typ-fun (setq arr-typ $key))")
                         )
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (set_tile "arr-rot" arr-rot)
                         (action_tile "arr-rot" "(setq arr-rot $value)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+
                         (action_tile "arr-pik" "(done_dialog 5)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                     Block Scale Section                                       ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+                        ;;            Sekcia mierky blocku [Block Scale Section]                ;;
+                        ;;----------------------------------------------------------------------;;                     
+
                         (set_tile "blk-scl" blk-scl)
                         (action_tile "blk-scl" "(setq blk-scl $value)")
- 
+
                         (numinc:makelist "scl-pop" _ScaleVars)
                         (set_tile "scl-pop"
                             (itoa
@@ -985,7 +1021,7 @@
                                 )
                             )
                         )                                            
- 
+
                         (
                             (setq blk-scl-fun
                                 (lambda ( value )
@@ -1007,7 +1043,7 @@
                             scl-var
                         )
                         (action_tile "scl-var" "(blk-scl-fun (setq scl-var $value))")
- 
+
                         (action_tile "scl-pop"
                             (vl-prin1-to-string
                                '(set_tile "blk-scl"
@@ -1022,13 +1058,13 @@
                                 )
                             )
                         )
- 
+
                         (action_tile "scl-pik" "(done_dialog 6)")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                  Top-Center Object Type Panel                                 ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+
+                        ;;----------------------------------------------------------------------;;
+                        ;;                     Top-Center Object Type Panel                     ;;
+                        ;;----------------------------------------------------------------------;;                     
+
                         (if (and (= "obj-blk" obj-typ) (null _blocks))
                             (setq obj-typ "obj-txt")
                         )
@@ -1142,7 +1178,7 @@
                             )
                             obj-typ
                         )
- 
+
                         (foreach tile
                            '(
                                 "obj-txt"
@@ -1183,7 +1219,7 @@
                             )
                             (mode_tile "obj-blk" 1)
                         )
- 
+
                         (action_tile "blk-nme"
                             (vl-prin1-to-string
                                 (quote
@@ -1208,16 +1244,16 @@
                                 )
                             )
                         )
- 
+
                         (action_tile "blk-pik" "(done_dialog 2)")
                         (action_tile "att-nme" "(setq attrib $value att-nme (nth (atoi $value) attribs))")
- 
-                        ;;-----------------------------------------------------------------------------------------------;;
-                        ;;                                        Base of Dialog                                         ;;
-                        ;;-----------------------------------------------------------------------------------------------;;
- 
+                     
+                        ;;----------------------------------------------------------------------;;
+                        ;;                   Zaklad dialogu [Base of Dialog]                    ;;
+                        ;;----------------------------------------------------------------------;;                     
+
                         (action_tile "about" "(numinc:about dclid)")
- 
+
                         (action_tile "accept"
                             (vl-prin1-to-string
                                 (quote
@@ -1235,7 +1271,7 @@
                                                     (= "bor-off" bor-typ)
                                                     (not (setq off-ed1# (distof off-ed1)))
                                                 )
-                                                (numinc:popup "Information" 48 "Border Offset must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Posun okraja musi byt ciselny.")
                                                 (mode_tile "off-ed1" 2)
                                             )
                                             (   (and
@@ -1244,7 +1280,7 @@
                                                     (= "bor-off" bor-typ)
                                                     (< off-ed1# 1.0)
                                                 )
-                                                (numinc:popup "Information" 48 "Border Offset Factor must be greater than or equal to one.")
+                                                (numinc:popup "Upozornenie" 48 "Faktor posunu okraja musi byt vacsi alebo rovny jednej.")
                                                 (mode_tile "off-ed1" 2)
                                             )
                                             (   (and
@@ -1258,7 +1294,7 @@
                                                         )
                                                     )
                                                 )
-                                                (numinc:popup "Information" 48 "Border Size must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Velkost okraja musi byt ciselna.")
                                                 (mode_tile "fix-ed1" 2)
                                             )
                                             (   (and
@@ -1272,14 +1308,14 @@
                                                         )
                                                     )
                                                 )
-                                                (numinc:popup "Information" 48 "Border Size must be greater than zero.")
+                                                (numinc:popup "Upozornenie" 48 "Velkost okraja musi byt vacsia ako nula.")
                                                 (mode_tile "fix-ed1" 2)
                                             )
                                             (   (and
                                                     (= "1" arr-use)
                                                     (< (setq arr-qty# (atoi arr-qty)) 1)
                                                 )
-                                                (numinc:popup "Information" 48 "Number of Items in Array must be greater than or equal to one.")
+                                                (numinc:popup "Upozornenie" 48 "Pocet poloziek v poli musi byt vacsi alebo rovny jednej.")
                                                 (mode_tile "arr-qty" 2)
                                             )
                                             (   (and
@@ -1287,7 +1323,7 @@
                                                     (= "arr-oth" arr-typ)
                                                     (not (setq arr-rot# (angtof arr-rot)))
                                                 )
-                                                (numinc:popup "Information" 48 "Array Object Rotation must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Rotacia pola objektov musi byt ciselna.")
                                                 (mode_tile "arr-rot" 2)
                                             )
                                             (   (and
@@ -1295,7 +1331,7 @@
                                                     (= "1" msk-use)
                                                     (not (setq msk-off# (distof msk-off)))
                                                 )
-                                                (numinc:popup "Information" 48 "Background Mask Offset Factor must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Faktor posunu masky pozadia musi byt ciselny.")
                                                 (mode_tile "msk-off" 2)
                                             )
                                             (   (and
@@ -1305,32 +1341,32 @@
                                                         (< msk-off# 1.0)
                                                     )
                                                 )
-                                                (numinc:popup "Information" 48 "Background Mask Offset Factor must be between 1 and 5.")
+                                                (numinc:popup "Upozornenie" 48 "Faktor posunu masky pozadia musi byt medzi 1 a 5.")
                                                 (mode_tile "msk-off" 2)
                                             )
                                             (   (and
                                                     (= "obj-blk" obj-typ)
                                                     (not (setq blk-scl# (distof blk-scl)))
                                                 )
-                                                (numinc:popup "Information" 48 "Block Scale must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Mierka blocku musi byt ciselna.")
                                                 (mode_tile "blk-scl" 2)
                                             )
                                             (   (and
                                                     (= "obj-blk" obj-typ)
                                                     (<= blk-scl# 0.0)
                                                 )
-                                                (numinc:popup "Information" 48 "Block Scale must be greater than zero.")
+                                                (numinc:popup "Upozornenie" 48 "Mierka blocku musi byt vacsia ako nula.")
                                                 (mode_tile "blk-scl" 2)
                                             )
                                             (   (not (distof inc-str 2))
-                                                (numinc:popup "Information" 48 "Increment must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Prirastok muso byt ciselny.")
                                                 (mode_tile "inc-str" 2)
                                             )
                                             (   (and
                                                     (/= "obj-blk" obj-typ)
                                                     (not (setq txt-sze# (distof txt-sze)))
                                                 )
-                                                (numinc:popup "Information" 48 "Text Height must be numerical.")
+                                                (numinc:popup "Upozornenie" 48 "Vyska textu musi byt ciselna.")
                                                 (if (= "0" txt-bst)
                                                     (mode_tile "txt-sze" 2)
                                                 )
@@ -1339,7 +1375,7 @@
                                                     (/= "obj-blk" obj-typ)
                                                     (<= txt-sze# 0.0)
                                                 )
-                                                (numinc:Popup "Information" 48 "Text Height must be greater than zero.")
+                                                (numinc:Popup "Upozornenie" 48 "Vyska textu musi byt vacsia ako nula.")
                                                 (if (= "0" txt-bst)
                                                     (mode_tile "txt-sze" 2)
                                                 )
@@ -1350,7 +1386,7 @@
                                                     (= "3" bor-shp)
                                                     (< (setq bor-sid# (atoi bor-sid)) 3)
                                                 )
-                                                (numinc:popup "Information" 48 "Number of Polygon Sides must be numerical\nand greater than 2.")
+                                                (numinc:popup "Upozornenie" 48 "Pocet stran polygonu musi byt ciselny\na vacsi ako 2.")
                                                 (mode_tile "bor-sid" 2)
                                             )
                                             (   t
@@ -1361,17 +1397,17 @@
                                 )
                             )
                         )
- 
+
                         (setq dclflag (start_dialog))
                     )
                 )
                 (cond
                     (   (= 2 dclflag)
                         (while
-                            (progn (setvar 'errno 0) (setq ent (car (entsel "\nSelect block: ")))
+                            (progn (setvar 'errno 0) (setq ent (car (entsel "\nVyberte block: ")))
                                 (cond
                                     (   (= 7 (getvar 'errno))
-                                        (princ "\nMissed, try again.")
+                                        (princ "\nChyba, skuste znovu.")
                                     )
                                     (   (= 'ename (type ent))
                                         (if
@@ -1388,7 +1424,7 @@
                                                 )
                                                 nil
                                             )
-                                            (princ "\nPlease select a block.")
+                                            (princ "\nProsim vyberte block.")
                                         )
                                     )
                                 )
@@ -1404,13 +1440,13 @@
                                             (initget 6)
                                             (setq tmp
                                                 (getdist
-                                                    (strcat "\nSpecify border offset factor <" off-ed1 ">: ")
+                                                    (strcat "\nZadajte faktor odsadenia okraja <" off-ed1 ">: ")
                                                 )
                                             )
                                         )
                                         (< tmp 1.0)
                                     )
-                                    (princ "\nPlease provide a value greater than or equal to one.")
+                                    (princ "\nZadajte hodnotu vacsiu alebo ruvnu jednej.")
                                 )
                                 (if tmp
                                     (setq off-ed1 (rtos tmp))
@@ -1423,7 +1459,7 @@
                                             (cond
                                                 (   (setq tmp
                                                         (getdist
-                                                            (strcat "\nSpecify border radius <" fix-ed1 ">: ")
+                                                            (strcat "\nZadajte polomer okraja <" fix-ed1 ">: ")
                                                         )
                                                     )
                                                     (rtos tmp)
@@ -1435,8 +1471,8 @@
                                     (   t
                                         (if
                                             (and
-                                                (setq p1 (getpoint "\nSpecify first point: "))
-                                                (setq p2 (getcorner p1 "\nSpecify opposite corner: "))
+                                                (setq p1 (getpoint "\nZadajte prvy bod: "))
+                                                (setq p2 (getcorner p1 "\nZadajte opacny roh: "))
                                             )
                                             (setq fix-ed1 (rtos (abs (- (car  p2) (car  p1))))
                                                   fix-ed2 (rtos (abs (- (cadr p2) (cadr p1))))
@@ -1453,7 +1489,7 @@
                             (cond
                                 (   (setq tmp
                                         (getdist
-                                            (strcat "\nSpecify text size <" txt-sze ">: ")
+                                            (strcat "\nZadajte velkost textu <" txt-sze ">: ")
                                         )
                                     )
                                     (rtos tmp)
@@ -1467,7 +1503,7 @@
                             (cond
                                 (   (setq tmp
                                         (getangle
-                                            (strcat "\nSpecify object angle <" arr-rot ">: ")
+                                            (strcat "\nZadajte uhol objektu <" arr-rot ">: ")
                                         )
                                     )
                                     (angtos tmp)
@@ -1482,7 +1518,7 @@
                             (cond
                                 (   (setq tmp
                                         (getdist
-                                            (strcat "\nSpecify block scale <" blk-scl ">: ")
+                                            (strcat "\nZadajte mierku blocku <" blk-scl ">: ")
                                         )
                                     )
                                     (rtos tmp)
@@ -1498,7 +1534,7 @@
                                     (initget 6)
                                     (setq tmp
                                         (getdist
-                                            (strcat "\nSpecify background mask offset factor <" msk-off ">: ")
+                                            (strcat "\nZadajte faktor odsadenia masky pozadia <" msk-off ">: ")
                                         )
                                     )
                                 )
@@ -1507,7 +1543,7 @@
                                     (< tmp 1.0)
                                 )
                             )
-                            (princ "\nPlease provide a value between 1 and 5.")
+                            (princ "\nZadajte hodnotu medzi 1 a 5.")
                         )
                         (if tmp
                             (setq msk-off (rtos tmp))
@@ -1571,7 +1607,7 @@
                             'insertionpoint
                         )
                     )
- 
+
                     (if (= "1" msk-use)
                         (setq mtx-bak :vlax-true)
                         (setq mtx-bak :vlax-false)
@@ -1611,7 +1647,7 @@
                                     (vla-put-attachmentpoint obj (cdr (assoc txt-aln Attachment)))
                                     (vla-put-insertionpoint  obj point)
                                     (vla-put-rotation  obj txt-rot)
- 
+
                                     (if (= "1" msk-use)
                                         (entmod
                                             (append
@@ -1664,7 +1700,7 @@
                             )
                         )
                     )
- 
+
                     (if
                         (and
                             (/= "obj-blk" obj-typ)
@@ -1674,7 +1710,7 @@
                         )                       
                         (setq off-ed1# (* txt-sze# (1- off-ed1#)))
                     )
- 
+
                     (setq create-bor
                         (lambda ( obj prop / bor )
                             (setq bor
@@ -1695,28 +1731,28 @@
                     
                     (cond
                         (   (= "1" arr-use)
-                            (if (setq p1 (getpoint "\nSpecify array base point: "))
+                            (if (setq p1 (getpoint "\nZadajte zakladny bod pola: "))
                                 (progn
                                     (while
                                         (progn
                                             (if arr-end
                                                 (progn
-                                                    (initget "Spacing")
-                                                    (setq p2 (getpoint "\nSpecify array endpoint [Spacing]: " p1))
+                                                    (initget "Medzery")
+                                                    (setq p2 (getpoint "\nZadajte koncovu bod pola [Medzery]: " p1))
                                                 )
                                                 (progn
-                                                    (initget "Endpoint")
-                                                    (setq p2 (getpoint "\nSpecify array spacing vector [Endpoint]: " p1))
+                                                    (initget "Koncovy bod")
+                                                    (setq p2 (getpoint "\nZadajte vektor rozstupu pola [Koncovy bod]: " p1))
                                                 )
                                             )
                                             (cond
                                                 (   (null p2)
                                                     nil
                                                 )
-                                                (   (= "Endpoint" p2)
+                                                (   (= "Koncovy bod" p2)
                                                     (setq arr-end t)
                                                 )
-                                                (   (= "Spacing" p2)
+                                                (   (= "Medzery" p2)
                                                     (setq arr-end nil)
                                                     t
                                                 )
@@ -1724,7 +1760,7 @@
                                                         (listp p2)
                                                         (equal p1 p2 1e-8)
                                                     )
-                                                    (princ "\nPoints must be distinct.")
+                                                    (princ "\nBody musia byt odlisne.")
                                                 )
                                             )
                                         )
@@ -1764,7 +1800,7 @@
                         (   (= "1" dyn-flg)
                             (while (/= 5 (car (setq gr (grread t 13 0)))))
                             (setq obj (create-obj (cadr gr) (strcat pre-str mid-str suf-str)))
- 
+
                             (if
                                 (and
                                     (/= "obj-blk" obj-typ)
@@ -1810,7 +1846,7 @@
                                                 (vla-move bor (vlax-get-property obj prop) p1)
                                             )
                                             (vlax-put-property obj prop p1)
- 
+
                                             (if (= 3 g1)
                                                 (progn
                                                     (if (and table (numinc:textincell table p1 (strcat pre-str mid-str suf-str)))
@@ -1821,7 +1857,7 @@
                                                     )
                                                     (if tog-cnt (numinc:increment symb inc-str))
                                                     (setq obj (create-obj g2 (strcat pre-str mid-str suf-str)))
- 
+
                                                     (if
                                                         (and
                                                             (/= "obj-blk" obj-typ)
@@ -1842,13 +1878,13 @@
                                         (   (= 2 g1)
                                             (cond
                                                 (   (member g2 '(67 99))  ;; C/c
- 
+
                                                     (vla-delete obj)
                                                     (if bor (vla-delete bor))
                                                  
                                                     (while
                                                         (setq ent
-                                                            (numinc:selectif "\nSelect curve <exit>: "
+                                                            (numinc:selectif "\nVyberte krivku <exit>: "
                                                                 (function
                                                                     (lambda ( x )
                                                                         (not
@@ -1880,7 +1916,7 @@
                                                             )
                                                         )
                                                     )
- 
+
                                                     (setq obj (create-obj (cadr (grread t 13 0)) (strcat pre-str mid-str suf-str)))
                                                     (if
                                                         (and
@@ -1897,7 +1933,7 @@
                                                         (setq deg (/ pi -180.0))
                                                     )
                                                     (setvar 'modemacro
-                                                        (strcat "Rotation: "
+                                                        (strcat "Rotacia: "
                                                             (rtos
                                                                 (rem
                                                                     (+ 360.0
@@ -1923,7 +1959,7 @@
                                                         (cond
                                                             (
                                                                 (getangle
-                                                                    (strcat "\nSpecify "
+                                                                    (strcat "\nZadajte "
                                                                         (cdr
                                                                             (assoc obj-typ
                                                                                '(
@@ -1933,7 +1969,7 @@
                                                                                 )
                                                                             )
                                                                         )
-                                                                        " rotation <" (angtos txt-rot) ">: "
+                                                                        " rotaciu <" (angtos txt-rot) ">: "
                                                                     )
                                                                 )
                                                             )
@@ -1941,7 +1977,7 @@
                                                         )
                                                     )
                                                     (setvar 'modemacro
-                                                        (strcat "Rotation: "
+                                                        (strcat "Rotacia: "
                                                             (rtos
                                                                 (rem
                                                                     (+ 360.0 (* 180.0 (/ txt-rot pi)))
@@ -1969,18 +2005,18 @@
                                                 )
                                                 (   (member g2 '(84 116))  ;; T/t
                                                     (if (setq tog-cnt (not tog-cnt))
-                                                        (princ "\n<Counter enabled>")
-                                                        (princ "\n<Counter disabled>")
+                                                        (princ "\n<Pocitadlo je povolene>")
+                                                        (princ "\n<Pocitadlo je zakazane>")
                                                     )
                                                     (princ msg)
                                                 )
                                                 (   (member g2 '(73 105)) ;; I/i
- 
+
                                                     (vla-delete obj)
                                                     (if bor (vla-delete bor))
                                                  
                                                     (numinc:increment symb inc-str)
- 
+
                                                     (setq obj (create-obj (cadr (grread t 13 0)) (strcat pre-str mid-str suf-str)))
                                                     (if
                                                         (and
@@ -2006,7 +2042,7 @@
                                                                 (/ pi bor-sid#)
                                                             )
                                                         )
-                                                        (princ (strcat "\nInvalid keypress." msg))
+                                                        (princ (strcat "\nNeplatne stlacenie klavesy." msg))
                                                     )
                                                     t
                                                 )
@@ -2026,7 +2062,7 @@
                                                         (setq txt-rot (numinc:roundto txt-rot (/ pi 2.0)))
                                                     )
                                                     (setvar 'modemacro
-                                                        (strcat "Rotation: "
+                                                        (strcat "Rotacia: "
                                                             (rtos
                                                                 (rem
                                                                     (+ 360.0 (* 180.0 (/ txt-rot pi)))
@@ -2054,9 +2090,9 @@
                                                 )
                                                 (   (member g2 '(77 109))  ;; M/m
                                                     (setq txt-rot (rem (+ pi pi (* -1.0 txt-rot)) (+ pi pi)))
- 
+
                                                     (setvar 'modemacro
-                                                        (strcat "Rotation: "
+                                                        (strcat "Rotacia: "
                                                             (rtos
                                                                 (rem
                                                                     (+ 360.0 (* 180.0 (/ txt-rot pi)))
@@ -2084,10 +2120,10 @@
                                                     t
                                                 )
                                                 (   (member g2 '(82 114))  ;; R/r
- 
+
                                                     (vla-delete obj)
                                                     (if bor (vla-delete bor))
- 
+
                                                     (while (numinc:replace (strcat pre-str mid-str suf-str))
                                                         (if tog-cnt
                                                             (numinc:increment symb inc-str)
@@ -2105,18 +2141,18 @@
                                                     (princ msg)
                                                 )
                                                 (   (member g2 '(65 97))  ;; A/a
- 
+
                                                     (if (= "obj-mtx" obj-typ)
                                                         (progn
                                                             (vlax-put obj 'backgroundfill
                                                                 (setq mtx-bak (~ (vlax-get obj 'backgroundfill)))
                                                             )
                                                             (if (zerop mtx-bak)
-                                                                (princ "\n<Background Mask Off>")
-                                                                (princ "\n<Background Mask On>")
+                                                                (princ "\n<Maska pozadia vypnuta>")
+                                                                (princ "\n<Maska pozadia zapnuta>")
                                                             )
                                                         )
-                                                        (princ "\nInvalid keypress.")
+                                                        (princ "\nNeplatne stlacenie klavesy.")
                                                     )
                                                     (princ msg)
                                                 )
@@ -2126,7 +2162,7 @@
                                                     (if bor (vla-delete bor))      
                                                     nil
                                                 )
-                                                (   (princ (strcat "\nInvalid keypress." msg))   )
+                                                (   (princ (strcat "\nNeplatne stlacenie klavesy." msg))   )
                                             )
                                         )
                                         (   t
@@ -2155,9 +2191,9 @@
                                     " <Exit>: "
                                 )
                             )
- 
+
                             (setvar 'modemacro
-                                (strcat "Rotation: "
+                                (strcat "Rotacia: "
                                     (rtos (rem (+ 360.0 (* 180.0 (/ txt-rot pi))) 360) 2 2) (chr 186)
                                 )
                             )
@@ -2212,7 +2248,7 @@
                                                   
                                             (while
                                                 (setq ent
-                                                    (numinc:selectif "\nSelect curve <exit>: "
+                                                    (numinc:selectif "\nVyberte krivku <exit>: "
                                                         (function
                                                             (lambda ( x )
                                                                 (not
@@ -2245,7 +2281,7 @@
                                             t
                                         )
                                         (   (= "Replace" pt)
- 
+
                                             (while (numinc:replace (strcat pre-str mid-str suf-str))
                                                 (if tog-cnt
                                                     (numinc:increment symb inc-str)
@@ -2259,7 +2295,7 @@
                                                 (cond
                                                     (
                                                         (getangle
-                                                            (strcat "\nSpecify "
+                                                            (strcat "\nZadajte "
                                                                 (cdr
                                                                     (assoc obj-typ
                                                                        '(
@@ -2269,7 +2305,7 @@
                                                                         )
                                                                     )
                                                                 )
-                                                                " rotation <" (angtos txt-rot) ">: "
+                                                                " rotaciu <" (angtos txt-rot) ">: "
                                                             )
                                                         )
                                                     )
@@ -2277,7 +2313,7 @@
                                                 )
                                             )
                                             (setvar 'modemacro
-                                                (strcat "Rotation: "
+                                                (strcat "Rotacia: "
                                                     (rtos
                                                         (rem
                                                             (+ 360.0 (* 180.0 (/ txt-rot pi)))
@@ -2290,19 +2326,19 @@
                                             )
                                             t
                                         )
-                                        (   (= "Toggle" pt)
+                                        (   (= "Prepinca" pt)
                                             (if (setq tog-cnt (not tog-cnt))
-                                                (princ "\n<Counter enabled>")
-                                                (princ "\n<Counter disabled>")
+                                                (princ "\n<Pocitadlo je zapnute>")
+                                                (princ "\n<Pocitadlo je vypnute>")
                                             )
                                             t
                                         )
-                                        (   (= "Increment" pt)
+                                        (   (= "Prirastok" pt)
                                             (numinc:increment symb inc-str)
                                             t
                                         )
-                                        (   (= "Border" pt)
-                                            (princ "\n<Border rotated>")
+                                        (   (= "Okraj" pt)
+                                            (princ "\n<Rotacia okraja>")
                                             (setq bor-rot (not bor-rot))
                                             t
                                         )
@@ -2323,7 +2359,7 @@
                                             (princ
                                                 (strcat "\n"
                                                     (setvar 'modemacro
-                                                        (strcat "Rotation: "
+                                                        (strcat "Rotacia: "
                                                             (rtos
                                                                 (rem
                                                                     (+ 360.0 (* 180.0 (/ txt-rot pi)))
@@ -2338,12 +2374,12 @@
                                             )
                                             t
                                         )
-                                        (   (= "Mirror" pt)
+                                        (   (= "Zrkadlie" pt)
                                             (setq txt-rot (rem (+ pi pi (* -1.0 txt-rot)) (+ pi pi)))
                                             (princ
                                                 (strcat "\n"
                                                     (setvar 'modemacro
-                                                        (strcat "Rotation: "
+                                                        (strcat "Rotacia: "
                                                             (rtos
                                                                 (rem
                                                                     (+ 360.0 (* 180.0 (/ txt-rot pi)))
@@ -2360,8 +2396,8 @@
                                         )
                                         (   (= "bAckground" pt)
                                             (if (zerop (setq mtx-bak (~ mtx-bak)))
-                                                (princ "\n<Background mask off>")
-                                                (princ "\n<Background mask on>")
+                                                (princ "\n<Maska pozadia je vypnuta>")
+                                                (princ "\n<Maska pozadia je zapnuta>")
                                             )
                                             t
                                         )
@@ -2372,7 +2408,7 @@
                     )
                     (numinc:writeconfig cfgfname (mapcar 'eval (mapcar 'car symlist)))
                 )
-                (princ "\n*Cancel*")
+                (princ "\n*Zrusene*")
             )
         )
     )
@@ -2392,20 +2428,20 @@
     (mapcar 'setvar varlst vallst)
     (princ)
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:selectif ( msg pred func / ent )
     (setq pred (eval pred))
     (while
         (progn (setvar 'errno 0) (setq ent (func msg))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nMissed, try again.")
+                    (princ "\nChyba, skuste znovu.")
                 )
                 (   (= 'ename (type (car ent)))
                     (if (and pred (null (pred (car ent))))
-                        (princ "\nInvalid object selected.")
+                        (princ "\nBol vybrany neplatny objekt.")
                     )
                 )
             )
@@ -2413,17 +2449,17 @@
     )
     ent
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:replace ( str / aid enx fun obj obl par rtn sel tmp )
     (while
         (progn
             (setvar 'errno 0)
-            (setq sel (nentsel "\nSelect annotation to replace <exit>: "))
+            (setq sel (nentsel "\nVyberte anotaciu, ktoru chcete nahradit <exit>: "))
             (cond
                 (   (= 7 (getvar 'errno))
-                    (princ "\nMissed, try again.")
+                    (princ "\nChyba, skuste znovu.")
                 )
                 (   (null sel)
                     (setq rtn nil)
@@ -2474,7 +2510,7 @@
                                             (or (not (cdr aid))
                                                 (setq aid
                                                     (mapcar '(lambda ( n ) (nth n aid))
-                                                        (numinc:listbox "Select Attribute(s) to Replace" (mapcar 'vla-get-tagstring tmp))
+                                                        (numinc:listbox "Vyberte atribut(y), ktory chcete nahradit" (mapcar 'vla-get-tagstring tmp))
                                                     )
                                                 )
                                             )
@@ -2488,7 +2524,7 @@
                                     (   (= acmtextcontent (vla-get-contenttype (car obl)))
                                         (setq fun vla-put-textstring)
                                     )
-                                    (   (princ "\nSelected multileader has no annotation."))
+                                    (   (princ "\nVybrany multileader nema ziadnu anotaciu."))
                                 )
                             )
                             (   (and par
@@ -2499,7 +2535,7 @@
                                     (or (not (cdr obl))
                                         (setq obl
                                             (mapcar '(lambda ( n ) (nth n obl))
-                                                (numinc:listbox "Select Attribute(s) to Replace" (mapcar 'vla-get-tagstring obl))
+                                                (numinc:listbox "Vyberte atribut(y), ktory chcete nahradit" (mapcar 'vla-get-tagstring obl))
                                             )
                                         )
                                     )
@@ -2507,7 +2543,7 @@
                                     t
                                 )
                             )
-                            (   (princ "\nInvalid object selected."))
+                            (   (princ "\nBol vybrany neplatny objekt."))
                         )
                         (not (and obl fun))
                     )
@@ -2515,8 +2551,8 @@
                 )
                 (   (vl-some '(lambda ( x ) (not (vlax-write-enabled-p x))) obl)
                     (if (cdr obl)
-                        (princ "\nOne or more of the selected objects is on a locked layer or is write-protected.")
-                        (princ "\nThe selected object is on a locked layer or is write-protected.")
+                        (princ "\nJeden alebo viacero vybranych objektov je na uzamknutej vrstve alebo je chraneny proti zapisu.")
+                        (princ "\nVybrany objekt je na uzamknutej vrstve alebo je chraneny proti zapisu.")
                     )
                 )
                 (   (setq rtn t)
@@ -2532,9 +2568,9 @@
     )
     rtn
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:annotative-p ( sty )
     (and
         (setq sty (tblobjname "style" sty))
@@ -2542,9 +2578,9 @@
         (= 1 (cdr (assoc 1070 (reverse sty))))
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:getblockdata ( / a b c )
     (while (setq a (tblnext "block" (null a)))
         (if
@@ -2570,9 +2606,9 @@
     )
     (vl-sort b '(lambda ( a b ) (< (car a) (car b))))
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:gettableitems ( table / a b )
     (while (setq a (tblnext table (null a)))
         (if
@@ -2588,25 +2624,25 @@
     )
     (acad_strlsort b)
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:roundto ( a b )
     (* b (fix (/ (+ a (* b (if (minusp a) -0.5 0.5))) b)))
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:listbox ( msg lst / rtn )
     (cond
         (   (or (null dclid) (not (new_dialog "listbox" dclid)))
-            (numinc:popup "About Dialog could not be Loaded" 16
+            (numinc:popup "Dialogove okno sa nepodarilo nacitat" 16
                 (princ
                     (strcat
-                        "The Incremental Numbering Suite List Box dialog could not be loaded. "
-                        "The DCL file required by the application resides in the following location:\n\n"
+                        "Nepodarilo sa nacitat dialogove okno so zoznamom sady prirastkovych cisel. "
+                        "Subor DCL pozadovany aplikaciou sa nachadza v nasledujucom umiestneni:\n\n"
                         dclfname
-                        "\n\nPlease check the integrity of this file."
+                        "\n\nSkontrolujte integritu tohto suboru."
                     )
                 )
             )
@@ -2614,11 +2650,11 @@
         )
         (   t
             (set_tile "dcl" msg)
- 
+
             (start_list "lst")
             (foreach itm lst (add_list itm))
             (end_list)
- 
+
             (setq rtn (set_tile "lst" "0"))
             (action_tile "lst"  "(setq rtn $value)")
          
@@ -2631,27 +2667,27 @@
     )
     rtn
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:about ( id / _dialogtext _displaybitmap i j x y )
- 
+
     (defun _dialogtext ( key str )
         (set_tile key str)
         (start_image key)
         (vector_image 0 (1- (dimy_tile key)) (dimx_tile key) (1- (dimy_tile key)) 0)
         (end_image)
     )
- 
+
     (cond
         (   (not (new_dialog "about" id))
-            (numinc:popup "About Dialog could not be Loaded" 16
+            (numinc:popup "Dialogove okno sa nepodarilo nacitat" 16
                 (princ
                     (strcat
-                        "The Incremental Numbering Suite About dialog could not be loaded. "
-                        "The DCL file required by the application resides in the following location:\n\n"
+                        "Dialogove okno ReNumber sa nepodarilo nacitat "
+                        "Subor DCL pozadovany aplikaciou sa nachadza v nasledujucom umiestneni:\n\n"
                         dclfname
-                        "\n\nPlease check the integrity of this file."
+                        "\n\nSkontrolujte integritu tohto suboru."
                     )
                 )
             )
@@ -2671,12 +2707,12 @@
             (foreach pair
                '(
                     ;("title1" "Incremental Numbering Suite")
-                    ("title2" "Placement Controls")
-                    ("title3" "Curve Alignment Controls")
+                    ("title2" "Ovladanie umiestnenia")
+                    ("title3" "Ovladacie prvky zarovnania kriviek")
                 )
                 (apply '_dialogtext pair)
             )
- 
+
             (setq _displaybitmap
                 (eval
                     (list 'lambda '( key lst )
@@ -2687,7 +2723,7 @@
                     )
                 )
             )
- 
+
             (_displaybitmap "info1"
                '(
                     -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 008 -15 008 -15 008 -15 008 -15 008 -15 008 -15 008 -15 008 -15 008 -15 -15 -15
@@ -2724,7 +2760,7 @@
                     -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15
                 )
             )
- 
+
             (_displaybitmap "info2"
                '(
                     -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 251 251 251 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15
@@ -2761,7 +2797,7 @@
                     -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15 -15
                 )
             )
- 
+
             (start_image "title1")
             (fill_image 0 0 (dimx_tile "title1") (dimy_tile "title1") -15)
             (foreach l
@@ -3115,15 +3151,15 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:fixdir ( dir )
     (vl-string-right-trim "\\" (vl-string-translate "/" "\\" dir))
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:getsavepath ( / tmp )
     (cond      
         (   (setq tmp (getvar 'roamablerootprefix))
@@ -3135,9 +3171,9 @@
         (   (numinc:fixdir (vl-filename-directory (vl-filename-mktemp))))
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:writedcl ( dcl / file )
     (cond
         (   (findfile dcl))
@@ -3314,14 +3350,14 @@
                     "            {"
                     "                alignment = left;"
                     "                key = \"dyn-flg\";"
-                    "                label = \"Text Follows Cursor\";"
+                    "                label = \"Text nasleduje kurzor\";"
                     "            }"
                     "        }"
                     "        : column"
                     "        {"
                     "            : text"
                     "            {"
-                    "                label = \"Copyright (c) Lee Mac 2014\";"
+                    "                label = \"Lee Mac, prelozil Jakub Tomecko\";"
                     "                key = \"aut\";"
                     "                alignment = right;"
                     "            }"
@@ -3334,7 +3370,7 @@
                     "        {"
                     "            : boxed_column"
                     "            {"
-                    "                label = \"Increment Format\";"
+                    "                label = \"ReNumber format\";"
                     "                width = 37;"
                     "                fixed_width = true;"
                     "                : row"
@@ -3349,7 +3385,7 @@
                     "                    : column"
                     "                    {"
                     "                        : edit { key =  \"mid-str\"; }"
-                    "                        : txt2 { label = \"Middle\"; }"
+                    "                        : txt2 { label = \"Cislo\"; }"
                     "                    }"
                     "                    : column"
                     "                    {"
@@ -3358,17 +3394,17 @@
                     "                    }"
                     "                }       "
                     "                spacer;"
-                    "                : edit { label = \"Increment: \"; key = \"inc-str\"; }"
+                    "                : edit { label = \"Krok prirastku: \"; key = \"inc-str\"; }"
                     "                spacer;"
                     "                : boxed_column"
                     "                {"
-                    "                    label = \"Sections to Increment\";"
+                    "                    label = \"Sekcia prirastku\";"
                     "                    : row"
                     "                    {"
                     "                        alignment = centered;"
                     "                        fixed_width = true;"
                     "                        : toggle { label = \"Prefix\"; key = \"inc-pre\"; }"
-                    "                        : toggle { label = \"Middle\"; key = \"inc-mid\"; }"
+                    "                        : toggle { label = \"Cislo\"; key = \"inc-mid\"; }"
                     "                        : toggle { label = \"Suffix\"; key = \"inc-suf\"; }"
                     "                    }"
                     "                    spacer;"
@@ -3377,9 +3413,9 @@
                     "            }"
                     "            : boxed_column"
                     "            {"
-                    "                label = \"Border Options\";"
+                    "                label = \"Nastavenie okraja\";"
                     "                spacer;"
-                    "                : toggle { key = \"bor-enc\"; label = \"Enclose Text with: \"; }"
+                    "                : toggle { key = \"bor-enc\"; label = \"Text ohranicit: \"; }"
                     "                : row"
                     "                {"
                     "                    : popup_list { key = \"bor-shp\"; width = 18; fixed_width = true;  }"
@@ -3391,18 +3427,18 @@
                     "                            edit_width = 5;"
                     "                            fixed_width = true;"
                     "                            key = \"bor-sid\";"
-                    "                            label = \"Sides:\";"
+                    "                            label = \"Strany:\";"
                     "                            allow_accept = true;"
                     "                        }"
                     "                        spc1;"
                     "                    }"
                     "                }"
-                    "                : text { label = \"Layer: \"; key = \"bor-ltx\"; }"
+                    "                : text { label = \"Hladina: \"; key = \"bor-ltx\"; }"
                     "                : popup_list { key = \"bor-lay\"; }"
                     "                spacer;"
                     "                : boxed_column"
                     "                {"
-                    "                    label = \"Border Size\";"
+                    "                    label = \"Velkost okraja\";"
                     "                    : row"
                     "                    {"
                     "                        fixed_width = true;"
@@ -3452,7 +3488,7 @@
                     "            alignment = top;"
                     "            : boxed_column"
                     "            {"
-                    "                label = \"Object\";"
+                    "                label = \"Objekt\";"
                     "                width = 37;"
                     "                fixed_width = true;"
                     "                fixed_height = true;"
@@ -3477,16 +3513,16 @@
                     "                    }"
                     "                }"
                     "                spacer;"
-                    "                : text { label = \"Attribute:\"; key = \"att-txt\"; }"
+                    "                : text { label = \"Atribut:\"; key = \"att-txt\"; }"
                     "                : popup_list { key = \"att-nme\"; }"
                     "                spacer;"
                     "                : boxed_column"
                     "                {"
-                    "                    label = \"Block Scale\";"
+                    "                    label = \"Mierka blocku\";"
                     "                    : row"
                     "                    {"
                     "                        fixed_width = true; alignment = centered;"
-                    "                        : edit { label = \"Scale:\"; key = \"blk-scl\"; }"
+                    "                        : edit { label = \"Mierka:\"; key = \"blk-scl\"; }"
                     "                        : column"
                     "                        {"
                     "                            spc1;"
@@ -3495,7 +3531,7 @@
                     "                        //: pick { key = \"scl-pik\"; }"
                     "                    }"
                     "                    spacer;"
-                    "                    : toggle { key = \"scl-var\"; label = \"Use System Variable:\"; }"
+                    "                    : toggle { key = \"scl-var\"; label = \"Pouzit systemovu premennu:\"; }"
                     "                    : popup_list { key = \"scl-pop\"; }"
                     "                    spacer;"
                     "                }"
@@ -3503,28 +3539,28 @@
                     "            }"
                     "            : boxed_column"
                     "            {"
-                    "                label = \"Array Options\";"
+                    "                label = \"Nastavenie pola\";"
                     "                width = 37;"
                     "                fixed_width = true;"
                     "                : row"
                     "                {"
                     "                    fixed_width = true;"
-                    "                    : toggle { label = \"Create Array\"; key = \"arr-use\"; }"
-                    "                    : edit { label = \"Items:\"; key = \"arr-qty\"; }"
+                    "                    : toggle { label = \"Vytvorenie pola\"; key = \"arr-use\"; }"
+                    "                    : edit { label = \"Polozky:\"; key = \"arr-qty\"; }"
                     "                }"
                     "                spacer;"
                     "                : boxed_column"
                     "                {"
-                    "                    label = \"Object Rotation\";"
+                    "                    label = \"Rotacia objektu\";"
                     "                    : row"
                     "                    {"
-                    "                        : radio_button { key = \"arr-aln\"; label = \"Aligned\"; }"
-                    "                        : radio_button { key = \"arr-per\"; label = \"Perpendicular\"; }"
+                    "                        : radio_button { key = \"arr-aln\"; label = \"Zarovnane\"; }"
+                    "                        : radio_button { key = \"arr-per\"; label = \"Kolmy\"; }"
                     "                    }"
                     "                    : row"
                     "                    {"
                     "                        fixed_width = true;"
-                    "                        : radio_button { key = \"arr-oth\"; label = \"Other:\"; }"
+                    "                        : radio_button { key = \"arr-oth\"; label = \"Ostatne:\"; }"
                     "                        : edit { key = \"arr-rot\"; }"
                     "                        : column"
                     "                        {"
@@ -3542,24 +3578,24 @@
                     "        { "
                     "            : boxed_column"
                     "            {"
-                    "                label = \"Formatting\";"
-                    "                : text { label = \"Text Layer: \"; key = \"lay-txt\"; }"
+                    "                label = \"Formatovanie\";"
+                    "                : text { label = \"Hladina textu: \"; key = \"lay-txt\"; }"
                     "                : popup_list { key = \"txt-lay\"; }"
                     "                spacer;"
-                    "                : text { label = \"Text Style: \"; key = \"sty-txt\"; }"
+                    "                : text { label = \"Styl textu \"; key = \"sty-txt\"; }"
                     "                : popup_list { key = \"txt-sty\"; }"
                     "                spacer;"
-                    "                : text { label = \"Text Alignment:\"; key = \"aln-txt\"; }"
+                    "                : text { label = \"Zarovnanie textu:\"; key = \"aln-txt\"; }"
                     "                : popup_list { key = \"txt-aln\"; }"
                     "                spacer;"
                     "                : boxed_column"
                     "                {"
-                    "                    label = \"Text Height\";"
+                    "                    label = \"Vyska textu\";"
                     "                    : row"
                     "                    {"
                     "                        fixed_width = true;"
                     "                        alignment = centered;"
-                    "                        : toggle { key = \"txt-bst\"; label = \"By Style\"; }"
+                    "                        : toggle { key = \"txt-bst\"; label = \"Podla stylu\"; }"
                     "                        : edit { key = \"txt-sze\"; }"
                     "                        : column"
                     "                        {"
@@ -3573,20 +3609,20 @@
                     "                spacer;"
                     "                : boxed_column"
                     "                {"
-                    "                    label = \"Background Mask\";"
+                    "                    label = \"Maska pozadia\";"
                     "                    width = 37;"
                     "                    fixed_width = true;"
                     "                    fixed_height = true;"
-                    "                    : toggle { label = \"Use Background Mask\"; key = \"msk-use\"; }"
+                    "                    : toggle { label = \"Pozit masku pozadia\"; key = \"msk-use\"; }"
                     "                    spacer;"
                     "                    : boxed_column"
                     "                    {"
-                    "                        label = \"Mask Offset\";"
+                    "                        label = \"Odsadenia masky\";"
                     "                        : row"
                     "                        {"
                     "                            alignment = centered;"
                     "                            fixed_width = true;"
-                    "                            : edit { label = \"Offset Factor:\"; key = \"msk-off\"; }"
+                    "                            : edit { label = \"Faktor odsadenia:\"; key = \"msk-off\"; }"
                     "                            : column"
                     "                            {"
                     "                                spc1;"
@@ -3598,12 +3634,12 @@
                     "                    }"
                     "                    : boxed_column"
                     "                    {"
-                    "                        label = \"Fill Color\";"
+                    "                        label = \"Farba vyplne\";"
                     "                        : row"
                     "                        {"
                     "                            alignment = centered;"
                     "                            fixed_width = true;"
-                    "                            : toggle { key = \"msk-trn\"; label = \"Transparent\"; }"
+                    "                            : toggle { key = \"msk-trn\"; label = \"Transparentnost\"; }"
                     "                            : imgbox { key = \"msk-col\"; }"
                     "                        }"
                     "                        spacer;"
@@ -3624,7 +3660,7 @@
                     "        spacer_1;"
                     "        : but3 { key = \"accept\"; label = \"OK\"; is_default = true; }"
                     "        spacer_1;"
-                    "        : but1 { key = \"cancel\"; label = \"Cancel\"; is_cancel = true; }"
+                    "        : but1 { key = \"cancel\"; label = \"Zrusit\"; is_cancel = true; }"
                     "        spacer;"
                     "    }"
                     "    spacer;"
@@ -3637,18 +3673,6 @@
                     "about : dialog"
                     "{"
                     "    label = \"About\";"
-                    "    spacer;"
-                    "    //: btxt { key   = \"title1\"; alignment = centered; width = 31.5; }"
-                    "    : img320 { key = \"title1\"; alignment = centered; }"
-                    "    : ctxt { value = \"Designed and Created by Lee Mac 2011\"; }"
-                    "    : button"
-                    "    {"
-                    "        key = \"weblink\";"
-                    "        label = \"www.lee-mac.com\";"
-                    "        fixed_width = true;"
-                    "        alignment = centered;"
-                    "        action = \"(startapp \\\"explorer\\\" \\\"http://www.lee-mac.com\\\")\";"
-                    "    }"
                     "    : row"
                     "    {"
                     "        fixed_width = true;"
@@ -3714,19 +3738,19 @@
                     "        spacer;"
                     "        : column"
                     "        {"
-                    "            : txt3 { label = \"(or Space/Right-Click) Exit Program\"    ; }"
-                    "            : txt3 { label = \"Place Object\"                           ; }"
-                    "            : txt3 { label = \"Rotate Object Counter-Clockwise\"        ; }"
-                    "            : txt3 { label = \"Rotate Object Clockwise\"                ; }"
-                    "            : txt3 { label = \"Specify Object Rotation\"                ; }"
-                    "            : txt3 { label = \"Rotate Object by 90 Degrees\"            ; }"
-                    "            : txt3 { label = \"Mirror Object Rotation\"                 ; }"
-                    "            : txt3 { label = \"Align Object to Curve\"                  ; }"
-                    "            : txt3 { label = \"Replace Existing Text/Attribute String\" ; }"
-                    "            : txt3 { label = \"Toggle Increment Counter\"               ; }"
-                    "            : txt3 { label = \"Increment String\"                       ; }"
-                    "            : txt3 { label = \"Rotate Polygonal Border\"                ; }"
-                    "            : txt3 { label = \"Toggle MText Background Mask\"           ; }"
+                    "            : txt3 { label = \"(alebo medzernik/kliknutie pravym tlacidlom) ukoncit program [Zrusit]\"    ; }"
+                    "            : txt3 { label = \"umiestnenie objektu\"                           ; }"
+                    "            : txt3 { label = \"otocit objekt proti smeru hodinovuch rusiciek\"        ; }"
+                    "            : txt3 { label = \"otocit objekt v smere hodinovych ruciciek\"                ; }"
+                    "            : txt3 { label = \"zadana rotacia objektu\"                ; }"
+                    "            : txt3 { label = \"otocit objekt o 90 stupnov\"            ; }"
+                    "            : txt3 { label = \"otocenie zrkadloveho objektu\"                 ; }"
+                    "            : txt3 { label = \"zarovnej objekt podla krivky\"                  ; }"
+                    "            : txt3 { label = \"nahradit existujuci textovy retazec/retazec atributov\" ; }"
+                    "            : txt3 { label = \"pripinanie prirastku pocitadla\"               ; }"
+                    "            : txt3 { label = \"prirastok retazca\"                       ; }"
+                    "            : txt3 { label = \"otocit polygonalny okrej\"                ; }"
+                    "            : txt3 { label = \"prepnutie masky pozadia MText \"           ; }"
                     "        }"
                     "    }"
                     "    spacer;"
@@ -3777,13 +3801,13 @@
                     "        spacer;"
                     "        : column"
                     "        {"
-                    "            : txt3 { label = \"(or Space/Right-Click) Exit Alignment\"  ; }"
-                    "            : txt3 { label = \"Place Object\"                           ; }"
-                    "            : txt3 { label = \"Increase/Decrease Object Offset\"        ; }"
-                    "            : txt3 { label = \"Specify Object Offset\"                  ; }"
-                    "            : txt3 { label = \"Toggle Object Perpendicularity\"         ; }"
-                    "            : txt3 { label = \"Rotate Polygonal Border\"                ; }"
-                    "            : txt3 { label = \"Toggle MText Background Mask\"           ; }"
+                    "            : txt3 { label = \"(alebo medzernik/kliknutie pravym tlacidlom) ukoncit program [Zrusit]\"  ; }"
+                    "            : txt3 { label = \"umiestnenie objektu\"                           ; }"
+                    "            : txt3 { label = \"zvysit/znizit odsadenie objektu\"        ; }"
+                    "            : txt3 { label = \"zadanie odsadenia objektu\"                  ; }"
+                    "            : txt3 { label = \"prepinanie kolmosti objektu\"         ; }"
+                    "            : txt3 { label = \"otocit polygonalny okrej\"                ; }"
+                    "            : txt3 { label = \"prepnutie masky pozadia MText\"           ; }"
                     "        }"
                     "    }"
                     "    spacer_1;"
@@ -3802,47 +3826,32 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:misc ( )
     (mapcar 'set_tile (mapcar 'vl-list->string '((100 99 108) (97 117 116)))
         (list
             (strcat
                 (vl-list->string 
                    '(
-                        073 110 099 114 101 109 101 110
-                        116 097 108 032 078 117 109 098
-                        101 114 105 110 103 032 083 117
-                        105 116 101 032 086
+                      82 101 78 117 109 98 101 114
                     )
                 )
-                numincversion
-                (vl-list->string
-                   '(
-                        032 092 085 043 048 048 065 057
-                        032 076 101 101 032 077 097 099
-                        032
-                    )
-                )
-                (menucmd "m=$(edtime,0,yyyy)")
             )
             (strcat
                 (vl-list->string
                    '(
-                        067 111 112 121 114 105 103 104
-                        116 032 040 099 041 032 076 101
-                        101 032 077 097 099 032
+                      76 101 101 32 77 97 99 44 32 74 97 107 117 98 32 84 111 109 101 99 107 111 
                     )
                 )
-                (menucmd "m=$(edtime,0,yyyy)")
             )
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:tostring ( arg / dim )
     (cond
         (   (= 'int (type arg))
@@ -3858,9 +3867,9 @@
         (   (vl-prin1-to-string arg))
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:writeconfig ( name lst / file )
     (if (setq file (open name "w"))
         (progn
@@ -3870,9 +3879,9 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:readconfig ( name lst / file line )
     (if
         (and
@@ -3890,32 +3899,32 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:popup ( title flags msg / err )
     (setq err (vl-catch-all-apply 'vlax-invoke-method (list (numinc:wsh) 'popup msg 0 title flags)))
     (if (null (vl-catch-all-error-p err))
         err
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:wsh nil
     (cond (numinc:wshobject) ((setq numinc:wshobject (vlax-create-object "wscript.shell"))))
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:makelist ( key lst )
     (start_list key)
     (foreach x lst (add_list x))
     (end_list)
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:textincell ( lst pnt str / data dir )
     (setq dir (vlax-3D-point (trans (getvar 'viewdir) 1 0)))
     (if
@@ -3934,9 +3943,9 @@
         (not (apply 'vla-settext (append data (list str))))
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:increment ( lst inc )
     (foreach sym lst
         (if (distof (eval sym) 2)
@@ -3945,11 +3954,11 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:incrementnumba ( str inc / _rtos _decimalplaces incd maxd num slen strd )
- 
+
     (defun _rtos ( real prec / dimzin result )
         (setq dimzin (getvar 'dimzin))
         (setvar 'dimzin 0)
@@ -3957,7 +3966,7 @@
         (setvar 'dimzin dimzin)
         result
     )
- 
+
     (defun _decimalplaces ( string / pos )
         (if (setq pos (vl-string-position 46 string))
             (- (strlen string) pos 1)
@@ -3966,7 +3975,7 @@
     )
     
     (setq num (+ (distof str) (distof inc)))
- 
+
     (if (minusp (distof str))
         (setq str (substr str 2))
     )
@@ -3998,11 +4007,11 @@
         str
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:incrementalpha ( str inc / _incrementalpha a )
- 
+
     (defun _incrementalpha ( a b / c d e )
         (cond
             (   (cond
@@ -4044,7 +4053,7 @@
             )
         )
     )
- 
+
     (vl-list->string
         (reverse
             (if (setq a (reverse (vl-string->list str)))
@@ -4054,8 +4063,8 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
+
+;;----------------------------------------------------------------------;;
         
 (defun numinc:aligntocurve ( obj prp ent bor / a1 fac fl g1 g2 gr ll msg mtx p1 ur xa )
     
@@ -4087,7 +4096,7 @@
             )
         )
     )
- 
+
     (setq xa
         (angle '(0.0 0.0 0.0)
             (trans
@@ -4148,7 +4157,7 @@
                             (setq crv-off
                                 (/
                                     (cond
-                                        (   (getdist (strcat "\nSpecify offset <" (rtos (* fac crv-off)) ">: ")))
+                                        (   (getdist (strcat "\nZadajte odsadenia <" (rtos (* fac crv-off)) ">: ")))
                                         (   (* fac crv-off))
                                     )
                                     fac
@@ -4161,8 +4170,8 @@
                                 (setq mtx-bak (~ (vlax-get obj 'backgroundfill)))
                             )
                             (if (zerop mtx-bak)
-                                (princ "\n<Background mask off>")
-                                (princ "\n<Background mask on>")
+                                (princ "\n<Maska pozadia vypnuta>")
+                                (princ "\n<Maska pozadia zapnuta>")
                             )
                             (princ msg)
                         )
@@ -4175,11 +4184,11 @@
                                         (/ pi bor-sid#)
                                     )
                                 )
-                                (princ (strcat "\nInvalid keypress." msg))
+                                (princ (strcat "\nNeplatne stlacenie klavesy." msg))
                             )
                             t
                         )
-                        (   (princ (strcat "\nInvalid keypress." msg)))
+                        (   (princ (strcat "\nNeplatne stlacenie klavesy." msg)))
                     )
                 )
             )
@@ -4188,9 +4197,9 @@
     (redraw)
     fl  
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:mtextwidth ( str sty hgt / box mtw )
     (cond
         (   (setq mtw
@@ -4223,9 +4232,9 @@
         (   0.0   )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:makereadable ( a )
     (   (lambda ( a )
             (if (and (< (* pi 0.5) a) (<= a (* pi 1.5)))
@@ -4236,11 +4245,11 @@
         (rem (+ a pi pi) (+ pi pi))
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:polygoncentroid ( obj / _group )
- 
+
     (defun _group ( lst )
         (if lst
             (cons (list (car lst) (cadr lst)) (_group (cddr lst)))
@@ -4258,9 +4267,9 @@
         (_group (vlax-get obj 'coordinates))
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:createtextborder ( ent typ off fx1 fx2 sid / cen enx i inc lst mat pts rad rot vec )
     (setq enx (entget ent))
     (cond
@@ -4389,9 +4398,9 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 ;; The following function is based on code by gile
  
 (defun numinc:gettextbox ( enx off / b h j l m n o p r w )
@@ -4448,37 +4457,34 @@
         )
     )
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 ;; Matrix x Vector - Vladimir Nesterovsky
- 
+
 (defun mxv ( m v )
     (mapcar (function (lambda ( r ) (apply '+ (mapcar '* r v)))) m)
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (defun numinc:acdoc nil
     (eval (list 'defun 'numinc:acdoc 'nil (vla-get-activedocument (vlax-get-acad-object))))
     (numinc:acdoc)
 )
- 
-;;-----------------------------------------------------------------------------------------------;;
- 
+
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
+(load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\n:: NumInc.lsp | Version "
-        numincversion
-        " | \\U+00A9 Lee Mac "
+        "\nBlock_renumber.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
-        " www.lee-mac.com ::"
-        "\n:: Type \"NumInc\" to Invoke ::"
     )
 )
 (princ)
- 
-;;-----------------------------------------------------------------------------------------------;;
-;;                                          End of File                                          ;;
-;;-----------------------------------------------------------------------------------------------;;
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
