@@ -11,7 +11,7 @@
 
 (defun c:VL01 () 
   ;definovanie premenej "URL_VL01" do ktorej je zapísana url adresa
-  (setq URL_VL01 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl1_2019.pdf")
+  (setq URL_VL01 (findfile "VL_01.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL01)
@@ -20,7 +20,7 @@
 
 (defun c:VL01_1 () 
   ;definovanie premenej "URL_VL01_1" do ktorej je zapísana url adresa
-  (setq URL_VL01_1 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/dodatok_1_2021_vl_1.pdf")
+  (setq URL_VL01_1 (findfile "VL_01-1.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL01_1)
@@ -33,7 +33,7 @@
 
 (defun c:VL022 () 
   ;definovanie premenej "URL_VL022" do ktorej je zapísana url adresa
-  (setq URL_VL022 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl_2_2_2021.pdf")
+  (setq URL_VL022 (findfile "VL_02-2.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL022)
@@ -46,7 +46,7 @@
 
 (defun c:VL04 () 
   ;definovanie premenej "URL_VL04" do ktorej je zapísana url adresa
-  (setq URL_VL04 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl4_2021.pdf")
+  (setq URL_VL04 (findfile "VL_04.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL04)
@@ -59,7 +59,7 @@
 
 (defun c:VL04_1 () 
   ;definovanie premenej "URL_VL04_1" do ktorej je zapísana url adresa
-  (setq URL_VL04_1 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/dodatok_1_2023_vl_4.pdf")
+  (setq URL_VL04_1 (findfile "VL_04-1.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL04_1)
@@ -72,10 +72,114 @@
 
 (defun c:VL05 () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl5_2022_tunely.pdf")
+  (setq URL_VL05 (findfile "VL_05.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL05)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-1T                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL061T () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-1T.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL061T)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-1V                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL061V () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-1V.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL061V)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-2T                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL062T () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-2T.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL062T)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-2V                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL062V () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-2V.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL062V)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-3T                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL063T () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-3T.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL063T)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-3V                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL063V () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-3V.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL063V)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-4T                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL064T () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-4T.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL064T)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Vzorove list 06-4V                         ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:VL064V () 
+  ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
+  (setq URL_VL05 (findfile "VL_06-4V.pdf"))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" URL_VL064V)
   (princ)  
 )
 
@@ -85,7 +189,7 @@
 
 (defun c:VL10 () 
   ;definovanie premenej "URL_VL10" do ktorej je zapísana url adresa
-  (setq URL_VL10 "https://www.ssc.sk/files/documents/technicke-predpisy/vl/vl-10_2018.pdf")
+  (setq URL_VL10 (findfile "VL_10.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL10)

@@ -38,6 +38,7 @@
       SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\3xx_J;"
       SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\4xx_J;"
       SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\5xx_J;"
+      SelectedFolderPath "\\JTmenu\\resource\\documents;"
       SelectedFolderPath "\\JTmenu\\resource\\lines;"
     ))
   ;spojenie novej cesty pre JTmenu a jestvujucich ciest

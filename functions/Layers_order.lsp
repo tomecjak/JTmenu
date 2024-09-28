@@ -1,12 +1,9 @@
-;;------------------=={ Layer Draw Order }==------------------;;
-;;                                                            ;;
-;;  Allows the user to control the draw order of all objects  ;;
-;;  on a layer relative to other layers in the drawing.       ;;
-;;------------------------------------------------------------;;
-;;  Author: Lee Mac, Copyright Š 2011 - www.lee-mac.com       ;;
-;;------------------------------------------------------------;;
-;;  Version 1.2    -    20-06-2011                            ;;
-;;------------------------------------------------------------;;
+;=========================================================================
+; Layers_order.lsp
+; (c) Copyright 2023 Tomecko Jakub
+;
+; Radenie objektov podla hladiny v ktorej sa nachadzaju
+;-------------------------------------------------------------------------
  
 (setq ldorderversion# "1.2")
  
@@ -96,7 +93,7 @@
             "ldorder : dialog { key = \"dcltitle\";"
             "  spacer;"
             "  : row {"
-            "    : boxed_column { label = \"All Layers\";"
+            "    : boxed_column { label = \"Vsetky hladiny\";"
             "      : listbox { key = \"layer1\"; }"
             "      : editbox { key = \"filter\"; label = \"Filter: \"; }"
             "      spacer;"
@@ -105,9 +102,9 @@
             "      : arrowbox { key = \"add\"; }"
             "      : arrowbox { key = \"del\"; }"
             "    }"
-            "    : boxed_column { label = \"Layers to Adjust Draw Order\";"
+            "    : boxed_column { label = \"Zoradenie objektov podla hladin\";"
             "      : listbox { key = \"layer2\"; }"
-            "      : editbox { key = \"pattern\"; label = \"Add Pattern:\"; }"
+            "      : editbox { key = \"pattern\"; label = \"Pridat vzor:\"; }"
             "      spacer;"
             "    }"
             "    : column { fixed_height = true;"
@@ -119,8 +116,8 @@
             "  }"
             "  spacer;"
             "  : row { fixed_width = true; alignment = centered;"
-            "    : button20 { label = \"Move to Top\";    key = \"totop\"; is_default = true; }"
-            "    : button20 { label = \"Move to Bottom\"; key = \"tobottom\"; }"
+            "    : button20 { label = \"Presunut nahor\";    key = \"totop\"; is_default = true; }"
+            "    : button20 { label = \"Presunut nadol\"; key = \"tobottom\"; }"
             "  }"
             "  : row { fixed_width = true; alignment = centered;"
             "    : button12 { label = \"Cancel\"; key = \"cancel\"; is_cancel = true; alignment = centered; }"
@@ -129,60 +126,56 @@
             "}"
             ""
             "help : dialog { key = \"dcltitle\";"
-            "  : btext  { key   = \"title1\"; alignment = centered; }"
-            "  : ctext  { value = \"Designed and Created by Lee Mac 2011\"; }"
-            "  : button { key = \"weblink\"; label = \"www.lee-mac.com\"; fixed_width = true; alignment = centered;"
-            "             action = \"(startapp \\\"explorer\\\" \\\"http://www.lee-mac.com\\\")\"; }"
+            "  : ctext  { value = \"Vytvoril Lee Mac, prelozil Jakub Tomecko\"; }"
             "  spacer;"
             "  : paragraph {"
-            "    : text_part { value = \"This program allows the user to control the draw order of all objects on specific layers in a drawing.\"; }"
+            "    : text_part { value = \"Tento program umoznuje uzivatelovi ovladat poradie vsetkych objektov podla hladin.\"; }"
             "    spacer;"
-            "    : text_part { value = \"Layers whose draw-order is to be adjusted may be selected from a list containing all non-XRef\";} "
-            "    : text_part { value = \"dependent layers in the drawing, situated to the left of the dialog.\"; }"
+            "    : text_part { value = \"Hladiny, ktorych poradie objektov sa ma upravit, je mozne vybrat zo zoznamu obsahujuceho vsetky\";} "
+            "    : text_part { value = \"hladiny vo vykrese, ktore nie su zavisle od xRef, ktore sa nachadzaju nalavo od dialogu.\"; }"
             "    spacer;"
-            "    : text_part { value = \"The selected layers may be added to the list of layers to be adjusted by pressing the arrow pointing to\";} "
-            "    : text_part { value = \"the right. Similarly, layers may be removed from this list by making a selection and pressing the arrow\";}"
-            "    : text_part { value = \"pointing to the left.\"; }"
+            "    : text_part { value = \"Vybrane hladiny mozno pridat do zoznamu vrstiev, ktore sa maju upravit, stlacenim sipky smerujucej doprava.\";} "
+            "    : text_part { value = \"Podobne mozno hladiny z tohto zoznamu odstranit vyberom a stlacenim sipky smerujucej dolava.\";}"
             "    spacer;"
-            "    : text_part { value = \"For ease of layer selection, the left-hand layer list may be filtered by specifying a wildcard pattern\"; }"
-            "    : text_part { value = \"in the 'Filter' edit box and pressing 'Enter'. This filter may be subsequently removed by clearing the\"; }"
-            "    : text_part { value = \"filter edit box and again pressing 'Enter'.\"; }"
+            "    : text_part { value = \"Pre ulahcenie vyberu vrstiev je mozne lavy zoznam hladin filtrovat zadanim vzoru zastupnych znakov\"; }"
+            "    : text_part { value = \"v editacnom poli 'Filter' a stlacenim 'Enter'. Tento filter moze byt nasledne odstraneny vymazanim\"; }"
+            "    : text_part { value = \"editacneho pola filtra a opatovnim stlacenim 'Enter'.\"; }"
             "    spacer;"
-            "    : text_part { value = \"The user may also group a set of layers by adding a wildcard pattern to the right-hand list pane. This is\"; }"
-            "    : text_part { value = \"accomplished by specifying a wildcard string in the 'Add Pattern' edit box and pressing 'Enter'.\";}"
+            "    : text_part { value = \"Pouzivatel moze tiez zoskupit mnozinu hladin priadnim vzoru zastupnych znakov do panela zoznamu na\"; }"
+            "    : text_part { value = \"pravej strane. Dosiahnete to zadanim retazca zastupnych znakov do pola 'Pridat vzor' a stlacenim 'Enter'.\";}"
             "    spacer;"
-            "    : text_part { value = \"The order of the layers in the right-hand list pane is a representation of the proposed layer draw-order\"; }"
-            "    : text_part { value =\" to be implemented by the program. This order may be altered by making a selection of layers from the list\"; }"
-            "    : text_part { value = \"and pressing the relevant arrow controls on the dialog.\"; }"
+            "    : text_part { value = \"Poradie hladin v pravom paneli zoznamu predstavuje navrhovane poradie hladin, ktore ma program\"; }"
+            "    : text_part { value =\"implementovat. Toto poradie je mozno zmenit vyberom hladin zo zoznamu a stlacenim prislusnych\"; }"
+            "    : text_part { value = \"ovladacich prvkov (sipok) v dialogovom okne.\"; }"
             "    spacer;"
-            "    : text_part { value = \"When satisfied with the order of the layers in the right-hand list pane, the user may implement the\"; }"
-            "    : text_part { value = \"draw-order modification by pressing either 'Move to Top' or 'Move to Bottom', depending upon whether\"; }"
-            "    : text_part { value = \"the layers are to be ordered above or below the other layers in the drawing.\";}"
+            "    : text_part { value = \"Ked je pouzivatel spokojny s poradim hladin v pravom paneli zoznamu, moze vykonat upravu\"; }"
+            "    : text_part { value = \"poradia tahania stlacenim tlacidla 'Presunut nahor' alebo 'Presunut nadol' v zavislosti\"; }"
+            "    : text_part { value = \"od toho, ci maju byt vrstvy usporiadane vyssie, alebo pod ostatnymi hladinami.\";}"
             "    spacer_1;"
-            "    : btext { key = \"title2\"; alignment = left; }"
+            "  : ctext  { value = \"Ovladacie prvky\"; }"
             "    : row {"
             "       : arrowimg { key = \"add\"; }"
-            "       : ltext { value = \"Add selected layers to list of layers whose draw-order is to be altered.\"; }"
+            "       : ltext { value = \"Pridajte vybrane hladiny do zoznamu hladin, ktorych poradie sa ma zmenit.\"; }"
             "    }"
             "    : row {"
             "       : arrowimg { key = \"del\"; }"
-            "       : ltext { value = \"Remove selected layers from list of layers whose draw-order is to be altered.\"; }"
+            "       : ltext { value = \"Odstranit vybrane hladiny zo zoznamu hladin, ktorych poradie sa ma zmenit.\"; }"
             "    }"
             "    : row {"
             "       : arrowimg { key = \"top\"; }"
-            "       : ltext { value = \"Move selected layers to the top of the draw-order list.\"; }"
+            "       : ltext { value = \"Presunte vybrane hladiny na zaciatok zoznamu poradia hladin.\"; }"
             "    }"
             "    : row {"
             "       : arrowimg { key = \"up\"; }"
-            "       : ltext { value = \"Move selected layers up a place in the draw-order list.\"; }"
+            "       : ltext { value = \"Presunte vybrane hladiny nahor o miesto v zozname poradia hladin.\"; }"
             "    }"
             "    : row {"
             "       : arrowimg { key = \"down\"; }"
-            "       : ltext { value = \"Move selected layers down a place in the draw-order list.\"; }"
+            "       : ltext { value = \"Presunte vybrane hladiny nadol o miesto v zozname poradia hladin.\"; }"
             "    }"
             "    : row {"
             "       : arrowimg { key = \"bottom\"; }"
-            "       : ltext { value = \"Move selected layers to the bottom of the draw-order list.\"; }"
+            "       : ltext { value = \"Presunte vybrane hladinu na koniec zoznamu poradia hladin.\"; }"
             "    }"
             "  }"
             "  spacer_1; ok_only;"
@@ -285,16 +278,16 @@
     (cond
       ( (not (new_dialog "help" id))
  
-        (alert "Unable to Load Help Dialog")
+        (alert "Nepodarilo sa nacitat dialogove okno.")
       )
       ( t
         (_arrowtiles)
         (set_tile "dcltitle" title)
-        (set_tile "title1" "Layer Draw Order")
+        (set_tile "title1" "Poradie hladin")
         (start_image "title1")
         (vector_image 0 (1- (dimy_tile "title1")) (dimx_tile "title1") (1- (dimy_tile "title1")) 0)
         (end_image)
-        (set_tile "title2" "Program Controls")
+        (set_tile "title2" "Ovladanie programu")
         (start_image "title2")
         (vector_image 0 (1- (dimy_tile "title2")) (dimx_tile "title2") (1- (dimy_tile "title2")) 0)
         (end_image)
@@ -372,26 +365,26 @@
  
   (if (not (vl-file-directory-p (setq SavePath (_GetSavePath))))
     (progn
-      (princ "\n** Save Path not Valid **") (exit)
+      (princ "\n** Cesta ulozenia nie je platna **") (exit)
     )
   )
   (setq dclfname (strcat SavePath "\\LMAC_LDOrder_V" (vl-string-translate "." "-"  ldorderversion#) ".dcl")
-        dcltitle (strcat "Layer Draw Order V" ldorderversion#)
-        hlptitle (strcat "Layer Draw Order V" ldorderversion# " - Help")
+        dcltitle (strcat "Zoradenie podla hladin")
+        hlptitle (strcat "Zoradenie podla hladin - Help")
   ) 
  
   (cond
     ( (not (_WriteDCL dclfname))
  
-      (princ "\n--> DCL File could not be Written.")
+      (princ "\n--> Subor DCL sa nepodarilo zapisat.")
     )
     ( (<= (setq dclid (load_dialog dclfname)) 0)
  
-      (princ "\n--> DCL File not Found.")
+      (princ "\n--> Subor DCL sa nenasiel.")
     )
     ( (not (new_dialog "ldorder" dclid))
  
-      (princ "\n--> Dialog could not be Loaded.")
+      (princ "\n--> Dialog sa nepodarilo nacitat.")
     )
     (t
       (_arrowtiles)
@@ -520,7 +513,7 @@
                       (length (setq filt2 (vl-remove-if '(lambda ( x ) (wcmatch (strcase x) pattn)) layer2)))
                     )
                   )
-                  (alert "No Matches.")
+                  (alert "Ziadna zhoda.")
                   (mode_tile "pattern" 2)
                 )
                 ( t
@@ -643,18 +636,19 @@
   (princ)
 )
  
-;;------------------------------------------------------------;;
- 
+;;----------------------------------------------------------------------;;
+
 (vl-load-com)
-(princ)
+(load "Version" "\nVerzia nenacitana!")
 (princ
-  (strcat
-    "\n:: LDOrder.lsp | Version " ldorderversion# " | Š Lee Mac 2011 www.lee-mac.com ::"
-    "\n:: Type \"LDOrder\" to Invoke ::"
-  )
+    (strcat
+        "\nLayers_order.lsp | " (JTmenuVersion) " | Mac Lee, Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+        "\n"
+    )
 )
 (princ)
- 
-;;------------------------------------------------------------;;
-;;                         End of File                        ;;
-;;------------------------------------------------------------;;
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
