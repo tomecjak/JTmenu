@@ -44,8 +44,9 @@
 (AUTOLOAD "Block_renumber" '("JTReNumber"))
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (AUTOLOAD "Layers_order" '("JTLayersOrder"))
+(AUTOLOAD "Drainage" '("JTDrainage"))
 (print)
-í
+
 ;;----------------------------------------------------------------------;;
 ;;                              Dokumentacia                            ;;
 ;;----------------------------------------------------------------------;;
