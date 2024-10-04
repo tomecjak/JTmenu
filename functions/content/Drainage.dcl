@@ -101,10 +101,10 @@ Drainage //nazov dcl
           {  
             label = "Sirka ramu odvod. [m]";
           }
-          : edit_box
+          : popup_list
           {
-            key = "sirkaRamuOdvodnovaca";
-            value = "0.33";
+            key = "typOdvodnovaca";
+            value = "0";
           } 
         }
       }

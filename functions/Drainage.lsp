@@ -7,6 +7,9 @@
 
 (defun c:JTDrainage ()
 
+  ;definovanie listu typ odvodnovaca
+  (setq TypOdvodnovaca (list "300x300 mm" "300x500 mm" "500x500 mm"))
+
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Drainage.dcl"))
 
@@ -14,6 +17,11 @@
   (if (not (new_dialog "Drainage" dcl_id))
     (exit)
   )
+
+  ;naplnenie listu typ odvodnovaca
+  (start_list "typOdvodnovaca")
+  (mapcar 'add_list TypOdvodnovaca)
+  (end_list)
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
@@ -46,7 +54,16 @@
   ;spustenie funkcie vypoctu hltnosti odvodnovaca
   (VypocetHltnostiOdvodnovaca)
   
+  (princ sirkaRamuOdvodnovaca)
+  (princ i_a)
+  (princ p_v_ciarka)
+  (princ p_h_ciarka_1)
   (princ typNavrhovanehoOdvodnova)
+  (princ p_k)
+  (princ p_prirahlaSirka)
+  (princ p_a_1)
+  (princ p_priemerna_h_1)
+  (princ p_Hod)
 
 )
 
@@ -74,8 +91,16 @@
   (setq i_B (atof sirkaRozliatia))
   
   ;sirka ramu odvodnovaca
-  (setq sirkaRamuOdvodnovaca (get_tile "sirkaRamuOdvodnovaca"))
-  (setq i_a (atof sirkaRamuOdvodnovaca))
+  (setq sirkaRamuOdvodnovaca (get_tile "typOdvodnovaca"))
+  (if (= sirkaRamuOdvodnovaca "0")
+    (setq i_a 0.330)
+    (if (= sirkaRamuOdvodnovaca "1")
+      (setq i_a 0.333)
+      (if (= sirkaRamuOdvodnovaca "2")
+        (setq i_a 0.485)
+      )
+    )
+  )
   
   ;vypocet hltnosti odvodnovaca
   ;vypocet vysky vody pri obrubniku
@@ -110,43 +135,81 @@
     ;ak je podmienka splnena
     (progn
       (cond
-        (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.045)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.042)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.038)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.035)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.030)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.027)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.023)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.020)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.015)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm"))
-        (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.012)) (setq typNavrhovanehoOdvodnova "Odvodnovac 300x300 mm")) 
+        (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.045) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.042) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.038) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.035) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.030) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.027) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.023) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.020) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.015) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+        (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.012) (= sirkaRamuOdvodnovaca "300x300 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje")) 
+        (t (alert "Zmente vstupne parametre vypoctu!"))
       )  
     )
     (if (<= p_v_ciarka 1.5)
       ;ak je podmienka splnena
       (progn
         (cond
-          (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 1.1) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 1.1) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 1.2) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 1.2) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 1.3) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 1.3) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 1.4) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 1.4) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
-          (if (and (<= p_v_ciarka 1.5) (<= p_h_ciarka_1 0.06)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x300 mm") (if (and (<= p_v_ciarka 1.5) (<= p_h_ciarka_1 0.075)) (setq typNavrhovanehoOdvodnova "Odvodnovac 500x500 mm")))
+          (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.060) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.057) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.055) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.052) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.047) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.045) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.042) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.038) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.035) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.032) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.1) (<= p_h_ciarka_1 0.028) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.2) (<= p_h_ciarka_1 0.025) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.3) (<= p_h_ciarka_1 0.022) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.4) (<= p_h_ciarka_1 0.018) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.5) (<= p_h_ciarka_1 0.015) (= sirkaRamuOdvodnovaca "300x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.075) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.072) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.065) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.062) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.060) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.058) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.052) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.048) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.042) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.040) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.1) (<= p_h_ciarka_1 0.038) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.2) (<= p_h_ciarka_1 0.032) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.3) (<= p_h_ciarka_1 0.028) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.4) (<= p_h_ciarka_1 0.025) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (if (and (<= p_v_ciarka 1.5) (<= p_h_ciarka_1 0.020) (= sirkaRamuOdvodnovaca "500x500 mm")) (setq typNavrhovanehoOdvodnova "Vybrany tyb odvodnovaca vyhovuje"))
+          (t (alert "Zmente vstupne parametre vypoctu!"))
         )
       )
       ;ak je podmienka nesplnena
       (alert "Rychlost vody na povrchu je priliz velka, prosim zmente vstupne parametre.")
     )
   )
+
+  ;urcenie vysky vody odvodnovaca
+  (setq p_h_1 p_h_ciarka_1 )
+
+  ;vypocet sucinitela bocneho natoku
+  (setq p_k (/ 5 p_v))
+
+  ;vypocet prirahlej sirky
+  (setq p_prirahlaSirka (* p_k p_h_1))
+
+  ;vypocet spoluposobiacej sirky
+  (setq p_a_1 (+ p_prirahlaSirka i_a (min i_bobr p_prirahlaSirka)))
+
+  ;vypocet priemernej vysky vody
+  (setq p_priemerna_h_1 (* (- i_B (/ p_a_1 2)) (/ i_Ppr 100)))
+
+  ;vypocet plochy vodnej vrstvy pritekajucej k odvodnovacu
+  (setq p_A_1 (* p_a_1 p_priemerna_h_1))
+
+  ;vypocet mnozstva vody vtekajuceho do odvodnovaca - hltnost
+  (setq p_Hod (* p_A_1 p_v 1000))
 )
 
 ;definovanie funkcie vypoctu mnostva odvodnovacov
