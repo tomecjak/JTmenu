@@ -234,7 +234,6 @@
   
   ;unload dialogu
   (unload_dialog dcl_id3)
-
 )
 
 ;funkcia tlacidla sieteCiaryVodovoduInfo
