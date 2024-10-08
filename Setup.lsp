@@ -48,7 +48,7 @@
   
   ;vytvorenie premenej VyberTemplatePath pre vyber instalacie template suboru
   (setq VyberTemplatePath
-    (getstring "\nChcese si naistalovat aj JTmenu template subor? [Ano/Nie] <Ano>: ")
+    (getstring "\nChcete si naistalovat aj JTmenu template subor? [Ano/Nie] <Ano>: ")
   )
   
   ;vyhodnotenie VyberTemplatePath

@@ -23,12 +23,12 @@ Drainage //nazov dcl
       //prvy riadok textu
       : text_part
       {
-        label = "1. riadok - doplnit.";  
+        label = "Vypocet odvodnenia je spracovany podla TP 063 - Odvodnenie mostov na pozemnych";  
       }
       //druhy riadok textu
       : text_part
       {
-        label = "2. riadok - doplnit.";  
+        label = "komunikaciach. Vypocet je mozne exportovat ako report vo formate csv.";  
       }
     } 
   }

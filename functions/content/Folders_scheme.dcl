@@ -180,8 +180,8 @@ Folders_scheme //nazov dcl
     label = "Informacie";
     : text{ label = "Struktura dokumentacia sa vytvara podla TP 019 - Dokumentacia stavieb ciest (SK)"; }
     : text{ label = "a Smernice pro dokumentaci staveb pozemnich komunikaci (CZ)."; }
-    : text{ label = "Pre vytvorenie vlastnej struktury je potrebne vytvorit subor .txt v ktorom bude"; }
-    : text{ label = "kazda cesta v novom riadku v formate: \\\\Folder1; \\\\Folder1\\\\Folder2"; }
+    : text{ label = "Pre vytvorenie vlastnej struktury je potrebne vytvorit subor .txt v ktorom bude kazda cesta v novom"; }
+    : text{ label = "riadku v formate: \\\\Folder1; \\\\Folder1\\\\Folder2; alebo pouzite tlacidlo Sablona."; }
   }
 
   //posledny riadok dialogu s tlacidlami
@@ -194,6 +194,15 @@ Folders_scheme //nazov dcl
       label = "Vytvorit";
       is_default = true;
       mnemonic = "V";
+    } 
+
+    //tlacidlo sablona
+    : button
+    {
+      key = "sablona";
+      label = "Sablona";
+      is_default = true;
+      mnemonic = "S";
     }  
 
     //tlacidlo zavriet

@@ -24,6 +24,11 @@
   (action_tile "vytvorit" 
                "(VytvorenieFoldersScheme)(done_dialog)"
   )
+  
+  ;definovanie tlacidla sablona
+  (action_tile "sablona" 
+               "(VytvorenieFoldersSablony)"
+  )
 
   ;spustenie dialogu
   (start_dialog)
@@ -834,6 +839,20 @@
     ;vytvorenie jednotlivych priecinkov
     (LM:createdirectory CreateFolderPath)
   )
+)
+
+;funkcia vytvorenia sablony priecinkov
+(defun VytvorenieFoldersSablony ()
+  (setq cestaSablonaFolders (getfiled "Ulozenie suboru sablony..." "" "txt" 1))
+  (setq suborSablonaFolders (close (open cestaSablonaFolders "w")))
+  (setq suborSablonaFolders (open cestaSablonaFolders "a"))
+  
+  ;zapis jednotlivych riadkov do suboru txt
+  (write-line "\\\\Folder1" suborSablonaFolders)
+  (write-line "\\\\Folder1\\\\Folder2" suborSablonaFolders)
+  (write-line "\\\\Folder3" suborSablonaFolders)
+  (write-line "\\\\Folder3\\\\Folder4" suborSablonaFolders)
+  (write-line "\\\\Folder3\\\\Folder4\\\\Folder5" suborSablonaFolders)
 )
 
 ;funkcia tlacidla zavriet

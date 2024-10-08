@@ -31,12 +31,12 @@ Setting //nazov dcl
     //prvy riadok poznamky nastavenia
     : text_part
     { 
-      label = "Tymto nastavenim urcite ci vkladane bloky";
+      label = "Tymto nastavenim urcite ci vkladane bloky budu";
     }
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "budu v hladine XX_Popis alebo v hladine 0.";
+      label = "v hladine XX_Popis alebo v hladine 0.";
     }
   }
 
@@ -99,29 +99,29 @@ Setting //nazov dcl
     //prvy riadok poznamky nastavenia
     : text_part
     { 
-      label = "Pri nastaveny modu klasicky sa vkladaju";
+      label = "Pri nastaveny modu klasicky sa vkladaju bloky";
     }
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "bloky v mierke 1:X. V mode dimscale sa";
+      label = "v mierke 1:X. V mode dimscale sa bloky";
     }
     //treti riadok poznamky nastavenia
     : text_part
     { 
-      label = "bloky vkladaju podla mierky kot (DIMSCALE).";
+      label = "vkladaju podla mierky kot (DIMSCALE).";
     }
   }
 
   //stvrty riadok dialogu - nastavenie mierky vkladanych blokov
   : boxed_column
   {
-    label = "Aku mierku pouzit pre vkladane bloky:";
+    label = "Mierka pre vkladane bloky:";
     //nazov prefixu pre klasicke hladiny
     : row {
       : text 
       {  
-        label = "Mierka blokov:";
+        label = "Mierka bloku 1:";
       }
       : edit_box
       {  
@@ -139,12 +139,12 @@ Setting //nazov dcl
   //piaty riadok dialogu - nastavenie mierky vkladanych blokov dopravneho znacenia
   : boxed_column
   {
-    label = "Aku mierku pouzit pre vkladane bloky dopravneho znacenia:";
+    label = "Mierka pre vkladane bloky dopravneho znacenia:";
     //nazov prefixu pre klasicke hladiny
     : row {
       : text 
       {  
-        label = "Mierka dopravneho znacenia:";
+        label = "Mierka bloku 1:";
       }
       : edit_box
       {  
@@ -155,7 +155,11 @@ Setting //nazov dcl
     //prvy riadok poznamky nastavenia
     : text_part
     { 
-      label = "Moznost si nastavit mierku vkladanych blokov dopravneh znacenia.";
+      label = "Moznost si nastavit mierku vkladanych blokov";
+    }
+    : text_part
+    { 
+      label = "dopravneho znacenia.";
     }
   }
 
@@ -202,27 +206,22 @@ Setting //nazov dcl
     //prvy riadok poznamky nastavenia
     : text_part
     { 
-      label = "Pri nastaveny modu klasicky sa koty";
+      label = "Pri nastaveny modu klasicky sa koty genereju";
     }
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "generaju samostatne pre vsetky mierky.";
+      label = "samostatne pre vsetky mierky. Pri nastaveny";
     }
     //treti riadok poznamky nastavenia
     : text_part
     { 
-      label = "Pri nastaveny modu dimscale sa vygeneraje,";
+      label = "modu dimscale sa vygeneraje, len jedna kota,";
     }
     //stvrty riadok poznamky nastavenia
     : text_part
     { 
-      label = "len jedna kota, ktorej velkost je";
-    }
-    //piaty riadok poznamky nastavenia
-    : text_part
-    { 
-      label = "riadena hodnotou DIMSCALE.";
+      label = "ktorej velkost je riadena hodnotou DIMSCALE.";
     }
   }
 
@@ -276,10 +275,24 @@ About
 : dialog
 {
   label = "About";
-  : boxed_row
+  //ikony
+  : boxed_column
   {
-    label = "Poznamka";
-    : text{ label = "Do suboru sa nacitajaju vsetky ciary podla ISO 128."; }
+    label = "Ikony";
+    : text_part { label = "Vsetky ikony pouzite v JTmenu su pouzite zo stanky: www.flaticon.com."; }
+    : spacer {}
+    : text_part { label = "Zoznanam autorov od ktorych boli pouzite ikony: Freepik, Suraiya Mili,"; }
+    : text_part { label = "Riajulislam, Smashicons, Graphiverse, Soodesign, Juicy_fish, Zafdesign,"; }
+    : text_part { label = "Meaicon, Laisa Islam Ani, Vector Market, IconixarPro, Creatype, Gulraiz,"; }
+    : text_part { label = "Bukeicon, DinosoftLabs, Elzicon, Elastic1, JC Icon, Kerismaker, Vectorsclub,"; }
+    : text_part { label = "Pixel perfec."; }
+  }
+
+  //scripty
+  : boxed_column
+  {
+    label = "Scripty"; 
+    : text_part { label = "Casti kodu boli pouzite/upravene od autora Lee Mac: www.lee-mac.com"; } 
   }
 
   : button
