@@ -48,6 +48,12 @@
 (print)
 
 ;;----------------------------------------------------------------------;;
+;;                                Commands                              ;;
+;;----------------------------------------------------------------------;;
+(AUTOLOAD "JT_commands" '("JT_BlockScaleVar"))
+(print)
+
+;;----------------------------------------------------------------------;;
 ;;                              Dokumentacia                            ;;
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Doc_VL_TP" '("VL01"))
@@ -737,6 +743,9 @@
 
 ;nacitanie verzie programu
 (load "Version" "\nVerzia nenacitana!")
+
+;xxxxxx
+(command "modemacro" "JTMENU: DSc=$(getvar,dimscale),TSz=$(getvar,textsize),Test=$(getenv,GlobalnaSignBlocksScale)")
 
 ;vypisanie statusu o stave globalnych premenych
 (princ
