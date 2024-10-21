@@ -734,7 +734,7 @@
   )
   
   ;vyhodnotenie spustenia vytvorenia struktury "Dokumentace skutecneho provedeni stavby (CZ)"                              
-  (if (= dokumentaceSkutocnehoProvedeniStavby_CZ"1") 
+  (if (= dokumentaceSkutocnehoProvedeniStavby_CZ "1") 
     (progn 
       (setq ListOfPath '("\\DSPS"
                          "\\DSPS\\A Pruvodni zprava"
@@ -785,7 +785,7 @@
   (setq vybraneDokumentyZadavaciDokumentaceStavby_CZ (get_tile "vybraneDokumentyZadavaciDokumentaceStavby_CZ"))
   (setq dokumentaceBouracichPraci_CZ (get_tile "dokumentaceBouracichPraci_CZ"))
   (setq realizacniDokumentaceStavby_CZ (get_tile "realizacniDokumentaceStavby_CZ"))
-  (setq okumentaceSkutocnehoProvedeniStavby_CZ (get_tile "okumentaceSkutocnehoProvedeniStavby_CZ"))
+  (setq dokumentaceSkutocnehoProvedeniStavby_CZ (get_tile "dokumentaceSkutocnehoProvedeniStavby_CZ"))
   (setq vlastnaStruktura (get_tile "vlastnaStruktura"))
 )
 

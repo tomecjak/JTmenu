@@ -97,7 +97,7 @@
 	     '("LeaderLineType" 1)
 	     '("LeaderLineTypeId" "ByBlock")
 	     '("LeaderLineTypeId" "ByBlock")
-	     '("LeaderLineWeight" -3)
+	     '("LeaderLineWeight" -1)
 	     '("MaxLeaderSegmentsPoints" 2)
 	     '("ScaleFactor" 1.0)
 	     '("SecondSegmentAngleConstraint" 0)

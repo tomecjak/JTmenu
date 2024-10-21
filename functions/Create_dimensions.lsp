@@ -35,6 +35,9 @@
 
 (defun KotyKlasickyMod ()
   
+  ;nastavenie premennej DIMSCALE
+  (setvar "DIMSCALE" 1.0)
+  
   ;vytvrenie premenej VyberStylKoty
   (setq VyberStylKoty
     (getstring "\nAku typ dlzky vynasacej ciary vytvorit? [Vlastna/Pevna] <Vlastna>: ")
@@ -53,6 +56,7 @@
   
   ;nastavenie predvybratoho kotovacieho stylu
   (command "dimstyle" "r" "DP_Kota [50]")
+  (princ)
 )
 
 ;;----------------------------------------------------------------------;;
@@ -77,6 +81,7 @@
 
   ;nastavenie predvybratoho kotovacieho stylu
   (command "dimstyle" "r" "DP_Kota")
+  (princ)
 )
 
 ;;----------------------------------------------------------------------;;

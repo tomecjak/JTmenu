@@ -50,7 +50,9 @@
 ;;----------------------------------------------------------------------;;
 ;;                                Commands                              ;;
 ;;----------------------------------------------------------------------;;
-(AUTOLOAD "JT_commands" '("JT_BlockScaleVar"))
+(AUTOLOAD "JT_commands" '("JTBlockScaleVar"))
+(AUTOLOAD "JT_commands" '("JTMenuScale"))
+(AUTOLOAD "JT_commands" '("JTPreviewMode"))
 (print)
 
 ;;----------------------------------------------------------------------;;
@@ -71,7 +73,8 @@
 (AUTOLOAD "Doc_VL_TP" '("VL064T"))
 (AUTOLOAD "Doc_VL_TP" '("VL064V"))
 (AUTOLOAD "Doc_VL_TP" '("VL10"))
-(AUTOLOAD "Doc_VL_TP" '("JTTP"))
+(AUTOLOAD "Doc_VL_TP" '("TPSK"))
+(AUTOLOAD "Doc_VL_TP" '("TPCZ"))
 (print)
 
 ;;----------------------------------------------------------------------;;
@@ -712,7 +715,7 @@
 
 (if (= (getenv "GlobalnaPrefixHladiny") nil)
   ;nastavenie nazvu prefixu hlafiny
-  (setenv "GlobalnaPrefixHladiny" "JT_")
+  (setenv "GlobalnaPrefixHladiny" "DP_")
 )
 
 (if (= (getenv "GlobalnaPrefixHladinyNew") nil)
@@ -744,8 +747,8 @@
 ;nacitanie verzie programu
 (load "Version" "\nVerzia nenacitana!")
 
-;xxxxxx
-(command "modemacro" "JTMENU: DSc=$(getvar,dimscale),TSz=$(getvar,textsize),Test=$(getenv,GlobalnaSignBlocksScale)")
+;nacitanie statusbaru
+(command "modemacro" "JTScale: $(getenv,GlobalnaJTMenuScale), Dim: $(getvar,dimscale), Text: $(getvar,textsize), DZ: $(getenv,GlobalnaSignBlocksScale), PM: $(getenv,GlobalnaPreviewMode)")
 
 ;vypisanie statusu o stave globalnych premenych
 (princ

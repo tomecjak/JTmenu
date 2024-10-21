@@ -85,7 +85,7 @@
 
 (defun c:VL061T () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-1T.pdf"))
+  (setq URL_VL061T (findfile "VL_06-1T.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL061T)
@@ -98,7 +98,7 @@
 
 (defun c:VL061V () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-1V.pdf"))
+  (setq URL_VL061V (findfile "VL_06-1V.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL061V)
@@ -111,7 +111,7 @@
 
 (defun c:VL062T () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-2T.pdf"))
+  (setq URL_VL062T (findfile "VL_06-2T.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL062T)
@@ -124,7 +124,7 @@
 
 (defun c:VL062V () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-2V.pdf"))
+  (setq URL_VL062V (findfile "VL_06-2V.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL062V)
@@ -137,7 +137,7 @@
 
 (defun c:VL063T () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-3T.pdf"))
+  (setq URL_VL063T (findfile "VL_06-3T.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL063T)
@@ -150,7 +150,7 @@
 
 (defun c:VL063V () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-3V.pdf"))
+  (setq URL_VL063V (findfile "VL_06-3V.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL063V)
@@ -163,7 +163,7 @@
 
 (defun c:VL064T () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-4T.pdf"))
+  (setq URL_VL064T (findfile "VL_06-4T.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL064T)
@@ -176,7 +176,7 @@
 
 (defun c:VL064V () 
   ;definovanie premenej "URL_VL05" do ktorej je zapísana url adresa
-  (setq URL_VL05 (findfile "VL_06-4V.pdf"))
+  (setq URL_VL064V (findfile "VL_06-4V.pdf"))
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL064V)
@@ -193,19 +193,6 @@
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" URL_VL10)
-  (princ)  
-)
-
-;;----------------------------------------------------------------------;;
-;;                       Technicke podmienky 010                        ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:JTTP () 
-  ;definovanie premenej "URL_TP" do ktorej je zapísana url adresa
-  (setq URL_TP "https://www.ssc.sk/sk/technicke-predpisy-rezortu/zoznam-tp.ssc")
-
-  ;spustenie prikazu browser z vlozenou url
-  (command "browser" URL_TP)
   (princ)  
 )
 
