@@ -12,6 +12,7 @@
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Cadastre" '("JTCadastre"))
 (AUTOLOAD "Maps" '("JTMaps"))
+(AUTOLOAD "Road_maps" '("JTRoadMaps"))
 (AUTOLOAD "Rebar_scheme" '("JTRebarScheme"))
 (AUTOLOAD "Create_layers" '("JTCreateLayers"))
 (AUTOLOAD "Block_base_point" '("JTBlockBasePoint"))
