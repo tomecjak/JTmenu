@@ -197,6 +197,19 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                           Technicke podmienky                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTTP () 
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq JTTPURL "https://www.ssc.sk/sk/technicke-predpisy-rezortu/zoznam-tp.ssc")
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" JTTPURL)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
 ;;                    Slovenske technicke podmienky                     ;;
 ;;----------------------------------------------------------------------;;
 

@@ -74,6 +74,7 @@
 (AUTOLOAD "Doc_VL_TP" '("VL064T"))
 (AUTOLOAD "Doc_VL_TP" '("VL064V"))
 (AUTOLOAD "Doc_VL_TP" '("VL10"))
+(AUTOLOAD "Doc_VL_TP" '("JTTP"))
 (AUTOLOAD "Doc_VL_TP" '("TPSK"))
 (AUTOLOAD "Doc_VL_TP" '("TPCZ"))
 (print)

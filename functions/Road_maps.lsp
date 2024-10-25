@@ -2,24 +2,24 @@
 ; Road_maps.lsp
 ; Create by Jakub Tomecko
 ;
-; Vyhladavanie miesta na mape podľa JTSK
+; Vyhladavanie miesta v cestnej databanke podľa JTSK
 ;-------------------------------------------------------------------------
 
-;;------------=={ Vyhladavanie miesta na mape podľa JTSK }==------------;;
+;;------=={ Vyhladavanie miesta v cestnej databanke podľa JTSK }==------;;
 ;;                                                                      ;;
 ;;  Tento program umoznuje po vybrati/vlozeni suradnic v JTSK zobrazit  ;;
 ;;  dane miestno na mapach od Google, Mapy.cz alebo ZBGIS mapy.         ;;
 ;;  Je mozne pre vyhladanie vyuzit UCS World alebo vlastny.             ;;
 ;;----------------------------------------------------------------------;;
 
-;definovanie funkcie prikazu "Mapa"
+;definovanie funkcie prikazu "JTRoadMaps"
 (defun c:JTRoadMaps ()
   
   ;definovanie chybovej hlasky v programe + nastavenie 
   (defun *error* (errmsg)
     (command-s "_.ucs" "_Previous")
     (princ)
-    (princ "\nProgram Maps.lsp sa ukoncil. ")
+    (princ "\nProgram Road_maps.lsp sa ukoncil. ")
     (terpri)
     (prompt errmsg)
     (princ)
@@ -47,10 +47,8 @@
   ;definovanie premenej "MapaURL" do ktorej je zapísana url adresa
   (setq MapaURL (getSuradniceMapaURL polohaBoduMapy))
   
-  (princ UTM_A_velke)
-  
   ;spustenie prikazu browser z vlozenou url
-  ;(command "browser" MapaURL)
+  (command "browser" MapaURL)
   
   ;vyhodnotenie vyberu UCS po prikaze
   (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
@@ -264,21 +262,41 @@
   (setq UTM_T (* (tan UTM_fi_rad) (tan UTM_fi_rad)))
   (setq UTM_C (* UTM_e_ciarka_2 (cos UTM_fi_rad) (cos UTM_fi_rad)))
   (setq UTM_A_velke (* (- UTM_lambda_rad UTM_lambda0_rad) (cos UTM_fi_rad)))
-  (setq UTM_M1 )
-  (setq UTM_M2 )
-  (setq UTM_M3 )
-  (setq UTM_M4 )
-  (setq UTM_M (* UTM_a ))
+  (setq UTM_M1 (* UTM_fi_rad (- 1 (/ (* UTM_e UTM_e) 4) (/ (* 3 (expt UTM_e 4)) 64) (/ (* 5 (expt UTM_e 6))256))))
+  (setq UTM_M2 (* (sin (* 2 UTM_fi_rad)) (+ (/ (* 3 UTM_e UTM_e) 8) (* 3 (/ (expt UTM_e 4) 32)) (/ (* 45 (expt UTM_e 6)) 1024))))
+  (setq UTM_M3 (* (sin (* 4 UTM_fi_rad)) (+ (/ (* 15 (expt UTM_e 4)) 256) (/ (* 45 (expt UTM_e 6)) 1024))))
+  (setq UTM_M4 (* (sin (* 6 UTM_fi_rad)) (/ (* 35 (expt UTM_e 6)) 3072)))
+  (setq UTM_M (* UTM_a (+ UTM_M1 (- UTM_M3 UTM_M2 UTM_M3))))
+  (setq UTM_M0_1 (- 1 (/ (* UTM_e UTM_e) 4) (/ (* 3 (expt UTM_e 4)) 64) (/ (* 5 (expt UTM_e 6))256)))
+  (setq UTM_M0_2 (* (sin (* 2 UTM_fi0_rad)) (+ (/ (* 3 UTM_e UTM_e) 8) (* 3 (/ (expt UTM_e 4) 32)) (/ (* 45 (expt UTM_e 6)) 1024))))
+  (setq UTM_M0_3 (* (sin (* 4 UTM_fi0_rad)) (+ (/ (* 15 (expt UTM_e 4)) 256) (/ (* 45 (expt UTM_e 6)) 1024))))
+  (setq UTM_M0_4 (* (sin (* 6 UTM_fi0_rad)) (/ (* 35 (expt UTM_e 6)) 3072)))
+  (setq UTM_M0 (* UTM_a UTM_fi0_rad (+ UTM_M0_1 (- UTM_M0_3 UTM_M0_2 UTM_M0_3))))
+  (setq UTM_x_male_1 (+ UTM_A_velke (* (- 1 (+ UTM_T UTM_C)) (/ (expt UTM_A_velke 3) 6))))
+  (setq UTM_x_male_2 (* (- (+ (- 5 (* 18 UTM_T)) (+ (* UTM_T UTM_T) (* 72 UTM_C))) (* 85 UTM_e_ciarka_2)) (/ (expt UTM_A_velke 5) 120)))
+  (setq UTM_x_male (* UTM_k0 UTM_N (+ UTM_x_male_1 UTM_x_male_2)))
+  (setq UTM_y_male_1 (+ (/ (* UTM_A_velke UTM_A_velke) 2) (* (+ (- 5 UTM_T) (* 9 UTM_C) (* 4 UTM_C UTM_C)) (/ (expt UTM_A_velke 4) 24))))
+  (setq UTM_y_male_2 (* (- (+ (- 61 (* 58 UTM_T)) (* UTM_T UTM_T) (* 600 UTM_C)) (* 330 UTM_e_ciarka_2)) (/ (expt UTM_A_velke 6) 720)))
+  (setq UTM_y_male (* UTM_k0 (+ (- UTM_M UTM_M0) (* UTM_N (tan UTM_fi_rad) (+ UTM_y_male_1 UTM_y_male_2)))))
+  ;navysenie suradnic o 200 pre horny roh zobrazenia
+  (setq UTM_X_velke (+ UTM_x_male UTM_FE 200))
+  (setq UTM_Y_velke (+ UTM_y_male UTM_FN 200))
+  ;znizenie suradnic o 400 pre dolny roh zobrazenia
+  (setq UTM_X2_velke (- UTM_X_velke 400))
+  (setq UTM_Y2_velke (- UTM_Y_velke 400))
   
   
-  ;spojenie stringov do jedného url - https://www.google.com/maps/@48.9709044,21.2642091,14z
+  ;spojenie stringov do jedného url - https://ismcs.cdb.sk/mapviewer/views?viewid=70ddf82c0243461fb614d7f6c8d22cb2&extent=514057.5426810.516082.5428093
   (strcat
-    "https://www.google.com/maps/@"
+    "https://ismcs.cdb.sk/mapviewer/views?viewid=70ddf82c0243461fb614d7f6c8d22cb2&extent="
     ;prevedenie čísla do stringu (2-decimal, 0-precision)
-    (rtos Fl2 2 6)
-    ","
-    (rtos LA2 2 6)
-    ",18z"
+    (rtos UTM_X_velke 2 0)
+    "."
+    (rtos UTM_Y_velke 2 0)
+    "."
+    (rtos UTM_X2_velke 2 0)
+    "."
+    (rtos UTM_Y2_velke 2 0)
   )
 
 )
@@ -324,7 +342,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nMaps.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        "\nRoad_maps.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )
