@@ -170,7 +170,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "SmerToku" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SmerToku" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
+        (command "._insert" "SmerToku" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
     )
   )
   
@@ -332,7 +332,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "RezZlom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "RezZlom" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
+        (command "._insert" "RezZlom" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
     )
   )
   
@@ -416,7 +416,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "Sklon" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "Sklon" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
+        (command "._insert" "Sklon" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
     )
   )
   
@@ -444,7 +444,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "SymbolOsi" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SymbolOsi" "_S" (* (getvar "dimscale") 30) "_R" 0 pause)
+        (command "._insert" "SymbolOsi" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
     )
   )
   
@@ -472,7 +472,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "SymbolDetailu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SymbolDetailu" "_S" (* (getvar "dimscale") 30) "_R" 0 pause)
+        (command "._insert" "SymbolDetailu" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
     )
   )
   
@@ -812,7 +812,7 @@
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
       (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "PopisVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
+        (command "._insert" "PopisVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
     )
   )
   
@@ -848,7 +848,7 @@
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
         (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
+        (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
       )
     )
     
@@ -857,7 +857,7 @@
         (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
           (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
         (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-          (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 20) "_R" 0 pause)
+          (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
         )
         )     
     )

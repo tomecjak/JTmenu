@@ -211,7 +211,7 @@
   (princ)
 )
 
-(defun c:DZ22_J1()
+(defun c:DZ221_J()
   (command "._insert" "ZDZ_221_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
@@ -730,8 +730,8 @@
   (princ)
 )
 
-(defun c:DZ304-51_J()
-  (command "._insert" "ZDZ_304_51_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+(defun c:DZ340-51_J()
+  (command "._insert" "ZDZ_340-51_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 
@@ -756,7 +756,7 @@
 )
 
 (defun c:DZ340-62_J()
-  (command "._insert" "ZDZ_304-62_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (command "._insert" "ZDZ_340-62_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 
@@ -974,6 +974,11 @@
   (princ)
 )
 
+(defun c:DZ432_J()
+  (command "._insert" "ZDZ_432_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (princ)
+)
+
 (defun c:DZ441_J()
   (command "._insert" "ZDZ_441_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
@@ -1005,7 +1010,7 @@
 )
 
 (defun c:DZ453_J()
-  (command "._insert" "ZDZ_453"_J "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (command "._insert" "ZDZ_453_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 
@@ -1388,8 +1393,8 @@
   (princ)
 )
 
-(defun c:DZ520.hx_J()
-  (command "._insert" "ZDZ_520.hx_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+(defun c:DZ520hx_J()
+  (command "._insert" "ZDZ_520hx_J" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 

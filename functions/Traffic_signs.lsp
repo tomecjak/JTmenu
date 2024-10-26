@@ -730,8 +730,8 @@
   (princ)
 )
 
-(defun c:DZ304-51()
-  (command "._insert" "ZDZ_304_51" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+(defun c:DZ340-51()
+  (command "._insert" "ZDZ_340-51" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 
@@ -756,7 +756,7 @@
 )
 
 (defun c:DZ340-62()
-  (command "._insert" "ZDZ_304-62" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (command "._insert" "ZDZ_340-62" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 
@@ -971,6 +971,11 @@
 
 (defun c:DZ431()
   (command "._insert" "ZDZ_431" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+  (princ)
+)
+
+(defun c:DZ432()
+  (command "._insert" "ZDZ_432" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 
@@ -1398,8 +1403,8 @@
   (princ)
 )
 
-(defun c:DZ520.hx()
-  (command "._insert" "ZDZ_520.hx" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
+(defun c:DZ520hx()
+  (command "._insert" "ZDZ_520hx" "_S" (/ (atof (getenv "GlobalnaSignBlocksScale")) 1000) "_R" 0 pause)
   (princ)
 )
 

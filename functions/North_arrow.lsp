@@ -107,7 +107,7 @@
       (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
     
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" blockType "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+        (command "._insert" blockType "_S" (* (getvar "dimscale") 1) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
       )
   )
   
