@@ -26,6 +26,7 @@
 (AUTOLOAD "North_arrow" '("JTNorthArrow"))
 (AUTOLOAD "Coordinates_symbol" '("JTCoordinates"))
 (AUTOLOAD "Help" '("JTHelp"))
+(AUTOLOAD "Bugs_report" '("JTBugsReport"))
 (AUTOLOAD "Create_dimensions" '("JTCreateDimensions"))
 (AUTOLOAD "Text_style" '("JTTextStyle"))
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
