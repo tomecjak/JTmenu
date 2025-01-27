@@ -6,5 +6,5 @@
 ;-------------------------------------------------------------------------
 
 (defun JTmenuVersion()
-  (setq JTversion "2.0")
+  (setq JTversion "3.0 beta")
 )
