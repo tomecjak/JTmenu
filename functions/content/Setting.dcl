@@ -96,10 +96,16 @@ Setting //nazov dcl
       key = "modDimscale";
       label = "Dimscale";
     }
+    //prepinac pre mod annotation
+    : radio_button
+    {
+      key = "modAnnotation";
+      label = "Annotation";
+    }
     //prvy riadok poznamky nastavenia
     : text_part
     { 
-      label = "Pri nastaveny modu klasicky sa vkladaju bloky";
+      label = "Pri nastaveny modu klasicky sa bloky vkladaju";
     }
     //druhy riadok poznamky nastavenia
     : text_part
@@ -110,6 +116,16 @@ Setting //nazov dcl
     : text_part
     { 
       label = "vkladaju podla mierky kot (DIMSCALE).";
+    }
+    //stvrty riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "V mode annotation sa bloky vkladaju podla";
+    }
+    //piaty riadok poznamky nastavenia
+    : text_part
+    { 
+      label = "aktualne nastavenej mierky pohladu.";
     }
   }
 
@@ -202,6 +218,12 @@ Setting //nazov dcl
     {
       key = "modKotyDimscale";
       label = "Dimscale";
+    }
+    //prepinac pre mod annotation
+    : radio_button
+    {
+      key = "modKotyAnnotation";
+      label = "Annotation";
     }
     //prvy riadok poznamky nastavenia
     : text_part
