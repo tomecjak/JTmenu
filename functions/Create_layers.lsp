@@ -90,6 +90,7 @@
   (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Prefabrikaty") 5 "CONTINUOUS" 0.30)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Loziska") 20 "CONTINUOUS" 0.25)
+  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Vytycenie") 20 "CONTINUOUS" 0.25)
   (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
 )
 
