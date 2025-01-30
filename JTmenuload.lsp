@@ -4,3 +4,4 @@
 ;-------------------------------------------------------------------------
 
 (if (not(menugroup "JTMENU"))(command "_CUILOAD" (findfile "JTmenu.cuix")))(princ) 
+;nene sranda macka mi zobrala mac
