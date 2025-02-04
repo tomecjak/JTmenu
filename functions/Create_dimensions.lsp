@@ -22,6 +22,9 @@
       (KotyKlasickyMod)
     (if (= (getenv "GlobalnaKotyDIMSCALEset") "Mierka")
         (KotyMierkaMod)
+      (if (= (getenv "GlobalnaKotyDIMSCALEset") "Annotation")
+          (KotyAnnotationMod)
+      )
     )
   )
   
@@ -83,6 +86,31 @@
   (command "dimstyle" "r" "DP_Kota")
   (princ)
 )
+  
+;;----------------------------------------------------------------------;;
+;;                    Vytvorenie kot pre Annotation                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun KotyAnnotationMod ()
+  
+  ;vytvrenie premenej VyberStylKoty
+  (setq VyberStylKoty
+    (getstring "\nAku typ dlzky vynasacej ciary vytvorit? [Vlastna/Pevna] <Vlastna>: ")
+  )
+  
+  ;vyhodnotenie VyberStylKoty
+  (if (or (= VyberStylKoty "") (= VyberStylKoty "V") (= VyberStylKoty "v"))
+    (KotyVlastneAnnotation)
+  
+    (if (or (= VyberStylKoty "P") (= VyberStylKoty "p"))
+      (KotyPevneAnnotation)
+    )
+  )
+
+  ;nastavenie predvybratoho kotovacieho stylu
+  (command "dimstyle" "r" "DP_Kota")
+  (princ)
+)
 
 ;;----------------------------------------------------------------------;;
 ;;                         Koty - vlastna dlzka                         ;;
@@ -90,13 +118,15 @@
 
 (defun KotyVlastne()
 
-  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm  
+  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
   (foreach i listNasobic
-    (DimensionCreator i 0 1000)
+    (DimensionCreator i 0 1000 0)
+    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
   (foreach i listNasobic
-    (DimensionCreator i 0 1)
+    (DimensionCreator i 0 1 0)
+    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
 )
@@ -107,13 +137,15 @@
 
 (defun KotyPevne()
 
-  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm  
+  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES 
   (foreach i listNasobic
-    (DimensionCreator i 1 1000)
+    (DimensionCreator i 1 1000 0)
+    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
   (foreach i listNasobic
-    (DimensionCreator i 1 1)
+    (DimensionCreator i 1 1 0)
+    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
 )
@@ -124,9 +156,11 @@
 
 (defun KotyVlastneMierka()
 
-  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm  
-  (DimensionCreator 20 0 1000)
-  (DimensionCreator 20 0 1)
+  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
+  (DimensionCreator 20 0 1000 0)
+  (DimensionCreator 20 0 1 0)
+  
+  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
 
 )
 
@@ -136,9 +170,39 @@
 
 (defun KotyPevneMierka()
 
-  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm  
-  (DimensionCreator 20 1 1000)
-  (DimensionCreator 20 1 1)
+  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
+  (DimensionCreator 20 1 1000 0)
+  (DimensionCreator 20 1 1 0)
+  
+  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+
+)
+
+;;----------------------------------------------------------------------;;
+;;                     Koty - vlastna dlzka - annotation                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun KotyVlastneAnnotation()
+
+  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
+  (DimensionCreator 20 0 1000 1)
+  (DimensionCreator 20 0 1 1)
+  
+  (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
+
+)
+
+;;----------------------------------------------------------------------;;
+;;                      Koty - pevna dlzka - annotation                    ;;
+;;----------------------------------------------------------------------;;
+
+(defun KotyPevneAnnotation()
+
+  ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
+  (DimensionCreator 20 1 1000 1)
+  (DimensionCreator 20 1 1 1)
+  
+  (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
 
 )
 
@@ -146,7 +210,7 @@
 ;;                      Nastavenie parametrov koty                      ;;
 ;;----------------------------------------------------------------------;;
 
-(defun DimensionCreator (nasobicMierky prepinacDlzkyCiary prepinacJednotiek)
+(defun DimensionCreator (nasobicMierky prepinacDlzkyCiary prepinacJednotiek prepinacAnnotative)
 
   (SetDimensionParametres)
   
@@ -177,8 +241,8 @@
     (setq mierkaZatvorka " ")
   )
 
-  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
-  
+  ;(command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+  ;(command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty))
 )
 
 ;;----------------------------------------------------------------------;;

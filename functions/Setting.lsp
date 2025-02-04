@@ -44,7 +44,12 @@
     ;splnena podmienka
     (set_tile "modKlasicky" "1")
     ;nesplnena podmienka
-    (set_tile "modDimscale" "1")
+    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+      ;splnena podmienka
+      (set_tile "modDimscale" "1")
+      ;nesplnena podmienka
+      (set_tile "modAnnotation" "1")
+    )
   )
   
   ;nastavenie prepinaca mierky vkladanych blokov GlobalnaBlocksScale
@@ -81,7 +86,12 @@
     ;splnena podmienka
     (set_tile "modKotyKlasicky" "1")
     ;nesplnena podmienka
-    (set_tile "modKotyDimscale" "1")
+    (if (= (getenv "GlobalnaKotyDIMSCALEset") "Mierka")
+      ;splnena podmienka
+      (set_tile "modKotyDimscale" "1")
+      ;nesplnena podmienka
+      (set_tile "modKotyAnnotation" "1")
+    )
   )
   
   ;nacitanie verzie JTmenu do dialogu
@@ -140,7 +150,12 @@
     (if (= modDimscale "1")
       ;nastavenie modu na Mierka
       (setenv "GlobalnaDIMSCALEset" "Mierka")
+      
+      (if (= modAnnotation "1")
+      ;nastavenie modu na Annotation
+      (setenv "GlobalnaDIMSCALEset" "Annotation")
       (princ)
+      )
     )
   )
   
@@ -181,7 +196,12 @@
     (if (= modKotyDimscale "1")
       ;nastavenie modu na Mierka
       (setenv "GlobalnaKotyDIMSCALEset" "Mierka")
-      (princ)
+      
+      (if (= modKotyAnnotation "1")
+        ;nastavenie modu na Mierka
+        (setenv "GlobalnaKotyDIMSCALEset" "Annotation")
+        (princ)
+      )
     )
   )
   
@@ -207,6 +227,7 @@
   (setq layerPrefixNew (get_tile "layerPrefixNew"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
+  (setq modAnnotation (get_tile "modAnnotation"))
   (setq blocksScale (get_tile "blocksScale"))
   (setq signBlocksScale (get_tile "signBlocksScale"))
   (setq blocksLanguageSK (get_tile "blocksLanguageSK"))
@@ -214,6 +235,7 @@
   (setq blocksLanguageEN (get_tile "blocksLanguageEN"))
   (setq modKotyKlasicky (get_tile "modKotyKlasicky"))
   (setq modKotyDimscale (get_tile "modKotyDimscale"))
+  (setq modKotyAnnotation (get_tile "modKotyAnnotation"))
 )
 
 ;funkcia tlacidla zatvorit
