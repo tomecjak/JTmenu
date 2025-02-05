@@ -47,6 +47,7 @@
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (AUTOLOAD "Layers_order" '("JTLayersOrder"))
 (AUTOLOAD "Drainage" '("JTDrainage"))
+(AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
 (print)
 
 ;;----------------------------------------------------------------------;;
