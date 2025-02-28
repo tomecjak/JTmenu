@@ -683,7 +683,7 @@
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Inserting_blocks" '("JTDirection" "JTDirection2" "JTWaterDirection" "JTViewName" "JTSectionVertical" 
                                "JTSectionHorizontal" "JTSectionBreak" "JTAlignedText" "JTSlopeSymbol" 
-                               "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote"
+                               "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote" "JTProtectionZone"
                                "JTRebar" "JTRebarClip" "JTRebarDescription" "JTRebarMark" "JTPointBlock" "JTPointHeight"
                                "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
                                "JTGeodeticMark" "JTViewNameBasic" "JTSymmetry" "JTDetailSymbol" "JTCylinderEnd")

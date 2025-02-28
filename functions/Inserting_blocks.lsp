@@ -794,6 +794,44 @@
   
 )
 
+;vloženie bloku Ochranné pásma
+(defun c:JTProtectionZone()
+  
+  ;nastavenie hladiny
+  (LayerSetting)
+  
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
+  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+    ;splnena podmienka
+    (setq blockType "OchrannePasmaSVK")
+      ;nesplnena podmienka
+      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+      ;splnena podmienka
+      (setq blockType "OchrannePasmaCZK")
+      ;nesplnena podmienka
+      (setq blockType "OchrannePasmaENG")
+      )
+  )
+  
+  ;nastavenie funkcnosti prikazu len v Layoute
+  (cond
+    ((/= 1 (getvar 'cvport))
+      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+    )
+
+    (
+      ;prikaz na vlozenie blocku Poznamka 
+      (command "._insert" blockType "_S" 1 "_R" 0 pause)  
+    )
+  )
+  
+  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  (NavratNaPoslednuHladinu)
+  
+  (princ)
+  
+)
+
 ;;----------------------------------------------------------------------;;
 ;;                      Bloky pre vystuzovanie                          ;;
 ;;----------------------------------------------------------------------;;
