@@ -343,7 +343,7 @@ Drainage //nazov dcl
   //posledny riadok dialogu s tlacidlami
   : row 
   {
-    //tlacodlo napoveda
+    //tlacidlo napoveda
     : button 
     {  
       key = "napoveda";
@@ -352,7 +352,7 @@ Drainage //nazov dcl
       mnemonic = "N";
     } 
 
-    //tlacodlo report
+    //tlacidlo report
     : button 
     {  
       key = "report";
@@ -361,7 +361,7 @@ Drainage //nazov dcl
       mnemonic = "R";
     } 
 
-    //tlacodlo vypocitaj
+    //tlacidlo vypocitaj
     : button 
     {  
       key = "vypocitaj";
@@ -370,7 +370,7 @@ Drainage //nazov dcl
       mnemonic = "V";
     } 
 
-    //tlacodlo zavriet
+    //tlacidlo zavriet
     : button 
     {  
       key = "cancel";

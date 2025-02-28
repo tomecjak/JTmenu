@@ -54,7 +54,7 @@
     "(NapovedaDrainage)"
   )
   
-    ;definovanie tlacidla napoveda
+  ;definovanie tlacidla report
   (action_tile "report"
     "(ReportDrainage)"
   )
