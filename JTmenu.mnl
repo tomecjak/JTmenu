@@ -35,6 +35,7 @@
 (AUTOLOAD "Layout_functions" '("JTTitleBlock" "JTSheetCross" "JTTitleBlockUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
 (AUTOLOAD "Material_update" '("JTMaterialUpdate"))
+(AUTOLOAD "Zone_update" '("JTZoneUpdate"))
 (AUTOLOAD "Slope" '("JTSlope"))
 (AUTOLOAD "Template_units" '("JTTemplateUnits"))
 (AUTOLOAD "Rebar_table" '("JTRebatTable"))
