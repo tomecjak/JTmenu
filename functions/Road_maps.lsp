@@ -339,7 +339,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nRoad_maps.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

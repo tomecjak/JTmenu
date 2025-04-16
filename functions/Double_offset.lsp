@@ -224,7 +224,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nDouble_offset.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "

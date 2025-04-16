@@ -572,7 +572,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nDrainage.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

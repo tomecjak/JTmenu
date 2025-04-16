@@ -209,7 +209,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nRebar_length.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

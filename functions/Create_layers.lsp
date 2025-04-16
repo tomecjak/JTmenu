@@ -136,7 +136,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nCreate_layers.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

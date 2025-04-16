@@ -752,7 +752,7 @@
 (setq FormatCislaVykresu (if (= (getenv "GlobalnyFormatCislaVykresu") "0") (setq FormatCislaVykresu "01")(setq FormatCislaVykresu "001")))
 
 ;nacitanie verzie programu
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 
 ;nacitanie statusbaru
 (command "modemacro" "JTScale: $(getenv,GlobalnaJTMenuScale), Dim: $(getvar,dimscale), Text: $(getvar,textsize), DZ: $(getenv,GlobalnaSignBlocksScale), PM: $(getenv,GlobalnaPreviewMode)")

@@ -105,7 +105,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nPolyline_export.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

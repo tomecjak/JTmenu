@@ -110,7 +110,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nCoordinates_symbol.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

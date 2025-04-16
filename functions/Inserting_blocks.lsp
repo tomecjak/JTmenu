@@ -949,7 +949,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nInserting_blocks.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

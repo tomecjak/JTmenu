@@ -177,7 +177,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nStationing.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

@@ -448,7 +448,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nZone_update.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

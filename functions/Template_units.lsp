@@ -33,7 +33,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nTemplate_units.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

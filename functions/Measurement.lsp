@@ -40,7 +40,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nMeasurement.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

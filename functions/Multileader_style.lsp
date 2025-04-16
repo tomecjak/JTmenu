@@ -322,7 +322,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nMultileader_style.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

@@ -253,7 +253,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nBlock_base_point.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "

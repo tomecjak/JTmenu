@@ -57,7 +57,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nPrefix_layers.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

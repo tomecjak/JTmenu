@@ -52,7 +52,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nTraffic_signs_tools.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

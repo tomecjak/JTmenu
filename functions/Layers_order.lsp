@@ -639,7 +639,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nLayers_order.lsp | " (JTmenuVersion) " | Mac Lee, Jakub Tomecko | "

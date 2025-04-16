@@ -172,7 +172,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nCenter_measure.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko, upravil: Michal Kravec | "

@@ -91,7 +91,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\Rebar_scheme.lsp | " (JTmenuVersion) " | Jakub Tomecko | "

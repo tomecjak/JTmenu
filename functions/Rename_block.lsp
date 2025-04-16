@@ -130,7 +130,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nRename_block.lsp | " (JTmenuVersion) " | Lee Mac, prelozil: Jakub Tomecko | "

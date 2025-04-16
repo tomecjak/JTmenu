@@ -1043,7 +1043,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nLayout_functions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
