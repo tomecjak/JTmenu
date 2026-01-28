@@ -36,7 +36,7 @@
 ;;----------------------------------------------------------------------;;
 
 (defun JTSheetScale( / ssVP ListOfLayout cnt ListOfScale LayoutCountList ctr ss1)
-
+  
   ;zistenie poctu viewportov nachadzajucich sa v layoute a vytvorenie listu
   (foreach X (layoutlist)
     (if (setq ssVP (ssget "_X" '((0 . "VIEWPORT")
@@ -275,27 +275,17 @@
 ;;                   Vlozenie krizikov do vykresu                       ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTSheetCross (/ ctr ss1 curLayout ss i ent oldCmd)
+(defun c:JTSheetCross (/ ctr ss1 curLayout oldCmd)
+  
+  ;vymazanie bloku Kriziky
+  (BlockDelete "Kriziky")
+  
   ; Získanie aktuálneho (otvoreného) layoutu
   (setq curLayout (getvar "ctab"))
   
   ; Uloženie pôvodného CMDECHO
   (setq oldCmd (getvar "CMDECHO"))
   (setvar "CMDECHO" 0)
-  
-  ; Vymazanie bloku Kriziky LEN v aktuálnom layoute
-  (if (setq ss (ssget "_X" (list 
-                             (cons 0 "INSERT") 
-                             (cons 2 "Kriziky") 
-                             (cons 410 curLayout))))
-    (progn
-      (setq i 0)
-      (repeat (sslength ss)
-        (entdel (ssname ss i))
-        (setq i (1+ i))
-      )
-    )
-  )
   
   ; Nacitanie velkosti Layoutu
   (GetPaperSize)
@@ -429,28 +419,46 @@
 ;;                 Pomocna funkcia pre mazanie blokov                   ;;
 ;;----------------------------------------------------------------------;;
 
-(defun BlockDelete (bname / bobj)
-(vlax-for blk (vla-get-blocks (vla-get-activedocument (vlax-get-acad-object)))
- (if (= bname (vla-get-name blk))
-  (setq bObj blk)
-  (progn
-   (vlax-for ent blk
-    (if (and (= "AcDbBlockReference" (vla-get-objectname ent))
-       (or (= (vla-get-name ent) bname)
-        (and (vlax-property-available-p ent 'effectivename)
-         (= (vla-get-effectivename ent) bname)
-        )
-       )
-     )
-     (vla-delete ent)
-    )
-   )
+(defun BlockDelete (bname / doc blocks lay spc del obj)
+
+  (vl-load-com)
+  (setq doc    (vla-get-ActiveDocument (vlax-get-acad-object)) ; aktívny DWG
+        blocks (vla-get-Blocks doc)
+        lay    (vla-get-ActiveLayout doc)                      ; otvorený layout
+        spc    (vla-get-Block lay)                             ; entitiy v layoute
   )
- )
+
+  (defun _isTarget (o / bn)
+    (and (= "AcDbBlockReference" (vla-get-ObjectName o))
+         (or (= (strcase (vla-get-Name o)) (strcase bname))
+             (and (vlax-property-available-p o 'EffectiveName)
+                  (= (strcase (vla-get-EffectiveName o)) (strcase bname))
+             )
+         )
+    )
+  )
+
+  ;; 1) Zmaž referencie bloku v aktuálnom (otvorenom) layoute
+  (setq del nil)
+  (vlax-for obj spc
+    (if (_isTarget obj)
+      (setq del (cons obj del))
+    )
+  )
+  (foreach obj del
+    (vl-catch-all-apply 'vla-Delete (list obj))
+  )
+
+  ;; 2) Pokus o zmazanie definície bloku (zlyhá, ak blok ešte existuje inde)
+  (if (tblsearch "BLOCK" bname)
+    (vl-catch-all-apply 'vla-Delete (list (vla-item blocks bname)))
+  )
+
+  (vla-Regen doc acAllViewports)
+  (princ)
 )
-(if bObj (vla-delete bObj))
-(vla-Regen (vla-get-ActiveDocument (vlax-get-acad-object)) acAllViewports)
-)
+
+
 
 ;;----------------------------------------------------------------------;;
 ;;     Pomocna funkcia pre vymazanie duplicitnych poloziek s listu      ;;
