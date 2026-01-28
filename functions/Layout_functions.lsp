@@ -275,57 +275,80 @@
 ;;                   Vlozenie krizikov do vykresu                       ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTSheetCross (/ ctr ss1)
+(defun c:JTSheetCross (/ ctr ss1 curLayout ss i ent oldCmd)
+  ; Získanie aktuálneho (otvoreného) layoutu
+  (setq curLayout (getvar "ctab"))
   
-  ;vymazanie bloku Kriziky
-  (BlockDelete "Kriziky")
+  ; Uloženie pôvodného CMDECHO
+  (setq oldCmd (getvar "CMDECHO"))
+  (setvar "CMDECHO" 0)
   
-  ;nacitanie velkosty Layoutu
-  (GetPaperSize)
-    
-  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
-  (setq VytvorenieHladinyPopisu
-    (getenv "GlobalnaHladinaBlokov")
+  ; Vymazanie bloku Kriziky LEN v aktuálnom layoute
+  (if (setq ss (ssget "_X" (list 
+                             (cons 0 "INSERT") 
+                             (cons 2 "Kriziky") 
+                             (cons 410 curLayout))))
+    (progn
+      (setq i 0)
+      (repeat (sslength ss)
+        (entdel (ssname ss i))
+        (setq i (1+ i))
+      )
+    )
   )
   
-  ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
-    ;vytvorenie a nastavenie hladinu na DP_Popis
-    (SetLayer)
+  ; Nacitanie velkosti Layoutu
+  (GetPaperSize)
   
+  ; Vytvorenie premennej VytvorenieHladinyPopisu pre vyber hladiny
+  (setq VytvorenieHladinyPopisu (getenv "GlobalnaHladinaBlokov"))
+  
+  ; Vyhodnotenie vyberu hladiny pre bloky
+  (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
+    (SetLayer)
     (if (= VytvorenieHladinyPopisu "0")
-      ;bez vytvorenia hladiny a nastavenie na hladinu 0
       (command "._layer" "s" "0" "")
       (princ)
     )
   )
   
-  ;nastavenie funkcnosti prikazu len v Layoute
+  ; Nastavenie funkcnosti prikazu len v Layoute
   (cond
     ((/= 1 (getvar 'cvport))
       (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+      (setvar "CMDECHO" oldCmd)
       (princ)
     )
     
-    (
-      ;prikaz na vlozenie blocku krizikov
-      (command "_insert" "Kriziky" "0,0" 1 1 0)
+    (t
+      ; Regenerácia pre správne zobrazenie
+      (command "_.REGEN")
+      
+      ; Vlozenie blocku Kriziky LEN do aktuálneho layoutu
+      (command "_.-INSERT" "Kriziky" "0,0" 1 1 0)
+      
+      ; Regenerácia pre zobrazenie nového bloku
+      (command "_.REGEN")
     )
   )
   
-  ;nastavenie tagu DLZKA
+  ; Nastavenie tagu DLZKA
   (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "DLZKA" LayoutWidth)
-  ;nastavenie tagu VYSKA
+  ; Nastavenie tagu VYSKA
   (LM:setdynpropvalue (vlax-ename->vla-object (entlast)) "VYSKA" LayoutHeight)
   
-  ;hlaska po skonceni programu
-  (princ "\nKriziky vykresu boli vlozene. ")
-  (princ)
-  
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
+  ; Navrat na predchadzajucu hladinu
   (NavratNaPoslednuHladinu)
-
+  
+  ; Hlaska s názvom layoutu
+  (princ (strcat "\nKriziky vlozene do layoutu: " curLayout ". "))
+  
+  ; Obnovenie CMDECHO
+  (setvar "CMDECHO" oldCmd)
+  
+  (princ)
 )
+
 
 ;;----------------------------------------------------------------------;;
 ;;       Pomocna funkcia pre zistenie vysky a dlzky layoutu             ;;
