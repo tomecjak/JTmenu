@@ -50,6 +50,7 @@
 (AUTOLOAD "Layers_order" '("JTLayersOrder"))
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
+(AUTOLOAD "Rebar_functions" '("JTREBARINTERSECT" "JTREBARFILLET" "JTREBARWRITE"))
 (print)
 
 ;;----------------------------------------------------------------------;;
