@@ -9,38 +9,41 @@
     (progn
       (setq FileSupportPath
         (strcat
-          SelectedFolderPath "\\JTmenu;"
-          SelectedFolderPath "\\JTmenu\\functions;"
-          SelectedFolderPath "\\JTmenu\\functions\\content;"
-          SelectedFolderPath "\\JTmenu\\icons;"
-          SelectedFolderPath "\\JTmenu\\resource;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\CZK;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\ENG;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\SVK;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\1xx;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\2xx;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\3xx;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\4xx;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\5xx;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\1xx_J;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\2xx_J;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\3xx_J;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\4xx_J;"
-          SelectedFolderPath "\\JTmenu\\resource\\blocks\\KnihovnaZDZ\\5xx_J;"
-          SelectedFolderPath "\\JTmenu\\resource\\documents;"
-          SelectedFolderPath "\\JTmenu\\resource\\lines;"
+          SelectedFolderPath ";"
+          SelectedFolderPath "\\functions;"
+          SelectedFolderPath "\\functions\\content;"
+          SelectedFolderPath "\\icons;"
+          SelectedFolderPath "\\resource;"
+          SelectedFolderPath "\\resource\\blocks;"
+          SelectedFolderPath "\\resource\\blocks\\CZK;"
+          SelectedFolderPath "\\resource\\blocks\\ENG;"
+          SelectedFolderPath "\\resource\\blocks\\SVK;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\1xx;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\2xx;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\3xx;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\4xx;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\5xx;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\1xx_J;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\2xx_J;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\3xx_J;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\4xx_J;"
+          SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\5xx_J;"
+          SelectedFolderPath "\\resource\\documents;"
+          SelectedFolderPath "\\resource\\lines;"
         )
       )
 
       (setq files (vla-get-files (vla-get-preferences (vlax-get-acad-object))))
       (vla-put-SupportPath files FileSupportPath)
 
-      (if (findfile (strcat SelectedFolderPath "\\JTmenu\\JTmenu.cuix"))
+      (if (findfile (strcat SelectedFolderPath "\\JTmenu.cuix"))
         (vla-load (vla-get-menugroups (vlax-get-acad-object))
-                  (strcat SelectedFolderPath "\\JTmenu\\JTmenu.cuix"))
+                  (strcat SelectedFolderPath "\\JTmenu.cuix"))
       )
+      
+      (princ "\nInstalacia JTmenu bola uspesna!")
+      
     )
     (princ "\nVyber priecinok bol zruseny.")
   )
