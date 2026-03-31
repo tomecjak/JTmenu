@@ -6,7 +6,7 @@
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
-;;                Vytvorenie jednotlivych typov ciar                    ;;
+;;                  Hlavna funkcia nacitania dialogu                    ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTNetworks ()
@@ -165,7 +165,10 @@
   
 )
 
-;funkcia tlacidla sieteVsetkyCiaryInfo
+;;----------------------------------------------------------------------;;
+;;                   Funkcia info o vsetkcyh ciarach                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteVsetkyCiaryInfo ()
   
   ;nacitanie dialogoveho okna
@@ -189,7 +192,10 @@
 
 )
 
-;funkcia tlacidla sieteCiaryHranicInfo
+;;----------------------------------------------------------------------;;
+;;                     Funkcia info o ciarach hrani                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryHranicInfo ()
   
   ;nacitanie dialogoveho okna
@@ -213,7 +219,10 @@
 
 )
 
-;funkcia tlacidla sieteCiaryZvodidlaInfo
+;;----------------------------------------------------------------------;;
+;;                    Funkcia info o ciarach zvodidla                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryZvodidlaInfo ()
   
   ;nacitanie dialogoveho okna
@@ -236,7 +245,10 @@
   (unload_dialog dcl_id3)
 )
 
-;funkcia tlacidla sieteCiaryVodovoduInfo
+;;----------------------------------------------------------------------;;
+;;                    Funkcia info o ciarach vodovodu                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryVodovoduInfo ()
   
   ;nacitanie dialogoveho okna
@@ -260,7 +272,10 @@
 
 )
 
-;funkcia tlacidla sieteCiaryKanalizacieInfo
+;;----------------------------------------------------------------------;;
+;;                   Funkcia info o ciarach kanalizacie                 ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryKanalizacieInfo ()
   
   ;nacitanie dialogoveho okna
@@ -284,7 +299,10 @@
 
 )
 
-;funkcia tlacidla sieteCiaryHrdlovehoVedeniaInfo
+;;----------------------------------------------------------------------;;
+;;                Funkcia info o ciarach hrdloveho vedenia              ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryHrdlovehoVedeniaInfo ()
   
   ;nacitanie dialogoveho okna
@@ -308,7 +326,10 @@
 
 )
 
-;funkcia tlacidla SieteCiaryPlynovoduInfo
+;;----------------------------------------------------------------------;;
+;;                   Funkcia info o ciarach plynovodu                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryPlynovoduInfo ()
   
   ;nacitanie dialogoveho okna
@@ -332,7 +353,10 @@
 
 )
 
-;funkcia tlacidla sieteCiaryTepelnehoPotrubiaInfo
+;;----------------------------------------------------------------------;;
+;;               Funkcia info o ciarach tepelneho potrubia              ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryTepelnehoPotrubiaInfo ()
   
   ;nacitanie dialogoveho okna
@@ -356,7 +380,10 @@
 
 )
 
-;funkcia tlacidla SieteCiarySilovehoVedeniaInfo
+;;----------------------------------------------------------------------;;
+;;               Funkcia info o ciarach siloveho vedenia                ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiarySilovehoVedeniaInfo ()
   
   ;nacitanie dialogoveho okna
@@ -380,7 +407,10 @@
 
 )
 
-;funkcia tlacidla SieteCiarySlaboprudehoVedenia
+;;----------------------------------------------------------------------;;
+;;             Funkcia info o ciarach slaboprudeho vedenia              ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiarySlaboprudehoVedeniaInfo ()
   
   ;nacitanie dialogoveho okna
@@ -404,7 +434,10 @@
 
 )
 
-;funkcia tlacidla sieteCiaryVodaVrstveniceInfo
+;;----------------------------------------------------------------------;;
+;;              Funkcia info o ciarach voda a vrstvenice                ;;
+;;----------------------------------------------------------------------;;
+
 (defun SieteCiaryVodaVrstveniceInfo ()
   
   ;nacitanie dialogoveho okna
@@ -428,7 +461,10 @@
 
 )
 
-;funkcia tlacidla oznacit vsetko
+;;----------------------------------------------------------------------;;
+;;                   Funkcia pre oznacenia vsetkeho                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun OznacitVsetkoFunkcia ()
   (set_tile "sieteCiaryHranic" "1")
   (set_tile "sieteCiaryZvodidla" "1")
@@ -442,7 +478,10 @@
   (set_tile "sieteCiaryVodaVrstvenice" "1")  
 )
 
-;funkcia tlacidla odznacit vsetko
+;;----------------------------------------------------------------------;;
+;;                   Funkcia pre odznacenia vsetkeho                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun OdznacitVsetkoFunkcia ()
   (set_tile "sieteCiaryHranic" "0")
   (set_tile "sieteCiaryZvodidla" "0")
@@ -456,7 +495,10 @@
   (set_tile "sieteCiaryVodaVrstvenice" "0")  
 )
 
-;funkcia tlacidla nacitat
+;;----------------------------------------------------------------------;;
+;;                       Funkcia nacitania ciar                         ;;
+;;----------------------------------------------------------------------;;
+
 (defun NacitanieHodnotPoloziek ()
   (setq sieteVsetkyCiary (get_tile "sieteVsetkyCiary"))
   (setq sieteCiaryHranic (get_tile "sieteCiaryHranic"))
@@ -471,7 +513,10 @@
   (setq sieteCiaryVodaVrstvenice (get_tile "sieteCiaryVodaVrstvenice"))
 )
 
-;funkcia pre nacitanie vsetkych ciar
+;;----------------------------------------------------------------------;;
+;;                   Funkcia nacitania vsetkych ciar                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun VsetkyCiary()
 
   (setq listVsetkyCiary (list "201" "203" "204" "205" "206" "207L" "207R" "208" "209" "210L" "210R" "211" "211L" "211R" "212L" "212R" "213" "213L" "213R" "214L" "214R" "215" "215L" "215R" "216L" "216R" "217" "217L" "217R" "218" "220" "221" "222" "223" "224" "225" "226" "227" "422L" "422R" "423" "501A" "501B" "502" "521" "522" "523A" "523B" "523C" "529AL" "529AR" "529B" "530" "605" "606" "607" "610" "611" "612" "615A" "615B" "615C" "616A" "616B" "616C" "617A" "617B" "617C" "623A" "623B" "623C" "624A" "624B" "624C" "625A" "625B" "625C" "626A" "626B" "626C" "627A" "627B" "627C" "628A" "628B" "628C" "629A" "629B" "629C" "630A" "630B" "630C" "630D" "630E" "630F" "631A" "631B" "631C" "631D" "631E" "631F" "632A" "632B" "632C" "633A" "633B" "633C" "634A" "634B" "634C" "635A" "635B" "635C" "636A" "636B" "636C" "637A" "637B" "637C" "651A" "651B" "651C" "652A" "652B" "652C" "653A" "653B" "653C" "654A" "654B" "654C" "655A" "655B" "655C" "659A" "659B" "659C" "660A" "660B" "660C" "660D" "660E" "661A" "661B" "661C" "662A" "662B" "662C" "663A" "663B" "663C" "664A" "664B" "664C" "670A" "670B" "670C" "670D" "670E" "671A" "671B" "671C" "672A" "672B" "672C" "673A" "673B" "673C" "674A" "674B" "674C" "680A" "680B" "680C" "802" "807" "901" "902" "903" "904" "905A" "905B" "906" "909"))
@@ -484,7 +529,10 @@
 
 )
 
-;funkcia pre nacitanie ciar hranic
+;;----------------------------------------------------------------------;;
+;;                    Funkcia nacitania ciar hranic                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryHranic()
 
   (setq listCiaryHranic (list "201" "203" "204" "205" "206" "207L" "207R" "208" "209" "210L" "210R" "211" "211L" "211R" "212L" "212R" "213" "213L" "213R" "214L" "214R" "215" "215L" "215R" "216L" "216R" "217" "217L" "217R" "218" "220" "221" "222" "223" "224" "225" "226" "227"))
@@ -497,7 +545,10 @@
 
 )
 
-;funkcia pre nacitanie ciar zvodidiel a zabradlia
+;;----------------------------------------------------------------------;;
+;;                   Funkcia nacitania ciar zvodidiel                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryZvodidla()
 
   (setq listCiaryZvodidla (list "529AL" "529AR" "529B" "530" "612"))
@@ -510,7 +561,10 @@
 
 )
 
-;funkcia pre nacitanie ciar vodovod
+;;----------------------------------------------------------------------;;
+;;                    Funkcia nacitania ciar vodovodu                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryVodovod()
 
   (setq listCiaryVodovod (list "615A" "615B" "615C" "616A" "616B" "616C" "617A" "617B" "617C"))
@@ -523,7 +577,10 @@
 
 )
 
-;funkcia pre nacitanie ciar kanalizacie
+;;----------------------------------------------------------------------;;
+;;                    Funkcia nacitania ciar kanalizacie                ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryKanalizacie()
 
   (setq listCiaryKanalizacie (list "623A" "623B" "623C" "624A" "624B" "624C" "625A" "625B" "625C" "626A" "626B" "626C" "627A" "627B" "627C" "628A" "628B" "628C" "629A" "629B" "629C"))
@@ -536,7 +593,10 @@
 
 )
 
-;funkcia pre nacitanie ciar hrdloveho vedenia
+;;----------------------------------------------------------------------;;
+;;                Funkcia nacitania ciar hrdloveho vedenia              ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryHrdloveVedenie()
 
   (setq listCiaryHrdloveVedenie (list "630A" "630B" "630C" "630D" "630E" "630F" "631A" "631B" "631C" "631D" "631E" "631F"))
@@ -549,7 +609,10 @@
 
 )
 
-;funkcia pre nacitanie ciar plynovodu
+;;----------------------------------------------------------------------;;
+;;                    Funkcia nacitania ciar plynovodu                  ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryPlynovodu()
 
   (setq listCiaryPlynovodu (list "632A" "632B" "632C" "633A" "633B" "633C" "634A" "634B" "634C" "635A" "635B" "635C" "636A" "636B" "636C" "637A" "637B" "637C"))
@@ -562,7 +625,10 @@
 
 )
 
-;funkcia pre nacitanie ciar tepelne potrubie
+;;----------------------------------------------------------------------;;
+;;                Funkcia nacitania ciar tepelneho potrubia             ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryTeplenePotrubie()
 
   (setq listCiaryTeplenePotrubie (list "651A" "651B" "651C" "652A" "652B" "652C" "653A" "653B" "653C" "654A" "654B" "654C" "655A" "655B" "655C"))
@@ -575,7 +641,10 @@
 
 )
 
-;funkcia pre nacitanie ciar siloveho vedenia
+;;----------------------------------------------------------------------;;
+;;                Funkcia nacitania ciar siloveho vedenia               ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiarySilovehoVedenia()
 
   (setq listCiarySilovehoVedenia (list "659A" "659B" "659C" "660A" "660B" "660C" "660D" "660E" "661A" "661B" "661C" "662A" "662B" "662C"))
@@ -588,7 +657,10 @@
 
 )
 
-;funkcia pre nacitanie ciar slaboprudove vedenie
+;;----------------------------------------------------------------------;;
+;;              Funkcia nacitania ciar sleboprudove vedenia             ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiarySlaboprudovehoVedenia()
 
   (setq listCiarySlaboprudovehoVedenia (list "663A" "663B" "663C" "664A" "664B" "664C" "670A" "670B" "670C" "670D" "670E" "671A" "671B" "671C" "672A" "672B" "672C" "673A" "673B" "673C"))
@@ -601,7 +673,10 @@
 
 )
 
-;funkcia pre nacitanie ciary voda a vrstvenice
+;;----------------------------------------------------------------------;;
+;;               Funkcia nacitania ciar voda a vrstvenice               ;;
+;;----------------------------------------------------------------------;;
+
 (defun CiaryVodaVrstvenice()
 
   (setq listCiaryVodaVrstvenice (list "802" "807" "901" "902" "903" "904" "905A" "905B" "906" "909"))
@@ -614,7 +689,10 @@
 
 )
 
-;funkcia tlacidla zavriet
+;;----------------------------------------------------------------------;;
+;;                   Funkcia pre zatvorenie dialogu                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun UkoncenieNetworks()
   (done_dialog)
   (princ "\nNenacitane ziadne ciary.\n")

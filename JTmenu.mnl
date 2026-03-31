@@ -13,7 +13,7 @@
 (AUTOLOAD "Cadastre" '("JTCadastre"))
 (AUTOLOAD "Maps" '("JTMaps"))
 (AUTOLOAD "Road_maps" '("JTRoadMaps"))
-(AUTOLOAD "Rebar_scheme" '("JTRebarScheme"))
+(AUTOLOAD "Rebar_scheme" '("JTRebarScheme")) ;Legacy function
 (AUTOLOAD "Create_layers" '("JTCreateLayers"))
 (AUTOLOAD "Block_base_point" '("JTBlockBasePoint"))
 (AUTOLOAD "Center_measure" '("JTCenterMeasure"))
@@ -29,7 +29,7 @@
 (AUTOLOAD "Create_dimensions" '("JTCreateDimensions"))
 (AUTOLOAD "Text_style" '("JTTextStyle"))
 (AUTOLOAD "Multileader_style" '("JTMultileader"))
-(AUTOLOAD "Setting" '("JTsetting"))
+(AUTOLOAD "Setting" '("JTsetting")) ;zmenit pre fungovanie z JDD
 (AUTOLOAD "Networks" '("JTNetworks"))
 (AUTOLOAD "Layout_functions" '("JTTitleBlock" "JTSheetCross" "JTTitleBlockUpdate"))
 (AUTOLOAD "Rebar_length" '("JTRebarLength"))
@@ -39,18 +39,18 @@
 (AUTOLOAD "Template_units" '("JTTemplateUnits"))
 (AUTOLOAD "Rebar_table" '("JTRebatTable"))
 (AUTOLOAD "Folders_scheme" '("JTFolder"))
-(AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove"))
+(AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove")) ;Legacy function - zmeniť na upravovanie prefixov hladin
 (AUTOLOAD "VerticalLine" '("JTVerticalLine"))
 (AUTOLOAD "Select_by_layer" '("JTSelectbylayer"))
 (AUTOLOAD "Measurement" '("JTMeasurement"))
 (AUTOLOAD "Block_renumber" '("JTReNumber"))
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (AUTOLOAD "Create_polyline" '("JTCreatePolyline"))
-(AUTOLOAD "Layers_order" '("JTLayersOrder"))
+(AUTOLOAD "Layers_order" '("JTLayersOrder")) ;Legacy function - vymazat v buducnosti
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
-(AUTOLOAD "Rebar_functions" '("JTREBARINTERSECT" "JTREBARFILLET" "JTREBARWRITE"))
-(AUTOLOAD "POT_Variables" '("POT_VAR"))
+(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite"))
+(AUTOLOAD "POT_Variables" '("POT_VAR")) ;vyskusat na Civile 3D
 (print)
 
 ;;----------------------------------------------------------------------;;

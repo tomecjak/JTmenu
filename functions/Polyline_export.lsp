@@ -5,6 +5,10 @@
 ; Program pre ulozenie udajov vytycenia do suboru CSV
 ;-------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------;;
+;;                  Hlavna funkcia nacitania dialogu                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun C:JTPolylineExport ( / flag polylineInfoText dcl_id result
                              objectPolyline listOfCoordinates lengthOfCoordinates
                              cestaSuboru suborCSV
@@ -14,11 +18,7 @@
                              ptW ptOut
                            )
 
-  ;; ------------------------------------------------------------
-  ;; Vyber UCS
-  ;; jtExportCS: 0 = export vo WCS, 1 = export v aktuálnom UCS
-  ;; ------------------------------------------------------------
-  (setq jtExportCS 1)          ; default: aktuálny UCS
+  (setq jtExportCS 1)          ;default: aktuálny UCS
   (setq jtNeedRestore nil)
 
   (initget "WCS Aktualny Nazvany")
@@ -33,10 +33,6 @@
       (setq jtExportCS 1)
     )
   )
-
-  ;; ------------------------------------------------------------
-  ;; POVODNY KOD
-  ;; ------------------------------------------------------------
 
   ;nastavenie stavu na 4
   (setq flag 5)
@@ -130,8 +126,10 @@
   (princ)
 )
 
+;;----------------------------------------------------------------------;;
+;;                  Funkcia pre zatvorenie dialogu                      ;;
+;;----------------------------------------------------------------------;;
 
-;funkcia tlacidla zatvorit
 (defun UkoncenieVytycenia()
   (done_dialog)
   (setq result nil)

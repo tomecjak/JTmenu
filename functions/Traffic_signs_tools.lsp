@@ -6,7 +6,7 @@
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
-;;          Zapnutie panulu nastrojov zo jestujucimi znackami           ;;
+;;            Funkcia vlozenia krizika na dopravne znacenie             ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTTrafficSignsCanceled()
@@ -31,7 +31,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;          Zapnutie panulu nastrojov zo jestujucimi znackami           ;;
+;;            Funkcia pre zmenu mierky dopravneho znacenia              ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTTrafficSignsScale()

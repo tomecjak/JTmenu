@@ -1,5 +1,5 @@
 ;=========================================================================
-; Folders_scheme.lsp
+; Select_by_layer.lsp
 ; Create by Charles Alan Butler from www.theswamp.org
 ; Edit by Jakub Tomecko
 ;

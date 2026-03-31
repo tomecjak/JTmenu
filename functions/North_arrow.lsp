@@ -63,10 +63,9 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                    Hlavna funkcia vlozenia severky                   ;;
+;;----------------------------------------------------------------------;;
 
-
-
-;vlozenie bloku Severka
 (defun c:JTNorthArrow ()
   
   ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky

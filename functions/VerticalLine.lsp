@@ -3,7 +3,7 @@
 ; Create by Lee Mac/Swamp  from https://www.lee-mac.com
 ; Edit by Jakub Tomecko
 ;
-; Vytvorenie kolmicez krivky
+; Vytvorenie kolmice z krivky
 ;-------------------------------------------------------------------------
 
 (defun c:JTVerticalLine (/ entity pt)
@@ -19,6 +19,18 @@
   (princ)
   
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "JTmenu_version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nVerticalLine.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;

@@ -1,3 +1,14 @@
+;=========================================================================
+; Rebar_functions.lsp
+; Create (vibecode) by Jakub Tomecko
+;
+; Nastroje pre prace s vystuzou: prienik, fillet, zapis do atributu
+;-------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------;;
+;;                           Pomocne funkcie                            ;;
+;;----------------------------------------------------------------------;;
+
 (defun _3d (p) (list (car p) (cadr p) (if (caddr p) (caddr p) 0.0)))
 (defun _2d (p) (list (car p) (cadr p)))
 (defun _pt2d (p) (list (car p) (cadr p)))
@@ -43,7 +54,11 @@
   (if (and (>= i 0) (< i (length lst))) (nth i lst) def)
 )
 
-(defun c:JTREBARINTERSECT (/ e ed pts blg nv i
+;;----------------------------------------------------------------------;;
+;;                Funkcia pre vytvorenie vrcholov oblukov               ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTRebarIntersect (/ e ed pts blg nv i
                        pPrev pStart pEnd pNext
                        b oldlay ip)
   (vl-load-com)
@@ -98,11 +113,11 @@
   (princ)
 )
 
+;;----------------------------------------------------------------------;;
+;;               Funkcia pre vytvorenie oblukov na polylin              ;;
+;;----------------------------------------------------------------------;;
 
-
-
-
-(defun c:JTREBARFILLET (/ ent ed lay dstr D R)
+(defun c:JTRebarFillet (/ ent ed lay dstr D R)
   (vl-load-com)
 
   ;; vyber polyline (LWPOLYLINE)
@@ -139,9 +154,9 @@
   (princ)
 )
 
-
-
-
+;;----------------------------------------------------------------------;;
+;;                           Pomocne funkcie                            ;;
+;;----------------------------------------------------------------------;;
 
 (defun LM:roundm ( n m )
   ;; Round to the nearest multiple (Lee Mac style) [web:171]
@@ -179,7 +194,11 @@
   ok
 )
 
-(defun c:JTREBARWRITE (/ plEnt plEd lay num obj len kusy lenmm lenmm5 str blkEnt)
+;;----------------------------------------------------------------------;;
+;;                      Funkcia pre zapis do bloku                      ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTRebarWrite (/ plEnt plEd lay num obj len kusy lenmm lenmm5 str blkEnt)
   (vl-load-com)
 
   (setq plEnt (car (entsel "\nVyber polyline: ")))
@@ -218,3 +237,19 @@
 
   (princ)
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "JTmenu_version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nRebar_functions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
