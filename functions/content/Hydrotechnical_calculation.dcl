@@ -88,11 +88,11 @@ Hydrotechnical_calculation //nazov dcl
           }
           : text
           {
-            label = "Pritocna plocha [m2]";
+            label = "Prietocna plocha koryta [m2]";
           }
           : edit_box
           {
-            key = "pritocnaPlochaKoryta";
+            key = "prietocnaPlochaKoryta";
             value = "1";
           }
         }
@@ -111,7 +111,7 @@ Hydrotechnical_calculation //nazov dcl
           }
           : text
           {
-            label = "Omoceny obvod [m]";
+            label = "Omoceny obvod koryta [m]";
           }
           : edit_box
           {
@@ -347,7 +347,7 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 10;
-          label = "Vyskovy rodiel koryta:";
+          label = "Vyskovy rozdiel koryta:";
         }
         : text
         {
@@ -419,11 +419,103 @@ Hydrotechnical_calculation //nazov dcl
           width = 10;
           label = "Navrhovany profil koryta:";
         }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q1";
+        }
         : text
         {
           width = 10;
           label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKoryta";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ1";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q2";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ2";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q5";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ5";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q10";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ10";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q20";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ20";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q50";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ50";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 10;
+          label = "Q100";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyhodnoteniePosudeniaPrietokuKorytaQ100";
         }
       }
     }

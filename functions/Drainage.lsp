@@ -5,9 +5,11 @@
 ; Pocitanie vzdialenosti odvodnovacou a posudenie kapacity potrubia
 ;-------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------;;
+;;                  Hlavna funkcia nacitania dialogu                    ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:JTDrainage ()
-
 
   ;definovanie listu typ odvodnovaca
   (setq TypOdvodnovaca (list "300x300 mm" "500x300 mm" "500x500 mm"))
@@ -75,14 +77,11 @@
 
 )
 
+;;----------------------------------------------------------------------;;
+;;              Pomocne funkcie pre urcenie hodnot z grafu              ;;
+;;----------------------------------------------------------------------;;
 
-;----------------------------------------------------------------------
-; Pomocne funkcie pre grafy
-;----------------------------------------------------------------------
-
-; body z grafov: (v' hmax)
-; hmax v metroch
-; 300x300 graf ma rozsah do 1.0 m/s
+;300x300 graf ma rozsah do 1.0 m/s
 (setq JT_TAB_HMAX_300x300
   '(
     (0.0 0.045) (0.1 0.045) (0.2 0.042) (0.3 0.037) (0.4 0.034) (0.5 0.030)
@@ -90,7 +89,7 @@
    )
 )
 
-; 500x300 graf ma rozsah do 1.5 m/s
+;500x300 graf ma rozsah do 1.5 m/s
 (setq JT_TAB_HMAX_500x300
   '(
     (0.0 0.060) (0.1 0.060) (0.2 0.057) (0.3 0.054) (0.4 0.051) (0.5 0.048)
@@ -99,7 +98,7 @@
    )
 )
 
-; 500x500 graf ma rozsah do 1.5 m/s
+;500x500 graf ma rozsah do 1.5 m/s
 (setq JT_TAB_HMAX_500x500
   '(
     (0.0 0.075) (0.1 0.075) (0.2 0.072) (0.3 0.068) (0.4 0.064) (0.5 0.060)
@@ -171,8 +170,10 @@
   data
 )
 
+;;----------------------------------------------------------------------;;
+;;                     Funkcia vypoctu odvodnenia                       ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie funkcie vypoctu odvodnenia
 (defun VypocetDrainage ()
   
   (setq kontrolaSpustenehoVypoctu 1)
@@ -186,11 +187,12 @@
   ;spustenie funkcie posudenia kapacity potrubia
   (PosudenieKapacityPotrubia)
 
-
 )
 
+;;----------------------------------------------------------------------;;
+;;                 Funkcia vypoctu hltnosti odvodnovaca                 ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie funkcie vypoctu hltnosti odvodnovaca
 (defun VypocetHltnostiOdvodnovaca ()
   ;definovanie premennych z dialogu
   ;pozdlzny spad konstrukcie
@@ -323,8 +325,10 @@
   (set_tile "vyslednaHltnostOdvodnovaca" vyslednaHltnostOdvodnovaca)
 )
 
+;;----------------------------------------------------------------------;;
+;;                 Funkcia vypoctu mnozstva odvodnovacov                ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie funkcie vypoctu mnostva odvodnovacov
 (defun VypocetMnozstvaOdvodnovacov ()
   ;definovanie premennych z dialogu
   ;dlzka odvodnovanej plochy
@@ -381,10 +385,10 @@
   )
 )
 
+;;----------------------------------------------------------------------;;
+;;                  Funkcia vypoctu kapacity potrubia                   ;;
+;;----------------------------------------------------------------------;;
 
-
-
-;definovanie funkcie posudenie kapacity potrubia
 (defun PosudenieKapacityPotrubia ()
   ;definovanie premennych z dialogu
   ;vnutorny priemer potrubia
@@ -442,8 +446,10 @@
   (set_tile "prietokPotrubia" prietokPotrubia)
 )
 
+;;----------------------------------------------------------------------;;
+;;                  Funkcia zavretia dialogoveho okna                   ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie funkcie zavretia dialogoveho okna
 (defun UkoncenieDrainage()
   (ResetVariables)
   (done_dialog)
@@ -451,8 +457,10 @@
   (exit)
 )
 
+;;----------------------------------------------------------------------;;
+;;                      Funkcia tlacidla napoveda                       ;;
+;;----------------------------------------------------------------------;;
 
-;funkcia tlacidla napoveda
 (defun NapovedaDrainage ()
   
   ;nacitanie dialogoveho okna
@@ -475,8 +483,10 @@
   (unload_dialog dcl_id2)
 )
 
+;;----------------------------------------------------------------------;;
+;;                       Funkcia tlacidla nreport                       ;;
+;;----------------------------------------------------------------------;;
 
-;funkcia tlacidla report
 (defun ReportDrainage ()
   
   ;nacitanie dialogoveho okna
@@ -556,8 +566,10 @@
   (unload_dialog dcl_id3)
 )
 
+;;----------------------------------------------------------------------;;
+;;                    Funkcia exportu udajov do CSV                     ;;
+;;----------------------------------------------------------------------;;
 
-;vytvorenie funkcie exportovanie udajov do csv
 (defun creareReportExport ()
   (setq cestaReportExport (getfiled "Ulozenie suboru reportu..." "" "csv" 1))
   (setq suborReportCSV (close (open cestaReportExport "w")))
@@ -614,8 +626,11 @@
   (write-line (strcat "Posudenie potrubia;-;" vyhodnoteniePosudenieKapacityPotrubia ";;Qpot>Qm") suborReportCSV)
 )
 
+;;----------------------------------------------------------------------;;
+;;                Funkcia resetovania vsetkych premennych               ;;
+;;----------------------------------------------------------------------;;
 
-;resetovanie vsetkych premmnych po vypnuti programu
+;po vypnuti programu
 (defun ResetVariables ()
   (setq kontrolaSpustenehoVypoctu nil)
   (setq i_Ppd nil)
@@ -664,9 +679,7 @@
   (setq aktivneVmax nil)
 )
 
-
 ;;----------------------------------------------------------------------;;
-
 
 (vl-load-com)
 (load "JTmenu_version" "\nVerzia nenacitana!")
@@ -678,7 +691,6 @@
     )
 )
 (princ)
-
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
