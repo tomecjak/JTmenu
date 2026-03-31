@@ -60,9 +60,6 @@
       )
     )
   )
-  
-  (princ "Preview mod je nastaveny na: " (getenv "GlobalnaPreviewMode"))
-  (princ)
 
 )
 
