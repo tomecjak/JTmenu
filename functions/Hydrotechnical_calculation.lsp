@@ -111,6 +111,9 @@
   ;vypocet delta vysok zaciatku a konca koryta
   (setq delta_h (- vyska_h1 vyska_h2))
   
+  ;vypocet sklonu koryta
+  (setq sklon_i (/ delta_h dlzka_L))
+  
   ;vypocet hydroraulickeho polomeru koryta
   ;(setq hydroraulickyPolomer_R (/ plocha_S obvod_O))
   
@@ -125,7 +128,7 @@
   (set_tile "vyskovyRozdielKoryta" (rtos delta_h 2 2))
   
   ;vypocitany sklon koryta
-  ;(set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 4))
+  (set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 4))
   
   ;vypocitany hydroraulicky polomer koryta
   ;(set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
