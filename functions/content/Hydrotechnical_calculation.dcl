@@ -346,7 +346,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 40;
+          width = 25;
           label = "Vyskovy rozdiel koryta:";
         }
         : text
@@ -360,7 +360,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 30;
+          width = 25;
           label = "Vypocitany sklon koryta:";
         }
         : text
@@ -374,7 +374,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 30;
+          width = 25;
           label = "Hydraulicky polomer:";
         }
         : text
@@ -388,7 +388,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 30;
+          width = 25;
           label = "Rychlostni sucinitel:";
         }
         : text
@@ -402,7 +402,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 15;
+          width = 25;
           label = "Prietokove mnoztvo:";
         }
         : text
@@ -416,7 +416,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 15;
+          width = 25;
           label = "Navrhovany profil koryta pre Qx:";
         }
       }
