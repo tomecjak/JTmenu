@@ -50,6 +50,7 @@
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
 (AUTOLOAD "Rebar_functions" '("JTREBARINTERSECT" "JTREBARFILLET" "JTREBARWRITE"))
+(AUTOLOAD "POT_Variables" '("POT_VAR"))
 (print)
 
 ;;----------------------------------------------------------------------;;
