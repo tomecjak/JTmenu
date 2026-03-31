@@ -125,16 +125,16 @@
   (set_tile "vyskovyRozdielKoryta" (rtos delta_h 2 2))
   
   ;vypocitany sklon koryta
-  (set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 4))
+  ;(set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 4))
   
   ;vypocitany hydroraulicky polomer koryta
-  (set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
+  ;(set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
   
   ;vypocitany rychlostny sucinitel koryta
-  (set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 4))
+  ;(set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 4))
   
   ;vypocitany prietok koryta
-  (set_tile "prietokoveMnozstvo" (rtos prietok_Q 2 2))
+  ;(set_tile "prietokoveMnozstvo" (rtos prietok_Q 2 2))
   
   ;vyhodnotenie posudenia prietoku koryta pre Q1
   (if (> prietok_Q prietok_Q1)
