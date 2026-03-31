@@ -41,11 +41,11 @@
     )
   )
   
-  ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice
-  (setq polohaBoduMapy (getpoint "Zadajte suradnice: "))
+  ;definovanie premenej "polohaBoduRoadMap" do krotej sú zapísane súradnice
+  (setq polohaBoduRoadMap (getpoint "Zadajte suradnice: "))
 
   ;definovanie premenej "RoadMapaURL" do ktorej je zapísana url adresa
-  (setq RoadMapaURL (getSuradniceMapaURL polohaBoduMapy))
+  (setq RoadMapaURL (getSuradniceRoadMapURL polohaBoduRoadMap))
   
   ;spustenie prikazu browser z vlozenou url
   (command "browser" RoadMapaURL)
@@ -63,14 +63,14 @@
   ) 
   
   ;hlaska po skonceni programu
-  (princ "\nMapa sa otvorila v internetovom prehliadaci. ")
+  (princ "\nCestna databanka sa otvorila v internetovom prehliadaci. ")
   (princ)
 )
 
 ;;----------------------------------------------------------------------;;
 
-;definovanie funkcie "getSuradniceMapaURL" pre získanie plného tvaru url adresy
-(defun getSuradniceMapaURL (pp_point)
+;definovanie funkcie "getSuradniceRoadMapURL" pre získanie plného tvaru url adresy
+(defun getSuradniceRoadMapURL (pp_point)
   ;definovanie súradníc X a Y
   (setq SuradnicaX (abs (nth 1 pp_point)))
   (setq SuradnicaY (abs (nth 0 pp_point)))
