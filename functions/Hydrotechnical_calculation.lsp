@@ -121,7 +121,7 @@
   (setq rychlostnySucinitelKoryta_C (* (/ 1.0 drsnost_n) (expt hydroraulickyPolomer_R (/ 2.0 3.0))))
   
   ;vypocet prietoku koryta
-  ;(setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt sklon_i))) 
+  (setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt sklon_i))) 
   
   ;nastavenie hodnot pre vysledky
   ;vypocitany vyskovy rozdiel koryta
@@ -134,10 +134,10 @@
   (set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
   
   ;vypocitany rychlostny sucinitel koryta
-  (set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 4))
+  (set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 2))
   
   ;vypocitany prietok koryta
-  ;(set_tile "prietokoveMnozstvo" (rtos prietok_Q 2 2))
+  (set_tile "prietokoveMnozstvo" (rtos prietok_Q 2 2))
   
   ;vyhodnotenie posudenia prietoku koryta pre Q1
   (if (> prietok_Q prietok_Q1)
