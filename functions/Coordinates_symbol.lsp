@@ -66,6 +66,8 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;               Hlavna funkcia vlozenia bloku Suradnice                ;;
+;;----------------------------------------------------------------------;;
 
 ;vlozenie bloku Suradnice
 (defun c:JTCoordinates ()

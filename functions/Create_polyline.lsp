@@ -184,5 +184,17 @@
 )
 
 ;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "JTmenu_version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nCreate_polyline.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
 ;;----------------------------------------------------------------------;;

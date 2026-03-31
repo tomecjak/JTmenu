@@ -5,7 +5,6 @@
 ; Prekliknutie na stránku Bugs report
 ;-------------------------------------------------------------------------
 
-;definovanie funkcie prikazu "JTHelp"
 (defun c:JTBugsReport ()
   
   ;definovanie premenej "BugsReportURL" do ktorej je zapísana url adresa

@@ -148,21 +148,30 @@
   (princ)
 )
 
-;vypocet measure automaticky
+;;----------------------------------------------------------------------;;
+;;                 Funkcia vypoctu measure automaticky                  ;;
+;;----------------------------------------------------------------------;;
+
 (defun vzorecVypoctuAutomaticky ()
   (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
     d0 (- (/ (- mx (* di (fix (/ mx di)))) 2.) di)
   )
 )
 
-;vypocet measure okolo
+;;----------------------------------------------------------------------;;
+;;                    Funkcia vypoctu measure okolo                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun vzorecVypoctuOkolo ()
   (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
     d0 (- (/ (- mx (* di (+ 1. (* 2. (fix (/ (/ (- mx di) 2.) di)))))) 2.) di)
   )
 )
 
-;vypocet measure stred
+;;----------------------------------------------------------------------;;
+;;                    Funkcia vypoctu measure stred                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun vzorecVypoctuStred ()
   (setq mx (vlax-curve-getdistatparam en (vlax-curve-getendparam en))
     d0 (- (/ (- mx (* (* 2 di) (fix (/ (/ mx 2.) di)))) 2.) di)

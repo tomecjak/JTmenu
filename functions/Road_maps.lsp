@@ -12,7 +12,6 @@
 ;;  Je mozne pre vyhladanie vyuzit UCS World alebo vlastny.             ;;
 ;;----------------------------------------------------------------------;;
 
-;definovanie funkcie prikazu "JTRoadMaps"
 (defun c:JTRoadMaps ()
   
   ;definovanie chybovej hlasky v programe + nastavenie 
@@ -68,8 +67,10 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                  Funkcia "getSuradniceKatasterURL"                   ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie funkcie "getSuradniceRoadMapURL" pre získanie plného tvaru url adresy
+;funkcia pre získanie plného tvaru url adresy
 (defun getSuradniceRoadMapURL (pp_point)
   ;definovanie súradníc X a Y
   (setq SuradnicaX (abs (nth 1 pp_point)))
@@ -303,31 +304,37 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                 Funkcia matematickej funkcie tangens                 ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie matematickej funkciet tangens
 (defun tan ( x )
     (if (not (equal 0.0 (cos x) 1e-10))
         (/ (sin x) (cos x))
     )
 )
 
-;definovanie matematickej funkcie arkussinus
+;;----------------------------------------------------------------------;;
+;;               Funkcia matematickej funkcie arkussinus                ;;
+;;----------------------------------------------------------------------;;
+
 (defun asin ( x )
     (if (<= -1.0 x 1.0)
         (atan x (sqrt (- 1.0 (* x x))))
     )
 )
 
-;; Round Down  -  Lee Mac
-;; Rounds 'n' down to the nearest 'm'
+;;----------------------------------------------------------------------;;
+;;                     Funkcia zaokruhlenia nadol                       ;;
+;;----------------------------------------------------------------------;;
 
 (defun LM:rounddown ( n m )
     ((lambda ( r ) (cond ((equal 0.0 r 1e-8) n) ((< n 0) (- n r m)) ((- n r)))) (rem n m))
 )
 
 ;;----------------------------------------------------------------------;;
+;;                               Error                                  ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie chybovej hlasky v programe + nastavenie 
 (defun *error* (errmsg)
   (command-s "_.ucs" "_Previous")
   (princ)

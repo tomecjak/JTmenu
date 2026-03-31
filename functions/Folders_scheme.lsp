@@ -5,6 +5,10 @@
 ; Vytvorenie struktry priecinkov projektu
 ;-------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------;;
+;;                  Hlavna funkcia nacitania dialogu                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun c:JTFolder () 
 
   ;nacitanie dialogoveho okna
@@ -763,7 +767,10 @@
   (princ)
 )
 
-;funkcia tlacidla vytvorit
+;;----------------------------------------------------------------------;;
+;;                  Funkcia pre vytvorenie struktury                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun VytvorenieFoldersScheme () 
   (setq studiaUskutocnitelnosti (get_tile "studiaUskutocnitelnosti"))
   (setq dokumentaciaStavebnehoZameru (get_tile "dokumentaciaStavebnehoZameru"))
@@ -789,7 +796,10 @@
   (setq vlastnaStruktura (get_tile "vlastnaStruktura"))
 )
 
-;funkcia pre nacitanie suboru vyberom
+;;----------------------------------------------------------------------;;
+;;               Funkcia pre nacitanie suborov vyberom                  ;;
+;;----------------------------------------------------------------------;;
+
 (defun SearchFilepath () 
   ;vybratie suboru z priecinku
   (setq FilePath (getfiled "Vyberte subor pre vytvorenie struktury" "" "txt" 4))
@@ -807,7 +817,10 @@
   (setq ListofPath (reverse ListOfPath))
 )
 
-;funkcia pre nacitanie suboru automaticky
+;;----------------------------------------------------------------------;;
+;;              Funkcia pre nacitanie suborov automaticky               ;;
+;;----------------------------------------------------------------------;;
+
 (defun AddFilepath () 
   ;otvorenie suboru a vytvorenie prazdneho listu
   (setq FilePathOpen (open FilePath "r")
@@ -823,7 +836,10 @@
   (setq ListofPath (reverse ListOfPath))
 )
 
-;funkcia pre vyvorenie priecinkov
+;;----------------------------------------------------------------------;;
+;;                  Funkcia pre vytvaranie priecinkov                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun CreateFoldersScheme () 
   ;nastavenie cesty vytvorenia suborov
   (setq SelectedFolderPath (LM:browseforfolder 
@@ -841,7 +857,10 @@
   )
 )
 
-;funkcia vytvorenia sablony priecinkov
+;;----------------------------------------------------------------------;;
+;;              Funkcia pre vytvorenie sablony priecinkov               ;;
+;;----------------------------------------------------------------------;;
+
 (defun VytvorenieFoldersSablony ()
   (setq cestaSablonaFolders (getfiled "Ulozenie suboru sablony..." "" "txt" 1))
   (setq suborSablonaFolders (close (open cestaSablonaFolders "w")))
@@ -855,7 +874,10 @@
   (write-line "\\\\Folder3\\\\Folder4\\\\Folder5" suborSablonaFolders)
 )
 
-;funkcia tlacidla zavriet
+;;----------------------------------------------------------------------;;
+;;                   Funkcia pre zatvorenie dialogu                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun UkoncenieFoldersScheme () 
   (done_dialog)
   (princ "\nNevytvorena ziadna struktura dokumentacie.\n")

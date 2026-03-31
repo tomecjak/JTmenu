@@ -18,6 +18,7 @@
 ;; Funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary     ;;
 ;; + hrubka ciary                                                       ;;
 ;;----------------------------------------------------------------------;;
+
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -33,6 +34,7 @@
 ;;----------------------------------------------------------------------;;
 ;;                   Nastavenie hladiny Prefix_Popis                    ;;
 ;;----------------------------------------------------------------------;;
+
 (defun SetLayerPrefixPopis()
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Popis") 7 "CONTINUOUS" "DEFAULT")
   ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
@@ -49,6 +51,7 @@
 ;;----------------------------------------------------------------------;;
 ;;                  Nastavenie hladiny Prefix_Vystuz                    ;;
 ;;----------------------------------------------------------------------;;
+
 (defun SetLayerPrefixVystuz()
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz") 7 "CONTINUOUS" "DEFAULT")
   ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
@@ -77,6 +80,7 @@
 ;;----------------------------------------------------------------------;;
 ;;                Vyhodnotenie GlovalnaHladinaBlokov                    ;;
 ;;----------------------------------------------------------------------;;
+
 (defun LayerSetting()
   ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
   (setq VytvorenieHladinyPopisu

@@ -5,6 +5,10 @@
 ; Pocitanie dlzok kotvenia a presahu betonarskej vystuze
 ;-------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------;;
+;;                  Hlavna funkcia nacitania dialogu                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun C:JTRebarLength()
   
   (vl-load-com)
@@ -120,7 +124,10 @@
              
 )
 
-;definovanie funkcie vypoctu dlzok vystuze
+;;----------------------------------------------------------------------;;
+;;                    Funkcia vypoctu dlzok vystuze                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun VypocetDlzky ()
   ;definovanie premennych z dialogu
   ;charakteristicka pevnost betonu v tahu
@@ -190,7 +197,10 @@
   (set_tile "dlzkaPresahu" DlzaPresahu)
 )
 
-;definovanie funkcie vypoctu kotvenia vystuze
+;;----------------------------------------------------------------------;;
+;;                  Funkcia vypoctu kotvenia vystuze                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun VypocetKotvenia ()
   ;zakladna kotevna dlzka v tahu
   (setq lbrqdTah (* 0.3 lbrqd))
@@ -215,11 +225,18 @@
 
 )
 
-;definovanie funkcie vypoctu presahu vystuze
+;;----------------------------------------------------------------------;;
+;;                   Funkcia vypoctu presahu vystuze                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun VypocetPresahu ()
   ;navrhovana dlzka presahu
   (setq DlzaPresahu (* alfa1 alfa2 alfa3 alfa4 alfa5 (atof i_alfa6) lbrqd))
 )
+
+;;----------------------------------------------------------------------;;
+;;                       Funkcia ukoncenia dialogu                      ;;
+;;----------------------------------------------------------------------;;
 
 (defun UkoncenieRebarLength()
   ;ulozenie hodnot pred zatvorenim

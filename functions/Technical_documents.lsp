@@ -1,8 +1,8 @@
 ;=========================================================================
-; Doc_VL_TP.lsp
+; Technical_documents.lsp
 ; Create by Jakub Tomecko
 ;
-; Otvorenie vzorovych listov alebo technickych podmienok
+; Otvorenie vzorovych listov, echnickych podmienok alebo zakonov
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
@@ -241,7 +241,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nDoc_VL_TP.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        "\nTechnical_documents.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
         "\n"
     )

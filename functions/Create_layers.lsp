@@ -59,7 +59,10 @@
   
 )
 
-;funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary + hrubka ciary
+;;----------------------------------------------------------------------;;
+;;                    Funkcia pre vytvaranie hladin                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun CreateLayers(lyrname Color ltype lweight)
 
   (if (tblsearch "LAYER" lyrname)
@@ -72,7 +75,10 @@
   )
 )
 
-;vytvorenie hlavnych hladnin do modelu
+;;----------------------------------------------------------------------;;
+;;                  Funkcia vytvarania hlavnych hladin                  ;;
+;;----------------------------------------------------------------------;;
+
 (defun MainLayers()
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Hatch") 9 "CONTINUOUS" 0.05)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Koty") 3 "CONTINUOUS" 0.09)
@@ -94,7 +100,10 @@
   (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
 )
 
-;vytvorenie hladin pre vystuz do modelu
+;;----------------------------------------------------------------------;;
+;;                  Funkcia vytvarania hladin pre vystuz                ;;
+;;----------------------------------------------------------------------;;
+
 (defun RebarLayers()
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz") 7 "CONTINUOUS" "DEFAULT")
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz_06") 181 "CONTINUOUS" 0.25)
@@ -115,7 +124,10 @@
   (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
 )
 
-;vytvorenie hladin pre novy stav do modelu
+;;----------------------------------------------------------------------;;
+;;                Funkcia vytvarania hladin pre novy stav               ;;
+;;----------------------------------------------------------------------;;
+
 (defun NewLayers()
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladinyNew") "Hatch") 10 "CONTINUOUS" 0.05)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladinyNew") "Koty") 10 "CONTINUOUS" 0.09)

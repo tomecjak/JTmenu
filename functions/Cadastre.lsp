@@ -12,19 +12,8 @@
 ;;  Je mozne pre vyhladanie vyuzit UCS World alebo vlastny.             ;;
 ;;----------------------------------------------------------------------;;
 
-;definovanie funkcie prikazu "Kataster"
 (defun c:JTCadastre ()
-  
-  ;definovanie chybovej hlasky v programe + nastavenie 
-  (defun *error* (errmsg)
-    (command-s "_.ucs" "_Previous")
-    (princ)
-    (princ "\nProgram Cadastre.lsp sa ukoncil. ")
-    (terpri)
-    (prompt errmsg)
-    (princ)
-  )
-  
+    
   ;vytvrenie premenej VyberUCSCadastre pre vyber pouzivaneho UCS
   (initget "WCS Vlastne")
   (setq VyberUCSCadastre (getkword "\nAke pouzit UCS? [WCS/Vlastne] <WCS>: "))
@@ -67,7 +56,11 @@
   (princ)
 )
 
-;definovanie funkcie "getSuradniceKatasterURL" pre získanie plného tvaru url adresy
+;;----------------------------------------------------------------------;;
+;;                  Funkcia "getSuradniceKatasterURL"                   ;;
+;;----------------------------------------------------------------------;;
+
+;funkcia pre získanie plného tvaru url adresy
 (defun getSuradniceKatasterURL (pp_point)
   ;definovanie súradníc X a Y
   (setq SuradnicaX (abs (nth 1 pp_point)))
@@ -261,19 +254,37 @@
 
 )
 
+;;----------------------------------------------------------------------;;
+;;                 Funkcia matematickej funkcie tangens                 ;;
+;;----------------------------------------------------------------------;;
 
-;definovanie matematickej funkciet tangens
 (defun tan ( x )
     (if (not (equal 0.0 (cos x) 1e-10))
         (/ (sin x) (cos x))
     )
 )
 
-;definovanie matematickej funkcie arkussinus
+;;----------------------------------------------------------------------;;
+;;               Funkcia matematickej funkcie arkussinus                ;;
+;;----------------------------------------------------------------------;;
+
 (defun asin ( x )
     (if (<= -1.0 x 1.0)
         (atan x (sqrt (- 1.0 (* x x))))
     )
+)
+
+;;----------------------------------------------------------------------;;
+;;                               Error                                  ;;
+;;----------------------------------------------------------------------;;
+
+(defun *error* (errmsg)
+  (command-s "_.ucs" "_Previous")
+  (princ)
+  (princ "\nV programe sa vyskytla chyba. ")
+  (terpri)
+  (prompt errmsg)
+  (princ)
 )
 
 ;;----------------------------------------------------------------------;;
