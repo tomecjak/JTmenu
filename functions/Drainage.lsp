@@ -293,7 +293,7 @@
   )
 
   ;urcenie vysky vody odvodnovaca
-  (setq p_h_1 p_h_ciarka_1)
+  (setq p_h_1 p_h_max)
 
   ;ochrana proti deleniu nulou
   (if (= p_v 0.0)
