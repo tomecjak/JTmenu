@@ -10,7 +10,23 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTHydrotechnical ()
-
+  (vl-load-com)
+  ;inicializacia globalnych premennych
+  (if (not *hydro_vyska_zac*) (setq *hydro_vyska_zac* nil))
+  (if (not *hydro_vyska_kon*) (setq *hydro_vyska_kon* nil))
+  (if (not *hydro_dlzka*) (setq *hydro_dlzka* nil))
+  (if (not *hydro_drsnost*) (setq *hydro_drsnost* nil))
+  (if (not *hydro_plocha*) (setq *hydro_plocha* nil))
+  (if (not *hydro_obvod*) (setq *hydro_obvod* nil))
+  (if (not *hydro_q1*) (setq *hydro_q1* nil))
+  (if (not *hydro_q2*) (setq *hydro_q2* nil))
+  (if (not *hydro_q5*) (setq *hydro_q5* nil))
+  (if (not *hydro_q10*) (setq *hydro_q10* nil))
+  (if (not *hydro_q20*) (setq *hydro_q20* nil))
+  (if (not *hydro_q50*) (setq *hydro_q50* nil))
+  (if (not *hydro_q100*) (setq *hydro_q100* nil))
+  (setq select_polyline nil)
+  
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Hydrotechnical_calculation.dcl"))
 
@@ -19,9 +35,24 @@
     (exit)
   )
   
+  ;nastavenie hodnot z predchadzajuceho vyberu alebo ulozenia
+  (if *hydro_vyska_zac* (set_tile "vyskaNaZaciatkuKoryta" (rtos *hydro_vyska_zac* 2 2)))
+  (if *hydro_vyska_kon* (set_tile "vyskaNaKonciKoryta" (rtos *hydro_vyska_kon* 2 2)))
+  (if *hydro_dlzka* (set_tile "dlzkaKoryta" (rtos *hydro_dlzka* 2 2)))
+  (if *hydro_drsnost* (set_tile "stupenDrsnostiKoryta" (rtos *hydro_drsnost* 2 2)))
+  (if *hydro_plocha* (set_tile "prietocnaPlochaKoryta" (rtos *hydro_plocha* 2 2)))
+  (if *hydro_obvod* (set_tile "omocvenyObvodKoryta" (rtos *hydro_obvod* 2 2)))
+  (if *hydro_q1* (set_tile "hodnotaPrietokuKorytaQ1" (rtos *hydro_q1* 2 2)))
+  (if *hydro_q2* (set_tile "hodnotaPrietokuKorytaQ2" (rtos *hydro_q2* 2 2)))
+  (if *hydro_q5* (set_tile "hodnotaPrietokuKorytaQ5" (rtos *hydro_q5* 2 2)))
+  (if *hydro_q10* (set_tile "hodnotaPrietokuKorytaQ10" (rtos *hydro_q10* 2 2)))
+  (if *hydro_q20* (set_tile "hodnotaPrietokuKorytaQ20" (rtos *hydro_q20* 2 2)))
+  (if *hydro_q50* (set_tile "hodnotaPrietokuKorytaQ50" (rtos *hydro_q50* 2 2)))
+  (if *hydro_q100* (set_tile "hodnotaPrietokuKorytaQ100" (rtos *hydro_q100* 2 2)))
+  
   ;definovanie tlacidla vyber polylinu
   (action_tile "polylinaKoryta"
-  "(PolylineKorytaHydrotechnicalCalculation)"
+  "(setq select_polyline t) (done_dialog)"
   )
   
   ;definovanie tlacidla cancel
@@ -41,6 +72,14 @@
   
   ;spustenie dialogu
   (start_dialog)
+  
+  ;ak bol vybrany vyber polyliny, vykonaj ho
+  (if select_polyline
+    (progn
+      (PolylineKorytaHydrotechnicalCalculation)
+      (c:JTHydrotechnical)
+    )
+  )
   
   ;unload dialogu
   (unload_dialog dcl_id)
@@ -202,11 +241,10 @@
       (setq obj (vlax-ename->vla-object (car ent)))
       (if (= (vla-get-objectname obj) "AcDbPolyline")
         (progn
-          (setq area (vla-get-area obj))
-          (setq length (vla-get-length obj))
-          (set_tile "prietocnaPlochaKoryta" (rtos area 2 2))
-          (set_tile "omocvenyObvodKoryta" (rtos length 2 2))
-          (princ "\nHodnoty boli nacitane z polyliny.\n")
+          (setq *hydro_plocha* (vla-get-area obj))
+          (setq *hydro_obvod* (vla-get-length obj))
+          (princ (strcat "\nPlocha: " (rtos *hydro_plocha* 2 2) " m²\n"))
+          (princ (strcat "Obvod: " (rtos *hydro_obvod* 2 2) " m\n"))
         )
         (princ "\nVybrana entita nie je polylina.\n")
       )
@@ -229,9 +267,22 @@
 ;;----------------------------------------------------------------------;;
 
 (defun UkoncenieHydrotechnicalCalculation()
+  ;ulozenie hodnot pred zatvorenim
+  (if (get_tile "vyskaNaZaciatkuKoryta") (setq *hydro_vyska_zac* (atof (get_tile "vyskaNaZaciatkuKoryta"))))
+  (if (get_tile "vyskaNaKonciKoryta") (setq *hydro_vyska_kon* (atof (get_tile "vyskaNaKonciKoryta"))))
+  (if (get_tile "dlzkaKoryta") (setq *hydro_dlzka* (atof (get_tile "dlzkaKoryta"))))
+  (if (get_tile "stupenDrsnostiKoryta") (setq *hydro_drsnost* (atof (get_tile "stupenDrsnostiKoryta"))))
+  ;plocha a obvod uz su ulozene
+  ;a Q hodnoty
+  (if (get_tile "hodnotaPrietokuKorytaQ1") (setq *hydro_q1* (atof (get_tile "hodnotaPrietokuKorytaQ1"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ2") (setq *hydro_q2* (atof (get_tile "hodnotaPrietokuKorytaQ2"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ5") (setq *hydro_q5* (atof (get_tile "hodnotaPrietokuKorytaQ5"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ10") (setq *hydro_q10* (atof (get_tile "hodnotaPrietokuKorytaQ10"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ20") (setq *hydro_q20* (atof (get_tile "hodnotaPrietokuKorytaQ20"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ50") (setq *hydro_q50* (atof (get_tile "hodnotaPrietokuKorytaQ50"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ100") (setq *hydro_q100* (atof (get_tile "hodnotaPrietokuKorytaQ100"))))
   (done_dialog)
   (princ "\nUkoncenie hydrotechnickeho vypoctu.\n")
-  (exit)
 )
 
 ;;----------------------------------------------------------------------;;
