@@ -245,46 +245,48 @@
   ;WGS84 longitude
   (setq LA2 (+ LAGreenW (/ dLAsec 3600)))
   
-  ;vytvorenie premenej VyberMapovehoPodkladu pre vyber mapoveho podkladu
-  (setq VyberMapovehoPodkladu
-    (getstring "\nVyberte si mapu [Google maps/Mapy.cz/ZBGIS mapy] <Google maps>: ")
-  )
+  ;vytvorenie premenej VyberMapovehoPortalu pre vyber mapoveho podkladu
+  (setq VyberMapovehoPortalu (getkword "\nVyberte si mapu [Google maps/Mapy.cz/ZBGIS mapy] <Google maps>: "))
+  (if (null VyberMapovehoPortalu) (setq VyberMapovehoPortalu "Google maps"))
   
-  (if (or (= VyberMapovehoPodkladu "") (= VyberMapovehoPodkladu "G") (= VyberMapovehoPodkladu "g"))
-  ;spojenie stringov do jedného url - https://www.google.com/maps/@48.9709044,21.2642091,14z
-  (strcat
-    "https://www.google.com/maps/@"
-    ;prevedenie čísla do stringu (2-decimal, 0-precision)
-    (rtos Fl2 2 6)
-    ","
-    (rtos LA2 2 6)
-    ",18z"
-  )
-    (if (or (= VyberMapovehoPodkladu "M") (= VyberMapovehoPodkladu "m"))
-    ;spojenie stringov do jedného url - https://sk.mapy.cz/zakladni?x=15.6252330&y=49.8022514&z=8
-    (strcat
+  (cond
+    ((= VyberMapovehoPortalu "Google maps")
+      ;spojenie stringov do jedného url - https://www.google.com/maps/@48.9709044,21.2642091,14z
+      (strcat
+      "https://www.google.com/maps/@"
+      ;prevedenie čísla do stringu (2-decimal, 0-precision)
+      (rtos Fl2 2 6)
+      ","
+      (rtos LA2 2 6)
+      ",18z"
+      )
+    )
+      
+    ((= VyberMapovehoPortalu "Mapy.cz")
+      ;spojenie stringov do jedného url - https://sk.mapy.cz/zakladni?x=15.6252330&y=49.8022514&z=8
+      (strcat
       "https://sk.mapy.cz/zakladni?x="
       ;prevedenie čísla do stringu (2-decimal, 0-precision)
       (rtos LA2 2 6)
       "&y="
       (rtos Fl2 2 6)
       "&z=18"
+      )
     )
-      (if (or (= VyberMapovehoPodkladu "Z") (= VyberMapovehoPodkladu "z"))
+      
+    ((= VyberMapovehoPortalu "ZBGIS mapy")
       ;spojenie stringov do jedného url - https://zbgis.skgeodesy.sk/mkzbgis/sk/zakladna-mapa?pos=49.014939,21.208333,18
       (strcat
-        "https://zbgis.skgeodesy.sk/mapka/sk/zakladna-mapa?pos="
-        ;prevedenie čísla do stringu (2-decimal, 0-precision)
-        (rtos Fl2 2 6)
-        ","
-        (rtos LA2 2 6)
-        ",18"
-      )
-      (princ "\nNeplatny vyber.")
+      "https://zbgis.skgeodesy.sk/mapka/sk/zakladna-mapa?pos="
+      ;prevedenie čísla do stringu (2-decimal, 0-precision)
+      (rtos Fl2 2 6)
+      ","
+      (rtos LA2 2 6)
+      ",18"
       )
     )
-  )   
-
+  )
+  
 )
 
 ;;----------------------------------------------------------------------;;

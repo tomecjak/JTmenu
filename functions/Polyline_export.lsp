@@ -15,7 +15,7 @@
                            )
 
   ;; ------------------------------------------------------------
-  ;; 1) VYBER UCS NA ZACIATKU
+  ;; Vyber UCS
   ;; jtExportCS: 0 = export vo WCS, 1 = export v aktuálnom UCS
   ;; ------------------------------------------------------------
   (setq jtExportCS 1)          ; default: aktuálny UCS

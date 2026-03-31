@@ -15,6 +15,11 @@
     (exit)
   )
   
+  ;definovanie tlacidla vyber polylinu
+  (action_tile "polylinaKoryta"
+  "(PolylineKorytaHydrotechnicalCalculation)"
+  )
+  
   ;definovanie tlacidla cancel
   (action_tile "cancel"
     "(UkoncenieHydrotechnicalCalculation)"
