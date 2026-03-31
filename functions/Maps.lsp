@@ -26,18 +26,18 @@
   )
   
   ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
-  (setq VyberUCS
-    (getstring "\nAke pouzit UCS? [World/Vlastne] <World>: ")
-  )
-  
-  ;vyhodnotenie vyberu UCS pred prikazom
-  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
-    ;nastavenie UCS na World
-    (command "_.ucs" "_World")
-  
-    (if (or (= VyberUCS "V") (= VyberUCS "v"))
-    ;UCS zostane bez zmeny
-    (princ)
+  (initget "WCS Vlastne")
+  (setq VyberUCS (getkword "\nAke pouzit UCS? [WCS/Vlastne] <Vlastne>: "))
+  (if (null VyberUCS) (setq VyberUCS "Vlastne"))
+
+  (cond
+    ((= VyberUCS "WCS")
+      ;nastavenie UCS na World
+      (command "_.ucs" "_World")
+    )
+    ((= VyberUCS "Vlastne")
+      ;UCS zostane bez zmeny
+      (princ)
     )
   )
   
@@ -51,15 +51,16 @@
   (command "browser" MapaURL)
   
   ;vyhodnotenie vyberu UCS po prikaze
-  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
-    ;nastavenie UCS na predchadzajuce
-    (command "_.ucs" "_Previous")
-  
-    (if (or (= VyberUCS "V") (= VyberUCS "v"))
-    ;UCS zostane bez zmeny
-    (princ)
+  (cond
+    ((= VyberUCS "WCS")
+      ;nastavenie UCS na predchadzajuce
+      (command "_.ucs" "_Previous")
     )
-  )
+    ((= VyberUCS "Vlastne")
+      ;UCS zostane bez zmeny
+      (princ)
+    )
+  ) 
   
   ;hlaska po skonceni programu
   (princ "\nMapa sa otvorila v internetovom prehliadaci. ")
