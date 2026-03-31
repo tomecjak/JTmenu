@@ -71,7 +71,7 @@ Hydrotechnical_calculation //nazov dcl
           : edit_box
           {
             key = "stupenDrsnostiKoryta";
-            value = "1";
+            value = "0.04";
           }
         }
         : column
@@ -88,7 +88,7 @@ Hydrotechnical_calculation //nazov dcl
           }
           : text
           {
-            label = "Prietocna plocha koryta [m²]";
+            label = "Prietocna plocha koryta [m2]";
           }
           : edit_box
           {
@@ -134,7 +134,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q1 [m³/s]";
+            label = "Q1 [m3/s]";
           }
           : edit_box
           {
@@ -146,7 +146,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q2 [m³/s]";
+            label = "Q2 [m3/s]";
           }
           : edit_box
           {
@@ -158,7 +158,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q5 [m³/s]";
+            label = "Q5 [m3/s]";
           }
           : edit_box
           {
@@ -172,7 +172,7 @@ Hydrotechnical_calculation //nazov dcl
           fixed_width = true;
           : text
           {
-            label = "Q10 [m³/s]";
+            label = "Q10 [m3/s]";
           }
           : edit_box
           {
@@ -187,7 +187,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q20 [m³/s]";
+            label = "Q20 [m3/s]";
           }
           : edit_box
           {
@@ -199,7 +199,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q50 [m³/s]";
+            label = "Q50 [m3/s]";
           }
           : edit_box
           {
@@ -211,7 +211,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q100 [m³/s]";
+            label = "Q100 [m3/s]";
           }
           : edit_box
           {

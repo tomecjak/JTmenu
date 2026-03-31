@@ -7,6 +7,17 @@
 
 (defun C:JTRebarLength()
   
+  (vl-load-com)
+  ;inicializacia globalnych premennych
+  (if (not (boundp '*rebar_length_triedaBetonu*)) (setq *rebar_length_triedaBetonu* nil))
+  (if (not (boundp '*rebar_length_triedaOcele*)) (setq *rebar_length_triedaOcele* nil))
+  (if (not (boundp '*rebar_length_priemerOcele*)) (setq *rebar_length_priemerOcele* nil))
+  (if (not (boundp '*rebar_length_situaciaPouzitia*)) (setq *rebar_length_situaciaPouzitia* nil))
+  (if (not (boundp '*rebar_length_podmienkySudrznosti*)) (setq *rebar_length_podmienkySudrznosti* nil))
+  (if (not (boundp '*rebar_length_percentoStykovanejVystuze*)) (setq *rebar_length_percentoStykovanejVystuze* nil))
+  (if (not (boundp '*rebar_length_potrebaPlochaVystuze*)) (setq *rebar_length_potrebaPlochaVystuze* nil))
+  (if (not (boundp '*rebar_length_navrhnutaPlochaVystuze*)) (setq *rebar_length_navrhnutaPlochaVystuze* nil))
+  
   ;definovanie listu betonov
   (setq BetonList (list "C12/15" "C16/20" "C20/25" "C25/30" "C30/37" "C35/45" "C40/50" "C45/55" "C50/60" "C55/67" "C60/75" "C70/85" "C80/95" "C90/105"))
   (setq TriedaBetonuList (list "1.10" "1.30" "1.50" "1.80" "2.00" "2.20" "2.50" "2.70" "2.90" "3.00" "3.10" "3.20" "3.40" "3.50"))
@@ -49,6 +60,16 @@
     (exit)
   )
   
+  ;nastavenie hodnot z predchadzajuceho ulozenia
+  (if *rebar_length_triedaBetonu* (set_tile "triedaBetonu" *rebar_length_triedaBetonu*))
+  (if *rebar_length_triedaOcele* (set_tile "triedaOcele" *rebar_length_triedaOcele*))
+  (if *rebar_length_priemerOcele* (set_tile "priemerOcele" *rebar_length_priemerOcele*))
+  (if *rebar_length_situaciaPouzitia* (set_tile "situaciaPouzitia" *rebar_length_situaciaPouzitia*))
+  (if *rebar_length_podmienkySudrznosti* (set_tile "podmienkySudrznosti" *rebar_length_podmienkySudrznosti*))
+  (if *rebar_length_percentoStykovanejVystuze* (set_tile "percentoStykovanejVystuze" *rebar_length_percentoStykovanejVystuze*))
+  (if *rebar_length_potrebaPlochaVystuze* (set_tile "potrebaPlochaVystuze" *rebar_length_potrebaPlochaVystuze*))
+  (if *rebar_length_navrhnutaPlochaVystuze* (set_tile "navrhnutaPlochaVystuze" *rebar_length_navrhnutaPlochaVystuze*))
+
   ;spustenie a naplnenie listu betonov
   (start_list "triedaBetonu")
   (mapcar 'add_list BetonList)
@@ -201,9 +222,18 @@
 )
 
 (defun UkoncenieRebarLength()
+  ;ulozenie hodnot pred zatvorenim
+  (if (get_tile "triedaBetonu") (setq *rebar_length_triedaBetonu* (get_tile "triedaBetonu")))
+  (if (get_tile "triedaOcele") (setq *rebar_length_triedaOcele* (get_tile "triedaOcele")))
+  (if (get_tile "priemerOcele") (setq *rebar_length_priemerOcele* (get_tile "priemerOcele")))
+  (if (get_tile "situaciaPouzitia") (setq *rebar_length_situaciaPouzitia* (get_tile "situaciaPouzitia")))
+  (if (get_tile "podmienkySudrznosti") (setq *rebar_length_podmienkySudrznosti* (get_tile "podmienkySudrznosti")))
+  (if (get_tile "percentoStykovanejVystuze") (setq *rebar_length_percentoStykovanejVystuze* (get_tile "percentoStykovanejVystuze")))
+  (if (get_tile "potrebaPlochaVystuze") (setq *rebar_length_potrebaPlochaVystuze* (get_tile "potrebaPlochaVystuze")))
+  (if (get_tile "navrhnutaPlochaVystuze") (setq *rebar_length_navrhnutaPlochaVystuze* (get_tile "navrhnutaPlochaVystuze")))
+  ;zavretie dialogu
   (done_dialog)
   (princ "\nUkoncenie kalkulacky.\n")
-  (exit)
 )
 
 ;;----------------------------------------------------------------------;;

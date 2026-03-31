@@ -10,6 +10,7 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTHydrotechnical ()
+  
   (vl-load-com)
   ;inicializacia globalnych premennych
   (if (not *hydro_vyska_zac*) (setq *hydro_vyska_zac* nil))
@@ -176,7 +177,7 @@
   (set_tile "rychlostniSucinitel" (strcat (rtos rychlostnySucinitelKoryta_C 2 2) " -"))
   
   ;vypocitany prietok koryta
-  (set_tile "prietokoveMnozstvo" (strcat (rtos prietok_Q 2 2) " m³/s"))
+  (set_tile "prietokoveMnozstvo" (strcat (rtos prietok_Q 2 2) " m3/s"))
   
   ;vyhodnotenie posudenia prietoku koryta pre Q1
   (if (> prietok_Q prietok_Q1)
@@ -281,6 +282,7 @@
   (if (get_tile "hodnotaPrietokuKorytaQ20") (setq *hydro_q20* (atof (get_tile "hodnotaPrietokuKorytaQ20"))))
   (if (get_tile "hodnotaPrietokuKorytaQ50") (setq *hydro_q50* (atof (get_tile "hodnotaPrietokuKorytaQ50"))))
   (if (get_tile "hodnotaPrietokuKorytaQ100") (setq *hydro_q100* (atof (get_tile "hodnotaPrietokuKorytaQ100"))))
+  ;zavretie dialogu
   (done_dialog)
   (princ "\nUkoncenie hydrotechnickeho vypoctu.\n")
 )
