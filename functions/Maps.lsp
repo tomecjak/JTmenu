@@ -246,11 +246,12 @@
   (setq LA2 (+ LAGreenW (/ dLAsec 3600)))
   
   ;vytvorenie premenej VyberMapovehoPortalu pre vyber mapoveho podkladu
-  (setq VyberMapovehoPortalu (getkword "\nVyberte si mapu [Google maps/Mapy.cz/ZBGIS mapy] <Google maps>: "))
-  (if (null VyberMapovehoPortalu) (setq VyberMapovehoPortalu "Google maps"))
+  (initget "Google Mapy.cz ZBGIS")
+  (setq VyberMapovehoPortalu (getkword "\nVyberte si mapu [Google/Mapy.cz/ZBGIS] <Google maps>: "))
+  (if (null VyberMapovehoPortalu) (setq VyberMapovehoPortalu "Google"))
   
   (cond
-    ((= VyberMapovehoPortalu "Google maps")
+    ((= VyberMapovehoPortalu "Google")
       ;spojenie stringov do jedného url - https://www.google.com/maps/@48.9709044,21.2642091,14z
       (strcat
       "https://www.google.com/maps/@"
@@ -274,7 +275,7 @@
       )
     )
       
-    ((= VyberMapovehoPortalu "ZBGIS mapy")
+    ((= VyberMapovehoPortalu "ZBGIS")
       ;spojenie stringov do jedného url - https://zbgis.skgeodesy.sk/mkzbgis/sk/zakladna-mapa?pos=49.014939,21.208333,18
       (strcat
       "https://zbgis.skgeodesy.sk/mapka/sk/zakladna-mapa?pos="
