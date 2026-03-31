@@ -44,11 +44,11 @@
   ;definovanie premenej "polohaBoduMapy" do krotej sú zapísane súradnice
   (setq polohaBoduMapy (getpoint "Zadajte suradnice: "))
 
-  ;definovanie premenej "MapaURL" do ktorej je zapísana url adresa
-  (setq MapaURL (getSuradniceMapaURL polohaBoduMapy))
+  ;definovanie premenej "RoadMapaURL" do ktorej je zapísana url adresa
+  (setq RoadMapaURL (getSuradniceMapaURL polohaBoduMapy))
   
   ;spustenie prikazu browser z vlozenou url
-  (command "browser" MapaURL)
+  (command "browser" RoadMapaURL)
   
   ;vyhodnotenie vyberu UCS po prikaze
   (cond
