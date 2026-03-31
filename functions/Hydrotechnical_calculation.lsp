@@ -111,33 +111,30 @@
   ;vypocet delta vysok zaciatku a konca koryta
   (setq delta_h (- vyska_h1 vyska_h2))
   
-  ;vypocet sklonu koryta
-  (setq sklon_i (/ delta_h dlzka_L))
-  
   ;vypocet hydroraulickeho polomeru koryta
   (setq hydroraulickyPolomer_R (/ plocha_S obvod_O))
   
   ;vypocet rychlostneho sucinitela koryta
-  (setq rychlostnySucinitelKoryta_C (/ 1.0 n (expt R (/ 1.0 6.0))))
+  (setq rychlostnySucinitelKoryta_C (* (/ 1.0 drsnost_n) (expt hydroraulickyPolomer_R (/ 2.0 3.0))))
   
   ;vypocet prietoku koryta
-  (setq prietok_Q ((* rychlostnySucinitelKoryta_C plocha_S (sqrt (* hydroraulickyPolomer_R delta_h))))) 
+  (setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt sklon_i))) 
   
   ;nastavenie hodnot pre vysledky
   ;vypocitany vyskovy rozdiel koryta
-  (set_tile "vyskovyRozdielKoryta" delta_h)
+  (set_tile "vyskovyRozdielKoryta" (rtos delta_h 2 2))
   
   ;vypocitany sklon koryta
-  (set_tile "vypocitanySklonKoryta" sklon_i)
+  (set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 4))
   
   ;vypocitany hydroraulicky polomer koryta
-  (set_tile "hydrailickyPolomer" hydroraulickyPolomer_R)
+  (set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
   
   ;vypocitany rychlostny sucinitel koryta
-  (set_tile "rychlostniSucinitel" rychlostnySucinitelKoryta_C)
+  (set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 4))
   
   ;vypocitany prietok koryta
-  (set_tile "prietokoveMnozstvo" prietok_Q)
+  (set_tile "prietokoveMnozstvo" (rtos prietok_Q 2 2))
   
   ;vyhodnotenie posudenia prietoku koryta pre Q1
   (if (> prietok_Q prietok_Q1)
@@ -191,13 +188,34 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;            Funkcia vyberu polyliny pre hydrotechnicky vypocet        ;;
+;;----------------------------------------------------------------------;;
+
+(defun PolylineKorytaHydrotechnicalCalculation ()
+  ;placeholder - select polyline and calculate area and perimeter
+  (princ "\nVyber polylinu pre hydrotechnicky vypocet.\n")
+  ;(setq ent (entsel "\nVyber polylinu: "))
+  ;if selected, get area and length
+  ;but for now, do nothing
+)
+
+;;----------------------------------------------------------------------;;
+;;                  Funkcia reportu                                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun ReportHydrotechnicalCalculation ()
+  (princ "\nGenerovanie reportu.\n")
+  ;placeholder
+)
+
+;;----------------------------------------------------------------------;;
 ;;                  Funkcia zavretia dialogoveho okna                   ;;
 ;;----------------------------------------------------------------------;;
 
-(defun UkoncenieDrainage()
+(defun UkoncenieHydrotechnicalCalculation()
   (ResetVariables)
   (done_dialog)
-  (princ "\nUkoncenie kalkulacky odvodnenia.\n")
+  (princ "\nUkoncenie hydrotechnickeho vypoctu.\n")
   (exit)
 )
 
@@ -207,7 +225,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nDrainage.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        "\nHydrotechnical_calculation.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
         "\n"
     )
