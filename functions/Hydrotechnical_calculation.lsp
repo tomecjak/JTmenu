@@ -195,11 +195,24 @@
 ;;----------------------------------------------------------------------;;
 
 (defun PolylineKorytaHydrotechnicalCalculation ()
-  ;placeholder - select polyline and calculate area and perimeter
-  (princ "\nVyber polylinu pre hydrotechnicky vypocet.\n")
-  ;(setq ent (entsel "\nVyber polylinu: "))
-  ;if selected, get area and length
-  ;but for now, do nothing
+  (vl-load-com)
+  (setq ent (entsel "\nVyber polylinu koryta: "))
+  (if ent
+    (progn
+      (setq obj (vlax-ename->vla-object (car ent)))
+      (if (= (vla-get-objectname obj) "AcDbPolyline")
+        (progn
+          (setq area (vla-get-area obj))
+          (setq length (vla-get-length obj))
+          (set_tile "prietocnaPlochaKoryta" (rtos area 2 2))
+          (set_tile "omocvenyObvodKoryta" (rtos length 2 2))
+          (princ "\nHodnoty boli nacitane z polyliny.\n")
+        )
+        (princ "\nVybrana entita nie je polylina.\n")
+      )
+    )
+    (princ "\nNevybral si ziadnu polylinu.\n")
+  )
 )
 
 ;;----------------------------------------------------------------------;;

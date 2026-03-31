@@ -417,7 +417,7 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 10;
-          label = "Navrhovany profil koryta:";
+          label = "Navrhovany profil koryta pre Qx:";
         }
       }
       : row
