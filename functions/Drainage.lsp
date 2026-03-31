@@ -5,10 +5,12 @@
 ; Pocitanie vzdialenosti odvodnovacou a posudenie kapacity potrubia
 ;-------------------------------------------------------------------------
 
+
 (defun c:JTDrainage ()
 
+
   ;definovanie listu typ odvodnovaca
-  (setq TypOdvodnovaca (list "300x300 mm" "300x500 mm" "500x500 mm"))
+  (setq TypOdvodnovaca (list "300x300 mm" "500x300 mm" "500x500 mm"))
   
   ;definovanie listu sucinitel odtoku
   (setq TypSucinitelaOdtoku (list "Kategoria A: 0.9" "Kategoria B: 0.4" "Kategoria C: 0.05"))
@@ -16,13 +18,16 @@
   ;definovanie typu potrubia
   (setq TypPotrubia (list "Polypropylen [PP]: 0.009" "Polyetylen [PE]: 0.009" "Liatina: 0.010" "Sklolaminat [GRP]: 0.009" "Koroziivzdorna ocel: 0.010"))
 
+
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Drainage.dcl"))
+
 
   ;test existencie dialogu
   (if (not (new_dialog "Drainage" dcl_id))
     (exit)
   )
+
 
   ;naplnenie listu typ odvodnovaca
   (start_list "typOdvodnovaca")
@@ -67,7 +72,105 @@
  
   (princ)
 
+
 )
+
+
+;----------------------------------------------------------------------
+; Pomocne funkcie pre grafy
+;----------------------------------------------------------------------
+
+; body z grafov: (v' hmax)
+; hmax v metroch
+; 300x300 graf ma rozsah do 1.0 m/s
+(setq JT_TAB_HMAX_300x300
+  '(
+    (0.1 0.045) (0.2 0.042) (0.3 0.037) (0.4 0.034) (0.5 0.030)
+    (0.6 0.027) (0.7 0.023) (0.8 0.020) (0.9 0.015) (1.0 0.012)
+   )
+)
+
+; 500x300 graf ma rozsah do 1.5 m/s
+(setq JT_TAB_HMAX_500x300
+  '(
+    (0.1 0.060) (0.2 0.052) (0.3 0.046) (0.4 0.038) (0.5 0.034)
+    (0.6 0.030) (0.7 0.026) (0.8 0.023) (0.9 0.020) (1.0 0.018)
+    (1.1 0.016) (1.2 0.015) (1.3 0.014) (1.4 0.013) (1.5 0.012)
+   )
+)
+
+; 500x500 graf ma rozsah do 1.5 m/s
+(setq JT_TAB_HMAX_500x500
+  '(
+    (0.1 0.075) (0.2 0.068) (0.3 0.060) (0.4 0.050) (0.5 0.040)
+    (0.6 0.032) (0.7 0.025) (0.8 0.020) (0.9 0.016) (1.0 0.014)
+    (1.1 0.012) (1.2 0.011) (1.3 0.010) (1.4 0.009) (1.5 0.008)
+   )
+)
+
+(defun JT_Lerp (x1 y1 x2 y2 x)
+  (if (= x2 x1)
+    y1
+    (+ y1 (* (/ (- x x1) (- x2 x1)) (- y2 y1)))
+  )
+)
+
+(defun JT_GetHmaxFromTable (tab v / p1 p2 x1 y1 x2 y2 result)
+  (setq result nil)
+  
+  (cond
+    ((null tab) nil)
+    ((< v (car (car tab))) nil)
+    ((= v (car (car tab))) (cadr (car tab)))
+    (T
+      (while (and (cdr tab) (null result))
+        (setq p1 (car tab))
+        (setq p2 (cadr tab))
+        (setq x1 (car p1))
+        (setq y1 (cadr p1))
+        (setq x2 (car p2))
+        (setq y2 (cadr p2))
+        
+        (cond
+          ((= v x1) (setq result y1))
+          ((and (> v x1) (< v x2))
+            (setq result (JT_Lerp x1 y1 x2 y2 v))
+          )
+          ((= v x2) (setq result y2))
+        )
+        
+        (setq tab (cdr tab))
+      )
+      
+      ;ak je v vacsie ako posledny bod, vrat nil
+      result
+    )
+  )
+)
+
+(defun JT_GetOdvodnovacData (idx / data)
+  ;vracia: (nazov a tabulka vmax)
+  (cond
+    ;300x300
+    ((= idx "0")
+      (setq data (list "300x300 mm" 0.330 JT_TAB_HMAX_300x300 1.0))
+    )
+    ;500x300
+    ((= idx "1")
+      (setq data (list "500x300 mm" 0.330 JT_TAB_HMAX_500x300 1.5))
+    )
+    ;500x500
+    ((= idx "2")
+      (setq data (list "500x500 mm" 0.485 JT_TAB_HMAX_500x500 1.5))
+    )
+    ;default
+    (T
+      (setq data (list "300x300 mm" 0.330 JT_TAB_HMAX_300x300 1.0))
+    )
+  )
+  data
+)
+
 
 ;definovanie funkcie vypoctu odvodnenia
 (defun VypocetDrainage ()
@@ -83,7 +186,9 @@
   ;spustenie funkcie posudenia kapacity potrubia
   (PosudenieKapacityPotrubia)
 
+
 )
+
 
 ;definovanie funkcie vypoctu hltnosti odvodnovaca
 (defun VypocetHltnostiOdvodnovaca ()
@@ -108,21 +213,17 @@
   (setq sirkaRozliatia (get_tile "sirkaRozliatia"))
   (setq i_B (atof sirkaRozliatia))
   
-  ;sirka ramu odvodnovaca
+  ;typ odvodnovaca - index z comboboxu
   (setq sirkaRamuOdvodnovaca (get_tile "typOdvodnovaca"))
-  (if (= sirkaRamuOdvodnovaca "0")
-    (setq i_a 0.330)
-    (if (= sirkaRamuOdvodnovaca "1")
-      (setq i_a 0.333)
-      (if (= sirkaRamuOdvodnovaca "2")
-        (setq i_a 0.485)
-      )
-    )
-  )
+  (setq odvodnovacData (JT_GetOdvodnovacData sirkaRamuOdvodnovaca))
+  (setq nazovOdvodnovaca (nth 0 odvodnovacData))
+  (setq i_a (nth 1 odvodnovacData))
+  (setq aktivnaTabulkaHmax (nth 2 odvodnovacData))
+  (setq aktivneVmax (nth 3 odvodnovacData))
   
   ;vypocet hltnosti odvodnovaca
   ;vypocet vysky vody pri obrubniku
-  (setq p_h (* i_B (/ i_Ppr 100)))
+  (setq p_h (* i_B (/ i_Ppr 100.0)))
   
   ;vypocet plochy vody v rigole
   (setq p_A (* 0.5 i_B p_h))
@@ -134,91 +235,71 @@
   (setq p_R (/ p_A p_O))
   
   ;vypocet rychlostneho sucinitela
-  (setq p_C ( /(expt p_R 0.1666666666666) i_n))
+  (setq p_C (/ (expt p_R 0.1666666666666) i_n))
   
   ;vypocet rychlosti na vtoku
-  (setq p_v (* p_C (expt p_R 0.5) (expt (/ i_Ppd 100) 0.5)))
+  (setq p_v (* p_C (expt p_R 0.5) (expt (/ i_Ppd 100.0) 0.5)))
   
   ;vypocet mnozstva vody pretekajucej rigolom
-  (setq p_Q (* p_A p_v 1000))
+  (setq p_Q (* p_A p_v 1000.0))
   
   ;vypocet rychlosti vody na povrchu
   (setq p_v_ciarka (* p_v 1.15))
   
   ;vypocet vysky vody v osi odvodnovaca
-  (setq p_h_ciarka_1 (* (- i_B i_bobr (/ i_a 2)) (/ i_Ppr 100)))
+  (setq p_h_ciarka_1 (* (- i_B i_bobr (/ i_a 2.0)) (/ i_Ppr 100.0)))
   
-  ;urcenie typu odvodnovaca
-  (if (<= p_v_ciarka 1)
-    ;ak je podmienka splnena
+  ;urcenie max. vysky vody z grafu
+  (setq typNavrhovanehoOdvodnova "nevyhovuje")
+  (setq vyhodnotenieMaxHladinyVody "nevyhovuje")
+  (setq p_h_max nil)
+  
+  (if (> p_v_ciarka aktivneVmax)
     (progn
-      (cond
-        (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.045) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.045)))
-        (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.042) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.042)))
-        (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.038) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.038)))
-        (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.035) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.035)))
-        (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.030) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.030)))
-        (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.027) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.027)))
-        (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.023) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.023)))
-        (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.020) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.020)))
-        (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.015) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.015)))
-        (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.012) (= sirkaRamuOdvodnovaca "300x300 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.012))) 
-        (t (alert "Zmente vstupne parametre vypoctu!"))
-      )  
-    )
-    (if (<= p_v_ciarka 1.5)
-      ;ak je podmienka splnena
-      (progn
-        (cond
-          (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.060) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.060)))
-          (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.057) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.057)))
-          (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.055) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.055)))
-          (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.052) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.052)))
-          (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.047) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.047)))
-          (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.045) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.045)))
-          (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.042) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.042)))
-          (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.038) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.038)))
-          (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.035) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.035)))
-          (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.032) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.032)))
-          (if (and (<= p_v_ciarka 1.1) (<= p_h_ciarka_1 0.028) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.028)))
-          (if (and (<= p_v_ciarka 1.2) (<= p_h_ciarka_1 0.025) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.045)))
-          (if (and (<= p_v_ciarka 1.3) (<= p_h_ciarka_1 0.022) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.022)))
-          (if (and (<= p_v_ciarka 1.4) (<= p_h_ciarka_1 0.018) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.018)))
-          (if (and (<= p_v_ciarka 1.5) (<= p_h_ciarka_1 0.015) (= sirkaRamuOdvodnovaca "300x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.015)))
-          (if (and (<= p_v_ciarka 0.1) (<= p_h_ciarka_1 0.075) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.075)))
-          (if (and (<= p_v_ciarka 0.2) (<= p_h_ciarka_1 0.072) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.072)))
-          (if (and (<= p_v_ciarka 0.3) (<= p_h_ciarka_1 0.065) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.065)))
-          (if (and (<= p_v_ciarka 0.4) (<= p_h_ciarka_1 0.062) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.062)))
-          (if (and (<= p_v_ciarka 0.5) (<= p_h_ciarka_1 0.060) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.060)))
-          (if (and (<= p_v_ciarka 0.6) (<= p_h_ciarka_1 0.058) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.058)))
-          (if (and (<= p_v_ciarka 0.7) (<= p_h_ciarka_1 0.052) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.052)))
-          (if (and (<= p_v_ciarka 0.8) (<= p_h_ciarka_1 0.048) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.048)))
-          (if (and (<= p_v_ciarka 0.9) (<= p_h_ciarka_1 0.042) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.042)))
-          (if (and (<= p_v_ciarka 1.0) (<= p_h_ciarka_1 0.040) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.040)))
-          (if (and (<= p_v_ciarka 1.1) (<= p_h_ciarka_1 0.038) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.038)))
-          (if (and (<= p_v_ciarka 1.2) (<= p_h_ciarka_1 0.032) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.032)))
-          (if (and (<= p_v_ciarka 1.3) (<= p_h_ciarka_1 0.028) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.028)))
-          (if (and (<= p_v_ciarka 1.4) (<= p_h_ciarka_1 0.025) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.025)))
-          (if (and (<= p_v_ciarka 1.5) (<= p_h_ciarka_1 0.020) (= sirkaRamuOdvodnovaca "500x500 mm")) (progn (setq typNavrhovanehoOdvodnova "vyhovuje") (setq p_h_max 0.020)))
-          (t (alert "Zmente vstupne parametre vypoctu!"))
+      (alert
+        (strcat
+          "Rychlost vody na povrchu je mimo rozsah grafu pre typ "
+          nazovOdvodnovaca
+          ". Maximalna hodnota je "
+          (rtos aktivneVmax 2 2)
+          " m/s."
         )
       )
-      ;ak je podmienka nesplnena
-      (alert "Rychlost vody na povrchu je priliz velka, prosim zmente vstupne parametre.")
+    )
+    (progn
+      (setq p_h_max (JT_GetHmaxFromTable aktivnaTabulkaHmax p_v_ciarka))
+      
+      (if (= p_h_max nil)
+        (alert "Nepodarilo sa urcit maximalnu vysku vody z grafu.")
+        (progn
+          (if (<= p_h_ciarka_1 p_h_max)
+            (progn
+              (setq typNavrhovanehoOdvodnova "vyhovuje")
+              (setq vyhodnotenieMaxHladinyVody "vyhovuje")
+            )
+            (progn
+              (setq typNavrhovanehoOdvodnova "nevyhovuje")
+              (setq vyhodnotenieMaxHladinyVody "nevyhovuje")
+            )
+          )
+        )
+      )
     )
   )
-  
-  ;zistenie podmienky pre max. hladdinu vody
-  (if (<= p_h_ciarka_1 p_h_max)
-    (setq vyhodnotenieMaxHladinyVody "vyhovuje")
-    (setq vyhodnotenieMaxHladinyVody "neyhovuje")
+
+  ;ak p_h_max nevysiel, nastav 0 aby report nespadol
+  (if (= p_h_max nil)
+    (setq p_h_max 0.0)
   )
 
   ;urcenie vysky vody odvodnovaca
-  (setq p_h_1 p_h_ciarka_1 )
+  (setq p_h_1 p_h_ciarka_1)
 
-  ;vypocet sucinitela bocneho natoku
-  (setq p_k (/ 5 p_v))
+  ;ochrana proti deleniu nulou
+  (if (= p_v 0.0)
+    (setq p_k 0.0)
+    (setq p_k (/ 5.0 p_v))
+  )
 
   ;vypocet prirahlej sirky
   (setq p_prirahlaSirka (* p_k p_h_1))
@@ -227,13 +308,13 @@
   (setq p_male_a_1 (+ p_prirahlaSirka i_a (min i_bobr p_prirahlaSirka)))
 
   ;vypocet priemernej vysky vody
-  (setq p_priemerna_h_1 (* (- i_B (/ p_male_a_1 2)) (/ i_Ppr 100)))
+  (setq p_priemerna_h_1 (* (- i_B (/ p_male_a_1 2.0)) (/ i_Ppr 100.0)))
 
   ;vypocet plochy vodnej vrstvy pritekajucej k odvodnovacu
   (setq p_A_1 (* p_male_a_1 p_priemerna_h_1))
 
   ;vypocet mnozstva vody vtekajuceho do odvodnovaca - hltnost
-  (setq p_Hod (* p_A_1 p_v 1000))
+  (setq p_Hod (* p_A_1 p_v 1000.0))
   
   ;nastavenie hodnot pre vysledky
   (set_tile "vyhodnotenieMaxHladinyVody" vyhodnotenieMaxHladinyVody)
@@ -241,6 +322,7 @@
   (setq vyslednaHltnostOdvodnovaca (strcat (rtos p_Hod 2 3) " l/s"))
   (set_tile "vyslednaHltnostOdvodnovaca" vyslednaHltnostOdvodnovaca)
 )
+
 
 ;definovanie funkcie vypoctu mnostva odvodnovacov
 (defun VypocetMnozstvaOdvodnovacov ()
@@ -279,8 +361,11 @@
   ;stupen bezpecnosti
   (setq i_stupenBezpecnosti 2)
   
-  ;vypocet vzdialenosti odvodnovacov
-  (setq p_Lodv (/ p_Hod (* i_q i_s_plochy i_fi_odtoku i_stupenBezpecnosti)))
+  ;ochrana proti deleniu nulou
+  (if (= (* i_q i_s_plochy i_fi_odtoku i_stupenBezpecnosti) 0.0)
+    (setq p_Lodv 0.0)
+    (setq p_Lodv (/ p_Hod (* i_q i_s_plochy i_fi_odtoku i_stupenBezpecnosti)))
+  )
   
   ;nastavenie hodnot pre vysledky
   (setq maxVzdialenostOdvodnovacou (strcat (rtos p_Lodv 2 2) " m"))
@@ -295,6 +380,7 @@
     (alert "Je mozne zvazit ci je potrebny navrh odvodnenia, pretoze dlzka mosta\nje kratsia ako 20 m alebo plocha mosta je mensia ako 150 m2.")
   )
 )
+
 
 
 
@@ -329,7 +415,7 @@
   
   ;posudenie kapacity potrubia
   ;vypocet prietokovej plochy potrubia
-  (setq p_Spot (* PI (/ (expt i_dpot 2) 4)))
+  (setq p_Spot (* PI (/ (expt i_dpot 2) 4.0)))
   
   ;vypocet omoceneho obvodu
   (setq p_Opot (* PI i_dpot))
@@ -338,13 +424,13 @@
   (setq p_Rpot (/ p_Spot p_Opot))
   
   ;vypocet rychlostneho sucinitela
-  (setq p_cpot (* (/ 1 i_npot) (expt p_Rpot 0.1666666666666)))
+  (setq p_cpot (* (/ 1.0 i_npot) (expt p_Rpot 0.1666666666666)))
   
   ;vypocet strednej profilovej rychlosti
-  (setq p_vpot (* p_cpot (expt (* p_Rpot (/ i_ipod 100)) 0.5)))
+  (setq p_vpot (* p_cpot (expt (* p_Rpot (/ i_ipod 100.0)) 0.5)))
   
   ;vypocet objemoveho  prietoku potrubia
-  (setq p_Qpot (* p_Spot p_vpot 1000))
+  (setq p_Qpot (* p_Spot p_vpot 1000.0))
   
   ;nastavenie hodnot pre vysledky
   (if (> p_Qpot p_Qm)
@@ -356,6 +442,7 @@
   (set_tile "prietokPotrubia" prietokPotrubia)
 )
 
+
 ;definovanie funkcie zavretia dialogoveho okna
 (defun UkoncenieDrainage()
   (ResetVariables)
@@ -363,6 +450,7 @@
   (princ "\nUkoncenie kalkulacky odvodnenia.\n")
   (exit)
 )
+
 
 ;funkcia tlacidla napoveda
 (defun NapovedaDrainage ()
@@ -386,6 +474,7 @@
   ;unload dialogu
   (unload_dialog dcl_id2)
 )
+
 
 ;funkcia tlacidla report
 (defun ReportDrainage ()
@@ -454,6 +543,7 @@
     "(creareReportExport)"
   )
 
+
   ;definicnia tlacidla zatvorit info
   (action_tile "zatvoritReport"
     "(done_dialog)"
@@ -465,6 +555,7 @@
   ;unload dialogu
   (unload_dialog dcl_id3)
 )
+
 
 ;vytvorenie funkcie exportovanie udajov do csv
 (defun creareReportExport ()
@@ -489,16 +580,16 @@
   (write-line (strcat "Rychlostny sucinitel;C;" (rtos p_C 2 3) ";-;C=(R^1/6)/n") suborReportCSV)
   (write-line (strcat "Rychlost na vtoku;v;" (rtos p_v 2 3) ";m/s;v=C.(R^1/2).(Ppd^1/2)") suborReportCSV)
   (write-line (strcat "Mnozstvo vody pretekajuci rigolom;Q;" (rtos p_Q 2 3) ";l/s;Q=A.v.1000") suborReportCSV)
-  (write-line (strcat "Rychlost vody na povrchu;v';" (rtos p_v_ciarka 2 3) ";m/s;v'=v.1,15<1,0 (1,5)") suborReportCSV)
+  (write-line (strcat "Rychlost vody na povrchu;v';" (rtos p_v_ciarka 2 3) ";m/s;v'=v.1,15") suborReportCSV)
   (write-line (strcat "Vyska vody v osi odvodnovaca;h'1;" (rtos p_h_ciarka_1 2 3) ";m;h'1=(B-bobr-a/2).Ppr") suborReportCSV)
-  (write-line (strcat "Max. vyska vody v osi odvodnovaca;hmax;" (rtos p_h_max 2 3) ";m;") suborReportCSV)
+  (write-line (strcat "Max. vyska vody v osi odvodnovaca;hmax;" (rtos p_h_max 2 3) ";m;z grafu/interpolacie") suborReportCSV)
   (write-line (strcat "Posudenie max. vysky vody;-;" vyhodnotenieMaxHladinyVody ";-;h'1<hmax") suborReportCSV)
   (write-line (strcat "Sucinitel bocneho natoku;k;" (rtos p_k 2 3) ";-;k=5/v") suborReportCSV)
   (write-line (strcat "Prirahla sirka;k.h1;" (rtos p_prirahlaSirka 2 3) ";m;k.h1") suborReportCSV)
   (write-line (strcat "Spoluposobiaca sirka;a1;" (rtos p_male_a_1 2 3) ";m;a1=k.h1+a+min(bobr;k.h1)") suborReportCSV)
   (write-line (strcat "Priemerna vyska vody;@h'1;" (rtos p_priemerna_h_1 2 3) ";m;@h'1=(B-a1/2).Ppr") suborReportCSV)
   (write-line (strcat "Plocha vodnej vrstvy prit. k odvod.;A1;" (rtos p_A_1 2 3) ";m2;A1=a1.@h'1") suborReportCSV)
-  (write-line (strcat "Mnozstvo vody vtekajucej do odvod.;Hod;" (rtos p_Hod 2 3) ";l/s;Hod=A1.v.1000") suborReportCSV)
+  (write-line (strcat "Mnozstvo vody vtekajuceho do odvod.;Hod;" (rtos p_Hod 2 3) ";l/s;Hod=A1.v.1000") suborReportCSV)
   (write-line "Vypocet mnozstva odvodnovacov" suborReportCSV)
   (write-line "Popis;Oznacenie;Hodnota;Jednotka;Vzorec" suborReportCSV)
   (write-line (strcat "Dlzka odvodnovanej plochy [vstupna hodnota];l;" (rtos i_l_plochy 2 3) ";m;") suborReportCSV)
@@ -522,6 +613,7 @@
   (write-line (strcat "Objemovy prietok potrubia;Qpot;" (rtos p_Qpot 2 3) ";l/s;Qpot=Spot.vpot") suborReportCSV)
   (write-line (strcat "Posudenie potrubia;-;" vyhodnoteniePosudenieKapacityPotrubia ";;Qpot>Qm") suborReportCSV)
 )
+
 
 ;resetovanie vsetkych premmnych po vypnuti programu
 (defun ResetVariables ()
@@ -567,9 +659,14 @@
   (setq p_vpot nil)
   (setq p_Qpot nil)
   (setq vyhodnoteniePosudenieKapacityPotrubia nil)
+  (setq nazovOdvodnovaca nil)
+  (setq aktivnaTabulkaHmax nil)
+  (setq aktivneVmax nil)
 )
 
+
 ;;----------------------------------------------------------------------;;
+
 
 (vl-load-com)
 (load "JTmenu_version" "\nVerzia nenacitana!")
@@ -581,6 +678,7 @@
     )
 )
 (princ)
+
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
