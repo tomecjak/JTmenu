@@ -210,6 +210,55 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                   Pomocna funkcia urcujuca aktualny datum            ;;
+;;----------------------------------------------------------------------;;
+
+(defun TodayDate ()
+
+  ;ziskanie aktualneho datumu z systemovej premennej "CDATE"
+  (setq datum (rtos (getvar "CDATE") 2 6))
+  
+  (setq rok (substr datum 1 4))
+  (setq mesiac (substr datum 5 2))
+  (setq den (substr datum 7 2))
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;                           Zakon 25/2025 Z. z.                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTZK25 () 
+  
+  ;ziskanie aktualneho datumu a jeho rozdelenie na den, mesiac a rok
+  (TodayDate)
+  
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq JTZK25URL (strcat "https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/25/?ucinnost=" den "." mesiac "." rok))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" JTZK25URL)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
+;;                         Vyhlaska 60/2025 Z. z.                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTVL60 () 
+  
+  ;ziskanie aktualneho datumu a jeho rozdelenie na den, mesiac a rok
+  (TodayDate)
+  
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq JTVL60URL (strcat "https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/60/?ucinnost=" den "." mesiac "." rok))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" JTVL60URL)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
 ;;                    Slovenske technicke podmienky                     ;;
 ;;----------------------------------------------------------------------;;
 
