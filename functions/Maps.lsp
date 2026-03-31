@@ -25,17 +25,17 @@
     (princ)
   )
   
-  ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
+  ;vytvrenie premenej VyberUCSMaps pre vyber pouzivaneho UCS
   (initget "WCS Vlastne")
-  (setq VyberUCS (getkword "\nAke pouzit UCS? [WCS/Vlastne] <Vlastne>: "))
-  (if (null VyberUCS) (setq VyberUCS "Vlastne"))
+  (setq VyberUCSMaps (getkword "\nAke pouzit UCS? [WCS/Vlastne] <WCS>: "))
+  (if (null VyberUCSMaps) (setq VyberUCSMaps "WCS"))
 
   (cond
-    ((= VyberUCS "WCS")
+    ((= VyberUCSMaps "WCS")
       ;nastavenie UCS na World
       (command "_.ucs" "_World")
     )
-    ((= VyberUCS "Vlastne")
+    ((= VyberUCSMaps "Vlastne")
       ;UCS zostane bez zmeny
       (princ)
     )
@@ -52,11 +52,11 @@
   
   ;vyhodnotenie vyberu UCS po prikaze
   (cond
-    ((= VyberUCS "WCS")
+    ((= VyberUCSMaps "WCS")
       ;nastavenie UCS na predchadzajuce
       (command "_.ucs" "_Previous")
     )
-    ((= VyberUCS "Vlastne")
+    ((= VyberUCSMaps "Vlastne")
       ;UCS zostane bez zmeny
       (princ)
     )

@@ -25,19 +25,19 @@
     (princ)
   )
   
-  ;vytvrenie premenej VyberUCS pre vyber pouzivaneho UCS
-  (setq VyberUCS
-    (getstring "\nAke pouzit UCS? [World/Vlastne] <World>: ")
-  )
-  
-  ;vyhodnotenie vyberu UCS pred prikazom
-  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
-    ;nastavenie UCS na World
-    (command "_.ucs" "_World")
-  
-    (if (or (= VyberUCS "V") (= VyberUCS "v"))
-    ;UCS zostane bez zmeny
-    (princ)
+  ;vytvrenie premenej VyberUCSCadastre pre vyber pouzivaneho UCS
+  (initget "WCS Vlastne")
+  (setq VyberUCSCadastre (getkword "\nAke pouzit UCS? [WCS/Vlastne] <WCS>: "))
+  (if (null VyberUCSCadastre) (setq VyberUCSCadastre "WCS"))
+
+  (cond
+    ((= VyberUCSCadastre "WCS")
+      ;nastavenie UCS na World
+      (command "_.ucs" "_World")
+    )
+    ((= VyberUCSCadastre "Vlastne")
+      ;UCS zostane bez zmeny
+      (princ)
     )
   )
   
@@ -51,15 +51,16 @@
   (command "browser" KatasterURL)
   
   ;vyhodnotenie vyberu UCS po prikaze
-  (if (or (= VyberUCS "") (= VyberUCS "W") (= VyberUCS "w"))
-    ;nastavenie UCS na predchadzajuce
-    (command "_.ucs" "_Previous")
-  
-    (if (or (= VyberUCS "V") (= VyberUCS "v"))
-    ;UCS zostane bez zmeny
-    (princ)
+  (cond
+    ((= VyberUCSCadastre "WCS")
+      ;nastavenie UCS na predchadzajuce
+      (command "_.ucs" "_Previous")
     )
-  )
+    ((= VyberUCSCadastre "Vlastne")
+      ;UCS zostane bez zmeny
+      (princ)
+    )
+  ) 
   
   ;hlaska po skonceni programu
   (princ "\nKataster sa otvoril v internetovom prehliadaci. ")
