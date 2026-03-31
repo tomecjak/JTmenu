@@ -115,7 +115,7 @@
   (setq sklon_i (/ delta_h dlzka_L))
   
   ;vypocet hydroraulickeho polomeru koryta
-  ;(setq hydroraulickyPolomer_R (/ plocha_S obvod_O))
+  (setq hydroraulickyPolomer_R (/ plocha_S obvod_O))
   
   ;vypocet rychlostneho sucinitela koryta
   ;(setq rychlostnySucinitelKoryta_C (* (/ 1.0 drsnost_n) (expt hydroraulickyPolomer_R (/ 2.0 3.0))))
@@ -128,10 +128,10 @@
   (set_tile "vyskovyRozdielKoryta" (rtos delta_h 2 2))
   
   ;vypocitany sklon koryta
-  (set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 4))
+  (set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 2))
   
   ;vypocitany hydroraulicky polomer koryta
-  ;(set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
+  (set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
   
   ;vypocitany rychlostny sucinitel koryta
   ;(set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 4))
