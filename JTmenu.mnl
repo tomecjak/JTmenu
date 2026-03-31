@@ -46,7 +46,6 @@
 (AUTOLOAD "Block_renumber" '("JTReNumber"))
 (AUTOLOAD "Polyline_export" '("JTPolylineExport"))
 (AUTOLOAD "Create_polyline" '("JTCreatePolyline"))
-(AUTOLOAD "Layers_order" '("JTLayersOrder")) ;Legacy function - vymazat v buducnosti
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
 (AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite"))
@@ -80,6 +79,8 @@
 (AUTOLOAD "Technical_documents" '("VL064V"))
 (AUTOLOAD "Technical_documents" '("VL10"))
 (AUTOLOAD "Technical_documents" '("JTTP"))
+(AUTOLOAD "Technical_documents" '("JTZK25"))
+(AUTOLOAD "Technical_documents" '("JTVL60"))
 (AUTOLOAD "Technical_documents" '("TPSK"))
 (AUTOLOAD "Technical_documents" '("TPCZ"))
 (print)
