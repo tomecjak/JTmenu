@@ -60,16 +60,6 @@
     (exit)
   )
   
-  ;nastavenie hodnot z predchadzajuceho ulozenia
-  (if *rebar_length_triedaBetonu* (set_tile "triedaBetonu" *rebar_length_triedaBetonu*))
-  (if *rebar_length_triedaOcele* (set_tile "triedaOcele" *rebar_length_triedaOcele*))
-  (if *rebar_length_priemerOcele* (set_tile "priemerOcele" *rebar_length_priemerOcele*))
-  (if *rebar_length_situaciaPouzitia* (set_tile "situaciaPouzitia" *rebar_length_situaciaPouzitia*))
-  (if *rebar_length_podmienkySudrznosti* (set_tile "podmienkySudrznosti" *rebar_length_podmienkySudrznosti*))
-  (if *rebar_length_percentoStykovanejVystuze* (set_tile "percentoStykovanejVystuze" *rebar_length_percentoStykovanejVystuze*))
-  (if *rebar_length_potrebaPlochaVystuze* (set_tile "potrebaPlochaVystuze" *rebar_length_potrebaPlochaVystuze*))
-  (if *rebar_length_navrhnutaPlochaVystuze* (set_tile "navrhnutaPlochaVystuze" *rebar_length_navrhnutaPlochaVystuze*))
-
   ;spustenie a naplnenie listu betonov
   (start_list "triedaBetonu")
   (mapcar 'add_list BetonList)
@@ -99,6 +89,16 @@
   (start_list "percentoStykovanejVystuze")
   (mapcar 'add_list PercentoStykovanejVystuzeList)
   (end_list)  
+  
+  ;nastavenie hodnot z predchadzajuceho ulozenia
+  (if *rebar_length_triedaBetonu* (set_tile "triedaBetonu" *rebar_length_triedaBetonu*))
+  (if *rebar_length_triedaOcele* (set_tile "triedaOcele" *rebar_length_triedaOcele*))
+  (if *rebar_length_priemerOcele* (set_tile "priemerOcele" *rebar_length_priemerOcele*))
+  (if *rebar_length_situaciaPouzitia* (set_tile "situaciaPouzitia" *rebar_length_situaciaPouzitia*))
+  (if *rebar_length_podmienkySudrznosti* (set_tile "podmienkySudrznosti" *rebar_length_podmienkySudrznosti*))
+  (if *rebar_length_percentoStykovanejVystuze* (set_tile "percentoStykovanejVystuze" *rebar_length_percentoStykovanejVystuze*))
+  (if *rebar_length_potrebaPlochaVystuze* (set_tile "potrebaPlochaVystuze" *rebar_length_potrebaPlochaVystuze*))
+  (if *rebar_length_navrhnutaPlochaVystuze* (set_tile "navrhnutaPlochaVystuze" *rebar_length_navrhnutaPlochaVystuze*))
   
   ;definovanie tlacidla cancel
   (action_tile "cancel"
