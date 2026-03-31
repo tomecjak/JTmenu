@@ -62,7 +62,7 @@ Hydrotechnical_calculation //nazov dcl
           : edit_box
           {
             key = "vyskaNaZaciatkuKoryta";
-            value = "201";
+            value = "210";
           }
           : text
           {
@@ -84,11 +84,11 @@ Hydrotechnical_calculation //nazov dcl
           : edit_box
           {
             key = "vyskaNaKonciKoryta";
-            value = "202";
+            value = "205";
           }
           : text
           {
-            label = "Prietocna plocha koryta [m2]";
+            label = "Prietocna plocha koryta [m²]";
           }
           : edit_box
           {
@@ -107,7 +107,7 @@ Hydrotechnical_calculation //nazov dcl
           : edit_box
           {
             key = "dlzkaKoryta";
-            value = "1";
+            value = "10";
           }
           : text
           {
@@ -134,7 +134,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q1 [m3/s]";
+            label = "Q1 [m³/s]";
           }
           : edit_box
           {
@@ -146,7 +146,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q2 [m3/s]";
+            label = "Q2 [m³/s]";
           }
           : edit_box
           {
@@ -158,7 +158,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q5 [m3/s]";
+            label = "Q5 [m³/s]";
           }
           : edit_box
           {
@@ -172,7 +172,7 @@ Hydrotechnical_calculation //nazov dcl
           fixed_width = true;
           : text
           {
-            label = "Q10 [m3/s]";
+            label = "Q10 [m³/s]";
           }
           : edit_box
           {
@@ -187,7 +187,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q20 [m3/s]";
+            label = "Q20 [m³/s]";
           }
           : edit_box
           {
@@ -199,7 +199,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q50 [m3/s]";
+            label = "Q50 [m³/s]";
           }
           : edit_box
           {
@@ -211,7 +211,7 @@ Hydrotechnical_calculation //nazov dcl
         {
           : text
           {
-            label = "Q100 [m3/s]";
+            label = "Q100 [m³/s]";
           }
           : edit_box
           {
@@ -424,7 +424,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q1";
         }
         : text
@@ -438,7 +438,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q2";
         }
         : text
@@ -452,7 +452,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q5";
         }
         : text
@@ -466,7 +466,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q10";
         }
         : text
@@ -480,7 +480,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q20";
         }
         : text
@@ -494,7 +494,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q50";
         }
         : text
@@ -508,7 +508,7 @@ Hydrotechnical_calculation //nazov dcl
       {
         : text
         {
-          width = 10;
+          width = 20;
           label = "Q100";
         }
         : text

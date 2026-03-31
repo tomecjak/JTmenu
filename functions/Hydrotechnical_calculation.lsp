@@ -164,19 +164,19 @@
   
   ;nastavenie hodnot pre vysledky
   ;vypocitany vyskovy rozdiel koryta
-  (set_tile "vyskovyRozdielKoryta" (rtos delta_h 2 2))
+  (set_tile "vyskovyRozdielKoryta" (strcat (rtos delta_h 2 2) " m"))
   
   ;vypocitany sklon koryta
-  (set_tile "vypocitanySklonKoryta" (rtos sklon_i 2 2))
+  (set_tile "vypocitanySklonKoryta" (strcat (rtos (* sklon_i 100) 2 2) " %"))
   
   ;vypocitany hydroraulicky polomer koryta
-  (set_tile "hydrailickyPolomer" (rtos hydroraulickyPolomer_R 2 2))
+  (set_tile "hydrailickyPolomer" (strcat (rtos hydroraulickyPolomer_R 2 2) " m"))
   
   ;vypocitany rychlostny sucinitel koryta
-  (set_tile "rychlostniSucinitel" (rtos rychlostnySucinitelKoryta_C 2 2))
+  (set_tile "rychlostniSucinitel" (strcat (rtos rychlostnySucinitelKoryta_C 2 2) " -"))
   
   ;vypocitany prietok koryta
-  (set_tile "prietokoveMnozstvo" (rtos prietok_Q 2 2))
+  (set_tile "prietokoveMnozstvo" (strcat (rtos prietok_Q 2 2) " m³/s"))
   
   ;vyhodnotenie posudenia prietoku koryta pre Q1
   (if (> prietok_Q prietok_Q1)
