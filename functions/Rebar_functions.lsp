@@ -290,8 +290,9 @@
   (princ)
 )
 
-
-
+;;----------------------------------------------------------------------;;
+;;               Funkcia pre vytvaranie hladin vystuze                  ;;
+;;----------------------------------------------------------------------;;
 
 (defun c:JTRebarLayers (/ volba pocet tag info maxNum lastColor i cislo novaHladina farby farba)
 
@@ -375,19 +376,19 @@
   )
 
   (initget "Vystuz Spony")
-  (setq volba (getkword "\nVyber typ hladín [Vystuz/Spony]: "))
+  (setq volba (getkword "\nVyber typ hladin [Vystuz/Spony]: "))
 
   (cond
     ((null volba)
-      (princ "\nNebola zvolená možnosť.")
+      (princ "\nNebola zvolena moznost.")
     )
 
     (T
       (initget 7)
-      (setq pocet (getint "\nZadaj počet hladín na vytvorenie: "))
+      (setq pocet (getint "\nZadaj pocet hladin na vytvorenie: "))
 
       (if (null pocet)
-        (princ "\nPočet musí byť kladné celé číslo.")
+        (princ "\nPocet musi byy kladne cele cislo.")
         (progn
           (setq tag   (if (= volba "Vystuz") "B" "BS"))
           (setq farby '(10 20 30))
@@ -415,13 +416,13 @@
 
           (princ
             (strcat
-              "\nVytvorených "
+              "\nVytvorenych "
               (itoa pocet)
-              " hladín od "
+              " hladin od "
               tag " " (_pad2 (1+ maxNum))
               " po "
               tag " " (_pad2 (+ maxNum pocet))
-              ". Farebný cyklus nadväzuje na poslednú existujúcu hladinu."
+              ". Farebny cyklus nadvazuje na posledne existujucu hladinu."
             )
           )
         )
@@ -433,23 +434,10 @@
 )
 
 ;;----------------------------------------------------------------------;;
-
-(vl-load-com)
-(load "JTmenu_version" "\nVerzia nenacitana!")
-(princ
-    (strcat
-        "\nRebar_functions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
-        (menucmd "m=$(edtime,0,yyyy)")
-    )
-)
-(princ)
-
-;;----------------------------------------------------------------------;;
-;;                             End of File                              ;;
+;;                      Funkcia pre offset vystuze                      ;;
 ;;----------------------------------------------------------------------;;
 
-
-(defun c:PLWOFF2 (/ *error* doc ent obj ed gw dist offVar1 offVar2 newObj1 newObj2 arr)
+(defun c:JTRebarOffset (/ *error* doc ent obj ed gw dist offVar1 offVar2 newObj1 newObj2 arr)
 
   (vl-load-com)
 
@@ -514,3 +502,19 @@
   (vla-EndUndoMark doc)
   (princ)
 )
+
+;;----------------------------------------------------------------------;;
+
+(vl-load-com)
+(load "JTmenu_version" "\nVerzia nenacitana!")
+(princ
+    (strcat
+        "\nRebar_functions.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        (menucmd "m=$(edtime,0,yyyy)")
+    )
+)
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                             End of File                              ;;
+;;----------------------------------------------------------------------;;
