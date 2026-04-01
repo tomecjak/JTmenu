@@ -242,6 +242,23 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;                         Vyhlaska 59/2025 Z. z.                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTVL59 () 
+  
+  ;ziskanie aktualneho datumu a jeho rozdelenie na den, mesiac a rok
+  (TodayDate)
+  
+  ;definovanie premenej "PDFFileName" do ktorej je zapísana url adresa
+  (setq JTVL59URL (strcat "https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/59/?ucinnost=" den "." mesiac "." rok))
+
+  ;spustenie prikazu browser z vlozenou url
+  (command "browser" JTVL59URL)
+  (princ)  
+)
+
+;;----------------------------------------------------------------------;;
 ;;                         Vyhlaska 60/2025 Z. z.                       ;;
 ;;----------------------------------------------------------------------;;
 

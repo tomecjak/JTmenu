@@ -80,6 +80,7 @@
 (AUTOLOAD "Technical_documents" '("VL10"))
 (AUTOLOAD "Technical_documents" '("JTTP"))
 (AUTOLOAD "Technical_documents" '("JTZK25"))
+(AUTOLOAD "Technical_documents" '("JTVL59"))
 (AUTOLOAD "Technical_documents" '("JTVL60"))
 (AUTOLOAD "Technical_documents" '("TPSK"))
 (AUTOLOAD "Technical_documents" '("TPCZ"))
