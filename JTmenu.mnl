@@ -48,7 +48,7 @@
 (AUTOLOAD "Create_polyline" '("JTCreatePolyline"))
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
-(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite" "JTRebarLayers"))
+(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite" "JTRebarLayers" "PLWOFF2"))
 (AUTOLOAD "POT_Variables" '("POT_VAR")) ;vyskusat na Civile 3D
 (print)
 

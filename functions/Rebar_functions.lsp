@@ -447,3 +447,70 @@
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
 ;;----------------------------------------------------------------------;;
+
+
+(defun c:PLWOFF2 (/ *error* doc ent obj ed gw dist offVar1 offVar2 newObj1 newObj2 arr)
+
+  (vl-load-com)
+
+  (defun _getOffsetObj (v / a)
+    (setq a (vlax-variant-value v))
+    (cond
+      ((= (type a) 'safearray)
+       (car (vlax-safearray->list a)))
+      (T a)
+    )
+  )
+
+  (defun *error* (msg)
+    (if doc (vla-EndUndoMark doc))
+    (if (and msg (/= msg "Function cancelled"))
+      (princ (strcat "\nChyba: " msg))
+    )
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (vla-StartUndoMark doc)
+
+  (if (setq ent (car (entsel "\nVyber polyline: ")))
+    (progn
+      (setq obj (vlax-ename->vla-object ent))
+      (setq ed  (entget ent))
+
+      (if (/= (cdr (assoc 0 ed)) "LWPOLYLINE")
+        (princ "\nObjekt nie je LWPOLYLINE.")
+        (progn
+          (setq gw (cond ((cdr (assoc 43 ed))) (0.0)))
+
+          (if (<= gw 0.0)
+            (princ "\nPolyline nema nenulovy Global Width.")
+            (progn
+              (setq dist (/ gw 2.0))
+
+              (setq offVar1 (vla-Offset obj dist))
+              (setq offVar2 (vla-Offset obj (- dist)))
+
+              (setq newObj1 (_getOffsetObj offVar1))
+              (setq newObj2 (_getOffsetObj offVar2))
+
+              (if newObj1 (vla-put-ConstantWidth newObj1 0.0))
+              (if newObj2 (vla-put-ConstantWidth newObj2 0.0))
+
+              (princ
+                (strcat
+                  "\nHotovo. Vytvorene 2 offsety vo vzdialenosti +/- "
+                  (rtos dist 2 3)
+                  " a obom bol nastaveny Global Width na 0."
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+
+  (vla-EndUndoMark doc)
+  (princ)
+)
