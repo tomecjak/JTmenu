@@ -290,6 +290,110 @@
   (princ)
 )
 
+
+
+
+(defun c:VYTVORHLADINY (/ volba pocet tag maxNum i cislo novaHladina farby farba)
+
+  (defun _rand-from-list (lst / n)
+    (setq n (fix (* (length lst) (rem (getvar "DATE") 1.0))))
+    (nth n lst)
+  )
+
+  (defun _extract-number-after-pattern (s patt / pos start numtxt ch)
+    (setq pos (vl-string-search patt s))
+    (if pos
+      (progn
+        (setq start (+ pos (strlen patt) 1))
+        (setq numtxt "")
+        (while (<= start (strlen s))
+          (setq ch (substr s start 1))
+          (if (wcmatch ch "#")
+            (setq numtxt (strcat numtxt ch))
+            (setq start (+ (strlen s) 1))
+          )
+          (setq start (1+ start))
+        )
+        (if (/= numtxt "")
+          (atoi numtxt)
+          nil
+        )
+      )
+      nil
+    )
+  )
+
+  (defun _get-max-layer-number (tag / rec lname num patt)
+    (setq maxNum 0)
+    (setq patt (strcat tag " "))
+    (setq rec (tblnext "LAYER" T))
+    (while rec
+      (setq lname (cdr (assoc 2 rec)))
+      (if (wcmatch lname (strcat "*" patt "*"))
+        (progn
+          (setq num (_extract-number-after-pattern lname patt))
+          (if (and num (> num maxNum))
+            (setq maxNum num)
+          )
+        )
+      )
+      (setq rec (tblnext "LAYER"))
+    )
+    maxNum
+  )
+
+  (initget "Vystuz Spony")
+  (setq volba (getkword "\nVyber typ hladín [Vystuz/Spony]: "))
+
+  (cond
+    ((null volba)
+      (princ "\nNebola zvolená možnosť.")
+    )
+    (T
+      (initget 7)
+      (setq pocet (getint "\nZadaj počet hladín na vytvorenie: "))
+
+      (if (null pocet)
+        (princ "\nPočet musí byť kladné celé číslo.")
+        (progn
+          (setq tag (if (= volba "Vystuz") "B" "BS"))
+          (setq farby '(10 20 30))
+          (setq maxNum (_get-max-layer-number tag))
+          (setq i 1)
+
+          (while (<= i pocet)
+            (setq cislo (+ maxNum i))
+            (setq novaHladina (strcat tag " " (itoa cislo)))
+            (setq farba (_rand-from-list farby))
+
+            (if (not (tblsearch "LAYER" novaHladina))
+              (progn
+                (command "_.-LAYER" "_New" novaHladina "_Color" (itoa farba) novaHladina "")
+              )
+            )
+
+            (setq i (1+ i))
+          )
+
+          (princ
+            (strcat
+              "\nVytvorených "
+              (itoa pocet)
+              " hladín. Posledná existujúca bola č. "
+              (itoa maxNum)
+              ", nové začínajú od "
+              (itoa (1+ maxNum))
+              "."
+            )
+          )
+        )
+      )
+    )
+  )
+
+  (princ)
+)
+
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
