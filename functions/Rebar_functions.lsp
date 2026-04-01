@@ -297,6 +297,14 @@
 
   (vl-load-com)
 
+  (defun _pad2 (n / s)
+    (setq s (itoa n))
+    (if (< n 10)
+      (strcat "0" s)
+      s
+    )
+  )
+
   (defun _extract-number-after-pattern (s patt / pos start numtxt ch)
     (setq pos (vl-string-search patt s))
     (if pos
@@ -392,7 +400,7 @@
           (setq i 1)
           (while (<= i pocet)
             (setq cislo (+ maxNum i))
-            (setq novaHladina (strcat tag " " (itoa cislo)))
+            (setq novaHladina (strcat (getenv "GlobalnaPrefixHladiny") "-" tag " " (_pad2 cislo)))
 
             (if (not (tblsearch "LAYER" novaHladina))
               (progn
@@ -410,9 +418,9 @@
               "\nVytvorených "
               (itoa pocet)
               " hladín od "
-              tag " " (itoa (1+ maxNum))
+              tag " " (_pad2 (1+ maxNum))
               " po "
-              tag " " (itoa (+ maxNum pocet))
+              tag " " (_pad2 (+ maxNum pocet))
               ". Farebný cyklus nadväzuje na poslednú existujúcu hladinu."
             )
           )
