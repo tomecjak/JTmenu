@@ -48,7 +48,7 @@
 (AUTOLOAD "Create_polyline" '("JTCreatePolyline"))
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
-(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite" "VYTVORHLADINY"))
+(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite" "JTRebarLayers"))
 (AUTOLOAD "POT_Variables" '("POT_VAR")) ;vyskusat na Civile 3D
 (print)
 
@@ -759,7 +759,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 
 ;nacitanie statusbaru
-(command "modemacro" "JTScale: $(getenv,GlobalnaJTMenuScale), Dim: $(getvar,dimscale), Text: $(getvar,textsize), DZ: $(getenv,GlobalnaSignBlocksScale), PM: $(getenv,GlobalnaPreviewMode)")
+(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny), Dim: $(getvar,dimscale), Text: $(getvar,textsize), DZ: $(getenv,GlobalnaSignBlocksScale), PM: $(getenv,GlobalnaPreviewMode)")
 
 ;vypisanie statusu o stave globalnych premenych
 (princ

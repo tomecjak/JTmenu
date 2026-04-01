@@ -293,7 +293,7 @@
 
 
 
-(defun c:VYTVORHLADINY (/ volba pocet tag info maxNum lastColor i cislo novaHladina farby farba)
+(defun c:JTRebarLayers (/ volba pocet tag info maxNum lastColor i cislo novaHladina farby farba)
 
   (vl-load-com)
 
