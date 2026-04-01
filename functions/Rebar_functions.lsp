@@ -197,22 +197,23 @@
 ;;                      Funkcia pre zapis do bloku                      ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarWrite (/ plEnt plEd lay num obj len kusy lenmm lenmm5 str blkEnt)
+(defun c:JTRebarWrite (/ plEnt plEd global_width num obj len kusy lenmm lenmm5 str blkEnt)
   (vl-load-com)
 
   (setq plEnt (car (entsel "\nVyber polyline: ")))
   (if (null plEnt) (progn (prompt "\nNic nevybrane.") (princ) (exit)))
 
   (setq plEd (entget plEnt))
-  (setq lay (cdr (assoc 8 plEd)))
+  (setq global_width (cdr (assoc 43 plEd)))
 
-  (setq num (_digits-after-last-underscore lay))
-  (if (null num)
+  (if (or (null global_width) (<= global_width 0.0))
     (progn
-      (prompt (strcat "\nZ nazvu hladiny '" lay "' som nevycital cislo za poslednym '_' (napr. xxx_32)."))
+      (prompt "\nPolyline nema nastaveny global width (parameter 'Global width').")
       (princ) (exit)
     )
   )
+
+  (setq num (rtos (* global_width 1000.0) 2 0)) ; mm (predpoklad výkres v metroch)
 
   ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
   (setq obj (vlax-ename->vla-object plEnt))
@@ -230,7 +231,7 @@
   (if (null blkEnt) (progn (prompt "\nZrusene.") (princ) (exit)))
 
   (if (_set-attr blkEnt "POPIS" str)
-    (prompt (strcat "\nZapesane do POPIS: " str))
+    (prompt (strcat "\nZapisane do POPIS: " str))
     (prompt "\nBlok nema atribut POPIS.")
   )
 
