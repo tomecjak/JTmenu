@@ -117,7 +117,7 @@
 ;;               Funkcia pre vytvorenie oblukov na polylin              ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarFillet (/ ent ed lay dstr D R)
+(defun c:JTRebarFillet (/ ent ed global_width D R)
   (vl-load-com)
 
   ;; vyber polyline (LWPOLYLINE)
@@ -125,17 +125,16 @@
   (if (null ent) (progn (prompt "\nZrusene.") (princ) (exit)))
 
   (setq ed (entget ent))
-  (setq lay (cdr (assoc 8 ed)))
-  (setq dstr (_digits-after-last-underscore lay))
+  (setq global_width (cdr (assoc 43 ed)))
 
-  (if (null dstr)
+  (if (or (null global_width) (<= global_width 0.0))
     (progn
-      (prompt (strcat "\nZ hladiny '" lay "' som nevycital číslo za poslednym '_' (napr. xxx_32)."))
+      (prompt "\nPolyline nema nastaveny global width (parameter 'Global width').")
       (princ) (exit)
     )
   )
 
-  (setq D (atof dstr)) ; mm
+  (setq D (* global_width 1000.0)) ; mm (predpoklad výkres v metroch)
 
   ;; výpočet polomeru filletu (R v mm)
   (if (<= D 16.0)
