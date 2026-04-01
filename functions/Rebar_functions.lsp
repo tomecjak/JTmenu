@@ -207,9 +207,14 @@
         )
         (t (setq start nil))
       )
-      (if (and start (< start (strlen s)))
+      (if start
         (progn
           (setq n (strlen s) i start out "")
+          ;; preskoc znaky ktore nie su cisla
+          (while (and (<= i n) (not (wcmatch (substr s i 1) "#")))
+            (setq i (1+ i))
+          )
+          ;; nacitaj cisla
           (while (and (<= i n) (wcmatch (substr s i 1) "#"))
             (setq out (strcat out (substr s i 1)))
             (setq i (1+ i))
