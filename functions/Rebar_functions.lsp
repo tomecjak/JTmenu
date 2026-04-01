@@ -196,8 +196,8 @@
 (defun _digits-after-B-or-BS (s / posB posBS start n i out)
   (if (and s (> (strlen s) 0))
     (progn
-      (setq posB (vl-string-search "B" s))
-      (setq posBS (vl-string-search "BS" s))
+      (setq posB (vl-string-search "B " s))
+      (setq posBS (vl-string-search "BS " s))
       (cond
         (posBS (setq start (+ posBS 2)))
         (posB (if (and (< (+ posB 2) (strlen s)) (= (substr s (+ posB 2) 1) "S"))
