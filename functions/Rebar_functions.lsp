@@ -193,11 +193,41 @@
   ok
 )
 
+(defun _digits-after-B-or-BS (s / posB posBS start n i out)
+  (if (and s (> (strlen s) 0))
+    (progn
+      (setq posB (vl-string-search "B" s))
+      (setq posBS (vl-string-search "BS" s))
+      (cond
+        (posBS (setq start (+ posBS 2)))
+        (posB (if (and (< (+ posB 2) (strlen s)) (= (substr s (+ posB 2) 1) "S"))
+                  (setq start (+ posB 2))  ; ak je BS
+                  (setq start (1+ posB))   ; ak je len B
+                )
+        )
+        (t (setq start nil))
+      )
+      (if (and start (< start (strlen s)))
+        (progn
+          (setq n (strlen s) i start out "")
+          (while (and (<= i n) (wcmatch (substr s i 1) "#"))
+            (setq out (strcat out (substr s i 1)))
+            (setq i (1+ i))
+          )
+          (if (= out "") nil out)
+        )
+        nil
+      )
+    )
+    nil
+  )
+)
+
 ;;----------------------------------------------------------------------;;
 ;;                      Funkcia pre zapis do bloku                      ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarWrite (/ plEnt plEd global_width num obj len kusy lenmm lenmm5 str blkEnt)
+(defun c:JTRebarWrite (/ plEnt plEd global_width num lay cislo obj len kusy lenmm lenmm5 str blkEnt)
   (vl-load-com)
 
   (setq plEnt (car (entsel "\nVyber polyline: ")))
@@ -215,6 +245,10 @@
 
   (setq num (rtos (* global_width 1000.0) 2 0)) ; mm (predpoklad výkres v metroch)
 
+  ;; načítaj číslo z názvu hladiny za "B" alebo "BS"
+  (setq lay (cdr (assoc 8 plEd)))
+  (setq cislo (_digits-after-B-or-BS lay))
+
   ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
   (setq obj (vlax-ename->vla-object plEnt))
   (setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj))) ; [web:130]
@@ -227,12 +261,20 @@
   ;; do stringu dávam už zaokrúhlenú dĺžku v mm bez desatinných
   (setq str (strcat num "/" (rtos lenmm5 2 0) "-" kusy "ks"))
 
-  (setq blkEnt (car (entsel "\nVyber blok (s atributom POPIS): ")))
+  (setq blkEnt (car (entsel "\nVyber blok (s atributmi POPIS a Cislo): ")))
   (if (null blkEnt) (progn (prompt "\nZrusene.") (princ) (exit)))
 
   (if (_set-attr blkEnt "POPIS" str)
     (prompt (strcat "\nZapisane do POPIS: " str))
     (prompt "\nBlok nema atribut POPIS.")
+  )
+
+  (if cislo
+    (if (_set-attr blkEnt "Cislo" cislo)
+      (prompt (strcat "\nZapisane do Cislo: " cislo))
+      (prompt "\nBlok nema atribut Cislo.")
+    )
+    (prompt "\nV nazve hladiny sa nenaslo cislo za 'B' alebo 'BS'.")
   )
 
   (princ)
