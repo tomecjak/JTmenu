@@ -253,6 +253,11 @@
   ;; načítaj číslo z názvu hladiny za "B" alebo "BS"
   (setq lay (cdr (assoc 8 plEd)))
   (setq cislo (_digits-after-B-or-BS lay))
+  
+  ;; ak je v hladine BS, pridaj S pred číslo
+  (if (and cislo (vl-string-search "BS" lay))
+    (setq cislo (strcat "S" cislo))
+  )
 
   ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
   (setq obj (vlax-ename->vla-object plEnt))
