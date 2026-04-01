@@ -293,12 +293,9 @@
 
 
 
-(defun c:VYTVORHLADINY (/ volba pocet tag maxNum i cislo novaHladina farby farba)
+(defun c:VYTVORHLADINY (/ volba pocet tag info maxNum lastColor i cislo novaHladina farby farba)
 
-  (defun _rand-from-list (lst / n)
-    (setq n (fix (* (length lst) (rem (getvar "DATE") 1.0))))
-    (nth n lst)
-  )
+  (vl-load-com)
 
   (defun _extract-number-after-pattern (s patt / pos start numtxt ch)
     (setq pos (vl-string-search patt s))
@@ -323,23 +320,50 @@
     )
   )
 
-  (defun _get-max-layer-number (tag / rec lname num patt)
-    (setq maxNum 0)
+  (defun _get-max-layer-info (tag / rec lname num patt maxn maxname laydata laycol)
+    (setq maxn 0)
+    (setq maxname nil)
+    (setq laycol nil)
     (setq patt (strcat tag " "))
     (setq rec (tblnext "LAYER" T))
+
     (while rec
       (setq lname (cdr (assoc 2 rec)))
       (if (wcmatch lname (strcat "*" patt "*"))
         (progn
           (setq num (_extract-number-after-pattern lname patt))
-          (if (and num (> num maxNum))
-            (setq maxNum num)
+          (if (and num (> num maxn))
+            (progn
+              (setq maxn num)
+              (setq maxname lname)
+            )
           )
         )
       )
       (setq rec (tblnext "LAYER"))
     )
-    maxNum
+
+    (if maxname
+      (progn
+        (setq laydata (tblsearch "LAYER" maxname))
+        (setq laycol (abs (cdr (assoc 62 laydata))))
+      )
+    )
+
+    (list maxn laycol)
+  )
+
+  (defun _next-cycle-color (curr colors / pos)
+    (if curr
+      (progn
+        (setq pos (vl-position curr colors))
+        (if pos
+          (nth (rem (1+ pos) (length colors)) colors)
+          (car colors)
+        )
+      )
+      (car colors)
+    )
   )
 
   (initget "Vystuz Spony")
@@ -349,6 +373,7 @@
     ((null volba)
       (princ "\nNebola zvolená možnosť.")
     )
+
     (T
       (initget 7)
       (setq pocet (getint "\nZadaj počet hladín na vytvorenie: "))
@@ -356,22 +381,27 @@
       (if (null pocet)
         (princ "\nPočet musí byť kladné celé číslo.")
         (progn
-          (setq tag (if (= volba "Vystuz") "B" "BS"))
+          (setq tag   (if (= volba "Vystuz") "B" "BS"))
           (setq farby '(10 20 30))
-          (setq maxNum (_get-max-layer-number tag))
-          (setq i 1)
+          (setq info (_get-max-layer-info tag))
+          (setq maxNum (car info))
+          (setq lastColor (cadr info))
 
+          (setq farba (_next-cycle-color lastColor farby))
+
+          (setq i 1)
           (while (<= i pocet)
             (setq cislo (+ maxNum i))
             (setq novaHladina (strcat tag " " (itoa cislo)))
-            (setq farba (_rand-from-list farby))
 
             (if (not (tblsearch "LAYER" novaHladina))
               (progn
-                (command "_.-LAYER" "_New" novaHladina "_Color" (itoa farba) novaHladina "")
+                (command "_.-LAYER" "_New" novaHladina "")
+                (command "_.-LAYER" "_Color" (itoa farba) novaHladina "")
               )
             )
 
+            (setq farba (_next-cycle-color farba farby))
             (setq i (1+ i))
           )
 
@@ -379,11 +409,11 @@
             (strcat
               "\nVytvorených "
               (itoa pocet)
-              " hladín. Posledná existujúca bola č. "
-              (itoa maxNum)
-              ", nové začínajú od "
-              (itoa (1+ maxNum))
-              "."
+              " hladín od "
+              tag " " (itoa (1+ maxNum))
+              " po "
+              tag " " (itoa (+ maxNum pocet))
+              ". Farebný cyklus nadväzuje na poslednú existujúcu hladinu."
             )
           )
         )
