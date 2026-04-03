@@ -112,20 +112,7 @@
   changed
 )
 
-(defun _skr-clean-proxy-aec (/ done)
-  (setq done nil)
-  (if (_skr-command-ok-p (list "_.-aectoacad"))
-    (setq done T)
-  )
-  (if (not done)
-    (if (_skr-command-ok-p (list "_.aectoacad"))
-      (setq done T)
-    )
-  )
-  done
-)
-
-(defun _skr-process-space (layoutName / changed ss1 ss2 ss3 ss4 ss5 ss6 ss7 ss8)
+(defun _skr-process-space (layoutName / changed ss1 ss2 ss3 ss4 ss5 ss6 ss7 ss8 ss9 ss10 ss11)
   (setq changed nil)
   (setq ss1 (_skr-select-space-filter layoutName '((0 . "INSERT"))))
   (if (_skr-explode-ss ss1) (setq changed T))
@@ -137,12 +124,24 @@
   (if (_skr-explode-ss ss4) (setq changed T))
   (setq ss5 (_skr-select-space-filter layoutName '((0 . "ACAD_TABLE,TOLERANCE"))))
   (if (_skr-explode-ss ss5) (setq changed T))
-  (setq ss6 (_skr-select-space-filter layoutName '((0 . "INSERT"))))
+  ;; extra priechod pre polyliny
+  (setq ss6 (_skr-select-space-filter layoutName '((0 . "LWPOLYLINE,POLYLINE"))))
   (if (_skr-explode-ss ss6) (setq changed T))
-  (setq ss7 (_skr-select-space-filter layoutName '((0 . "TEXT,MTEXT,ATTDEF,ATTRIB"))))
-  (if (_skr-txtexp-ss ss7) (setq changed T))
-  (setq ss8 (_skr-select-space-filter layoutName '((0 . "INSERT,DIMENSION,MULTILEADER,LEADER"))))
+  ;; druhý priechod na novo vzniknuté inserty po rozbití vnorených blokov
+  (setq ss7 (_skr-select-space-filter layoutName '((0 . "INSERT"))))
+  (if (_skr-explode-ss ss7) (setq changed T))
+  ;; ďalší explicitný priechod pre polyliny, ktoré sa objavili až po explode blokov
+  (setq ss8 (_skr-select-space-filter layoutName '((0 . "LWPOLYLINE,POLYLINE"))))
   (if (_skr-explode-ss ss8) (setq changed T))
+  ;; texty
+  (setq ss9 (_skr-select-space-filter layoutName '((0 . "TEXT,MTEXT,ATTDEF,ATTRIB"))))
+  (if (_skr-txtexp-ss ss9) (setq changed T))
+  ;; posledný dočisťovací priechod vrátane polyline
+  (setq ss10 (_skr-select-space-filter layoutName '((0 . "INSERT,DIMENSION,MULTILEADER,LEADER,LWPOLYLINE,POLYLINE"))))
+  (if (_skr-explode-ss ss10) (setq changed T))
+  ;; finálny extra polyline priechod
+  (setq ss11 (_skr-select-space-filter layoutName '((0 . "LWPOLYLINE,POLYLINE"))))
+  (if (_skr-explode-ss ss11) (setq changed T))
   changed
 )
 
@@ -175,8 +174,6 @@
   (setvar "EXPERT" 5)
   (setvar "PROXYNOTICE" 0)
   (setvar "CMDDIA" 0)
-  (_skr-msg "Pokus o čistenie AEC/proxy objektov...")
-  (_skr-clean-proxy-aec)
   (_skr-process-all-spaces)
   (_skr-purge-audit)
   (setq saver (_skr-safe-command (list "_.qsave")))
