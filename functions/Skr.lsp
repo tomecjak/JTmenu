@@ -170,7 +170,7 @@
   (_skr-safe-command (list "_.-purge" "_all" "*" "_n"))
 )
 
-(defun _skr-process-open-doc (doc outpath / oldfiledia oldcmdecho oldattreq oldexpert oldproxynotice)
+(defun _skr-process-open-doc (doc outpath / oldfiledia oldcmdecho oldattreq oldexpert oldproxynotice saver err)
   (vla-activate doc)
   (setq oldfiledia     (getvar "FILEDIA"))
   (setq oldcmdecho     (getvar "CMDECHO"))
@@ -186,7 +186,15 @@
   (_skr-clean-proxy-aec)
   (_skr-process-all-spaces)
   (_skr-purge-audit)
-  (vla-saveas doc outpath)
+  (setq saver (_skr-safe-command (list "_.saveas" "" outpath)))
+  (if (vl-catch-all-error-p saver)
+    (progn
+      (setq err (vl-catch-all-error-message saver))
+      (_skr-msg (strcat "SAVEAS zlyhal: " err))
+      nil
+    )
+    T
+  )
   (setvar "FILEDIA" oldfiledia)
   (setvar "CMDECHO" oldcmdecho)
   (setvar "ATTREQ" oldattreq)
@@ -226,9 +234,11 @@
                           (_skr-msg (strcat "Chyba pri otvorení súboru: " fullpath))
                           (progn
                             (setq doc (vla-get-ActiveDocument app))
-                            (_skr-process-open-doc doc outpath)
-                            (vla-close doc)
-                            (_skr-msg (strcat "Uložené ako: " outpath))
+                            (if (_skr-process-open-doc doc outpath)
+                              (_skr-msg (strcat "Uložené ako: " outpath))
+                              (_skr-msg (strcat "Nepodarilo sa uložiť: " outpath))
+                            )
+                            (vla-close doc :vlax-false)
                           )
                         )
                       )
