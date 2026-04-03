@@ -118,16 +118,13 @@
 
 (defun _skr-clean-proxy-aec (/ done)
   (setq done nil)
-  (if (_skr-command-ok-p (list "_.-exporttoautocad" "_all" ""))
+  ;; -EXPORTTOAUTOCAD je interaktívny a v batch režime často padá na promptoch.
+  ;; Preto používame iba best-effort AECTOACAD, ak je dostupný.
+  (if (_skr-command-ok-p (list "_.-aectoacad"))
     (setq done T)
   )
   (if (not done)
     (if (_skr-command-ok-p (list "_.aectoacad"))
-      (setq done T)
-    )
-  )
-  (if (not done)
-    (if (_skr-command-ok-p (list "_.-aectoacad"))
       (setq done T)
     )
   )
