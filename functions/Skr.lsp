@@ -30,11 +30,6 @@
   (strcat "\"" s "\"")
 )
 
-(defun bx:to-fwd (p)
-  ;; zmení C:\cesta\k\suboru na C:/cesta/k/suboru – vhodné pre load aj script
-  (vl-string-subst "/" "\\" p)
-)
-
 (defun bx:ask-continue ( / dcl-id res)
   (setq res nil)
   (setq dcl-id (load_dialog "bx_batch.dcl"))
@@ -59,8 +54,7 @@ Odporúča sa pracovať na kópiách súborov."
   )
 )
 
-(defun c:BATCH_EXPLODE_DWG ( / folder files lspfile scrfile fh f oldcmdecho run
-                               lsp-path-fwd scr-path-fwd)
+(defun c:BATCH_EXPLODE_DWG ( / folder files scrfile fh f oldcmdecho run)
   (setq oldcmdecho (getvar "CMDECHO"))
   (setvar "CMDECHO" 0)
 
@@ -72,7 +66,6 @@ Odporúča sa pracovať na kópiách súborov."
     (progn
       (setq folder  (bx:get-folder "Vyber priečinok s DWG súbormi"))
       (setq files   (bx:get-dwg-files folder))
-      (setq lspfile (findfile "BX_WORKER.lsp"))
 
       (cond
         ((null folder)
@@ -81,31 +74,15 @@ Odporúča sa pracovať na kópiách súborov."
         ((null files)
          (alert "V zvolenom priečinku nebol nájdený žiadny DWG súbor.")
         )
-        ((null lspfile)
-         (alert "Súbor BX_WORKER.lsp nebol nájdený v support path.")
-        )
         (T
          (setq scrfile (strcat folder "\\BX_BATCH.scr"))
-
-         ;; pre LSP aj SCR si urobíme forward-slash verziu cesty
-         (setq lsp-path-fwd (bx:to-fwd lspfile))
-         (setq scr-path-fwd (bx:to-fwd scrfile))
-
          (setq fh (open scrfile "w"))
 
          (foreach f files
-           ;; DWG cesta – môže ostať so spätnými lomkami, ale pre istotu ju tiež prekonvertujeme:
-           (bx:write-line fh (strcat "_.OPEN " (bx:quote (bx:to-fwd f))))
-           ;; LOAD worker LISP – plná cesta s forward slashe
-           (bx:write-line
-             fh
-             (strcat
-               "(load "
-               (bx:quote lsp-path-fwd)
-               ")"
-             )
-           )
-           ;; spusti worker príkaz
+           ;; DWG cesta – stačia spätné lomky, OPEN to zvládne
+           (bx:write-line fh (strcat "_.OPEN " (bx:quote f)))
+           ;; WORKER LISP – len názov, AutoCAD ho nájde cez Support path
+           (bx:write-line fh "(load \"BX_WORKER.lsp\")")
            (bx:write-line fh "BX_PROCESS_CURRENT")
            (bx:write-line fh "_.QSAVE")
            (bx:write-line fh "_.CLOSE")
@@ -116,12 +93,12 @@ Odporúča sa pracovať na kópiách súborov."
          (alert
            (strcat
              "Batch script bol vytvorený a teraz sa automaticky spustí:\n"
-             scr-path-fwd
+             scrfile
            )
          )
 
-         ;; automatické spustenie SCR – používame forward slashe a ocitovanú cestu
-         (command "_.SCRIPT" (bx:quote scr-path-fwd))
+         ;; automatické spustenie SCR
+         (command "_.SCRIPT" scrfile)
         )
       )
     )
