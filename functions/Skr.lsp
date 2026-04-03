@@ -1,35 +1,8 @@
 (vl-load-com)
 
-(defun _skr-msg (s) (princ (strcat "\n" s)))
-
-(defun _skr-warning-confirm (/ dcl_id dcl_file result)
-  (setq dcl_file "SKR_WARNING.dcl")
-  (setq result nil)
-  (setq dcl_id (load_dialog dcl_file))
-  (if (and dcl_id (new_dialog "skr_warning" dcl_id))
-    (progn
-      (action_tile "accept" "(setq result T)(done_dialog 1)")
-      (action_tile "cancel" "(setq result nil)(done_dialog 0)")
-      (start_dialog)
-      (unload_dialog dcl_id)
-      result
-    )
-    (progn
-      (if dcl_id (unload_dialog dcl_id))
-      (alert
-        (strcat
-          "Nepodarilo sa nacitat dialog SKR_WARNING.dcl.\n"
-          "Skontroluj, ci je DCL subor v support path alebo v rovnakom priecinku."
-        )
-      )
-      nil
-    )
-  )
-)
-
-(defun _skr-browse-folder (title / sh folder path)
+(defun _skr-get-save-folder (/ sh folder path)
   (setq sh (vla-getInterfaceObject (vlax-get-acad-object) "Shell.Application"))
-  (setq folder (vlax-invoke-method sh 'BrowseForFolder 0 title 0))
+  (setq folder (vlax-invoke-method sh 'BrowseForFolder 0 "Vyber cieľový priečinok pre spracované DWG" 0))
   (vlax-release-object sh)
   (if folder
     (progn
@@ -42,45 +15,24 @@
   )
 )
 
-(defun _skr-get-source-folder ()
-  (_skr-browse-folder "Vyber priečinok s DWG súbormi na spracovanie")
-)
-
-(defun _skr-list-dwgs (folder / files out)
-  (setq files (vl-directory-files folder "*.dwg" 1))
-  (setq out '())
-  (foreach f files
-    (setq out (cons (strcat folder f) out))
+(defun _skr-base-name (fn / pos)
+  (setq pos (vl-string-position (ascii ".") fn t))
+  (if pos
+    (substr fn 1 pos)
+    fn
   )
-  (reverse out)
 )
 
-(defun _skr-safe-command (args)
-  (vl-catch-all-apply '(lambda () (apply 'command args)))
+(defun _skr-ss-by-filter (flt)
+  (ssget "_X" flt)
 )
 
-(defun _skr-command-ok-p (args)
-  (not (vl-catch-all-error-p (_skr-safe-command args)))
-)
-
-(defun _skr-layout-names (/ doc lst lay name)
-  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
-  (setq lst '())
-  (vlax-for lay (vla-get-Layouts doc)
-    (setq name (vla-get-Name lay))
-    (if (/= (strcase name) "MODEL")
-      (setq lst (cons name lst))
-    )
+(defun _skr-safe-command (cmdargs)
+  (vl-catch-all-apply
+    '(lambda ()
+       (apply 'command cmdargs)
+     )
   )
-  (reverse lst)
-)
-
-(defun _skr-select-space-filter (layoutName flt / data)
-  (if layoutName
-    (setq data (append (list (cons 410 layoutName)) flt))
-    (setq data flt)
-  )
-  (ssget "_X" data)
 )
 
 (defun _skr-explode-ss (ss / i e changed)
@@ -103,6 +55,7 @@
   (setq changed nil)
   (if ss
     (progn
+      (setvar "CMDECHO" 0)
       (sssetfirst nil ss)
       (_skr-safe-command (list "_.txtexp"))
       (sssetfirst nil nil)
@@ -112,139 +65,133 @@
   changed
 )
 
-(defun _skr-process-space (layoutName / changed ss1 ss2 ss3 ss4 ss5 ss6 ss7 ss8 ss9 ss10 ss11)
+(defun _skr-burst-pass (/ changed ss1 ss2 ss3 ss4 ss5 ss6)
   (setq changed nil)
-  (setq ss1 (_skr-select-space-filter layoutName '((0 . "INSERT"))))
+
+  ;; bloky
+  (setq ss1 (_skr-ss-by-filter '((0 . "INSERT"))))
   (if (_skr-explode-ss ss1) (setq changed T))
-  (setq ss2 (_skr-select-space-filter layoutName '((0 . "DIMENSION"))))
+
+  ;; kóty
+  (setq ss2 (_skr-ss-by-filter '((0 . "DIMENSION"))))
   (if (_skr-explode-ss ss2) (setq changed T))
-  (setq ss3 (_skr-select-space-filter layoutName '((0 . "MULTILEADER"))))
+
+  ;; multileadery
+  (setq ss3 (_skr-ss-by-filter '((0 . "MULTILEADER"))))
   (if (_skr-explode-ss ss3) (setq changed T))
-  (setq ss4 (_skr-select-space-filter layoutName '((0 . "LEADER"))))
+
+  ;; leadery
+  (setq ss4 (_skr-ss-by-filter '((0 . "LEADER"))))
   (if (_skr-explode-ss ss4) (setq changed T))
-  (setq ss5 (_skr-select-space-filter layoutName '((0 . "ACAD_TABLE,TOLERANCE"))))
+
+  ;; mleader blokový obsah po rozbití môže vytvárať ďalšie insert-y
+  (setq ss5 (_skr-ss-by-filter '((0 . "INSERT"))))
   (if (_skr-explode-ss ss5) (setq changed T))
-  ;; extra priechod pre polyliny
-  (setq ss6 (_skr-select-space-filter layoutName '((0 . "LWPOLYLINE,POLYLINE"))))
-  (if (_skr-explode-ss ss6) (setq changed T))
-  ;; druhý priechod na novo vzniknuté inserty po rozbití vnorených blokov
-  (setq ss7 (_skr-select-space-filter layoutName '((0 . "INSERT"))))
-  (if (_skr-explode-ss ss7) (setq changed T))
-  ;; ďalší explicitný priechod pre polyliny, ktoré sa objavili až po explode blokov
-  (setq ss8 (_skr-select-space-filter layoutName '((0 . "LWPOLYLINE,POLYLINE"))))
-  (if (_skr-explode-ss ss8) (setq changed T))
+
   ;; texty
-  (setq ss9 (_skr-select-space-filter layoutName '((0 . "TEXT,MTEXT,ATTDEF,ATTRIB"))))
-  (if (_skr-txtexp-ss ss9) (setq changed T))
-  ;; posledný dočisťovací priechod vrátane polyline
-  (setq ss10 (_skr-select-space-filter layoutName '((0 . "INSERT,DIMENSION,MULTILEADER,LEADER,LWPOLYLINE,POLYLINE"))))
-  (if (_skr-explode-ss ss10) (setq changed T))
-  ;; finálny extra polyline priechod
-  (setq ss11 (_skr-select-space-filter layoutName '((0 . "LWPOLYLINE,POLYLINE"))))
-  (if (_skr-explode-ss ss11) (setq changed T))
+  (setq ss6 (_skr-ss-by-filter '((0 . "TEXT,MTEXT,ATTDEF,ATTRIB"))))
+  (if (_skr-txtexp-ss ss6) (setq changed T))
+
   changed
 )
 
-(defun _skr-process-all-spaces (/ lays)
-  (repeat 4 (_skr-process-space nil))
-  (setq lays (_skr-layout-names))
-  (foreach lay lays
-    (_skr-msg (strcat "Spracovávam layout: " lay))
-    (repeat 4 (_skr-process-space lay))
-  )
-)
-
-(defun _skr-purge-audit ()
-  (_skr-safe-command (list "_.-purge" "_all" "*" "_n"))
-  (_skr-safe-command (list "_.audit" "_y"))
-  (_skr-safe-command (list "_.-purge" "_all" "*" "_n"))
-)
-
-(defun _skr-process-open-doc (doc / oldfiledia oldcmdecho oldattreq oldexpert oldproxynotice oldcmddia saver err)
+(defun _skr-process-open-doc (doc outpath / oldfiledia oldcmdecho oldattreq oldexpert olddbmod pass changed)
   (vla-activate doc)
-  (setq oldfiledia     (getvar "FILEDIA"))
-  (setq oldcmdecho     (getvar "CMDECHO"))
-  (setq oldattreq      (getvar "ATTREQ"))
-  (setq oldexpert      (getvar "EXPERT"))
-  (setq oldproxynotice (getvar "PROXYNOTICE"))
-  (setq oldcmddia      (getvar "CMDDIA"))
+  (setvar "TILEMODE" (getvar "TILEMODE"))
+  (command "_.ucs" "_world")
+  (command "_.plan" "_world")
+
+  (setq oldfiledia (getvar "FILEDIA"))
+  (setq oldcmdecho (getvar "CMDECHO"))
+  (setq oldattreq  (getvar "ATTREQ"))
+  (setq oldexpert  (getvar "EXPERT"))
+
   (setvar "FILEDIA" 0)
   (setvar "CMDECHO" 0)
   (setvar "ATTREQ" 0)
   (setvar "EXPERT" 5)
-  (setvar "PROXYNOTICE" 0)
-  (setvar "CMDDIA" 0)
-  (_skr-process-all-spaces)
-  (_skr-purge-audit)
-  (setq saver (_skr-safe-command (list "_.qsave")))
-  (if (vl-catch-all-error-p saver)
-    (progn
-      (setq err (vl-catch-all-error-message saver))
-      (_skr-msg (strcat "QSAVE zlyhal: " err))
-      nil
-    )
-    T
+
+  ;; viac priechodov kvôli vnoreným blokom a objektom vzniknutým po explode
+  (setq pass 0)
+  (repeat 6
+    (setq changed (_skr-burst-pass))
+    (setq pass (1+ pass))
   )
+
+  (command "_.-purge" "_all" "*" "_n")
+
+  (vla-saveas doc outpath)
+
   (setvar "FILEDIA" oldfiledia)
   (setvar "CMDECHO" oldcmdecho)
-  (setvar "ATTREQ" oldattreq)
-  (setvar "EXPERT" oldexpert)
-  (setvar "PROXYNOTICE" oldproxynotice)
-  (setvar "CMDDIA" oldcmddia)
+  (setvar "ATTREQ"  oldattreq)
+  (setvar "EXPERT"  oldexpert)
 )
 
-(defun c:SKR_DWG_BURST_BATCH (/ src files app docs fullpath doc starterDoc starterPath filePath)
+(defun c:SKR_DWG_BURST_BATCH (/ files target app docs i fullpath fn newname outpath doc)
   (vl-load-com)
-  (if (not (_skr-warning-confirm))
-    (progn (_skr-msg "Operácia bola zrušená používateľom.") (princ))
+
+  ;; Vyber DWG súbory
+  (setq files
+    (getfiled
+      "Vyber DWG súbory na spracovanie"
+      ""
+      "dwg"
+      8
+    )
+  )
+
+  (if (not files)
     (progn
-      (setq src (_skr-get-source-folder))
-      (if (not src)
-        (progn (_skr-msg "Nebola vybraná vstupná cesta.") (princ))
+      (princ "\nNeboli vybrané žiadne DWG súbory.")
+      (princ)
+    )
+    (progn
+      ;; Cieľový priečinok
+      (setq target (_skr-get-save-folder))
+
+      (if (not target)
         (progn
-          (setq files (_skr-list-dwgs src))
-          (if (not files)
-            (progn (_skr-msg "Vo vybranom priečinku sa nenašli žiadne DWG súbory.") (princ))
-            (progn
-              (setq app  (vlax-get-acad-object))
-              (setq docs (vla-get-Documents app))
-              (setq starterDoc (vla-get-ActiveDocument app))
-              (setq starterPath (strcase (vla-get-FullName starterDoc)))
-              (vl-catch-all-apply '(lambda () (load "express")))
-              (foreach fullpath files
-                (_skr-msg "----------------------------------------")
-                (_skr-msg (strcat "Spracovávam: " fullpath))
-                (setq filePath (strcase fullpath))
-                (if (= filePath starterPath)
-                  (_skr-msg (strcat "Preskakujem aktuálne otvorený výkres: " fullpath))
-                  (if (findfile fullpath)
-                    (progn
-                      (setq doc (vl-catch-all-apply 'vla-open (list docs fullpath)))
-                      (if (vl-catch-all-error-p doc)
-                        (_skr-msg (strcat "Chyba pri otvorení súboru: " fullpath))
-                        (progn
-                          (setq doc (vla-get-ActiveDocument app))
-                          (if (_skr-process-open-doc doc)
-                            (_skr-msg (strcat "Uložené v pôvodnom súbore: " fullpath))
-                            (_skr-msg (strcat "Nepodarilo sa uložiť: " fullpath))
-                          )
-                          (vla-close doc :vlax-false)
-                        )
-                      )
-                    )
-                    (_skr-msg (strcat "Súbor neexistuje alebo nie je dostupný: " fullpath))
-                  )
-                )
+          (princ "\nNebola vybraná cieľová cesta.")
+          (princ)
+        )
+        (progn
+          (setq app  (vlax-get-acad-object))
+          (setq docs (vla-get-Documents app))
+          (setq i 0)
+
+          ;; Načítanie Express Tools ak sú dostupné
+          (vl-catch-all-apply '(lambda () (load "express")))
+
+          (foreach fullpath files
+            (setq fn (vl-filename-base fullpath))
+            (setq newname (strcat fn "_SKR.dwg"))
+            (setq outpath (strcat target newname))
+
+            (princ (strcat "\nSpracovávam: " fullpath))
+
+            (setq doc
+              (vl-catch-all-apply
+                'vla-open
+                (list docs fullpath)
               )
-              (_skr-msg "Hotovo.")
-              (princ)
+            )
+
+            (if (vl-catch-all-error-p doc)
+              (princ (strcat "\nChyba pri otvorení súboru: " fullpath))
+              (progn
+                (setq doc (vl-catch-all-apply 'identity (list doc)))
+                (_skr-process-open-doc doc outpath)
+                (vla-close doc)
+                (princ (strcat "\nUložené ako: " outpath))
+              )
             )
           )
+
+          (princ "\nHotovo.")
+          (princ)
         )
       )
     )
   )
 )
-
-(princ "\nPríkaz načítaný. Spusti SKR_DWG_BURST_BATCH.")
-(princ)
