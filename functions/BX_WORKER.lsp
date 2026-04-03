@@ -41,6 +41,7 @@
   (setvar "CMDECHO" 0)
   (setvar "NOMUTT" 1)
 
+  ;; poradie rozbíjania – môžeš doladiť podľa potreby
   (bx:explode-type "DIMENSION")
   (bx:explode-type "LWPOLYLINE,POLYLINE")
   (bx:explode-type "LEADER,MULTILEADER")
