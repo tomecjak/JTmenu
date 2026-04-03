@@ -4,15 +4,15 @@ skr_warning : dialog {
 
   : boxed_column {
     label = "Dôležité upozornenie";
-    width = 85;
+    width = 90;
 
-    : text { label = "Tento skript deštruktívne upraví obsah vybraných DWG súborov."; }
+    : text { label = "Tento skript deštruktívne prepíše pôvodné DWG súbory na ich pôvodnom mieste."; }
     : text { label = "Rozbije bloky, texty, kóty, popisky a objekty v Model aj vo všetkých Layoutoch."; }
     : text { label = "Zároveň sa pokúsi odstrániť alebo konvertovať proxy a AEC objekty."; }
+    : text { label = "Nebude vytvorený žiadny nový názov súboru ani žiadny suffix."; }
     : text { label = "Výsledné DWG môžu mať zmenený vzhľad, anotácie, fonty alebo štruktúru objektov."; }
-    : text { label = "Pôvodné súbory ostanú zachované iba preto, že výstup sa ukladá pod nový názov."; }
     spacer;
-    : text { label = "Pokračuj len vtedy, ak si si plne vedomý toho, čo tento skript urobí."; }
+    : text { label = "Pokračuj len vtedy, ak si si plne vedomý toho, že prepíšeš originálne súbory."; }
   }
 
   spacer;
