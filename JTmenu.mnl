@@ -49,7 +49,8 @@
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
 (AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite" "JTRebarLayers" "JTRebarOffset"))
-(AUTOLOAD "POT_Variables" '("POT_VAR")) ;vyskusat na Civile 3D
+(AUTOLOAD "POT_Variables" '("POT_VAR"))
+(AUTOLOAD "Skr" '("SKR_DWG_BURST_BATCH"));vyskusat na Civile 3D
 (print)
 
 ;;----------------------------------------------------------------------;;
