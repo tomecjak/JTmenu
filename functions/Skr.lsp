@@ -27,9 +27,9 @@
   )
 )
 
-(defun _skr-get-save-folder (/ sh folder path)
+(defun _skr-browse-folder (title / sh folder path)
   (setq sh (vla-getInterfaceObject (vlax-get-acad-object) "Shell.Application"))
-  (setq folder (vlax-invoke-method sh 'BrowseForFolder 0 "Vyber cieľový priečinok pre spracované DWG" 0))
+  (setq folder (vlax-invoke-method sh 'BrowseForFolder 0 title 0))
   (vlax-release-object sh)
   (if folder
     (progn
@@ -40,6 +40,23 @@
       )
     )
   )
+)
+
+(defun _skr-get-source-folder ()
+  (_skr-browse-folder "Vyber priečinok so vstupnými DWG súbormi")
+)
+
+(defun _skr-get-save-folder ()
+  (_skr-browse-folder "Vyber cieľový priečinok pre spracované DWG")
+)
+
+(defun _skr-list-dwgs (folder / files out)
+  (setq files (vl-directory-files folder "*.dwg" 1))
+  (setq out '())
+  (foreach f files
+    (setq out (cons (strcat folder f) out))
+  )
+  (reverse out)
 )
 
 (defun _skr-safe-command (args)
@@ -139,15 +156,11 @@
 )
 
 (defun _skr-process-all-spaces (/ lays)
-  (repeat 4
-    (_skr-process-space nil)
-  )
+  (repeat 4 (_skr-process-space nil))
   (setq lays (_skr-layout-names))
   (foreach lay lays
     (_skr-msg (strcat "Spracovávam layout: " lay))
-    (repeat 4
-      (_skr-process-space lay)
-    )
+    (repeat 4 (_skr-process-space lay))
   )
 )
 
@@ -181,48 +194,51 @@
   (setvar "PROXYNOTICE" oldproxynotice)
 )
 
-(defun c:SKR_DWG_BURST_BATCH (/ files target app docs fullpath fn outpath doc)
+(defun c:SKR_DWG_BURST_BATCH (/ src target files app docs fullpath fn outpath doc)
   (vl-load-com)
   (if (not (_skr-warning-confirm))
+    (progn (_skr-msg "Operácia bola zrušená používateľom.") (princ))
     (progn
-      (_skr-msg "Operácia bola zrušená používateľom.")
-      (princ)
-    )
-    (progn
-      (setq files (getfiled "Vyber DWG súbory na spracovanie" "" "dwg" 8))
-      (if (not files)
+      (setq src (_skr-get-source-folder))
+      (if (not src)
+        (progn (_skr-msg "Nebola vybraná vstupná cesta.") (princ))
         (progn
-          (_skr-msg "Neboli vybrané žiadne DWG súbory.")
-          (princ)
-        )
-        (progn
-          (setq target (_skr-get-save-folder))
-          (if (not target)
+          (setq files (_skr-list-dwgs src))
+          (if (not files)
+            (progn (_skr-msg "Vo vybranom priečinku sa nenašli žiadne DWG súbory.") (princ))
             (progn
-              (_skr-msg "Nebola vybraná cieľová cesta.")
-              (princ)
-            )
-            (progn
-              (setq app  (vlax-get-acad-object))
-              (setq docs (vla-get-Documents app))
-              (vl-catch-all-apply '(lambda () (load "express")))
-              (foreach fullpath files
-                (setq fn (vl-filename-base fullpath))
-                (setq outpath (strcat target fn "_SKR.dwg"))
-                (_skr-msg "----------------------------------------")
-                (_skr-msg (strcat "Spracovávam: " fullpath))
-                (setq doc (vl-catch-all-apply 'vla-open (list docs fullpath)))
-                (if (vl-catch-all-error-p doc)
-                  (_skr-msg (strcat "Chyba pri otvorení súboru: " fullpath))
-                  (progn
-                    (_skr-process-open-doc doc outpath)
-                    (vla-close doc)
-                    (_skr-msg (strcat "Uložené ako: " outpath))
+              (setq target (_skr-get-save-folder))
+              (if (not target)
+                (progn (_skr-msg "Nebola vybraná cieľová cesta.") (princ))
+                (progn
+                  (setq app  (vlax-get-acad-object))
+                  (setq docs (vla-get-Documents app))
+                  (vl-catch-all-apply '(lambda () (load "express")))
+                  (foreach fullpath files
+                    (setq fn (vl-filename-base fullpath))
+                    (setq outpath (strcat target fn "_SKR.dwg"))
+                    (_skr-msg "----------------------------------------")
+                    (_skr-msg (strcat "Spracovávam: " fullpath))
+                    (if (findfile fullpath)
+                      (progn
+                        (setq doc (vl-catch-all-apply 'vla-open (list docs fullpath)))
+                        (if (vl-catch-all-error-p doc)
+                          (_skr-msg (strcat "Chyba pri otvorení súboru: " fullpath))
+                          (progn
+                            (setq doc (vla-get-ActiveDocument app))
+                            (_skr-process-open-doc doc outpath)
+                            (vla-close doc)
+                            (_skr-msg (strcat "Uložené ako: " outpath))
+                          )
+                        )
+                      )
+                      (_skr-msg (strcat "Súbor neexistuje alebo nie je dostupný: " fullpath))
+                    )
                   )
+                  (_skr-msg "Hotovo.")
+                  (princ)
                 )
               )
-              (_skr-msg "Hotovo.")
-              (princ)
             )
           )
         )
