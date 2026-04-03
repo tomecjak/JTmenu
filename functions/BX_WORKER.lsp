@@ -12,10 +12,12 @@
 )
 
 (defun bx:explode-entity (en)
+  ;; Dôležitá zmena: EXPLODE vždy voláme s entitou aj s "" na ukončenie,
+  ;; takže príkaz nezostane visieť v stave "Select objects".
   (if (and en (entget en))
     (vl-catch-all-apply
       '(lambda ()
-         (vl-cmdf "_.EXPLODE" en)
+         (vl-cmdf "_.EXPLODE" en "")
        )
     )
   )
@@ -47,7 +49,6 @@
   (vlax-for lay lays
     (if (eq (vla-get-Lock lay) :vlax-true)
       (progn
-        ;; pokus o odomknutie, ak by vrhlo chybu (xref atď.), ignorujeme
         (if (not (vl-catch-all-error-p
                    (vl-catch-all-apply
                      '(lambda () (vla-put-Lock lay :vlax-false))
@@ -59,7 +60,6 @@
       )
     )
   )
-  ;; vrátime zoznam hladín, ktoré sme úspešne odomkli
   lst
 )
 
@@ -82,7 +82,7 @@
 )
 
 ;; ----------------------------------------------------------------------
-;; Hlavný worker príkaz – teraz funguje aj na objekty na zamknutých hladinách
+;; Hlavný worker príkaz
 ;; ----------------------------------------------------------------------
 
 (defun c:BX_PROCESS_CURRENT ( / doc lockedLayers)
@@ -91,10 +91,10 @@
   (setvar "CMDECHO" 0)
   (setvar "NOMUTT" 1)
 
-  ;; dočasne odomkneme všetky zamknuté hladiny a uložíme si ich zoznam
+  ;; dočasne odomkneme zamknuté hladiny
   (setq lockedLayers (bx:unlock-locked-layers))
 
-  ;; poradie rozbíjania – môžeš doladiť podľa potreby
+  ;; poradie rozbíjania
   (bx:explode-type "DIMENSION")
   (bx:explode-type "LWPOLYLINE,POLYLINE")
   (bx:explode-type "LEADER,MULTILEADER")
@@ -102,8 +102,14 @@
   (bx:explode-type "INSERT")
   (bx:explode-blocks-nested)
 
-  ;; vrátime pôvodný stav zámkov na hladinách
+  ;; vrátime pôvodný stav zámkov
   (bx:restore-locked-layers lockedLayers)
+
+  ;; bezpečnostný „zametač“ – ak by predsa len nejaký príkaz ešte bežal,
+  ;; pošleme mu opakované Enter, kým CMDACTIVE > 0.
+  (while (> (getvar "CMDACTIVE") 0)
+    (command "")
+  )
 
   (vla-save doc)
   (princ)
