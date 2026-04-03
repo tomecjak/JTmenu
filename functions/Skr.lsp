@@ -26,66 +26,95 @@
   (write-line s fh)
 )
 
-(defun bx:esc-path (s)
-  (vl-string-subst "\\\\" "\\" s)
+(defun bx:esc-path-lsp (p)
+  ;; pre LISP cestu v skripte potrebujeme zdvojené spätné lomky
+  (vl-string-subst "\\\\" "\\" p)
 )
 
-(defun c:BATCH_EXPLODE_DWG ( / ans folder files lspfile scrfile fh f oldcmdecho)
+(defun bx:quote (s)
+  (strcat "\"" s "\"")
+)
+
+(defun bx:ask-continue ( / dcl-id res)
+  (setq res nil)
+  (setq dcl-id (load_dialog "bx_batch.dcl"))
+
+  (if (and dcl-id (new_dialog "bx_confirm" dcl-id))
+    (progn
+      (set_tile "msg"
+        "Skript otvorí a upraví viaceré DWG súbory.\n\
+Odporúča sa pracovať na kópiách súborov."
+      )
+      (action_tile "ok" "(setq res T) (done_dialog)")
+      (action_tile "cancel" "(setq res nil) (done_dialog)")
+      (start_dialog)
+      (unload_dialog dcl-id)
+      res
+    )
+    (progn
+      (if dcl-id (unload_dialog dcl-id))
+      (alert "DCL súbor 'bx_batch.dcl' sa nepodarilo načítať.")
+      nil
+    )
+  )
+)
+
+(defun c:BATCH_EXPLODE_DWG ( / folder files lspfile scrfile fh f oldcmdecho run)
   (setq oldcmdecho (getvar "CMDECHO"))
   (setvar "CMDECHO" 0)
 
-  (alert
-    (strcat
-      "UPOZORNENIE!\n\n"
-      "Bude vytvorený a automaticky spustený SCR batch,\n"
-      "ktorý otvorí každý DWG, spustí LISP príkaz,\n"
-      "uloží výkres a zavrie ho.\n\n"
-      "Odporúča sa pracovať na kópiách."
-    )
-  )
+  ;; dialóg s tlačidlami Pokračovať / Zrušiť
+  (setq run (bx:ask-continue))
 
-  (initget "Pokracovat Zrusit")
-  (setq ans (getkword "\nChceš pokračovať? [Pokracovat/Zrusit] <Zrusit>: "))
-
-  (if (or (null ans) (= ans "Zrusit"))
+  (if (not run)
     (alert "Proces bol zrušený.")
     (progn
-      (setq folder (bx:get-folder "Vyber priečinok s DWG súbormi"))
-      (setq files (bx:get-dwg-files folder))
+      (setq folder  (bx:get-folder "Vyber priečinok s DWG súbormi"))
+      (setq files   (bx:get-dwg-files folder))
       (setq lspfile (findfile "BX_WORKER.lsp"))
 
       (cond
         ((null folder)
-          (alert "Nebol vybraný priečinok.")
+         (alert "Nebol vybraný priečinok.")
         )
         ((null files)
-          (alert "V zvolenom priečinku nebol nájdený žiadny DWG súbor.")
+         (alert "V zvolenom priečinku nebol nájdený žiadny DWG súbor.")
         )
         ((null lspfile)
-          (alert "Súbor BX_WORKER.lsp nebol nájdený v support path.")
+         (alert "Súbor BX_WORKER.lsp nebol nájdený v support path.")
         )
         (T
-          (setq scrfile (strcat folder "\\BX_BATCH.scr"))
-          (setq fh (open scrfile "w"))
+         (setq scrfile (strcat folder "\\BX_BATCH.scr"))
+         (setq fh (open scrfile "w"))
 
-          (foreach f files
-            (bx:write-line fh (strcat "_.OPEN \"" (bx:esc-path f) "\""))
-            (bx:write-line fh (strcat "(load \"" (bx:esc-path lspfile) "\")"))
-            (bx:write-line fh "BX_PROCESS_CURRENT")
-            (bx:write-line fh "_.QSAVE")
-            (bx:write-line fh "_.CLOSE")
-          )
+         (foreach f files
+           ;; DWG cesta v skripte môže zostať normálna
+           (bx:write-line fh (strcat "_.OPEN " (bx:quote f)))
+           ;; LISP cesta musí mať zdvojené lomky
+           (bx:write-line
+             fh
+             (strcat
+               "(load "
+               (bx:quote (bx:esc-path-lsp lspfile))
+               ")"
+             )
+           )
+           (bx:write-line fh "BX_PROCESS_CURRENT")
+           (bx:write-line fh "_.QSAVE")
+           (bx:write-line fh "_.CLOSE")
+         )
 
-          (close fh)
+         (close fh)
 
-          (alert
-            (strcat
-              "Batch script bol vytvorený a teraz sa automaticky spustí:\n"
-              scrfile
-            )
-          )
+         (alert
+           (strcat
+             "Batch script bol vytvorený a teraz sa automaticky spustí:\n"
+             scrfile
+           )
+         )
 
-          (command "_.SCRIPT" scrfile)
+         ;; automatické spustenie SCR
+         (command "_.SCRIPT" (bx:quote scrfile))
         )
       )
     )
