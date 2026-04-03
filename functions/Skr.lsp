@@ -1,124 +1,174 @@
 (vl-load-com)
 
-(defun _be:get-files (msg filter / sh files item lst sa)
+(defun _bx:get-folder (msg / sh folder item path)
   (setq sh (vla-getInterfaceObject (vlax-get-acad-object) "Shell.Application"))
-  (setq files
-    (vlax-invoke-method sh 'BrowseForFolder
-      0
-      msg
-      0
+  (setq folder (vlax-invoke-method sh 'BrowseForFolder 0 msg 0))
+  (if folder
+    (progn
+      (setq item (vlax-get-property folder 'Self))
+      (setq path (vlax-get-property item 'Path))
     )
   )
-  (vlax-release-object sh)
+  (if sh (vlax-release-object sh))
+  path
+)
 
-  (if files
+(defun _bx:get-dwg-files (folder / files)
+  (if (and folder (vl-file-directory-p folder))
+    (mapcar
+      '(lambda (f) (strcat folder "\\" f))
+      (vl-directory-files folder "*.dwg" 1)
+    )
+  )
+)
+
+(defun _bx:ss-by-filter (flt)
+  (ssget "_X" flt)
+)
+
+(defun _bx:explode-ss (ss / n)
+  (if ss
     (progn
-      (setq item (vlax-get-property files 'Self))
-      (setq folder (vlax-get-property item 'Path))
-      (if folder
-        (mapcar
-          '(lambda (f) (strcat folder "\\" f))
-          (vl-directory-files folder "*.dwg" 1)
-        )
+      (setq n (sslength ss))
+      (if (> n 0)
+        (vl-cmdf "_.EXPLODE" ss "")
       )
     )
   )
 )
 
-(defun _be:ss-all-layouts (/ ss1 ss2)
-  (setq ss1 (ssget "_X" '((410 . "Model"))))
-  (setq ss2 (ssget "_X"))
-  (cond
-    ((and ss1 ss2) ss2)
-    (ss1 ss1)
-    (ss2 ss2)
-    (T nil)
-  )
-)
-
-(defun _be:explode-selection (ss / i en before after loops)
+(defun _bx:burst-textlike ( / ss )
+  (setq ss (_bx:ss-by-filter '((0 . "INSERT"))))
   (if ss
-    (progn
-      (setq loops 0)
-      (repeat 20
-        (setq before (sslength ss))
-        (command "_.EXPLODE" ss "")
-        (setq ss (_be:ss-all-layouts))
-        (setq after (if ss (sslength ss) 0))
-        (setq loops (1+ loops))
-        (if (<= after before)
-          (setq loops 999)
-        )
-        (if (= loops 999)
-          (progn
-            (setq loops 20)
-          )
-        )
-      )
-    )
+    (_bx:explode-ss ss)
   )
 )
 
-(defun _be:explode-pass (/ ss)
-  (setq ss (_be:ss-all-layouts))
+(defun _bx:explode-dimensions ( / ss )
+  (setq ss (_bx:ss-by-filter '((0 . "DIMENSION"))))
   (if ss
-    (progn
-      (command "_.UNDO" "_BE")
-      (_be:explode-selection ss)
-      (command "_.UNDO" "_E")
-    )
+    (_bx:explode-ss ss)
   )
 )
 
-(defun _be:process-dwg (f / docs doc err)
-  (setq docs (vla-get-Documents (vlax-get-acad-object)))
+(defun _bx:explode-leaders ( / ss )
+  (setq ss (_bx:ss-by-filter '((0 . "MULTILEADER,LEADER"))))
+  (if ss
+    (_bx:explode-ss ss)
+  )
+)
+
+(defun _bx:explode-mtext ( / ss )
+  (setq ss (_bx:ss-by-filter '((0 . "MTEXT"))))
+  (if ss
+    (_bx:explode-ss ss)
+  )
+)
+
+(defun _bx:explode-tables ( / ss )
+  (setq ss (_bx:ss-by-filter '((0 . "ACAD_TABLE"))))
+  (if ss
+    (_bx:explode-ss ss)
+  )
+)
+
+(defun _bx:explode-nested-blocks ( / i ss )
+  (setq i 0)
+  (repeat 8
+    (setq ss (_bx:ss-by-filter '((0 . "INSERT"))))
+    (if ss
+      (_bx:explode-ss ss)
+    )
+    (setq i (1+ i))
+  )
+)
+
+(defun _bx:process-current-drawing ( / )
+  (setvar "CMDECHO" 0)
+  (setvar "NOMUTT" 1)
+
+  (command "_.UNDO" "_BE")
+
+  (_bx:explode-dimensions)
+  (_bx:explode-leaders)
+  (_bx:explode-mtext)
+  (_bx:explode-tables)
+  (_bx:burst-textlike)
+  (_bx:explode-nested-blocks)
+
+  (command "_.UNDO" "_E")
+  (princ)
+)
+
+(defun _bx:save-doc (doc)
+  (vl-catch-all-apply 'vla-save (list doc))
+)
+
+(defun _bx:close-doc (doc)
+  (vl-catch-all-apply 'vla-close (list doc))
+)
+
+(defun _bx:process-file (filepath / acad docs doc err)
+  (setq acad (vlax-get-acad-object))
+  (setq docs (vla-get-documents acad))
   (setq err nil)
 
-  (vl-catch-all-apply
-    '(lambda ()
-       (setq doc (vla-open docs f))
-       (vla-activate doc)
-       (setvar "FILEDIA" 0)
-       (setvar "CMDDIA" 0)
-       (setvar "NOMUTT" 1)
+  (setq err
+    (vl-catch-all-apply
+      '(lambda ()
+         (setq doc (vla-open docs filepath))
+         (vla-activate doc)
+         (_bx:process-current-drawing)
+         (_bx:save-doc doc)
+         (_bx:close-doc doc)
+       )
+    )
+  )
 
-       (command "_.TILEMODE" 1)
-       (_be:explode-pass)
-
-       (command "_.TILEMODE" 0)
-       (_be:explode-pass)
-
-       (command "_.QSAVE")
-       (vla-close doc)
-     )
+  (if (vl-catch-all-error-p err)
+    (prompt (strcat "\nChyba pri DWG: " filepath))
+    (prompt (strcat "\nSpracované a uložené: " filepath))
   )
 )
 
-(defun c:BATCH_EXPLODE_DWG (/ files f oldfiledia oldcmddia oldnomutt)
+(defun c:BATCH_EXPLODE_DWG ( / ans folder files oldfiledia oldcmddia oldnomutt)
   (setq oldfiledia (getvar "FILEDIA"))
   (setq oldcmddia  (getvar "CMDDIA"))
   (setq oldnomutt  (getvar "NOMUTT"))
 
+  (setvar "FILEDIA" 0)
+  (setvar "CMDDIA" 0)
+  (setvar "NOMUTT" 1)
+
   (alert
     (strcat
       "UPOZORNENIE!\n\n"
-      "Táto funkcia hromadne otvorí DWG súbory,\n"
-      "pokúsi sa rozbiť objekty pomocou EXPLODE,\n"
-      "následne výkresy uloží.\n\n"
-      "Odporúča sa pracovať iba na kópiách súborov."
+      "Skript otvorí viac DWG súborov,\n"
+      "pokúsi sa rozbiť bloky, kóty, popisky,\n"
+      "textové a podobné objekty,\n"
+      "potom súbory uloží.\n\n"
+      "Odporúča sa pracovať na kópiách."
     )
   )
 
-  (setq files (_be:get-files "Vyber priečinok s DWG súbormi" "*.dwg"))
+  (initget "Pokracovat Zrusit")
+  (setq ans (getkword "\nChceš pokračovať? [Pokracovat/Zrusit] <Zrusit>: "))
 
-  (if files
+  (if (or (null ans) (= ans "Zrusit"))
     (progn
-      (foreach f files
-        (_be:process-dwg f)
-      )
-      (alert "Hotovo. Dávkové spracovanie DWG súborov bolo dokončené.")
+      (alert "Proces bol zrušený.")
     )
-    (alert "Neboli vybrané žiadne DWG súbory.")
+    (progn
+      (setq folder (_bx:get-folder "Vyber priečinok s DWG súbormi"))
+      (setq files (_bx:get-dwg-files folder))
+
+      (if files
+        (foreach f files
+          (_bx:process-file f)
+        )
+        (alert "V zvolenom priečinku nebol nájdený žiadny DWG súbor.")
+      )
+    )
   )
 
   (setvar "FILEDIA" oldfiledia)
