@@ -80,6 +80,39 @@ Setting //nazov dcl
     }
   }
 
+  //xx riadok dialogu - nastavenie pouzivanie blokov JTmenu alebo DPPtools
+    : boxed_radio_column
+    {
+      label = "Pouzivat bloky z JTmenu alebo DPPtools?";
+      //prepinac pre bloky JTmenu
+      : radio_button
+      {
+        key = "blokyJTmenu";
+        label = "JTmenu";
+      }
+      //prepinac pre bloky DPPtools
+      : radio_button
+      {
+        key = "blokyDPPtools";
+        label = "DPPtools";
+      }
+      //prvy riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "Moznost si nastavit, ci sa maju vkladat bloky,";
+      }
+      //druhy riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "ktore su sucastou JTmenu alebo bloky, ktore su";
+      }
+      //treti riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "sucastou DPPtools.";
+      }
+    }
+
   //treti riadok dialogu - nastavenie DIMSCALE pre vkladane bloky
   : boxed_radio_column
   {

@@ -39,6 +39,15 @@
     (set_tile "layerPrefixNew" (getenv "GlobalnaPrefixHladinyNew"))
   )
   
+  ;nastavenie prepinaca modov dialogu pre bloky JTmenu alebo DPPtools
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;splnena podmienka
+    (set_tile "blokyJTmenu" "1")
+    ;nesplnena podmienka
+    (set_tile "blokyDPPtools" "1")
+  )
+  
+  
   ;nastavenie prepinaca modov dialogu podla GlobalnaDIMSCALEset
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
     ;splnena podmienka
@@ -141,6 +150,12 @@
     (setenv "GlobalnaPrefixHladinyNew" layerPrefixNew)
     (setenv "GlobalnaPrefixHladinyNew" "NS_")
   )
+
+  ;vyhodnotenie vyberu modov pre bloky JTmenu alebo DPPtools
+  (if (= blokyJTmenu "1")
+    (setenv "GlobalnaBlocksType" "JTmenu")
+    (setenv "GlobalnaBlocksType" "DPPtools")
+  )
   
   ;vyhodnotenie vyberu modu pre bloky
   (if (= modKlasicky "1")
@@ -209,6 +224,7 @@
   (princ (strcat "\nNastavily ste hladinu " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
                  "\nNastavily ste prefix hladiny na: " (getenv "GlobalnaPrefixHladiny") "!"
                  "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
+                 "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
@@ -225,6 +241,8 @@
   (setq hladinaNula (get_tile "hladinaNula"))
   (setq layerPrefix (get_tile "layerPrefix"))
   (setq layerPrefixNew (get_tile "layerPrefixNew"))
+  (setq blokyJTmenu (get_tile "blokyJTmenu"))
+  (setq blokyDPPtools (get_tile "blokyDPPtools"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
   (setq modAnnotation (get_tile "modAnnotation"))
@@ -248,15 +266,15 @@
 ;funkcia tlacidla about
 (defun About ()
   
-  ;nacitanie dialogoveho okna
+  ;nacitanie dialogoveho okna About
   (setq dcl_id1 (load_dialog "Setting.dcl"))
   
-  ;test existencie dialogu SieteVsetkyCiaryInfo
+  ;test existencie dialogu About
   (if (not (new_dialog "About" dcl_id1))
     (exit)
   )
   
-  ;definicia tlacidla zatvorit info
+  ;definicia tlacidla zatvorit About
   (action_tile "zatvoritAbout"
     "(done_dialog)"
   )

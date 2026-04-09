@@ -735,6 +735,11 @@
   (setenv "GlobalnaPrefixHladinyNew" "NS_")
 )
 
+(if (= (getenv "GlobalnaBlocksType") nil)
+  ;nastavenie typu vkladaných blokov
+  (setenv "GlobalnaBlocksType" "JTmenu")
+)
+
 (if (= (getenv "GlobalnaBlocksScale") nil)
   ;nastavenie mierky vkladenych blokov
   (setenv "GlobalnaBlocksScale" "50")
@@ -770,6 +775,7 @@
     (menucmd "m=$(edtime,0,yyyy)")
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
+    "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
