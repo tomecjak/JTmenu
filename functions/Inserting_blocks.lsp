@@ -121,7 +121,7 @@
   ;nastavenie hladiny
   (LayerSetting)
 
-  (if (= (getenv "GlobalnaBlocksType" "JTmenu"))
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer z JTMenu
     (progn
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
