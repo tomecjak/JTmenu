@@ -115,7 +115,7 @@
 ;;                             Bloky do Modelu                          ;;
 ;;----------------------------------------------------------------------;;
 
-;vlozenie bloku Smer (zvisly)
+;vlozenie bloku Smer (vertical)
 (defun c:JTDirection ()
   
   ;nastavenie hladiny
@@ -132,7 +132,7 @@
       )
       (princ "\nUrcite bod vlozenia znacky smeru:")
     )
-    ;prikaz na vlozenie blocku Smer z DPPtools
+    ;prikaz na vlozenie blocku DPP_Smer_Z z DPPtools
     (progn
       (command "._-insert" "DPP_Smer_Z" "_S" 1 "_R" 0 pause)
       (princ "Vlozeny symbol DPP_Smer_Z!")
@@ -148,21 +148,29 @@
 
 ;;----------------------------------------------------------------------;;
 
-;vloženie bloku Smer2
+;vloženie bloku Smer2 (horizontal)
 (defun c:JTDirection2 ()
   
   ;nastavenie hladiny
   (LayerSetting)
 
-  ;prikaz na vlozenie blocku Smer2
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Smer2" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "Smer2" "_S" (getvar "dimscale") "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku Smer2 z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "Smer2" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "Smer2" "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky smeru:")
+    )
+    ;prikaz na vlozenie blocku DPP_Smer_V z DPPtools
+    (progn
+      (command "._-insert" "DPP_Smer_V" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Smer_V!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky smeru:")
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -179,16 +187,24 @@
   ;nastavenie hladiny
   (LayerSetting)
 
-  ;prikaz na vlozenie blocku SmerToku
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "SmerToku" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SmerToku" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku SmerToku z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "SmerToku" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "SmerToku" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky smeru toku:")
+    )
+    ;prikaz na vlozenie blocku DDP_Smet_T z DPPtools
+    (progn
+      (command "._-insert" "DPP_Smer_T" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Smer_T!")
     )
   )
   
-  (princ "\nUrcite bod vlozenia znacky smeru toku:")
-    
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
@@ -241,40 +257,24 @@
       )
   )
 
-  ;prikaz na vlozenie blocku NazovPohladu
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" blockType "_S" (getvar "dimscale") "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku NazovPohladu z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" blockType "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky pohladu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Nazov_pohladu z DPPtools
+    (progn
+      (princ "\nUrcite bod vlozenia znacky:")
+      (command "._-insert" "DPP_Nazov_pohladu" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Nazov_pohladu!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky pohladu:")
-    
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
-  
-  (princ)
-  
-)
-
-;;----------------------------------------------------------------------;;
-
-;vloženie bloku NazovPohladuNAsic
-(defun c:JTViewNameBasic()
-  
-  ;nastavenie hladiny
-  (LayerSetting)
-
-  ;prikaz na vlozenie blocku RezZvisly
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "NazovPohladuBasic" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "NazovPohladuBasic" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
-  
-  (princ "\nUrcite bod vlozenia znacky rezu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
