@@ -290,16 +290,24 @@
   
   ;nastavenie hladiny
   (LayerSetting)
-
-  ;prikaz na vlozenie blocku RezZvisly
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "RezZvisly" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "RezZvisly" "_S" (getvar "dimscale") "_R" 0 pause)
+  
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku RezZvisly z JTMenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "RezZvisly" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "RezZvisly" "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky rezu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Rez_zvisly z DPPtools
+    (progn
+      (command "._-insert" "DPP_Rez_zvisly" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Rez_zvisly!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky rezu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -316,15 +324,23 @@
   ;nastavenie hladiny
   (LayerSetting)
 
-  ;prikaz na vlozenie blocku RezVodorovny
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "RezVodorovny" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "RezVodorovny" "_S" (getvar "dimscale") "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku RezVodorovny z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "RezVodorovny" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "RezVodorovny" "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky rezu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Rez_vodorovny z DPPtools
+    (progn
+      (command "._-insert" "DPP_Rez_vodorovny" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Rez_vodorovny!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky rezu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -341,15 +357,23 @@
   ;nastavenie hladiny
   (LayerSetting)
 
-  ;prikaz na vlozenie blocku RezZlom
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "RezZlom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "RezZlom" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku RezZlom z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "RezZlom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "RezZlom" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky rezu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Rez_zlom z DPPtools
+    (progn
+      (command "._-insert" "DPP_Rez_zlom" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Rez_zlom!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky rezu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -369,15 +393,23 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
 
-  ;prikaz na vlozenie blocku ZarovnanyText
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "ZarovnanyText" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "ZarovnanyText" "_S" (getvar "dimscale") "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku ZarovnanyText z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "ZarovnanyText" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "ZarovnanyText" "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky zarovnaneho textu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Text_zarovnany z DPPtools
+    (progn
+      (command "._-insert" "PP_Text_zarovnany" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol PP_Text_zarovnany!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky zarovnaneho textu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -397,16 +429,24 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
 
-  ;prikaz na vlozenie blocku TextZBodom
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "TextZBodom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "TextZBodom" "_S" (getvar "dimscale") "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku TextZBodom z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "TextZBodom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "TextZBodom" "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky text z bodom:")
+    )
+    ;prikaz na vlozenie blocku DPP_Text_uzol z DPPtools
+    (progn
+      (command "._-insert" "DPP_Text_uzol" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Text_uzol!")
     )
   )
   
-  (princ "\nUrcite bod vlozenia znacky text z bodom:")
-    
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
@@ -424,16 +464,24 @@
   
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
-
-  ;prikaz na vlozenie blocku Sklon
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "Sklon" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "Sklon" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+  
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku Sklon z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "Sklon" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "Sklon" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky sklonu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Sipka_sklonu z DPPtools
+    (progn
+      (command "._-insert" "DPP_Sipka_sklonu" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Sipka_sklonu!")
     )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky sklonu:")
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -453,16 +501,24 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
 
-  ;prikaz na vlozenie blocku SymbolOsi
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "SymbolOsi" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SymbolOsi" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku SymbolOsi z JTmenu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "SymbolOsi" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "SymbolOsi" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky symbolu osi:")
     )
+    ;prikaz na vlozenie blocku DPP_Os_oznacenie z DPPtools
+    (progn
+      (command "._-insert" "DPP_Os_oznacenie" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Os_oznacenie!")
+   )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky symbolu osi:")
-    
+
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
