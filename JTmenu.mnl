@@ -765,7 +765,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 
 ;nacitanie statusbaru
-(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny), Dim: $(getvar,dimscale), Text: $(getvar,textsize), DZ: $(getenv,GlobalnaSignBlocksScale), PM: $(getenv,GlobalnaPreviewMode)")
+(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny) | Blocks: $(getenv,GlobalnaBlocksType) | Signs: $(getenv,GlobalnaSignBlocksScale)")
 
 ;vypisanie statusu o stave globalnych premenych
 (princ
