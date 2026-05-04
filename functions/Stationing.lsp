@@ -46,13 +46,13 @@
               ;vyhodnotenie rezimu zobrazenia stanicenia
               (if (or (= vyber_rezimu "") (= vyber_rezimu "U") (= vyber_rezimu "u"))
                 ;do konzoly sa vypise stanicenie bodu
-                (print (strcat "Bod je: " (rtos (+ pociatocne_stanicenie poloha_bodu) 2 (getvar "luprec")) " metrov od zaciatku stanicenia!"))
+                (print (strcat "Bod je: " (JT:FormatNumber (+ pociatocne_stanicenie poloha_bodu) (getvar "luprec")) " metrov od zaciatku stanicenia!"))
                   (if (or (= vyber_rezimu "Z") (= vyber_rezimu "z"))
                     ;stanicenie sa zapise do blocku alebo textu
                     (progn
                       (layoutfield
                         '(lambda ( objekt_pre_zapis )
-                          (vla-put-textstring objekt_pre_zapis (strcat "km " (rtos ( / (+ pociatocne_stanicenie poloha_bodu) 1000) 2 6)))
+                          (vla-put-textstring objekt_pre_zapis (strcat "km " (JT:FormatNumber (/ (+ pociatocne_stanicenie poloha_bodu) 1000.0) 6)))
                         )               
                       ) 
                     )
@@ -67,6 +67,81 @@
 		)
 	)
   (princ)
+)
+
+
+;;----------------------------------------------------------------------;;
+;;       Pomocne funkcia pre pridanie medzi v cisle po tisickach        ;;
+;;----------------------------------------------------------------------;;
+
+(defun JT:FormatNumber (value prec / s sign pos int frac len out count ch
+                              lenf frac-out c)
+
+  (setq s   (rtos value 2 prec) ; 2 = decimal
+        ch  " "                 ; oddeľovač tisícok v celej časti
+        sign ""
+  )
+
+  ;; znamienko
+  (if (= (substr s 1 1) "-")
+    (progn
+      (setq sign "-")
+      (setq s (substr s 2))
+    )
+  )
+
+  ;; oddelenie celej a desatinnej časti
+  (setq pos (vl-string-search "." s))
+  (if pos
+    (progn
+      (setq int  (substr s 1 pos))
+      (setq frac (substr s (+ pos 2)))
+    )
+    (progn
+      (setq int  s)
+      (setq frac "")
+    )
+  )
+
+  ;; ----- formátovanie CELEJ časti (skupiny po 3 z prava) -----
+  (setq len   (strlen int)
+        out   ""
+        count 0
+  )
+  (while (> len 0)
+    (setq out   (strcat (substr int len 1) out)
+          len   (1- len)
+          count (1+ count)
+    )
+    (if (and (> len 0) (= (rem count 3) 0))
+      (setq out (strcat ch out))
+    )
+  )
+
+  ;; ----- formátovanie DESATINNEJ časti (skupiny po 3 z ľava) -----
+  (if (> (strlen frac) 3)
+    (progn
+      (setq lenf     (strlen frac)
+            frac-out ""
+            count    0
+      )
+      (foreach c (vl-string->list frac)
+        (setq frac-out (strcat frac-out (chr c))
+              count    (1+ count)
+        )
+        (if (and (= (rem count 3) 0) (< count lenf))
+          (setq frac-out (strcat frac-out " "))
+        )
+      )
+      (setq frac frac-out)
+    )
+  )
+
+  ;; zloženie výsledku – desatinná ČIARKA
+  (if (> (strlen frac) 0)
+    (strcat sign out "," frac)
+    (strcat sign out)
+  )
 )
 
 ;;----------------------------------------------------------------------;;
