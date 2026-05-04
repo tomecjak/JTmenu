@@ -39,7 +39,7 @@
 (AUTOLOAD "Template_units" '("JTTemplateUnits"))
 (AUTOLOAD "Rebar_table" '("JTRebatTable"))
 (AUTOLOAD "Folders_scheme" '("JTFolder"))
-(AUTOLOAD "Prefix_layers" '("JTLayerPrexifRemove")) ;Legacy function - zmeniť na upravovanie prefixov hladin
+(AUTOLOAD "Prefix_layers" '("JTLayerPrexifRename")) ;Legacy function - zmeniť na upravovanie prefixov hladin
 (AUTOLOAD "VerticalLine" '("JTVerticalLine"))
 (AUTOLOAD "Select_by_layer" '("JTSelectbylayer"))
 (AUTOLOAD "Measurement" '("JTMeasurement"))
