@@ -3,10 +3,10 @@
 ; Create by "BlackBox" from https://www.theswamp.org/index.php?topic=49447.0
 ; Edit by Jakub Tomecko
 ;
-; Vymazanie prexifu alebo subfixu z nazvu hladin
+; Zmena prexifu alebo subfixu z nazvu hladin
 ;-------------------------------------------------------------------------
 
-(defun C:JTLayerPrexifRemove (/ *error* old new acDoc oLayers i oldName newName)
+(defun C:JTLayerPrexifRename (/ *error* old new acDoc oLayers i oldName newName)
  
   (defun *error* (msg)
     (if acDoc (vla-endundomark acDoc))
@@ -17,8 +17,8 @@
     (princ)
   )
  
-  (if (and (setq old (getstring T "\nZadajte prefix alebo subfix k vymazaniu: "))
-           (setq new "")
+  (if (and (setq old (getstring T "\nZadajte prefix alebo subfix k zmeny: "))
+           (setq new (getstring T "\nZadajte novy prefix alebo subfix: "))
       )
     (progn
       (vla-startundomark
