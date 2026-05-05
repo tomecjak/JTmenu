@@ -1,17 +1,20 @@
 ;=========================================================================
-; Rebar_functions.lsp
+; Rebar_functions_layer.lsp
 ; Create (vibecode) by Jakub Tomecko
 ;
 ; Nastroje pre prace s vystuzou: prienik, fillet, zapis do atributu
 ;-------------------------------------------------------------------------
 
+
 ;;----------------------------------------------------------------------;;
-;;                           Pomocne funkcie                            ;;
+;;                            Pomocne funkcie                           ;;
 ;;----------------------------------------------------------------------;;
+
 
 (defun _3d (p) (list (car p) (cadr p) (if (caddr p) (caddr p) 0.0)))
 (defun _2d (p) (list (car p) (cadr p)))
 (defun _pt2d (p) (list (car p) (cadr p)))
+
 
 (defun _draw-lwpoly (pts closed / data)
   (setq data
@@ -30,6 +33,7 @@
   (entmakex data)
 )
 
+
 (defun _lw-get-pts (ename / ed pts)
   (setq ed (entget ename))
   (foreach x ed
@@ -39,6 +43,7 @@
   )
   (reverse pts)
 )
+
 
 (defun _lw-get-bulges (ename / ed blg)
   (setq ed (entget ename))
@@ -50,74 +55,18 @@
   (reverse blg)
 )
 
+
 (defun _safe-nth (i lst def)
   (if (and (>= i 0) (< i (length lst))) (nth i lst) def)
 )
 
-;;----------------------------------------------------------------------;;
-;;                Funkcia pre vytvorenie vrcholov oblukov               ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:JTRebarIntersect (/ e ed pts blg nv i
-                       pPrev pStart pEnd pNext
-                       b oldlay ip)
-  (vl-load-com)
-  (setq e (car (entsel "\nVyber polyline: ")))
-  (if (and e (= (cdr (assoc 0 (entget e))) "LWPOLYLINE"))
-    (progn
-      (setq oldlay (getvar "CLAYER")) ; uložíme aktuálnu vrstvu [web:23]
-      (setvar "CLAYER" oldlay) ; nepotrebujeme ju meniť
-
-      (setq ed  (entget e))
-      (setq pts (_lw-get-pts e))
-      (setq blg (_lw-get-bulges e))
-      (setq nv (length pts))
-
-      (if (< nv 4)
-        (prompt "\nPolyline ma malo vrcholov (min. 4).")
-        (progn
-          ;; segment i: pStart=pts[i] -> pEnd=pts[i+1], bulge=blg[i]
-          ;; predchádzajúca line: pPrev=pts[i-1] -> pStart
-          ;; nasledujúca line: pEnd -> pNext=pts[i+2]
-          (setq i 1)
-          (while (<= i (- nv 3))
-            (setq pPrev  (nth (1- i) pts))
-            (setq pStart (nth i      pts))
-            (setq pEnd   (nth (1+ i) pts))
-            (setq pNext  (nth (+ i 2) pts))
-
-            (setq b (_safe-nth i blg 0.0))
-
-            (if (/= b 0.0)
-              (progn
-                ;; prienik dvoch čiar (pPrev->pStart) a (pEnd->pNext)
-                (setq ip (inters (_2d pPrev) (_2d pStart)
-                                 (_2d pEnd)  (_2d pNext)
-                                 nil))
-                (if ip
-                  (_draw-lwpoly (list pStart ip pEnd) nil)
-                )
-              )
-            )
-
-            (setq i (1+ i))
-          )
-        )
-      )
-
-      (setvar "CLAYER" oldlay)
-      (prompt "\nHotovo – polyliny (start–prienik–end) na aktualnej vrstve.")
-    )
-    (prompt "\nMusi to byt polyline.")
-  )
-  (princ)
-)
 
 ;;----------------------------------------------------------------------;;
-;;               Funkcia pre vytvorenie oblukov na polylin              ;;
+;;              Funkcia pre vytvorenie oblukov na polylin               ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarFilletPolyline (/ ent ed global_width D R)
+
+(defun c:JTRebarFilletLayer (/ ent ed D R)
   (vl-load-com)
 
   ;; vyber polyline (LWPOLYLINE)
@@ -125,16 +74,17 @@
   (if (null ent) (progn (prompt "\nZrusene.") (princ) (exit)))
 
   (setq ed (entget ent))
-  (setq global_width (cdr (assoc 43 ed)))
 
-  (if (or (null global_width) (<= global_width 0.0))
+  ;; priemer výstuže v mm z názvu hladiny DP_Vystuz_XX
+  (setq D (_rebar-get-diameter-from-layer ed))
+  (if (or (null D) (<= D 0.0))
     (progn
-      (prompt "\nPolyline nema nastaveny global width (parameter 'Global width').")
+      (prompt "\nZ nazvu hladiny sa nepodarilo zistit platny priemer (ocakavany tvar 'DP_Vystuz_XX').")
       (princ) (exit)
     )
   )
 
-  (setq D (* global_width 1000.0)) ; mm (predpoklad výkres v metroch)
+  (setq D (float D)) ; istota, ze je real
 
   ;; výpočet polomeru filletu (R v mm)
   (if (<= D 16.0)
@@ -146,21 +96,24 @@
   (setvar "FILLETRAD" (/ R 1000.0))
   (prompt (strcat "\nD=" (rtos D 2 0) " mm, fillet R=" (rtos R 2 1) " mm."))
 
-  ;; FILLET polyline (bez 'P' skratky, použijeme plnú voľbu) [web:192][web:195]
+  ;; FILLET polyline (bez 'P' skratky, použijeme plnú voľbu)
   (command "_.FILLET" "_Polyline" ent)
 
   (prompt "\nHotovo.")
   (princ)
 )
 
+
 ;;----------------------------------------------------------------------;;
-;;                           Pomocne funkcie                            ;;
+;;                            Pomocne funkcie                           ;;
 ;;----------------------------------------------------------------------;;
 
+
 (defun LM:roundm ( n m )
-  ;; Round to the nearest multiple (Lee Mac style) [web:171]
+  ;; Round to the nearest multiple (Lee Mac style)
   (* m (fix ((if (minusp n) - +) (/ n (float m)) 0.5)))
 )
+
 
 (defun _digits-after-last-underscore (s / i n out)
   (setq n (strlen s) i n out nil)
@@ -178,6 +131,21 @@
   )
 )
 
+
+;; priemer z nazvu hladiny DP_Vystuz_XX (číselná časť za posledným "_")
+(defun _rebar-get-diameter-from-layer (ed / lay dstr dval)
+  (setq lay  (cdr (assoc 8 ed)))
+  (setq dstr (_digits-after-last-underscore lay))
+  (if dstr
+    (progn
+      (setq dval (atoi dstr))
+      (if (> dval 0) dval nil)
+    )
+    nil
+  )
+)
+
+
 (defun _set-attr (blkEname tag val / obj atts a ok)
   (setq obj (vlax-ename->vla-object blkEname))
   (if (= (vla-get-HasAttributes obj) :vlax-true)
@@ -192,6 +160,7 @@
   )
   ok
 )
+
 
 (defun _digits-after-B-or-BS (s / posB posBS start n i out)
   (if (and s (> (strlen s) 0))
@@ -228,27 +197,31 @@
   )
 )
 
+
 ;;----------------------------------------------------------------------;;
 ;;                      Funkcia pre zapis do bloku                      ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarWritePolyline (/ plEnt plEd global_width num lay cislo obj len kusy lenmm lenmm5 str blkEnt)
+
+(defun c:JTRebarWriteLayer (/ plEnt plEd num lay cislo obj len kusy lenmm lenmm5 str blkEnt D)
   (vl-load-com)
 
   (setq plEnt (car (entsel "\nVyber polyline: ")))
   (if (null plEnt) (progn (prompt "\nNic nevybrane.") (princ) (exit)))
 
   (setq plEd (entget plEnt))
-  (setq global_width (cdr (assoc 43 plEd)))
 
-  (if (or (null global_width) (<= global_width 0.0))
+  ;; priemer výstuže v mm z názvu hladiny DP_Vystuz_XX
+  (setq D (_rebar-get-diameter-from-layer plEd))
+  (if (or (null D) (<= D 0.0))
     (progn
-      (prompt "\nPolyline nema nastaveny global width (parameter 'Global width').")
+      (prompt "\nZ nazvu hladiny sa nepodarilo zistit platny priemer (ocakavany tvar 'DP_Vystuz_XX').")
       (princ) (exit)
     )
   )
 
-  (setq num (rtos (* global_width 1000.0) 2 0)) ; mm (predpoklad výkres v metroch)
+  (setq D   (float D))
+  (setq num (rtos D 2 0)) ; priemer v mm (string)
 
   ;; načítaj číslo z názvu hladiny za "B" alebo "BS"
   (setq lay (cdr (assoc 8 plEd)))
@@ -260,10 +233,10 @@
   )
 
   ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
-  (setq obj (vlax-ename->vla-object plEnt))
-  (setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj))) ; [web:130]
-  (setq lenmm  (* len 1000.0))
-  (setq lenmm5 (LM:roundm lenmm 5)) ; najbližší násobok 5 [web:171]
+  (setq obj   (vlax-ename->vla-object plEnt))
+  (setq len   (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj)))
+  (setq lenmm (* len 1000.0))
+  (setq lenmm5 (LM:roundm lenmm 5)) ; najbližší násobok 5
 
   (setq kusy (getstring "\nZadaj pocet kusov: "))
   (if (null kusy) (progn (prompt "\nZrusene.") (princ) (exit)))
@@ -291,155 +264,43 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Funkcia pre vytvaranie hladin vystuze                  ;;
+;;                     Funkcia pre offset vystuze                       ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarLayers (/ volba pocet tag info maxNum lastColor i cislo novaHladina farby farba)
+(defun c:JTRebarOffsetLayer (/ *error* doc ent obj ed dist offVar1 offVar2 newObj1 newObj2
+                               D lay)
 
   (vl-load-com)
 
-  (defun _pad2 (n / s)
-    (setq s (itoa n))
-    (if (< n 10)
-      (strcat "0" s)
-      s
-    )
-  )
-
-  (defun _extract-number-after-pattern (s patt / pos start numtxt ch)
-    (setq pos (vl-string-search patt s))
-    (if pos
+  ;; pomocná funkcia: číslice za posledným "_"
+  (defun _digits-after-last-underscore (s / i n out)
+    (setq n (strlen s) i n out nil)
+    (while (and (> i 0) (/= "_" (substr s i 1))) (setq i (1- i)))
+    (if (> i 0)
       (progn
-        (setq start (+ pos (strlen patt) 1))
-        (setq numtxt "")
-        (while (<= start (strlen s))
-          (setq ch (substr s start 1))
-          (if (wcmatch ch "#")
-            (setq numtxt (strcat numtxt ch))
-            (setq start (+ (strlen s) 1))
-          )
-          (setq start (1+ start))
+        (setq i (1+ i) out "")
+        (while (and (<= i n) (wcmatch (substr s i 1) "#"))
+          (setq out (strcat out (substr s i 1)))
+          (setq i (1+ i))
         )
-        (if (/= numtxt "")
-          (atoi numtxt)
-          nil
-        )
+        (if (= out "") nil out)
       )
       nil
     )
   )
 
-  (defun _get-max-layer-info (tag / rec lname num patt maxn maxname laydata laycol)
-    (setq maxn 0)
-    (setq maxname nil)
-    (setq laycol nil)
-    (setq patt (strcat tag " "))
-    (setq rec (tblnext "LAYER" T))
-
-    (while rec
-      (setq lname (cdr (assoc 2 rec)))
-      (if (wcmatch lname (strcat "*" patt "*"))
-        (progn
-          (setq num (_extract-number-after-pattern lname patt))
-          (if (and num (> num maxn))
-            (progn
-              (setq maxn num)
-              (setq maxname lname)
-            )
-          )
-        )
-      )
-      (setq rec (tblnext "LAYER"))
-    )
-
-    (if maxname
+  ;; priemer z nazvu hladiny DP_Vystuz_XX (číselná časť za posledným "_")
+  (defun _rebar-get-diameter-from-layer (ed / lay dstr dval)
+    (setq lay  (cdr (assoc 8 ed)))        ; layer name
+    (setq dstr (_digits-after-last-underscore lay))
+    (if dstr
       (progn
-        (setq laydata (tblsearch "LAYER" maxname))
-        (setq laycol (abs (cdr (assoc 62 laydata))))
+        (setq dval (atoi dstr))
+        (if (> dval 0) dval nil)
       )
-    )
-
-    (list maxn laycol)
-  )
-
-  (defun _next-cycle-color (curr colors / pos)
-    (if curr
-      (progn
-        (setq pos (vl-position curr colors))
-        (if pos
-          (nth (rem (1+ pos) (length colors)) colors)
-          (car colors)
-        )
-      )
-      (car colors)
+      nil
     )
   )
-
-  (initget "Vystuz Spony")
-  (setq volba (getkword "\nVyber typ hladin [Vystuz/Spony]: "))
-
-  (cond
-    ((null volba)
-      (princ "\nNebola zvolena moznost.")
-    )
-
-    (T
-      (initget 7)
-      (setq pocet (getint "\nZadaj pocet hladin na vytvorenie: "))
-
-      (if (null pocet)
-        (princ "\nPocet musi byy kladne cele cislo.")
-        (progn
-          (setq tag   (if (= volba "Vystuz") "B" "BS"))
-          (setq farby '(10 20 30))
-          (setq info (_get-max-layer-info tag))
-          (setq maxNum (car info))
-          (setq lastColor (cadr info))
-
-          (setq farba (_next-cycle-color lastColor farby))
-
-          (setq i 1)
-          (while (<= i pocet)
-            (setq cislo (+ maxNum i))
-            (setq novaHladina (strcat (getenv "GlobalnaPrefixHladiny") "-" tag " " (_pad2 cislo)))
-
-            (if (not (tblsearch "LAYER" novaHladina))
-              (progn
-                (command "_.-LAYER" "_New" novaHladina "")
-                (command "_.-LAYER" "_Color" (itoa farba) novaHladina "")
-              )
-            )
-
-            (setq farba (_next-cycle-color farba farby))
-            (setq i (1+ i))
-          )
-
-          (princ
-            (strcat
-              "\nVytvorenych "
-              (itoa pocet)
-              " hladin od "
-              tag " " (_pad2 (1+ maxNum))
-              " po "
-              tag " " (_pad2 (+ maxNum pocet))
-              ". Farebny cyklus nadvazuje na posledne existujucu hladinu."
-            )
-          )
-        )
-      )
-    )
-  )
-
-  (princ)
-)
-
-;;----------------------------------------------------------------------;;
-;;                      Funkcia pre offset vystuze                      ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:JTRebarOffsetPolyline (/ *error* doc ent obj ed gw dist offVar1 offVar2 newObj1 newObj2 arr)
-
-  (vl-load-com)
 
   (defun _getOffsetObj (v / a)
     (setq a (vlax-variant-value v))
@@ -469,12 +330,16 @@
       (if (/= (cdr (assoc 0 ed)) "LWPOLYLINE")
         (princ "\nObjekt nie je LWPOLYLINE.")
         (progn
-          (setq gw (cond ((cdr (assoc 43 ed))) (0.0)))
-
-          (if (<= gw 0.0)
-            (princ "\nPolyline nema nenulovy Global Width.")
+          ;; zisti priemer D (mm) z nazvu hladiny DP_Vystuz_XX
+          (setq D (_rebar-get-diameter-from-layer ed))
+          (if (or (null D) (<= D 0.0))
+            (princ
+              "\nZ nazvu hladiny sa nepodarilo zistit platny priemer (ocakavany tvar 'DP_Vystuz_XX')."
+            )
             (progn
-              (setq dist (/ gw 2.0))
+              (setq D (float D))
+              ;; jednotky vykresu = metre, D je v mm -> polomer v m = D/1000/2
+              (setq dist (/ D 2000.0))
 
               (setq offVar1 (vla-Offset obj dist))
               (setq offVar2 (vla-Offset obj (- dist)))
@@ -489,7 +354,9 @@
                 (strcat
                   "\nHotovo. Vytvorene 2 offsety vo vzdialenosti +/- "
                   (rtos dist 2 3)
-                  " a obom bol nastaveny Global Width na 0."
+                  " (m) od osi vystuze, vypocitane z priemeru "
+                  (rtos D 2 0)
+                  " mm."
                 )
               )
             )
@@ -505,6 +372,7 @@
 
 ;;----------------------------------------------------------------------;;
 
+
 (vl-load-com)
 (load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
@@ -514,6 +382,7 @@
     )
 )
 (princ)
+
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;

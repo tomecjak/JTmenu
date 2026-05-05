@@ -48,9 +48,10 @@
 (AUTOLOAD "Create_polyline" '("JTCreatePolyline"))
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
-(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFillet" "JTRebarWrite" "JTRebarLayers" "JTRebarOffset"))
-(AUTOLOAD "POT_Variables" '("POT_VAR"))
-(AUTOLOAD "Skr" '("BATCH_EXPLODE_DWG"));vyskusat na Civile 3D
+(AUTOLOAD "Rebar_function_orchester" '("JTRebarFillet" "JTRebarWrite" "JTRebarOffset"))
+(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFilletPolyline" "JTRebarWritePolyline" "JTRebarLayers" "JTRebarOffsetPolyline"))
+(AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
+(AUTOLOAD "Polyline_from_coordinates" '("POLYCSV"))
 (print)
 
 ;;----------------------------------------------------------------------;;
@@ -740,6 +741,11 @@
   (setenv "GlobalnaBlocksType" "JTmenu")
 )
 
+(if (= (getenv "GlobalnaRebarType") nil)
+  ;nastavenie modu pre vystuzovanie
+  (setenv "GlobalnaRebarType" "Layer")
+)
+
 (if (= (getenv "GlobalnaBlocksScale") nil)
   ;nastavenie mierky vkladenych blokov
   (setenv "GlobalnaBlocksScale" "50")
@@ -765,7 +771,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 
 ;nacitanie statusbaru
-(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny) | Blocks: $(getenv,GlobalnaBlocksType) | Dim: $(getvar,dimstyle) | Signs: $(getenv,GlobalnaSignBlocksScale)")
+(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny) | Blocks: $(getenv,GlobalnaBlocksType) | Dim: $(getvar,dimstyle) | Rebar: $(getenv,GlobalnaRebarType) | Signs: $(getenv,GlobalnaSignBlocksScale)")
 
 ;vypisanie statusu o stave globalnych premenych
 (princ
@@ -776,6 +782,7 @@
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
+    "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
     "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"

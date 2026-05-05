@@ -47,7 +47,15 @@
     (set_tile "blokyDPPtools" "1")
   )
   
+  ;nastavenie prepinaca modov vystozovania
+  (if (= (getenv "GlobalnaRebarType") "Layer")
+    ;splnena podmienka
+    (set_tile "rebarLayerType" "1")
+    ;nesplnena podmienka
+    (set_tile "rebarPolylineType" "1")
+  )
   
+
   ;nastavenie prepinaca modov dialogu podla GlobalnaDIMSCALEset
   (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
     ;splnena podmienka
@@ -157,6 +165,12 @@
     (setenv "GlobalnaBlocksType" "DPPtools")
   )
   
+  ;vyhodnotenie vyberu modu pre vystuzovanie
+  (if (= rebarLayerType "1")
+    (setenv "GlobalnaRebarType" "Layer")
+    (setenv "GlobalnaRebarType" "Polyline")
+  )
+  
   ;vyhodnotenie vyberu modu pre bloky
   (if (= modKlasicky "1")
     ;nastavenie modu na Klasicky
@@ -225,14 +239,13 @@
                  "\nNastavily ste prefix hladiny na: " (getenv "GlobalnaPrefixHladiny") "!"
                  "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
                  "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
+                 "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
                  "\nNastavily ste jazyk pre vkladane bloky na: " (getenv "GlobalnaBlocksLanguage") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaKotyDIMSCALEset") " pre generovane koty!"))
-  
   (princ)
-
 )
 
 ;funkcia ulozenia nastavenia
@@ -243,6 +256,8 @@
   (setq layerPrefixNew (get_tile "layerPrefixNew"))
   (setq blokyJTmenu (get_tile "blokyJTmenu"))
   (setq blokyDPPtools (get_tile "blokyDPPtools"))
+  (setq rebarLayerType (get_tile "rebarLayerType"))
+  (setq rebarPolylineType (get_tile "rebarPolylineType"))
   (setq modKlasicky (get_tile "modKlasicky"))
   (setq modDimscale (get_tile "modDimscale"))
   (setq modAnnotation (get_tile "modAnnotation"))

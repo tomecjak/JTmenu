@@ -113,6 +113,39 @@ Setting //nazov dcl
       }
     }
 
+  //xx riadok dialogu - nastavenie pouzivanie nastrojov pre vystuzovania
+    : boxed_radio_column
+    {
+      label = "Aky typ vystuzenia pouzivat?";
+      //prepinac pre bloky xxxx
+      : radio_button
+      {
+        key = "rebarLayerType";
+        label = "Layer";
+      }
+      //prepinac pre bloky xxx
+      : radio_button
+      {
+        key = "rebarPolylineType";
+        label = "Polyline";
+      }
+      //prvy riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "Moznost si nastavit, ci nastoje pre pracu,";
+      }
+      //druhy riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "s vystuzov budu pracovat podla hladiny vystuze";
+      }
+      //treti riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "alebo podla polyliny.";
+      }
+    }
+
   //treti riadok dialogu - nastavenie DIMSCALE pre vkladane bloky
   : boxed_radio_column
   {
