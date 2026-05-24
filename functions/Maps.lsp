@@ -24,7 +24,7 @@
     (princ)
   )
   
-  ;vytvrenie premenej VyberUCSMaps pre vyber pouzivaneho UCS
+  ;vytvorenie premenej VyberUCSMaps pre vyber pouzivaneho UCS
   (initget "WCS Vlastne")
   (setq VyberUCSMaps (getkword "\nAke pouzit UCS? [WCS/Vlastne] <WCS>: "))
   (if (null VyberUCSMaps) (setq VyberUCSMaps "WCS"))

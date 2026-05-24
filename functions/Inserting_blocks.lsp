@@ -943,30 +943,28 @@
   
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
+   
+  ;vytvorenie premenej VyberJTOznacenieVystuze
+  (initget "Vystuz Kari_siet")
+  (setq VyberJTOznacenieVystuze (getkword "\nAku znacku pouzit? [Vystuz/Kari_siet] <Vystuz>: "))
+  (if (null VyberJTOznacenieVystuze) (setq VyberJTOznacenieVystuze "Vystuz"))
   
-  ;vytvrenie premenej VyberJTOznacenieVystuze pre vyber moznosi
-  (setq VyberJTOznacenieVystuze
-    (getstring "\nAku znacku pouzit? [Vystus/Kari siet] <Vystuz>: ")
-  )
-  
-  ;vyhodnotenie vyberu UCS pred prikazom
-  (if (or (= VyberJTOznacenieVystuze "") (= VyberJTOznacenieVystuze "V") (= VyberJTOznacenieVystuze "v")) 
+  (cond
+    ((= VyberJTOznacenieVystuze "Vystuz")
       ;prikaz na vlozenie blocku symbolu Popis vystuze
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
         (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-      )
+      ))
     )
-    
-    (if (or (= VyberJTOznacenieVystuze "K") (= VyberJTOznacenieVystuze "k"))
-        ;prikaz na vlozenie blocku symbolu Popis kari siete
-        (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-          (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-        )     
+    ((= VyberJTOznacenieVystuze "Kari_siet")
+      ;prikaz na vlozenie blocku symbolu Popis kari siete
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+        (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+      )) 
     )
   )
    
