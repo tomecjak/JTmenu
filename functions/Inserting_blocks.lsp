@@ -956,7 +956,7 @@
 
         (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
 
-      ))
+      
       )
     )
     ((= VyberJTOznacenieVystuze "Kari_siet")
