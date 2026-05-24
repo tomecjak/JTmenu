@@ -953,10 +953,9 @@
     ((= VyberJTOznacenieVystuze "Vystuz")
       ;prikaz na vlozenie blocku symbolu Popis vystuze
       (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+
         (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+
       ))
       )
     )
