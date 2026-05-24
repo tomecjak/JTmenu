@@ -952,19 +952,23 @@
   (cond
     ((= VyberJTOznacenieVystuze "Vystuz")
       ;prikaz na vlozenie blocku symbolu Popis vystuze
+      (progn
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
         (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
       ))
+      )
     )
     ((= VyberJTOznacenieVystuze "Kari_siet")
       ;prikaz na vlozenie blocku symbolu Popis kari siete
+      (progn
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
         (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
       (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
         (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
       )) 
+      )
     )
   )
    
