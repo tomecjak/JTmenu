@@ -950,20 +950,20 @@
   (if (null VyberJTOznacenieVystuze) (setq VyberJTOznacenieVystuze "Vystuz"))
   
   (cond
-    ((equal VyberJTOznacenieVystuze "Vystuz")
+    ((= VyberJTOznacenieVystuze "Vystuz")
       ;prikaz na vlozenie blocku symbolu Popis vystuze
-      (if (equal (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
           (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (equal (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
           (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
         )
       )
     )
-    ((equal VyberJTOznacenieVystuze "Kari_siet")
+    ((= VyberJTOznacenieVystuze "Kari_siet")
       ;prikaz na vlozenie blocku symbolu Popis kari siete
-      (if (equal (getenv "GlobalnaDIMSCALEset") "Klasicky")
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
           (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (equal (getenv "GlobalnaDIMSCALEset") "Mierka")
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
           (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
         )
       )
