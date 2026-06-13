@@ -302,23 +302,45 @@
     )
   )
   
-  ; Nastavenie funkcnosti prikazu len v Layoute
-  (cond
-    ((/= 1 (getvar 'cvport))
-      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
-      (setvar "CMDECHO" oldCmd)
-      (princ)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ; Nastavenie funkcnosti prikazu len v Layoute
+    (cond
+      ((/= 1 (getvar 'cvport))
+        (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+        (setvar "CMDECHO" oldCmd)
+        (princ)
+      )
+      
+      (t
+        ; Regenerácia pre správne zobrazenie
+        (command "_.REGEN")
+        
+        ; Vlozenie blocku Kriziky LEN do aktuálneho layoutu
+        (command "_.-INSERT" "Kriziky" "0,0" 1 1 0)
+        
+        ; Regenerácia pre zobrazenie nového bloku
+        (command "_.REGEN")
+      )
     )
     
-    (t
-      ; Regenerácia pre správne zobrazenie
-      (command "_.REGEN")
+    ; Nastavenie funkcnosti prikazu len v Layoute
+    (cond
+      ((/= 1 (getvar 'cvport))
+        (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+        (setvar "CMDECHO" oldCmd)
+        (princ)
+      )
       
-      ; Vlozenie blocku Kriziky LEN do aktuálneho layoutu
-      (command "_.-INSERT" "Kriziky" "0,0" 1 1 0)
-      
-      ; Regenerácia pre zobrazenie nového bloku
-      (command "_.REGEN")
+      (t
+        ; Regenerácia pre správne zobrazenie
+        (command "_.REGEN")
+        
+        ; Vlozenie blocku Kriziky LEN do aktuálneho layoutu
+        (command "_.-INSERT" "DPP_Vykres_hranice" "0,0" 1 1 0)
+        
+        ; Regenerácia pre zobrazenie nového bloku
+        (command "_.REGEN")
+      )
     )
   )
   
