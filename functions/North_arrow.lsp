@@ -101,16 +101,24 @@
       )
   )
   
-  ;prikaz na vlozenie blocku severky
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
-    
-      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" blockType "_S" (* (getvar "dimscale") 1) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku severky
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+        
+          (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" blockType "_S" (* (getvar "dimscale") 1) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+          )
       )
+      (princ "\nUrcite bod vlozenia znacky severky.")
+    )
+    ;prikaz na vlozenie blocku DPP_Severka DPPtools
+    (progn
+      (command "._-insert" "DPP_Severka" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+      (princ "Vlozeny symbol DPP_Severka!")
+    )
   )
-  
-  (princ "\nUrcite bod vlozenia znacky severky.")
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)

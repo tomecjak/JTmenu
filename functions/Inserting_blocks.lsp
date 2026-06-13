@@ -875,10 +875,21 @@
       (alert "\nPrikaz nie je dostupny v modelovom priestore.")
     )
 
-    (
-      ;prikaz na vlozenie blocku Poznamka 
-      (command "._insert" blockType "_S" 1 "_R" 0 pause)  
+    (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku Poznamka 
+    (progn
+      (
+        (command "._insert" blockType "_S" 1 "_R" 0 pause)  
+      )
     )
+    ;prikaz na vlozenie blocku DPP_Poznamky z DPPtools
+    (progn
+      (command "._-insert" "DPP_Poznamky" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Poznamky!")
+    )
+  )
+    
+    
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
