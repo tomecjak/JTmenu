@@ -406,8 +406,8 @@
     )
     ;prikaz na vlozenie blocku DPP_Text_zarovnany z DPPtools
     (progn
-      (command "._-insert" "DDP_Text_zarovnany" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DDP_Text_zarovnany!")
+      (command "._-insert" "DPP_Text_zarovnany" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Text_zarovnany!")
     )
   )
     
