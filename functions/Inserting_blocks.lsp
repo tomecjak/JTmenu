@@ -789,15 +789,28 @@
       )
   )
   
-  ;nastavenie funkcnosti prikazu len v Layoute
-  (cond
-    ((/= 1 (getvar 'cvport))
-      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku TabulkaMaterialov
+    (progn
+      ;nastavenie funkcnosti prikazu len v Layoute
+      (cond
+        ((/= 1 (getvar 'cvport))
+          (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+        )
+        (
+          (command "._insert" blockType "_S" 1 "_R" 0 pause)  
+        )
+      )
     )
-
-    (
-      ;prikaz na vlozenie blocku TabulkaMaterialov
-      (command "._insert" blockType "_S" 1 "_R" 0 pause)  
+    ;prikaz na vlozenie blocku DPP_Tabulka_materialov z DPPtools
+    (cond
+      ((/= 1 (getvar 'cvport))
+        (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+      )
+      (progn
+        (command "._-insert" "DPP_Tabulka_materialov" "_S" 1 "_R" 0 pause)
+        (princ "Vlozeny symbol DPP_Tabulka_materialov!")
+      )
     )
   )
   
@@ -829,16 +842,30 @@
       )
   )
   
-  ;nastavenie funkcnosti prikazu len v Layoute
-  (cond
-    ((/= 1 (getvar 'cvport))
-      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku TabulkaOhybov 
+    (progn
+      ;nastavenie funkcnosti prikazu len v Layoute
+      (cond
+        ((/= 1 (getvar 'cvport))
+          (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+        )
+        (
+          ;prikaz na vlozenie blocku TabulkaOhybov  
+          (command "._insert" blockType "_S" 1 "_R" 0 pause)
+        )
+      )
     )
-
-    (
-      ;prikaz na vlozenie blocku TabulkaOhybov  
-      (command "._insert" blockType "_S" 1 "_R" 0 pause)
-    )
+      ;prikaz na vlozenie blocku DPP_Tabulka_ohybov z DPPtools
+      (cond
+        ((/= 1 (getvar 'cvport))
+          (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+        )
+        (progn
+          (command "._-insert" "DPP_Tabulka_ohybov" "_S" 1 "_R" 0 pause)
+          (princ "Vlozeny symbol DPP_Tabulka_ohybov!")
+        )
+      )
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
@@ -869,30 +896,30 @@
       )
   )
   
-      (if (= (getenv "GlobalnaBlocksType") "JTmenu")
-      ;prikaz na vlozenie blocku Poznamka 
-  ;nastavenie funkcnosti prikazu len v Layoute
-  (cond
-    ((/= 1 (getvar 'cvport))
-      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
-    )
-    
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku Poznamka 
+    ;nastavenie funkcnosti prikazu len v Layoute
+    (cond
+      ((/= 1 (getvar 'cvport))
+        (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+      )
       (progn
         (
           (command "._insert" blockType "_S" 1 "_R" 0 pause)  
         )
       )
     )
-              ;prikaz na vlozenie blocku DPP_Poznamky z DPPtools
-          (cond
-    ((/= 1 (getvar 'cvport))
-      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
-    )
+    ;prikaz na vlozenie blocku DPP_Poznamky z DPPtools
+    ;nastavenie funkcnosti prikazu len v Layoute
+    (cond
+      ((/= 1 (getvar 'cvport))
+        (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+      )
       (progn
         (command "._-insert" "DPP_Poznamky" "_S" 1 "_R" 0 pause)
         (princ "Vlozeny symbol DPP_Poznamky!")
       )
-          )
+    )
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
