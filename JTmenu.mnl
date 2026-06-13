@@ -694,7 +694,7 @@
                                "JTAxisSymbol" "JTTabMaterial" "JTTabBends" "JTNote" "JTProtectionZone"
                                "JTRebar" "JTRebarClip" "JTRebarClip2" "JTRebarDescription" "JTRebarMark" "JTPointBlock" "JTPointHeight"
                                "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
-                               "JTGeodeticMark" "JTViewNameBasic" "JTSymmetry" "JTDetailSymbol" "JTCylinderEnd")
+                               "JTGeodeticMark" "JTSymmetry" "JTDetailSymbol" "JTCylinderEnd")
 )
 (print)
 
