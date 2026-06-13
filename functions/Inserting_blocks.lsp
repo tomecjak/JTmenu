@@ -884,10 +884,15 @@
       )
     )
               ;prikaz na vlozenie blocku DPP_Poznamky z DPPtools
+          (cond
+    ((/= 1 (getvar 'cvport))
+      (alert "\nPrikaz nie je dostupny v modelovom priestore.")
+    )
       (progn
         (command "._-insert" "DPP_Poznamky" "_S" 1 "_R" 0 pause)
         (princ "Vlozeny symbol DPP_Poznamky!")
       )
+          )
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
