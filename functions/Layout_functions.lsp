@@ -279,6 +279,7 @@
   
   ;vymazanie bloku Kriziky
   (BlockDelete "Kriziky")
+  (BlockDelete "DPP_Vykres_hranice")
   
   ; Získanie aktuálneho (otvoreného) layoutu
   (setq curLayout (getvar "ctab"))
