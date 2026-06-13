@@ -219,16 +219,24 @@
   
   ;nastavenie hladiny
   (LayerSetting)
-
-  ;prikaz na vlozenie blocku Smer
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "SymbolSymetrie" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SymbolSymetrie" "_S" (getvar "dimscale") "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku Smer
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "SymbolSymetrie" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "SymbolSymetrie" "_S" (getvar "dimscale") "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky symetrie:")
     )
-  )
-  (princ "\nUrcite bod vlozenia znacky symetrie:")
-  
+     ;prikaz na vlozenie blocku DPP_Symetria z DPPtools
+    (progn
+      (command "._-insert" "DPP_Symetria" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Symetria!")
+    )
+  )   
+    
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
@@ -537,16 +545,24 @@
   ;nastavenie Rescalingu
   (ScaleRefactorToMeter)
 
-  ;prikaz na vlozenie blocku SymbolDetailu
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "SymbolDetailu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "SymbolDetailu" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku SymbolDetailu
+    (progn
+      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
+          (command "._insert" "SymbolDetailu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
+            (command "._insert" "SymbolDetailu" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
+        )
+      )
+      (princ "\nUrcite bod vlozenia znacky symbolu detailu:")
+    )
+    ;prikaz na vlozenie blocku DPP_Detail z DPPtools
+    (progn
+      (command "._-insert" "DPP_Detail" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Detail!")
     )
   )
   
-  (princ "\nUrcite bod vlozenia znacky symbolu detailu:")
-    
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
@@ -730,9 +746,18 @@
   ;nastavenie hladiny
   (LayerSetting)
 
-  ;prikaz na vlozenie znacky konca valca
-  (command "._insert" "SymbolUkoncenieValca" "_S" 1 "_R" 0 pause)
-  (princ "\nUrcite bod vlozenia blocku znacky:")
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie znacky konca valca
+    (progn
+      (command "._insert" "SymbolUkoncenieValca" "_S" 1 "_R" 0 pause)
+      (princ "\nUrcite bod vlozenia blocku znacky:")
+    )
+    ;prikaz na vlozenie blocku DPP_Prerusenie_kruhove z DPPtools
+    (progn
+      (command "._-insert" "DPP_Prerusenie_kruhove" "_S" 1 "_R" 0 pause)
+      (princ "Vlozeny symbol DPP_Prerusenie_kruhove!")
+    )
+  )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
