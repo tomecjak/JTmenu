@@ -36,7 +36,7 @@
   )
   
   ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
+  (if (= VytvorenieHladinyPopisu  "Popis")
     (progn
       (setq rec (tblnext "LAYER" T))
       (while (and rec (not found))

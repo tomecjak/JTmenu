@@ -16,7 +16,7 @@
   )
   
   ;nastavenie prepinaca hladin dialogu podla GlobalnaHladinaBlokov
-  (if (= (getenv "GlobalnaHladinaBlokov") (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
+  (if (= (getenv "GlobalnaHladinaBlokov") "Popis")
     ;splnena podmienka
     (set_tile "hladinaPrefixPopis" "1")
     ;nesplnena podmienka
@@ -124,7 +124,7 @@
   ;vyhodnotenie vyberu hladiny pre bloky
   (if (= hladinaPrefixPopis "1")
     ;nastavenie hladinu na Prefix_Popis
-    (setenv "GlobalnaHladinaBlokov" (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
+    (setenv "GlobalnaHladinaBlokov" "Popis")
   
     (if (= hladinaNula "1")
       ;nastavenie hladinu na O
