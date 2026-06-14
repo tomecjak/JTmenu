@@ -43,7 +43,7 @@
 ;)
   
 ;nastavenie premenej RezimHladin pre vyber vytvorenej kategorie hladin
-  (initget "Rezim Hladin")
+  (initget "Zakladne Vystuz")
   (setq RezimHladin (getkword "\nKtore hladiny chcete vytvorit? [Zakladne/Vystuz] <Zakladne>: "))
   (if (null RezimHladin) (setq RezimHladin "Zakladne"))
 
