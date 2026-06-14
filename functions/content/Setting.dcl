@@ -80,10 +80,10 @@ Setting //nazov dcl
     }
   }
 
-  //xx riadok dialogu - nastavenie pouzivanie blokov JTmenu alebo DPPtools
+  //xx riadok dialogu - nastavenie pouzivanie funkci podla JTmenu alebo DPPtools
     : boxed_radio_column
     {
-      label = "Pouzivat bloky z JTmenu alebo DPPtools?";
+      label = "Pouzivat bloky a funkcie z JTmenu alebo DPPtools?";
       //prepinac pre bloky JTmenu
       : radio_button
       {
@@ -99,17 +99,22 @@ Setting //nazov dcl
       //prvy riadok poznamky nastavenia
       : text_part
       { 
-        label = "Moznost si nastavit, ci sa maju vkladat bloky,";
+        label = "Moznost si nastavit, ci sa maju puzivat bloky,";
       }
       //druhy riadok poznamky nastavenia
       : text_part
       { 
-        label = "ktore su sucastou JTmenu alebo bloky, ktore su";
+        label = "a funkcie ktore su sucastou JTmenu, alebo";
       }
       //treti riadok poznamky nastavenia
       : text_part
       { 
-        label = "sucastou DPPtools.";
+        label = "ktore su sucastou standardu DPPtools.";
+      }
+      //stverti riadok poznamky nastavenia
+      : text_part
+      { 
+        label = "Je potrebne mat nainstalovane DPPtools!";
       }
     }
 
