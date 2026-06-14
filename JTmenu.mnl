@@ -732,9 +732,9 @@
   (setenv "GlobalnaPrefixHladiny" "DP_")
 )
 
-(if (= (getenv "GlobalnaPrefixHladinyNew") nil)
+(if (= (getenv "GlobalnaPrefixHladinySeparator") nil)
   ;nastavenie nazvu prefixu hlafiny noveho stavu
-  (setenv "GlobalnaPrefixHladinyNew" "NS_")
+  (setenv "GlobalnaPrefixHladinySeparator" "-")
 )
 
 (if (= (getenv "GlobalnaBlocksType") nil)
