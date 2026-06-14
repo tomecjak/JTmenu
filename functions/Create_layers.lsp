@@ -90,12 +90,6 @@
 
   ;; ========= FARBA =========
   (cond
-    ;; default – biela (ACI 7), keď farba nie je zadaná
-    ((or (null color)
-         (and (= (type color) 'STR) (= color "")))
-      (vla-put-Color lay 7)
-    )
-
     ;; RGB zoznam, napr. '(100 100 100)
     ((and (listp color) (= (length color) 3))
       (setq tc (vlax-get-property lay 'TrueColor))
