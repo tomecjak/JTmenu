@@ -70,7 +70,7 @@
 ;;                    Funkcia pre vytvaranie hladin                     ;;
 ;;----------------------------------------------------------------------;;
 
-(defun CreateLayers (lyrname Color ltype lweight / doc lays lay tc)
+(defun CreateLayers (lyrname color ltype lweight / doc lays lay tc)
 
   (vl-load-com)
 
@@ -86,34 +86,42 @@
   (vla-put-LayerOn lay :vlax-true)
   (vla-put-Lock lay :vlax-false)
 
+  ;; FARBA
   (cond
-    ((or (null Color) (= Color ""))
+    ((or (null color) (and (= (type color) 'STR) (= color "")))
       (vla-put-Color lay 7)
     )
 
-    ((and (listp Color) (= (length Color) 3))
-      (setq tc (vla-get-TrueColor lay))
-      (apply 'vla-SetRGB (cons tc Color))
-      (vla-put-TrueColor lay tc)
+    ((and (listp color) (= (length color) 3))
+      (setq tc (vlax-get-property lay 'TrueColor))
+      (apply 'vla-SetRGB (cons tc color))
+      (vlax-put-property lay 'TrueColor tc)
     )
 
-    ((numberp Color)
-      (vla-put-Color lay Color)
+    ((numberp color)
+      (vla-put-Color lay color)
     )
 
-    ((and (eq (type Color) 'STR) (/= Color ""))
-      (vla-put-Color lay (atoi Color))
-    )
-  )
-
-  (vla-put-Linetype lay
-    (if (or (null ltype) (= ltype ""))
-      "Continuous"
-      ltype
+    ((and (= (type color) 'STR) (/= color ""))
+      (vla-put-Color lay (atoi color))
     )
   )
 
-  (if (or (null lweight) (= lweight ""))
+  ;; LINETYPE - musí byť načítaný
+  (if (or (null ltype) (= ltype ""))
+    (setq ltype "Continuous")
+  )
+
+  (if (not (tblsearch "LTYPE" ltype))
+    (command "._-linetype" "_load" ltype "")
+  )
+
+  (if (tblsearch "LTYPE" ltype)
+    (vla-put-Linetype lay ltype)
+  )
+
+  ;; LINEWEIGHT
+  (if (null lweight)
     (vla-put-Lineweight lay acLnWtByLwDefault)
     (vla-put-Lineweight lay lweight)
   )
@@ -149,8 +157,8 @@
       (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
     )
     (progn
-      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST1") '(100 100 100) "CONTINUOUS" 0.25)
-      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST2") 9 "CONTINUOUS" 0.25)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST1") '(100 100 100) "CONTINUOUS" acLnWt025)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST2") 9 "CONTINUOUS" acLnWt025)
     )
   ) 
 )
