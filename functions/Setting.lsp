@@ -32,11 +32,11 @@
   )
   
   ;nastavenie prefixu hladiny noveho stavu
-  (if (= (getenv "GlobalnaPrefixHladinyNew") "NS_")
+  (if (= (getenv "GlobalnaPrefixHladinySeparator") "NS_")
     ;splnena podmienka
-    (set_tile "layerPrefixNew" "NS_")
+    (set_tile "layerPrefixSeparator" "NS_")
     ;nesplnena podmienka
-    (set_tile "layerPrefixNew" (getenv "GlobalnaPrefixHladinyNew"))
+    (set_tile "layerPrefixSeparator" (getenv "GlobalnaPrefixHladinySeparator"))
   )
   
   ;nastavenie prepinaca modov dialogu pre bloky JTmenu alebo DPPtools
@@ -154,9 +154,9 @@
   )
   
   ;vyhodnotenie nastavenie prefixu hladiny pre novy stav
-  (if (/= vykresVypracoval "NS_")
-    (setenv "GlobalnaPrefixHladinyNew" layerPrefixNew)
-    (setenv "GlobalnaPrefixHladinyNew" "NS_")
+  (if (/= vykresVypracoval "-")
+    (setenv "GlobalnaPrefixHladinySeparator" layerPrefixSeparator)
+    (setenv "GlobalnaPrefixHladinySeparator" "-")
   )
 
   ;vyhodnotenie vyberu modov pre bloky JTmenu alebo DPPtools
@@ -237,7 +237,7 @@
   ;hlaska o nastavenych parametroch
   (princ (strcat "\nNastavily ste hladinu " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
                  "\nNastavily ste prefix hladiny na: " (getenv "GlobalnaPrefixHladiny") "!"
-                 "\nNastavily ste prefix hladyne pre novy stav na: " (getenv "GlobalnaPrefixHladinyNew") "!"
+                 "\nNastavily ste rozdelovac hladiny na: " (getenv "GlobalnaPrefixHladinySeparator") "!"
                  "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
                  "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
                  "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
@@ -253,7 +253,7 @@
   (setq hladinaPrefixPopis (get_tile "hladinaPrefixPopis"))
   (setq hladinaNula (get_tile "hladinaNula"))
   (setq layerPrefix (get_tile "layerPrefix"))
-  (setq layerPrefixNew (get_tile "layerPrefixNew"))
+  (setq layerPrefixSeparator (get_tile "layerPrefixSeparator"))
   (setq blokyJTmenu (get_tile "blokyJTmenu"))
   (setq blokyDPPtools (get_tile "blokyDPPtools"))
   (setq rebarLayerType (get_tile "rebarLayerType"))

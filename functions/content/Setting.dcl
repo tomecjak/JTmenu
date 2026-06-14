@@ -44,11 +44,11 @@ Setting //nazov dcl
   : boxed_column
   {
     label = "Aky prefix pouzivat pri vytvorany hladin?";
-    //nazov prefixu pre klasicke hladiny
+    //nazov prefixu pre hladiny
     : row {
       : text 
       {  
-        label = "Klasicke hladiny:";
+        label = "Prefix hladiny:";
       }
       : edit_box
       {  
@@ -56,16 +56,16 @@ Setting //nazov dcl
         key = "layerPrefix";
       }
     }
-    //nazov prefixu pre hladiny noveho stavu
+    //nazov rozdelovaca prefixu a hladiny
     : row {
       : text 
       {  
-        label = "Hladiny noveho stavu:";
+        label = "Rozdelovac hladiny:";
       }
       : edit_box
       {  
         fixed_width = true;
-        key = "layerPrefixNew";
+        key = "layerPrefixSeparator";
       }
     }
     //prvy riadok poznamky nastavenia

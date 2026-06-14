@@ -793,7 +793,7 @@
     "\nFormat cislovania vykresu je nastaveny na: " FormatCislaVykresu "."
     "\nMeno tagu vyhotovil pre rozpisku je nastavene na: " (getenv "GlobalneVyhotovilVykres") "."
     "\nPrexif nazvu hladiny je nastavene na: " (getenv "GlobalnaPrefixHladiny") "."
-    "\nPrexif nazvu hladiny pre novy stav je nastavene na: " (getenv "GlobalnaPrefixHladinyNew") "."
+    "\nNastavily ste rozdelovac hladiny na: " (getenv "GlobalnaPrefixHladinySeparator") "."
     "\n**********************************************"
   )
 ) 
