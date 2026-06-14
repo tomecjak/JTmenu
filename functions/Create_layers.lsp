@@ -55,15 +55,7 @@
       (RebarLayers)
     )
   )
-  
-  
-;vytvorenie group layer filtru DP Layers  
-;(setq GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "*,0,Defpoints," (getenv "GlobalnaPrefixHladinyNew") "*"))
-;(command "_.LAYER" "_FILTER" "_Delete" (strcat (getenv "GlobalnaPrefixHladiny") "Layers") "")
-;  (if (> (getvar 'CMDACTIVE) 0) (command ""))
-;(command "_.LAYER" "_FILTER" "_New" "_Group" "All" GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "Layers"))
-;  (if (> (getvar 'CMDACTIVE) 0) (command ""))
-  
+    
 ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
 (command "_.layerp")
 (command "_-layer" "_filter" "_set" "All" "")
@@ -95,24 +87,34 @@
 ;;----------------------------------------------------------------------;;
 
 (defun MainLayers()
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Hatch") 9 "CONTINUOUS" 0.05)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Koty") 3 "CONTINUOUS" 0.09)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Nosna konstrukcia") 6 "CONTINUOUS" 0.30)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Os") 7 "DASHDOT" 0.18)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Podpis") 7 "CONTINUOUS" "DEFAULT")
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Popis") 7 "CONTINUOUS" "DEFAULT")
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vodny tok") 150 "CONTINUOUS" 0.30)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Prislusenstvo") 8 "CONTINUOUS" 0.09)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Rimsa") 2 "CONTINUOUS" 0.30)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Rozpiska") 7 "CONTINUOUS" 0.20)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Spodna stavba") 4 "CONTINUOUS" 0.30)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Teren") 13 "CONTINUOUS" 0.50)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vozovka") 1 "CONTINUOUS" 0.30)
-  (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Prefabrikaty") 5 "CONTINUOUS" 0.30)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Loziska") 20 "CONTINUOUS" 0.25)
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vytycenie") 20 "CONTINUOUS" 0.25)
-  (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    (progn
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Hatch") 9 "CONTINUOUS" 0.05)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Koty") 3 "CONTINUOUS" 0.09)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Nosna konstrukcia") 6 "CONTINUOUS" 0.30)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Os") 7 "DASHDOT" 0.18)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Podpis") 7 "CONTINUOUS" "DEFAULT")
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Popis") 7 "CONTINUOUS" "DEFAULT")
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vodny tok") 150 "CONTINUOUS" 0.30)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Prislusenstvo") 8 "CONTINUOUS" 0.09)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Rimsa") 2 "CONTINUOUS" 0.30)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Rozpiska") 7 "CONTINUOUS" 0.20)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Spodna stavba") 4 "CONTINUOUS" 0.30)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Teren") 13 "CONTINUOUS" 0.50)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vozovka") 1 "CONTINUOUS" 0.30)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Prefabrikaty") 5 "CONTINUOUS" 0.30)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Loziska") 20 "CONTINUOUS" 0.25)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vytycenie") 20 "CONTINUOUS" 0.25)
+      (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
+      (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
+    )
+    (progn
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST1") 9 "CONTINUOUS" 0.05)
+      (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST2") 9 "CONTINUOUS" 0.05)
+      (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
+      (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
+    )
+  ) 
 )
 
 ;;----------------------------------------------------------------------;;
