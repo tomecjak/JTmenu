@@ -54,21 +54,7 @@
     ;nesplnena podmienka
     (set_tile "rebarPolylineType" "1")
   )
-  
-
-  ;nastavenie prepinaca modov dialogu podla GlobalnaDIMSCALEset
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-    ;splnena podmienka
-    (set_tile "modKlasicky" "1")
-    ;nesplnena podmienka
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-      ;splnena podmienka
-      (set_tile "modDimscale" "1")
-      ;nesplnena podmienka
-      (set_tile "modAnnotation" "1")
-    )
-  )
-  
+    
   ;nastavenie prepinaca mierky vkladanych blokov GlobalnaBlocksScale
   (if (= (getenv "GlobalnaBlocksScale") "50")
     ;splnena podmienka
@@ -170,24 +156,7 @@
     (setenv "GlobalnaRebarType" "Layer")
     (setenv "GlobalnaRebarType" "Polyline")
   )
-  
-  ;vyhodnotenie vyberu modu pre bloky
-  (if (= modKlasicky "1")
-    ;nastavenie modu na Klasicky
-    (setenv "GlobalnaDIMSCALEset" "Klasicky")
-  
-    (if (= modDimscale "1")
-      ;nastavenie modu na Mierka
-      (setenv "GlobalnaDIMSCALEset" "Mierka")
-      
-      (if (= modAnnotation "1")
-      ;nastavenie modu na Annotation
-      (setenv "GlobalnaDIMSCALEset" "Annotation")
-      (princ)
-      )
-    )
-  )
-  
+    
   ;vyhodnotenie vyberu modu pre mierku blokov
   (if (/= blocksScale "50")
     (setenv "GlobalnaBlocksScale" blocksScale)
@@ -217,7 +186,7 @@
     )
   )
   
-  ;vyhodnotenie vyberu modu pre bloky
+  ;vyhodnotenie vyberu modu pre koty
   (if (= modKotyKlasicky "1")
     ;nastavenie modu na Klasicky
     (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
@@ -227,7 +196,7 @@
       (setenv "GlobalnaKotyDIMSCALEset" "Mierka")
       
       (if (= modKotyAnnotation "1")
-        ;nastavenie modu na Mierka
+        ;nastavenie modu na Annotation
         (setenv "GlobalnaKotyDIMSCALEset" "Annotation")
         (princ)
       )
@@ -240,7 +209,6 @@
                  "\nNastavily ste rozdelovac hladiny na: " (getenv "GlobalnaPrefixHladinySeparator") "!"
                  "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
                  "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
-                 "\nNastavily ste mod na " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
                  "\nNastavily ste jazyk pre vkladane bloky na: " (getenv "GlobalnaBlocksLanguage") "!"
@@ -258,9 +226,6 @@
   (setq blokyDPPtools (get_tile "blokyDPPtools"))
   (setq rebarLayerType (get_tile "rebarLayerType"))
   (setq rebarPolylineType (get_tile "rebarPolylineType"))
-  (setq modKlasicky (get_tile "modKlasicky"))
-  (setq modDimscale (get_tile "modDimscale"))
-  (setq modAnnotation (get_tile "modAnnotation"))
   (setq blocksScale (get_tile "blocksScale"))
   (setq signBlocksScale (get_tile "signBlocksScale"))
   (setq blocksLanguageSK (get_tile "blocksLanguageSK"))

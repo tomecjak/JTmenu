@@ -707,11 +707,6 @@
   (setenv "GlobalnaHladinaBlokov" "0")
 )
 
-(if (= (getenv "GlobalnaDIMSCALEset") nil)
-  ;nastavenie modu blokov na klasicky
-  (setenv "GlobalnaDIMSCALEset" "Klasicky")
-)
-
 (if (= (getenv "GlobalnaKotyDIMSCALEset") nil)
   ;nastavenie modu kot na klasicky
   (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
@@ -729,7 +724,7 @@
 
 (if (= (getenv "GlobalnaPrefixHladiny") nil)
   ;nastavenie nazvu prefixu hlafiny
-  (setenv "GlobalnaPrefixHladiny" "DP_")
+  (setenv "GlobalnaPrefixHladiny" "DP")
 )
 
 (if (= (getenv "GlobalnaPrefixHladinySeparator") nil)
@@ -784,7 +779,6 @@
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
     "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
-    "\nNastaveny mod " (getenv "GlobalnaDIMSCALEset") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
     "\nNastaveny jazyk pre vkladane bloky je: " (getenv "GlobalnaBlocksLanguage") "!"

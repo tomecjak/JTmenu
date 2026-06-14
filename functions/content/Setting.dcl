@@ -151,55 +151,6 @@ Setting //nazov dcl
       }
     }
 
-  //treti riadok dialogu - nastavenie DIMSCALE pre vkladane bloky
-  : boxed_radio_column
-  {
-    label = "V akom mode pouzivat bloky?";
-    //prepinac pre mod klasicky
-    : radio_button
-    {
-      key = "modKlasicky";
-      label = "Klasicky";
-    }
-    //prepinac pre mod dimscale
-    : radio_button
-    {
-      key = "modDimscale";
-      label = "Dimscale";
-    }
-    //prepinac pre mod annotation
-    : radio_button
-    {
-      key = "modAnnotation";
-      label = "Annotation";
-    }
-    //prvy riadok poznamky nastavenia
-    : text_part
-    { 
-      label = "Pri nastaveny modu klasicky sa bloky vkladaju";
-    }
-    //druhy riadok poznamky nastavenia
-    : text_part
-    { 
-      label = "v mierke 1:X. V mode dimscale sa bloky";
-    }
-    //treti riadok poznamky nastavenia
-    : text_part
-    { 
-      label = "vkladaju podla mierky kot (DIMSCALE).";
-    }
-    //stvrty riadok poznamky nastavenia
-    : text_part
-    { 
-      label = "V mode annotation sa bloky vkladaju podla";
-    }
-    //piaty riadok poznamky nastavenia
-    : text_part
-    { 
-      label = "aktualne nastavenej mierky pohladu.";
-    }
-  }
-
   //stvrty riadok dialogu - nastavenie mierky vkladanych blokov
   : boxed_column
   {
