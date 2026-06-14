@@ -150,6 +150,7 @@
     )
     (progn
       (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST1") '(100 100 100) "CONTINUOUS" acLnWt025)
+      (pause)
       (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST2") 9 "CONTINUOUS" acLnWt025)
       (CreateLayers "Defpoints" 140 "CONTINUOUS" acLnWt025)
       (CreateLayers "0" 7 "CONTINUOUS" acLnWtByLwDefault)
