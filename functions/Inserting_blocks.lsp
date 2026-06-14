@@ -114,18 +114,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer2 z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "Smer2" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "Smer2" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky smeru:")
+      (command "._insert" "Smer2" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Smer_V z DPPtools
     (progn
       (command "._-insert" "DPP_Smer_V" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Smer_V!")
+      (princ)
     )
   )
   
@@ -147,18 +142,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku SmerToku z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "SmerToku" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "SmerToku" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky smeru toku:")
+      (command "._insert" "SmerToku" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DDP_Smet_T z DPPtools
     (progn
       (command "._-insert" "DPP_Smer_T" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Smer_T!")
+      (princ)
     )
   )
   
@@ -179,18 +169,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "SymbolSymetrie" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "SymbolSymetrie" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky symetrie:")
+      (command "._insert" "SymbolSymetrie" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
      ;prikaz na vlozenie blocku DPP_Symetria z DPPtools
     (progn
       (command "._-insert" "DPP_Symetria" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Symetria!")
+      (princ)
     )
   )   
     
@@ -225,19 +210,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku NazovPohladu z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" blockType "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky pohladu:")
+      (command "._insert" blockType "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Nazov_pohladu z DPPtools
     (progn
-      (princ "\nUrcite bod vlozenia znacky:")
       (command "._-insert" "DPP_Nazov_pohladu" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Nazov_pohladu!")
+      (princ)
     )
   )
     
@@ -259,18 +238,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku RezZvisly z JTMenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "RezZvisly" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "RezZvisly" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky rezu:")
+      (command "._insert" "RezZvisly" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Rez_zvisly z DPPtools
     (progn
       (command "._-insert" "DPP_Rez_zvisly" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Rez_zvisly!")
+      (princ)
     )
   )
     
@@ -292,18 +266,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku RezVodorovny z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "RezVodorovny" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "RezVodorovny" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky rezu:")
+      (command "._insert" "RezVodorovny" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Rez_vodorovny z DPPtools
     (progn
       (command "._-insert" "DPP_Rez_vodorovny" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Rez_vodorovny!")
+      (princ)
     )
   )
     
@@ -325,18 +294,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku RezZlom z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "RezZlom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "RezZlom" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky rezu:")
+      (command "._insert" "RezZlom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Rez_zlom z DPPtools
     (progn
       (command "._-insert" "DPP_Rez_zlom" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Rez_zlom!")
+      (princ)
     )
   )
     
@@ -361,18 +325,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku ZarovnanyText z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "ZarovnanyText" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "ZarovnanyText" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky zarovnaneho textu:")
+      (command "._insert" "ZarovnanyText" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Text_zarovnany z DPPtools
     (progn
       (command "._-insert" "DPP_Text_zarovnany" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Text_zarovnany!")
+      (princ)
     )
   )
     
@@ -397,18 +356,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku TextZBodom z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "TextZBodom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "TextZBodom" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky text z bodom:")
+      (command "._insert" "TextZBodom" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Text_uzol z DPPtools
     (progn
       (command "._-insert" "DPP_Text_uzol" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Text_uzol!")
+      (princ)
     )
   )
   
@@ -433,18 +387,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Sklon z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "Sklon" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "Sklon" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky sklonu:")
+      (command "._insert" "Sklon" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Sipka_sklonu z DPPtools
     (progn
       (command "._-insert" "DPP_Sipka_sklonu" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Sipka_sklonu!")
+      (princ)
     )
   )
     
@@ -469,18 +418,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku SymbolOsi z JTmenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "SymbolOsi" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "SymbolOsi" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky symbolu osi:")
+      (command "._insert" "SymbolOsi" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Os_oznacenie z DPPtools
     (progn
       (command "._-insert" "DPP_Os_oznacenie" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Os_oznacenie!")
+      (princ)
    )
   )
 
@@ -505,18 +449,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku SymbolDetailu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "SymbolDetailu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "SymbolDetailu" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky symbolu detailu:")
+      (command "._insert" "SymbolDetailu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Detail z DPPtools
     (progn
       (command "._-insert" "DPP_Detail" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Detail!")
+      (princ)
     )
   )
   
@@ -541,14 +480,9 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku OznacenieBodu
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "OznacenieBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-      (command "._insert" "OznacenieBodu" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
-    
-  (princ "\nUrcite bod vlozenia znacky vysky bodu:")
+  (command "._insert" "OznacenieBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+
+  (princ)
       
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -567,14 +501,9 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku VyskaBodu
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "VyskaBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "VyskaBodu" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
+  (command "._insert" "VyskaBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
-  (princ "\nUrcite bod vlozenia znacky vysky bodu:")
+  (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -595,14 +524,9 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku TabulkaVysok
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "TabulkaVysok" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "TabulkaVysok" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
+  (command "._insert" "TabulkaVysok" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
-  (princ "\nUrcite bod vlozenia znacky tabulka vysok:")
+  (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -623,14 +547,9 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku HectometricNetwork
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "HectometricNetwork" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "HectometricNetwork" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
+  (command "._insert" "HectometricNetwork" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
-  (princ "\nUrcite bod vlozenia znacky hektometrickej siete:")
+  (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -651,15 +570,10 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku ZnackaLoziska
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "ZnackaLoziska" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "ZnackaLoziska" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
+  (command "._insert" "ZnackaLoziska" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
-  (princ "\nUrcite bod vlozenia znacky loziska:")
-    
+  (princ)
+
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
@@ -679,15 +593,10 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku GeodetickaZnacka
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "GeodetickaZnacka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "ZGeodetickaZnacka" "_S" (getvar "dimscale") "_R" 0 pause)
-    )
-  )
+  (command "._insert" "GeodetickaZnacka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
-  (princ "\nUrcite bod vlozenia geodetickej znacky:")
-    
+  (princ)
+
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
   
@@ -707,12 +616,12 @@
     ;prikaz na vlozenie znacky konca valca
     (progn
       (command "._insert" "SymbolUkoncenieValca" "_S" 1 "_R" 0 pause)
-      (princ "\nUrcite bod vlozenia blocku znacky:")
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Prerusenie_kruhove z DPPtools
     (progn
       (command "._-insert" "DPP_Prerusenie_kruhove" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Prerusenie_kruhove!")
+      (princ)
     )
   )
     
@@ -766,7 +675,7 @@
       )
       (progn
         (command "._-insert" "DPP_Tabulka_materialov" "_S" 1 "_R" 0 pause)
-        (princ "Vlozeny symbol DPP_Tabulka_materialov!")
+        (princ)
       )
     )
   )
@@ -820,7 +729,7 @@
         )
         (progn
           (command "._-insert" "DPP_Tabulka_ohybov" "_S" 1 "_R" 0 pause)
-          (princ "Vlozeny symbol DPP_Tabulka_ohybov!")
+          (princ)
         )
       )
   )
@@ -874,7 +783,7 @@
       )
       (progn
         (command "._-insert" "DPP_Poznamky" "_S" 1 "_R" 0 pause)
-        (princ "Vlozeny symbol DPP_Poznamky!")
+        (princ)
       )
     )
   )
@@ -939,14 +848,9 @@
   (ScaleRefactorToMeter)
 
   ;prikaz na vlozenie blocku vystuze
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-    (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (command "._insert" "PopisVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-    )
-  )
+  (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
-  (princ "\nUrcite bod vlozenia blocku vystuze:")
+  (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (NavratNaPoslednuHladinu)
@@ -975,21 +879,11 @@
   (cond
     ((= VyberJTOznacenieVystuze "Vystuz")
       ;prikaz na vlozenie blocku symbolu Popis vystuze
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-          (command "._insert" "OznacenieVystuze" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
+      (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     )
     ((= VyberJTOznacenieVystuze "Kari_siet")
       ;prikaz na vlozenie blocku symbolu Popis kari siete
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-          (command "._insert" "OznacenieVystuzeKari" "_S" (* (getvar "dimscale") 1) "_R" 0 pause)
-        )
-      )
+      (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     )
   )
    
@@ -1007,7 +901,7 @@
   
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "Vystuz" "_S" 1 "_R" 0 pause)
-  (princ "\nUrcite bod vlozenia blocku vystuze:")
+  (princ)
   
 )
 
@@ -1018,7 +912,7 @@
   
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "VystuzSpona" "_S" 1 "_R" 0 pause)
-  (princ "\nUrcite bod vlozenia blocku spony vystuze:")
+  (princ)
   
 )
 
@@ -1029,7 +923,7 @@
   
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "VystuzSpona2" "_S" 1 "_R" 0 pause)
-  (princ "\nUrcite bod vlozenia blocku spony vystuze:")
+  (princ)
   
 )
 
