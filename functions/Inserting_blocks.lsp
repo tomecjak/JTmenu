@@ -90,7 +90,23 @@
   ;vyhodnotenie vyberu hladiny pre bloky
   (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
     ;vytvorenie a nastavenie hladinu na DP_Popis
-    (SetLayerPrefixPopis)
+    ;(SetLayerPrefixPopis)
+    (progn
+      (setq rec (tblnext "LAYER" T))
+      (while (and rec (not found))
+        (setq lay (cdr (assoc 2 rec)))
+        (if (wcmatch (strcase lay) "*POPIS")
+          (setq found lay)
+        )
+        (setq rec (tblnext "LAYER"))
+      )
+
+      (if found
+        (setvar "CLAYER" found)
+        (command "._layer" "s" "0" "")
+      )
+      (princ)
+    )
   
     (if (= VytvorenieHladinyPopisu "0")
     ;bez vytvorenia hladiny a nastavenie na hladinu 0
