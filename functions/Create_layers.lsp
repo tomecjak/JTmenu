@@ -77,55 +77,66 @@
   (setq doc  (vla-get-ActiveDocument (vlax-get-acad-object)))
   (setq lays (vla-get-Layers doc))
 
+  ;; vytvor / zober existujúcu hladinu
   (if (tblsearch "LAYER" lyrname)
     (setq lay (vla-Item lays lyrname))
     (setq lay (vla-Add lays lyrname))
   )
 
+  ;; základné vlastnosti
   (vla-put-Freeze lay :vlax-false)
   (vla-put-LayerOn lay :vlax-true)
   (vla-put-Lock lay :vlax-false)
 
-  ;; FARBA
+  ;; ========= FARBA =========
   (cond
-    ((or (null color) (and (= (type color) 'STR) (= color "")))
+    ;; default – biela (ACI 7), keď farba nie je zadaná
+    ((or (null color)
+         (and (= (type color) 'STR) (= color "")))
       (vla-put-Color lay 7)
     )
 
+    ;; RGB zoznam, napr. '(100 100 100)
     ((and (listp color) (= (length color) 3))
       (setq tc (vlax-get-property lay 'TrueColor))
       (apply 'vla-SetRGB (cons tc color))
       (vlax-put-property lay 'TrueColor tc)
     )
 
+    ;; ACI číselný index, napr. 3
     ((numberp color)
       (vla-put-Color lay color)
     )
 
+    ;; ACI ako string, napr. "3"
     ((and (= (type color) 'STR) (/= color ""))
       (vla-put-Color lay (atoi color))
     )
   )
 
-  ;; LINETYPE - musí byť načítaný
+  ;; ========= LINETYPE =========
+  ;; ak nič, použi CONTINUOUS
   (if (or (null ltype) (= ltype ""))
-    (setq ltype "Continuous")
+    (setq ltype "CONTINUOUS")
   )
 
+  ;; zaisti, že linetype je načítaný
   (if (not (tblsearch "LTYPE" ltype))
-    (command "._-linetype" "_load" ltype "")
+    (command "._-linetype" "_Load" ltype "")
   )
 
   (if (tblsearch "LTYPE" ltype)
     (vla-put-Linetype lay ltype)
   )
 
-  ;; LINEWEIGHT
-  (if (null lweight)
+  ;; ========= LINEWEIGHT =========
+  ;; nil/"" → DEFAULT, inak použité to, čo pošleš (napr. acLnWt025)
+  (if (or (null lweight) (= lweight ""))
     (vla-put-Lineweight lay acLnWtByLwDefault)
     (vla-put-Lineweight lay lweight)
   )
 
+  ;; nastav ako aktuálnu hladinu
   (vla-put-ActiveLayer doc lay)
   lay
 )
