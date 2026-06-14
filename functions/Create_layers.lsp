@@ -57,8 +57,8 @@
   )
     
 ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-(command "_.layerp")
-(command "_-layer" "_filter" "_set" "All" "")
+;(command "_.layerp")
+;(command "_-layer" "_filter" "_set" "All" "")
   
 ;hlaska po skonceni programu
 (princ "\nHladiny boli vytvorene. ")
@@ -151,8 +151,8 @@
     (progn
       (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST1") '(100 100 100) "CONTINUOUS" acLnWt025)
       (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "TEST2") 9 "CONTINUOUS" acLnWt025)
-      (CreateLayers "Defpoints" 140 "CONTINUOUS" 0.05)
-      (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
+      (CreateLayers "Defpoints" 140 "CONTINUOUS" acLnWt025)
+      (CreateLayers "0" 7 "CONTINUOUS" acLnWtByLwDefault)
     )
   ) 
 )
