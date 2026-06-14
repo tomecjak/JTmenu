@@ -14,58 +14,6 @@
 ;;----------------------------------------------------------------------;;
 
 ;;----------------------------------------------------------------------;;
-;;                             Podporne funkcie                         ;;
-;; Funkcia pre vytvarania hladin v modeli Nazov + farba + typ ciary     ;;
-;; + hrubka ciary                                                       ;;
-;;----------------------------------------------------------------------;;
-
-(defun CreateLayers(lyrname Color ltype lweight)
-
-  (if (tblsearch "LAYER" lyrname)
-    (command "._Layer" "_Thaw" lyrname "_On" lyrname "_UnLock" lyrname "_Set" lyrname "")
-    (command "._Layer" "_Make" lyrname "_Color"
-      (if (or (null color)(= Color "")) "_White" Color)
-      lyrname "LT" (if (or (null ltype)(= ltype "")) "Continuous" ltype)
-      lyrname "LW" (if (or (null lweight)(= lweight "")) "default" lweight) lyrname ""
-    )
-  )
-)
-
-;;----------------------------------------------------------------------;;
-;;                   Nastavenie hladiny Prefix_Popis                    ;;
-;;----------------------------------------------------------------------;;
-
-(defun SetLayerPrefixPopis()
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Popis") 7 "CONTINUOUS" "DEFAULT")
-  ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
-  (command "._layer" "s" (strcat (getenv "GlobalnaPrefixHladiny") "Popis") "")
-  
-  ;vytvorenie group layer filtru Prefix Layers 
-  (setq GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "*,0,Defpoints," (getenv "GlobalnaPrefixHladinyNew") "*"))
-  (command "_.LAYER" "_FILTER" "_Delete" (strcat (getenv "GlobalnaPrefixHladiny") "Layers") "")
-    (if (> (getvar 'CMDACTIVE) 0) (command ""))
-  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "Layers"))
-    (if (> (getvar 'CMDACTIVE) 0) (command "")) 
-)
-
-;;----------------------------------------------------------------------;;
-;;                  Nastavenie hladiny Prefix_Vystuz                    ;;
-;;----------------------------------------------------------------------;;
-
-(defun SetLayerPrefixVystuz()
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz") 7 "CONTINUOUS" "DEFAULT")
-  ;nastavenie hladiny pre blok pomocou GlobalnaHladinaBlokov nastavena v Setting.lsp
-  (command "._layer" "s" (strcat (getenv "GlobalnaPrefixHladiny") "Vystuz") "")
-  
-  ;vytvorenie group layer filtru Prefix Layers 
-  (setq GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "*,0,Defpoints," (getenv "GlobalnaPrefixHladinyNew") "*"))
-  (command "_.LAYER" "_FILTER" "_Delete" (strcat (getenv "GlobalnaPrefixHladiny") "Layers") "")
-    (if (> (getvar 'CMDACTIVE) 0) (command ""))
-  (command "_.LAYER" "_FILTER" "_New" "_Group" "All" GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "Layers"))
-    (if (> (getvar 'CMDACTIVE) 0) (command ""))
-)
-
-;;----------------------------------------------------------------------;;
 ;;               Navrat na poslednu nastavenu hladinu                   ;;
 ;;----------------------------------------------------------------------;;
 
@@ -89,8 +37,6 @@
   
   ;vyhodnotenie vyberu hladiny pre bloky
   (if (= VytvorenieHladinyPopisu (strcat (getenv "GlobalnaPrefixHladiny") "Popis"))
-    ;vytvorenie a nastavenie hladinu na DP_Popis
-    ;(SetLayerPrefixPopis)
     (progn
       (setq rec (tblnext "LAYER" T))
       (while (and rec (not found))
@@ -1064,17 +1010,9 @@
 ;vloženie bloku Vystuz
 (defun c:JTRebar()
   
-  ;nastavenie hladiny
-  (SetLayerPrefixVystuz)
-
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "Vystuz" "_S" 1 "_R" 0 pause)
   (princ "\nUrcite bod vlozenia blocku vystuze:")
-    
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
-  
-  (princ)
   
 )
 
@@ -1083,17 +1021,9 @@
 ;vloženie bloku Spony vystuze
 (defun c:JTRebarClip()
   
-  ;nastavenie hladiny
-  (SetLayerPrefixVystuz)
-
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "VystuzSpona" "_S" 1 "_R" 0 pause)
   (princ "\nUrcite bod vlozenia blocku spony vystuze:")
-    
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
-  
-  (princ)
   
 )
 
@@ -1102,17 +1032,9 @@
 ;vloženie bloku Spony vystuze
 (defun c:JTRebarClip2()
   
-  ;nastavenie hladiny
-  (SetLayerPrefixVystuz)
-
   ;prikaz na vlozenie blocku vystuze
   (command "._insert" "VystuzSpona2" "_S" 1 "_R" 0 pause)
   (princ "\nUrcite bod vlozenia blocku spony vystuze:")
-    
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
-  
-  (princ)
   
 )
 
