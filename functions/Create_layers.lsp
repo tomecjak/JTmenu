@@ -70,67 +70,39 @@
 ;;                    Funkcia pre vytvaranie hladin                     ;;
 ;;----------------------------------------------------------------------;;
 
-(defun CreateLayers (lyrname color ltype lweight / doc lays lay tc)
-
+(defun CreateLayersRGB (lyrname Color ltype lweight / doc lays lay col)
   (vl-load-com)
-
   (setq doc  (vla-get-ActiveDocument (vlax-get-acad-object)))
   (setq lays (vla-get-Layers doc))
 
-  ;; vytvor / zober existujúcu hladinu
   (if (tblsearch "LAYER" lyrname)
-    (setq lay (vla-Item lays lyrname))
-    (setq lay (vla-Add lays lyrname))
+    (setq lay (vla-item lays lyrname))
+    (setq lay (vla-add lays lyrname))
   )
 
-  ;; základné vlastnosti
-  (vla-put-Freeze lay :vlax-false)
   (vla-put-LayerOn lay :vlax-true)
+  (vla-put-Freeze lay :vlax-false)
   (vla-put-Lock lay :vlax-false)
 
-  ;; ========= FARBA =========
-  (cond
-    ;; RGB zoznam, napr. '(100 100 100)
-    ((and (listp color) (= (length color) 3))
-      (setq tc (vlax-get-property lay 'TrueColor))
-      (apply 'vla-SetRGB (cons tc color))
-      (vlax-put-property lay 'TrueColor tc)
-    )
-
-    ;; ACI číselný index, napr. 3
-    ((numberp color)
-      (vla-put-Color lay color)
-    )
-
-    ;; ACI ako string, napr. "3"
-    ((and (= (type color) 'STR) (/= color ""))
-      (vla-put-Color lay (atoi color))
-    )
-  )
-
-  ;; ========= LINETYPE =========
-  ;; ak nič, použi CONTINUOUS
-  (if (or (null ltype) (= ltype ""))
-    (setq ltype "CONTINUOUS")
-  )
-
-  ;; zaisti, že linetype je načítaný
-  (if (not (tblsearch "LTYPE" ltype))
-    (command "._-linetype" "_Load" ltype "")
-  )
-
-  (if (tblsearch "LTYPE" ltype)
+  (if (and ltype (/= ltype ""))
     (vla-put-Linetype lay ltype)
   )
 
-  ;; ========= LINEWEIGHT =========
-  ;; nil/"" → DEFAULT, inak použité to, čo pošleš (napr. acLnWt025)
-  (if (or (null lweight) (= lweight ""))
-    (vla-put-Lineweight lay acLnWtByLwDefault)
+  (if (and lweight (/= lweight ""))
     (vla-put-Lineweight lay lweight)
   )
 
-  ;; nastav ako aktuálnu hladinu
+(if (listp Color)
+  ;; RGB
+  (progn
+    (setq col (vla-get-TrueColor lay))
+    (apply 'vla-SetRGB (cons col Color))
+    (vla-put-TrueColor lay col)
+  )
+  ;; ACI / názov farby
+  (vla-put-Color lay (atoi Color))
+)
+
   (vla-put-ActiveLayer doc lay)
   lay
 )
