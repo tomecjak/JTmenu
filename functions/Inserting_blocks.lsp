@@ -86,18 +86,13 @@
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer z JTMenu
     (progn
-      (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-          (command "._insert" "Smer" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-        (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-            (command "._insert" "Smer" "_S" (getvar "dimscale") "_R" 0 pause)
-        )
-      )
-      (princ "\nUrcite bod vlozenia znacky smeru:")
+      (command "._insert" "Smer" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
     )
     ;prikaz na vlozenie blocku DPP_Smer_Z z DPPtools
     (progn
       (command "._-insert" "DPP_Smer_Z" "_S" 1 "_R" 0 pause)
-      (princ "Vlozeny symbol DPP_Smer_Z!")
+      (princ)
     )
   )
   
