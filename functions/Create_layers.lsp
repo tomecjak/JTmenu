@@ -24,23 +24,38 @@
 )
   
 ;nastavenie premenej RezimHladin pre vyberr vytvorenej kategorie hladin
-(setq RezimHladin
-  (getstring "\nKtore hladiny chcete vytvorit? [Zakladne/Vystuz/Novy stav] <Zakladne>: ")
-)
+;(setq RezimHladin
+;  (getstring "\nKtore hladiny chcete vytvorit? [Zakladne/Vystuz/Novy stav] <Zakladne>: ")
+;)
   
-(if (or (= RezimHladin "") (= RezimHladin "Z") (= RezimHladin "z"))
-  (MainLayers)
+;(if (or (= RezimHladin "") (= RezimHladin "Z") (= RezimHladin "z"))
+;  (MainLayers)
   
-  (if (or (= RezimHladin "V") (= RezimHladin "v"))
-    (RebarLayers)
+;  (if (or (= RezimHladin "V") (= RezimHladin "v"))
+;    (RebarLayers)
     
-    (if (or (= RezimHladin "N") (= RezimHladin "n"))
-      (NewLayers)
+;    (if (or (= RezimHladin "N") (= RezimHladin "n"))
+;      (NewLayers)
     
-      (princ "\nNeplatny vyber.")
+;      (princ "\nNeplatny vyber.")
+;    )
+;  )
+;)
+  
+;nastavenie premenej RezimHladin pre vyber vytvorenej kategorie hladin
+  (initget "Rezim Hladin")
+  (setq RezimHladin (getkword "\nKtore hladiny chcete vytvorit? [Zakladne/Vystuz] <Zakladne>: "))
+  (if (null RezimHladin) (setq RezimHladin "Zakladne"))
+
+  (cond
+    ((= RezimHladin "Zakladne")
+      (MainLayers)
+    )
+    ((= RezimHladin "Vystuz")
+      (RebarLayers)
     )
   )
-)
+  
   
 ;vytvorenie group layer filtru DP Layers  
 ;(setq GroupPrefix (strcat (getenv "GlobalnaPrefixHladiny") "*,0,Defpoints," (getenv "GlobalnaPrefixHladinyNew") "*"))
