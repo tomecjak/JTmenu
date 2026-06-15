@@ -49,7 +49,7 @@
 (AUTOLOAD "Drainage" '("JTDrainage"))
 (AUTOLOAD "Hydrotechnical_calculation" '("JTHydrotechnical"))
 (AUTOLOAD "Rebar_function_orchester" '("JTRebarFillet" "JTRebarWrite" "JTRebarOffset"))
-(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFilletPolyline" "JTRebarWritePolyline" "JTRebarLayers" "JTRebarOffsetPolyline"))
+(AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFilletPolyline" "JTRebarWritePolyline" "JTRebarLayers" "JTRebarOffsetPolyline" "JTRebarTagExport"))
 (AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
 (AUTOLOAD "Polyline_from_coordinates" '("POLYCSV"))
 (AUTOLOAD "Oblique_dimension" '("JTDimOblique"))
