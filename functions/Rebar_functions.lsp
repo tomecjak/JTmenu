@@ -507,28 +507,116 @@
 ;;                  Funkcia pre export popisu vystuze                   ;;
 ;;----------------------------------------------------------------------;;
 
-;; Pomocná funkcia – vráti hodnotu atribútu s daným TAG-om
-(defun GetAttr (blk tag / e att val)
-  (setq tag (strcase tag T)) ; porovnávame v upper-case
+(vl-load-com)
+
+;; ------------------------------------------------------------
+;; Vráti skutočný názov referencie bloku
+;; - pri dynamickom bloku EffectiveName
+;; - inak Name
+;; ------------------------------------------------------------
+(defun GetBlockEffectiveName (blk / obj)
+  (setq obj (vlax-ename->vla-object blk))
+  (if (vlax-property-available-p obj 'EffectiveName)
+    (vla-get-EffectiveName obj)
+    (vla-get-Name obj)
+  )
+)
+
+;; ------------------------------------------------------------
+;; Vráti hodnotu atribútu podľa TAG-u
+;; ------------------------------------------------------------
+(defun GetAttr (blk tag / e att typ val)
+  (setq tag (strcase tag T))
   (setq e blk
         val nil
   )
-  (while (and (null val) (setq e (entnext e)))
-    (setq att (entget e))
-    (if (= (cdr (assoc 0 att)) "ATTRIB")
-      (if (= tag (strcase (cdr (assoc 2 att)) T))
-        (setq val (cdr (assoc 1 att)))
+
+  (while (and e (null val) (setq e (entnext e)))
+    (setq att (entget e)
+          typ (cdr (assoc 0 att))
+    )
+    (cond
+      ((= typ "ATTRIB")
+       (if (= tag (strcase (cdr (assoc 2 att)) T))
+         (setq val (cdr (assoc 1 att)))
+       )
+      )
+      ((= typ "SEQEND")
+       (setq e nil)
       )
     )
   )
   val
 )
 
-(defun c:JTRebarTagExport ( / ss cnt blk
-                               paramCislo paramPopis
-                               priemer dlzka kusy
-                               slashPos minusPos rest kusyPart
-                               csvPath csvFile rows)
+;; ------------------------------------------------------------
+;; Wrapper pre rtos - ignoruje vplyv DIMZIN
+;; aby sa zachovali trailing zeros [web:62][web:70]
+;; ------------------------------------------------------------
+(defun MyRtos (real units prec / oldDimzin result)
+  (setq oldDimzin (getvar "DIMZIN"))
+  (setvar "DIMZIN" 0)
+  (setq result (rtos real units prec))
+  (setvar "DIMZIN" oldDimzin)
+  result
+)
+
+;; ------------------------------------------------------------
+;; Prevod mm -> m, 3 desatinné miesta, desatinná čiarka
+;; napr. "5725" -> "5,725"
+;; ------------------------------------------------------------
+(defun FormatMetersComma (mmStr /)
+  (if (and mmStr (> (strlen mmStr) 0))
+    (vl-string-subst "," "." (MyRtos (/ (atof mmStr) 1000.0) 2 3))
+    ""
+  )
+)
+
+;; ------------------------------------------------------------
+;; Vráti selection set všetkých referencií bloku podľa EffectiveName
+;; vrátane anonymných / dynamických referencií
+;; ------------------------------------------------------------
+(defun GetBlockRefsByEffectiveName (blkName / ssNorm ssAnon ssOut i ent)
+  (setq ssOut (ssadd))
+
+  ;; Normálne referencie podľa mena
+  (if (setq ssNorm (ssget "_X" (list '(0 . "INSERT") (cons 2 blkName))))
+    (progn
+      (setq i 0)
+      (while (< i (sslength ssNorm))
+        (ssadd (ssname ssNorm i) ssOut)
+        (setq i (1+ i))
+      )
+    )
+  )
+
+  ;; Anonymné dynamické referencie *U*
+  (if (setq ssAnon (ssget "_X" '((0 . "INSERT") (2 . "`*U*"))))
+    (progn
+      (setq i 0)
+      (while (< i (sslength ssAnon))
+        (setq ent (ssname ssAnon i))
+        (if (= (strcase (GetBlockEffectiveName ent) T)
+               (strcase blkName T))
+          (ssadd ent ssOut)
+        )
+        (setq i (1+ i))
+      )
+    )
+  )
+
+  ssOut
+)
+
+;; ------------------------------------------------------------
+;; Hlavná funkcia exportu
+;; ------------------------------------------------------------
+(defun c:JTRebarTagExport
+  (/ ss cnt blk
+     paramCislo paramPopis
+     priemer dlzka kusy
+     slashPos minusPos rest kusyPart dlzkaMm
+     csvPath csvFile rows row)
 
   (vl-load-com)
 
@@ -548,27 +636,26 @@
       (princ)
     )
     (progn
-      ;; zoznam riadkov: (("Cislo" "Priemer" "Dlzka" "Kusy" "Popis") ...)
+      ;; zoznam riadkov
       (setq rows '())
 
-      ;; výber blokov PopisVystuze
-      (setq ss (ssget "_X" '((0 . "INSERT") (2 . "PopisVystuze"))))
+      ;; vyber aj normálne aj dynamické/anonymné referencie
+      (setq ss (GetBlockRefsByEffectiveName "PopisVystuze"))
 
-      (if ss
+      (if (> (sslength ss) 0)
         (progn
           (setq cnt 0)
           (while (< cnt (sslength ss))
             (setq blk (ssname ss cnt))
 
-            ;; ziskaj hodnoty atribútov podľa TAGu
-            ;; ak máš iné Tagy, zmeň "CISLO" a "POPIS" na svoje
+            ;; atribúty
             (setq paramCislo (GetAttr blk "CISLO"))
             (setq paramPopis (GetAttr blk "POPIS"))
 
             ;; defaulty
             (setq priemer ""
-                  dlzka  ""
-                  kusy   ""
+                  dlzka   ""
+                  kusy    ""
             )
 
             ;; parsuj Popis: "14/5725-20ks"
@@ -588,13 +675,16 @@
                     (setq minusPos (vl-string-search "-" rest))
                     (if minusPos
                       (progn
-                        ;; dlzka = pred "-"
-                        (setq dlzka (substr rest 1 minusPos))
+                        ;; dĺžka v mm ako text
+                        (setq dlzkaMm (substr rest 1 minusPos))
+
+                        ;; prevod mm -> m, 3 desatinné, s čiarkou
+                        (setq dlzka (FormatMetersComma dlzkaMm))
 
                         ;; kusy + "ks" = za "-"
                         (setq kusyPart (substr rest (+ minusPos 2)))
                         (if kusyPart
-                          (setq kusy (vl-string-right-trim "ks" kusyPart))
+                          (setq kusy (vl-string-right-trim "ksKS" kusyPart))
                         )
                       )
                     )
@@ -603,7 +693,7 @@
               )
             )
 
-            ;; pridaj riadok do zoznamu, nil -> ""
+            ;; pridaj riadok
             (setq rows
                   (cons
                     (list
@@ -620,15 +710,13 @@
             (setq cnt (1+ cnt))
           )
 
-          ;; zotried podľa Cislo vzostupne (numericky)
+          ;; zotriedenie podľa Cislo vzostupne numericky
           (setq rows
                 (vl-sort
                   rows
-                  (function
-                    (lambda (a b)
-                      (< (atoi (car a)) (atoi (car b)))
-                    )
-                  )
+                  '(lambda (a b)
+                     (< (atoi (car a)) (atoi (car b)))
+                   )
                 )
           )
 
@@ -639,17 +727,17 @@
             (princ "\nNepodarilo sa otvorit CSV subor na zapis.")
             (progn
               ;; hlavička
-              (write-line "Cislo;Priemer_mm;Dlzka_mm;Pocet_kusov;Popis" csvFile)
+              (write-line "Cislo;Priemer_mm;Dlzka_m;Pocet_kusov;Popis" csvFile)
 
-              ;; každá položka rows je '("Cislo" "Priemer" "Dlzka" "Kusy" "Popis")
+              ;; riadky
               (foreach row rows
                 (write-line
                   (strcat
-                    (nth 0 row) ";"  ; Cislo
-                    (nth 1 row) ";"  ; Priemer_mm
-                    (nth 2 row) ";"  ; Dlzka_mm
-                    (nth 3 row) ";"  ; Pocet_kusov
-                    (nth 4 row)      ; Popis (original)
+                    (nth 0 row) ";"   ; Cislo
+                    (nth 1 row) ";"   ; Priemer_mm
+                    (nth 2 row) ";"   ; Dlzka_m
+                    (nth 3 row) ";"   ; Pocet_kusov
+                    (nth 4 row)       ; Popis
                   )
                   csvFile
                 )
@@ -660,7 +748,7 @@
             )
           )
         )
-        (princ "\nNenasli sa ziadne bloky 'PopisVystuze'.")
+        (princ "\nNenasli sa ziadne bloky 'PopisVystuze' ani ich dynamicke/anonymne referencie.")
       )
     )
   )
