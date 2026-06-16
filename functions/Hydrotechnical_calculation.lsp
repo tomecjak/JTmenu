@@ -322,9 +322,7 @@
               (write-line "INFORMACIE O REPORTE" file)
               (write-line "------------------------------------------------------------" file)
               (write-line (strcat "Zdrojovy subor DWG:       " dwgName) file)
-              (write-line (strcat "Cesta zdrojoveho DWG:     " dwgPrefix) file)
               (write-line (strcat "Datum a cas vytvorenia:   " reportDateTime) file)
-              (write-line (strcat "Ulozeny report:           " filePath) file)
               (write-line "" file)
 
               (write-line "VSTUPNE HODNOTY" file)
@@ -353,9 +351,9 @@
               (write-line (strcat "Vyskovy rozdiel dh:       " (rtos (cdr (assoc 'delta_h out)) 2 2) " m") file)
               (write-line (strcat "Sklon koryta i:           " (rtos (cdr (assoc 'sklon_i out)) 2 5) " -") file)
               (write-line (strcat "Sklon koryta:             " (rtos (* (cdr (assoc 'sklon_i out)) 100.0) 2 2) " %") file)
-              (write-line (strcat "Hydraulicky polomer R:    " (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 3) " m") file)
-              (write-line (strcat "Rychlostny sucinitel C:   " (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 3) " -") file)
-              (write-line (strcat "Kapacita koryta Q:        " (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s") file)
+              (write-line (strcat "Hydraulicky polomer R:    " (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 3) " m [S/O]") file)
+              (write-line (strcat "Rychlostny sucinitel C:   " (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 3) " - [1/n*R^1/6]") file)
+              (write-line (strcat "Kapacita koryta Q:        " (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s [C*S*√(R*io)]") file)
               (write-line "" file)
 
               (write-line "POSUDENIE PRIETOKOV" file)
