@@ -160,8 +160,8 @@
           (setq hydroraulickyPolomer_R (/ plocha_S obvod_O))
           (setq rychlostnySucinitelKoryta_C
                 (* (/ 1.0 drsnost_n)
-                   (expt hydroraulickyPolomer_R (/ 1 6))))
-          (setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt sklon_i)))
+                   (expt hydroraulickyPolomer_R (/ 1.0 6.0))))
+          (setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt (* sklon_i hydroraulickyPolomer_R))))
 
           (setq vyhodnotenieQ1   (if (> prietok_Q prietok_Q1)   "vyhovuje" "nevyhovuje"))
           (setq vyhodnotenieQ2   (if (> prietok_Q prietok_Q2)   "vyhovuje" "nevyhovuje"))
