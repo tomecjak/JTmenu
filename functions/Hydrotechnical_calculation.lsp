@@ -353,7 +353,7 @@
               (write-line (strcat "Sklon koryta:             " (rtos (* (cdr (assoc 'sklon_i out)) 100.0) 2 2) " %") file)
               (write-line (strcat "Hydraulicky polomer R:    " (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 3) " m [S/O]") file)
               (write-line (strcat "Rychlostny sucinitel C:   " (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 3) " - [1/n*R^1/6]") file)
-              (write-line (strcat "Kapacita koryta Q:        " (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s [C*S*√(R*io)]") file)
+              (write-line (strcat "Kapacita koryta Q:        " (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s [C*S*ODMOCNINA(R*io)]") file)
               (write-line "" file)
 
               (write-line "POSUDENIE PRIETOKOV" file)
