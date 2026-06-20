@@ -60,7 +60,7 @@
     (set_tile "status" "Data nenacitane.")
     (progn
       ;nastavenie oznamovacej hlasky
-      (set_tile "status" "Data uspesne nacitane.")
+      (set_tile "status" "Data nacitane.")
       ;nacitanie udajov zo suboru MaterialData.dat
       (setq file (open CestaMaterialData "r"))
       (set_tile "konstrukcia01" (read-line file))
@@ -412,7 +412,7 @@
   (setq material20 (get_tile "material20"))
   (setq vystuz (get_tile "vystuz"))
   
-  ;lozenie udajov do suboru MaterialData.dat
+  ;ulozenie udajov do suboru MaterialData.dat
   (setq file (open CestaMaterialData "w"))
   (write-line konstrukcia01 file)
   (write-line material01 file)
@@ -477,7 +477,7 @@
   (close file)
   
   ;nastavenie oznamovacej hlasky
-  (set_tile "status" "Data uspesne ulozene.")
+  (set_tile "status" "Data ulozene.")
 )
 
 ;;----------------------------------------------------------------------;;
@@ -880,6 +880,22 @@
 (defun BlockNameToVLAName (BlockToVLA / ssBN)
   (if (setq ssBN (ssget "_X" (list '(0 . "INSERT") (cons 2 BlockToVLA))))
     (vlax-ename->vla-object (ssname ssBN 0)))
+)
+
+;;----------------------------------------------------------------------;;
+;;                 Vedlajsia funkcia napoveda Betonu                    ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTConcreteHelp()
+  (NapovedaConcrete)
+)
+
+;;----------------------------------------------------------------------;;
+;;                  Vedlajsia funkcia napoveda Ocel                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:JTSteelHelp()
+  (NapovedaSteel)
 )
 
 ;;----------------------------------------------------------------------;;
