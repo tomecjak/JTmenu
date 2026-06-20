@@ -145,7 +145,7 @@
   
   ;definovanie tlacidla ulozit
   (action_tile "ulozit"
-    "(UlozitMateraiData)"
+    "(UlozitMaterialData)"
   )
   
   ;definovanie tlacidla aktualizovat
