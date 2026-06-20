@@ -125,17 +125,24 @@
   ;unload dialogu
   (unload_dialog dcl_id)
   
-  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
-  (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
-    ;splnena podmienka
-    (setq TabulkaMaterialovVersion "TabulkaMaterialovSVK")
-      ;nesplnena podmienka
-      (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
-      ;splnena podmienka
-      (setq TabulkaMaterialovVersion "TabulkaMaterialovCZK")
-      ;nesplnena podmienka
-      (setq TabulkaMaterialovVersion "TabulkaMaterialovENG")
+  ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage a DPP_Tools
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku tabulky materialov z JTMenu
+    (progn
+      (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
+        ;splnena podmienka
+        (setq TabulkaMaterialovVersion "TabulkaMaterialovSVK")
+          ;nesplnena podmienka
+          (if (= (getenv "GlobalnaBlocksLanguage") "CZK")
+          ;splnena podmienka
+          (setq TabulkaMaterialovVersion "TabulkaMaterialovCZK")
+          ;nesplnena podmienka
+          (setq TabulkaMaterialovVersion "TabulkaMaterialovENG")
+          )
       )
+    )
+    ;prikaz na vlozenie blocku tabulky materialov z DPP_Tools
+    (setq TabulkaMaterialovVersion "DPP_Tabulka_materialov")
   )
   
   (setq BlockTabulkaMaterialov (BlockNameToVLAName TabulkaMaterialovVersion))
