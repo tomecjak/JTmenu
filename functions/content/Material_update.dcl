@@ -425,7 +425,7 @@ Material_update //nazod dcl
   }
 }
 
-/////// DIALOGOVE OKNO NAPOVEDA ///////
+/////// DIALOGOVE OKNO NAPOVEDA BETON ///////
 
 NapovedaMaterialBeton
 
@@ -719,3 +719,12 @@ NapovedaMaterialBeton
     alignment = centered;
   }
 }
+
+/////// DIALOGOVE OKNO NAPOVEDA OCELE ///////
+
+NapovedaMaterialOcel
+
+: dialog
+{
+  label = "Napoveda o znaceni ocele";
+} 
