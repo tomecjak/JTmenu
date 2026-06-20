@@ -301,7 +301,7 @@ Material_update //nazod dcl
       }
       : toggle
       {
-        key = "oznacit19";
+        key = "oznacit20";
         label = "Zapisat";
       }
     }
