@@ -736,12 +736,20 @@
   (if (and (= VyberTypTabulky "0") (= VyberHranataTabulka "1"))
     (SetVisibilityState BlockTabulkaMaterialov "TAB_BETON_HRANATE")
   )
-  ;vyhodnotenie tabulky - ocel + okruhle rohy
+  ;vyhodnotenie tabulky - vystuz + okruhle rohy
   (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "0"))
+    (SetVisibilityState BlockTabulkaMaterialov "TAB_VYSTUZ_OKRUHLE")
+  )
+  ;vyhodnotenie tabulky - vystuz + hranate rohy
+  (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "1"))
+    (SetVisibilityState BlockTabulkaMaterialov "TAB_VYSTUZ_HRANATE")
+  )
+  ;vyhodnotenie tabulky - ocel + okruhle rohy
+  (if (and (= VyberTypTabulky "2") (= VyberHranataTabulka "0"))
     (SetVisibilityState BlockTabulkaMaterialov "TAB_OCEL_OKRUHLE")
   )
   ;vyhodnotenie tabulky - ocel + hranate rohy
-  (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "1"))
+  (if (and (= VyberTypTabulky "2") (= VyberHranataTabulka "1"))
     (SetVisibilityState BlockTabulkaMaterialov "TAB_OCEL_HRANATE")
   )
 )
