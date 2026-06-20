@@ -728,29 +728,49 @@
 ;;----------------------------------------------------------------------;;
 
 (defun NastavenieTypuTabulky()
-  ;vyhodnotenie tabulky - beton + okruhle rohy
-  (if (and (= VyberTypTabulky "0") (= VyberHranataTabulka "0"))
-    (SetVisibilityState BlockTabulkaMaterialov "TAB_BETON_OKRUHLE")
-  )
-  ;vyhodnotenie tabulky - beton + hranate rohy
-  (if (and (= VyberTypTabulky "0") (= VyberHranataTabulka "1"))
-    (SetVisibilityState BlockTabulkaMaterialov "TAB_BETON_HRANATE")
-  )
-  ;vyhodnotenie tabulky - vystuz + okruhle rohy
-  (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "0"))
-    (SetVisibilityState BlockTabulkaMaterialov "TAB_VYSTUZ_OKRUHLE")
-  )
-  ;vyhodnotenie tabulky - vystuz + hranate rohy
-  (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "1"))
-    (SetVisibilityState BlockTabulkaMaterialov "TAB_VYSTUZ_HRANATE")
-  )
-  ;vyhodnotenie tabulky - ocel + okruhle rohy
-  (if (and (= VyberTypTabulky "2") (= VyberHranataTabulka "0"))
-    (SetVisibilityState BlockTabulkaMaterialov "TAB_OCEL_OKRUHLE")
-  )
-  ;vyhodnotenie tabulky - ocel + hranate rohy
-  (if (and (= VyberTypTabulky "2") (= VyberHranataTabulka "1"))
-    (SetVisibilityState BlockTabulkaMaterialov "TAB_OCEL_HRANATE")
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na nastavenie tabulky podla JTmenu
+    (progn
+      ;vyhodnotenie tabulky - beton + okruhle rohy
+      (if (and (= VyberTypTabulky "0") (= VyberHranataTabulka "0"))
+        (SetVisibilityState BlockTabulkaMaterialov "TAB_BETON_OKRUHLE")
+      )
+      ;vyhodnotenie tabulky - beton + hranate rohy
+      (if (and (= VyberTypTabulky "0") (= VyberHranataTabulka "1"))
+        (SetVisibilityState BlockTabulkaMaterialov "TAB_BETON_HRANATE")
+      )
+      ;vyhodnotenie tabulky - vystuz + okruhle rohy
+      (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "0"))
+        (SetVisibilityState BlockTabulkaMaterialov "TAB_VYSTUZ_OKRUHLE")
+      )
+      ;vyhodnotenie tabulky - vystuz + hranate rohy
+      (if (and (= VyberTypTabulky "1") (= VyberHranataTabulka "1"))
+        (SetVisibilityState BlockTabulkaMaterialov "TAB_VYSTUZ_HRANATE")
+      )
+      ;vyhodnotenie tabulky - ocel + okruhle rohy
+      (if (and (= VyberTypTabulky "2") (= VyberHranataTabulka "0"))
+        (SetVisibilityState BlockTabulkaMaterialov "TAB_OCEL_OKRUHLE")
+      )
+      ;vyhodnotenie tabulky - ocel + hranate rohy
+      (if (and (= VyberTypTabulky "2") (= VyberHranataTabulka "1"))
+        (SetVisibilityState BlockTabulkaMaterialov "TAB_OCEL_HRANATE")
+      )
+    )
+    ;prikaz na nastavenie tabulky podla DPPtools
+    (progn
+      ;vyhodnotenie tabulky - beton
+      (if (= VyberTypTabulky "0")
+        (SetVisibilityState BlockTabulkaMaterialov "Beton")
+      )
+      ;vyhodnotenie tabulky - vystuz
+      (if (= VyberTypTabulky "1")
+        (SetVisibilityState BlockTabulkaMaterialov "Vystuz")
+      )
+      ;vyhodnotenie tabulky - ocel
+      (if (= VyberTypTabulky "2")
+        (SetVisibilityState BlockTabulkaMaterialov "Ocel")
+      )
+    )
   )
 )
 
