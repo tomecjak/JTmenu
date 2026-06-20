@@ -427,7 +427,7 @@ Material_update //nazod dcl
 
 /////// DIALOGOVE OKNO NAPOVEDA ///////
 
-NapovedaMaterial
+NapovedaMaterialBeton
 
 : dialog
 {

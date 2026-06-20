@@ -5,6 +5,10 @@
 ; Aktualizacia materialov v tabulke DPTabulkaMaterialov
 ;-------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------;;
+;;                  Hlavná funkcia Material Update                      ;;
+;;----------------------------------------------------------------------;;
+
 (defun C:JTMaterialUpdate()
   
   ;vyber tabulky materialov a jej resetovanie
@@ -26,7 +30,7 @@
   (setq CestaMaterialData (strcat CestaSkratenaSuboru "MaterialData.dat"))
 
   ;definovanie listu typu tabulky
-  (setq TypTabulkyList (list "Beton" "Ocel"))
+  (setq TypTabulkyList (list "Beton" "Vystuz" "Ocel"))
   
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Material_update.dcl"))
@@ -51,34 +55,64 @@
       ;nacitanie udajov zo suboru MaterialData.dat
       (setq file (open CestaMaterialData "r"))
       (set_tile "konstrukcia01" (read-line file))
-      (set_tile "beton01" (read-line file))
+      (set_tile "material01" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia02" (read-line file))
-      (set_tile "beton02" (read-line file))
+      (set_tile "material02" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia03" (read-line file))
-      (set_tile "beton03" (read-line file))
+      (set_tile "material03" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia04" (read-line file))
-      (set_tile "beton04" (read-line file))
+      (set_tile "material04" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia05" (read-line file))
-      (set_tile "beton05" (read-line file))
+      (set_tile "material05" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia06" (read-line file))
-      (set_tile "beton06" (read-line file))
+      (set_tile "material06" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia07" (read-line file))
-      (set_tile "beton07" (read-line file))
+      (set_tile "material07" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia08" (read-line file))
-      (set_tile "beton08" (read-line file))
+      (set_tile "material08" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia09" (read-line file))
-      (set_tile "beton09" (read-line file))
+      (set_tile "material09" (read-line file))
       (set_tile "vystuz" (read-line file))
       (set_tile "konstrukcia10" (read-line file))
-      (set_tile "beton10" (read-line file))
+      (set_tile "material10" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia11" (read-line file))
+      (set_tile "material11" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia12" (read-line file))
+      (set_tile "material12" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia13" (read-line file))
+      (set_tile "material13" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia14" (read-line file))
+      (set_tile "material14" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia15" (read-line file))
+      (set_tile "material15" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia16" (read-line file))
+      (set_tile "material16" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia17" (read-line file))
+      (set_tile "material17" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia18" (read-line file))
+      (set_tile "material18" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia19" (read-line file))
+      (set_tile "material19" (read-line file))
+      (set_tile "vystuz" (read-line file))
+      (set_tile "konstrukcia20" (read-line file))
+      (set_tile "material20" (read-line file))
       (set_tile "vystuz" (read-line file))
       (close file)
     )
@@ -99,14 +133,19 @@
     "(VymazatVsetkoFunkcia)"
   )
   
-  ;definovanie tlacidla napoveda
-  (action_tile "napoveda"
+  ;definovanie tlacidla napoveda Beton
+  (action_tile "napovedaBeton"
     "(NapovedaConcrete)"
+  )
+  
+    ;definovanie tlacidla napoveda Ocel
+  (action_tile "napovedaOcel"
+    "(NapovedaSteel)"
   )
   
   ;definovanie tlacidla ulozit
   (action_tile "ulozit"
-    "(UlozitConcreteData)"
+    "(UlozitMateraiData)"
   )
   
   ;definovanie tlacidla aktualizovat
@@ -160,7 +199,10 @@
   
 )
 
-;funkcia tlacidla oznacit vsetko
+;;----------------------------------------------------------------------;;
+;;                  Funkcia tlacidla oznacit vsetko                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun OznacitVsetkoFunkcia()
   (set_tile "oznacit01" "1")
   (set_tile "oznacit02" "1")
@@ -172,9 +214,22 @@
   (set_tile "oznacit08" "1")
   (set_tile "oznacit09" "1")
   (set_tile "oznacit10" "1")
+  (set_tile "oznacit11" "1")
+  (set_tile "oznacit12" "1")
+  (set_tile "oznacit13" "1")
+  (set_tile "oznacit14" "1")
+  (set_tile "oznacit15" "1")
+  (set_tile "oznacit16" "1")
+  (set_tile "oznacit17" "1")
+  (set_tile "oznacit18" "1")
+  (set_tile "oznacit19" "1")
+  (set_tile "oznacit20" "1")
 )
 
-;funkcia tlacidla odznacit vsetko
+;;----------------------------------------------------------------------;;
+;;                  Funkcia tlacidla odznacit vsetko                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun OdznacitVsetkoFunkcia()
   (set_tile "oznacit01" "0")
   (set_tile "oznacit02" "0")
@@ -186,9 +241,22 @@
   (set_tile "oznacit08" "0")
   (set_tile "oznacit09" "0")
   (set_tile "oznacit10" "0")
+  (set_tile "oznacit11" "0")
+  (set_tile "oznacit12" "0")
+  (set_tile "oznacit13" "0")
+  (set_tile "oznacit14" "0")
+  (set_tile "oznacit15" "0")
+  (set_tile "oznacit16" "0")
+  (set_tile "oznacit17" "0")
+  (set_tile "oznacit18" "0")
+  (set_tile "oznacit19" "0")
+  (set_tile "oznacit20" "0")
 )
 
-;funkcia tlacidla vymazat vsetko
+;;----------------------------------------------------------------------;;
+;;                  Funkcia tlacidla vymazat vsetko                     ;;
+;;----------------------------------------------------------------------;;
+
 (defun VymazatVsetkoFunkcia()
   (set_tile "konstrukcia01" "")
   (set_tile "konstrukcia02" "")
@@ -200,31 +268,56 @@
   (set_tile "konstrukcia08" "")
   (set_tile "konstrukcia09" "")
   (set_tile "konstrukcia10" "")
-  (set_tile "beton01" "")
-  (set_tile "beton02" "")
-  (set_tile "beton03" "")
-  (set_tile "beton04" "")
-  (set_tile "beton05" "")
-  (set_tile "beton06" "")
-  (set_tile "beton07" "")
-  (set_tile "beton08" "")
-  (set_tile "beton09" "")
-  (set_tile "beton10" "")
+  (set_tile "konstrukcia11" "")
+  (set_tile "konstrukcia12" "")
+  (set_tile "konstrukcia13" "")
+  (set_tile "konstrukcia14" "")
+  (set_tile "konstrukcia15" "")
+  (set_tile "konstrukcia16" "")
+  (set_tile "konstrukcia17" "")
+  (set_tile "konstrukcia18" "")
+  (set_tile "konstrukcia19" "")
+  (set_tile "konstrukcia20" "")
+  (set_tile "material01" "")
+  (set_tile "material02" "")
+  (set_tile "material03" "")
+  (set_tile "material04" "")
+  (set_tile "material05" "")
+  (set_tile "material06" "")
+  (set_tile "material07" "")
+  (set_tile "material08" "")
+  (set_tile "material09" "")
+  (set_tile "material10" "")
+  (set_tile "material11" "")
+  (set_tile "material12" "")
+  (set_tile "material13" "")
+  (set_tile "material14" "")
+  (set_tile "material15" "")
+  (set_tile "material16" "")
+  (set_tile "material17" "")
+  (set_tile "material18" "")
+  (set_tile "material19" "")
+  (set_tile "material20" "")
 )
 
-;funkcia tlacidla napoveda
+
+;;----------------------------------------------------------------------;;
+;;                  Funkcia tlacidla napoveda Beton                     ;;
+;;----------------------------------------------------------------------;;
+
+
 (defun NapovedaConcrete()
 
   ;nacitanie dialogoveho okna
   (setq dcl_id1 (load_dialog "Material_update.dcl"))
   
   ;test existencie dialu NapovedaConcrete
-  (if (not (new_dialog "NapovedaMaterial" dcl_id1))
+  (if (not (new_dialog "NapovedaMaterialBeton" dcl_id1))
     (exit)
   )
   
   ;definicia tlacidla zatvorit napovedu
-  (action_tile "zatvoritNapovedu"
+  (action_tile "zatvoritNapoveduBeton"
     "(done_dialog)"
   )
   
@@ -235,62 +328,142 @@
   (unload_dialog dcl_id1)
 )
 
-;funkcia pre tlacidlo Ulozit
-(defun UlozitConcreteData()
+;;----------------------------------------------------------------------;;
+;;                   Funkcia tlacidla napoveda Ocel                     ;;
+;;----------------------------------------------------------------------;;
+
+
+(defun NapovedaSteel()
+
+  ;nacitanie dialogoveho okna
+  (setq dcl_id2 (load_dialog "Material_update.dcl"))
+  
+  ;test existencie dialu NapovedaSteel
+  (if (not (new_dialog "NapovedaMaterialOcel" dcl_id2))
+    (exit)
+  )
+  
+  ;definicia tlacidla zatvorit napovedu
+  (action_tile "zatvoritNapoveduOcel"
+    "(done_dialog)"
+  )
+  
+  ;spustenie dialogu
+  (start_dialog)
+  
+  ;unload dialogu
+  (unload_dialog dcl_id2)
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Funkcia tlacidla ulozit                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun UlozitMaterialData()
   ;definovanie premenych
   (setq konstrukcia01 (get_tile "konstrukcia01"))
-  (setq beton01 (get_tile "beton01"))
+  (setq material01 (get_tile "material01"))
   (setq konstrukcia02 (get_tile "konstrukcia02"))
-  (setq beton02 (get_tile "beton02"))
+  (setq material02 (get_tile "material02"))
   (setq konstrukcia03 (get_tile "konstrukcia03"))
-  (setq beton03 (get_tile "beton03"))
+  (setq material03 (get_tile "material03"))
   (setq konstrukcia04 (get_tile "konstrukcia04"))
-  (setq beton04 (get_tile "beton04"))
+  (setq material04 (get_tile "material04"))
   (setq konstrukcia05 (get_tile "konstrukcia05"))
-  (setq beton05 (get_tile "beton05"))
+  (setq material05 (get_tile "material05"))
   (setq konstrukcia06 (get_tile "konstrukcia06"))
-  (setq beton06 (get_tile "beton06"))
+  (setq material06 (get_tile "material06"))
   (setq konstrukcia07 (get_tile "konstrukcia07"))
-  (setq beton07 (get_tile "beton07"))
+  (setq material07 (get_tile "material07"))
   (setq konstrukcia08 (get_tile "konstrukcia08"))
-  (setq beton08 (get_tile "beton08"))
+  (setq material08 (get_tile "material08"))
   (setq konstrukcia09 (get_tile "konstrukcia09"))
-  (setq beton09 (get_tile "beton09"))
+  (setq material09 (get_tile "material09"))
   (setq konstrukcia10 (get_tile "konstrukcia10"))
-  (setq beton10 (get_tile "beton10"))
+  (setq material10 (get_tile "material10"))
+  (setq konstrukcia11 (get_tile "konstrukcia11"))
+  (setq material11 (get_tile "material11"))
+  (setq konstrukcia12 (get_tile "konstrukcia12"))
+  (setq material12 (get_tile "material12"))
+  (setq konstrukcia13 (get_tile "konstrukcia13"))
+  (setq material13 (get_tile "material13"))
+  (setq konstrukcia14 (get_tile "konstrukcia14"))
+  (setq material14 (get_tile "material14"))
+  (setq konstrukcia15 (get_tile "konstrukcia15"))
+  (setq material15 (get_tile "material15"))
+  (setq konstrukcia16 (get_tile "konstrukcia16"))
+  (setq material16 (get_tile "material16"))
+  (setq konstrukcia17 (get_tile "konstrukcia17"))
+  (setq material17 (get_tile "material17"))
+  (setq konstrukcia18 (get_tile "konstrukcia18"))
+  (setq material18 (get_tile "material18"))
+  (setq konstrukcia19 (get_tile "konstrukcia19"))
+  (setq material19 (get_tile "material19"))
+  (setq konstrukcia20 (get_tile "konstrukcia20"))
+  (setq material20 (get_tile "material20"))
   (setq vystuz (get_tile "vystuz"))
   
   ;lozenie udajov do suboru MaterialData.dat
   (setq file (open CestaMaterialData "w"))
   (write-line konstrukcia01 file)
-  (write-line beton01 file)
+  (write-line material01 file)
   (write-line vystuz file)
   (write-line konstrukcia02 file)
-  (write-line beton02 file)
+  (write-line material02 file)
   (write-line vystuz file)
   (write-line konstrukcia03 file)
-  (write-line beton03 file)
+  (write-line material03 file)
   (write-line vystuz file)
   (write-line konstrukcia04 file)
-  (write-line beton04 file)
+  (write-line material04 file)
   (write-line vystuz file)
   (write-line konstrukcia05 file)
-  (write-line beton05 file)
+  (write-line material05 file)
   (write-line vystuz file)
   (write-line konstrukcia06 file)
-  (write-line beton06 file)
+  (write-line material06 file)
   (write-line vystuz file)
   (write-line konstrukcia07 file)
-  (write-line beton07 file)
+  (write-line material07 file)
   (write-line vystuz file)
   (write-line konstrukcia08 file)
-  (write-line beton08 file)
+  (write-line material08 file)
   (write-line vystuz file)
   (write-line konstrukcia09 file)
-  (write-line beton09 file)
+  (write-line material09 file)
   (write-line vystuz file)
   (write-line konstrukcia10 file)
-  (write-line beton10 file)
+  (write-line material10 file)
+  (write-line vystuz file)
+  (write-line konstrukcia11 file)
+  (write-line material11 file)
+  (write-line vystuz file)
+  (write-line konstrukcia12 file)
+  (write-line material12 file)
+  (write-line vystuz file)
+  (write-line konstrukcia13 file)
+  (write-line material13 file)
+  (write-line vystuz file)
+  (write-line konstrukcia14 file)
+  (write-line material14 file)
+  (write-line vystuz file)
+  (write-line konstrukcia15 file)
+  (write-line material15 file)
+  (write-line vystuz file)
+  (write-line konstrukcia16 file)
+  (write-line material16 file)
+  (write-line vystuz file)
+  (write-line konstrukcia17 file)
+  (write-line material17 file)
+  (write-line vystuz file)
+  (write-line konstrukcia18 file)
+  (write-line material18 file)
+  (write-line vystuz file)
+  (write-line konstrukcia19 file)
+  (write-line material19 file)
+  (write-line vystuz file)
+  (write-line konstrukcia20 file)
+  (write-line material20 file)
   (write-line vystuz file)
   (close file)
   
@@ -298,29 +471,63 @@
   (set_tile "status" "Data uspesne ulozene.")
 )
 
+;;----------------------------------------------------------------------;;
+;;                   Funkcia tlacidla aktualizovat                      ;;
+;;----------------------------------------------------------------------;;
+
 ;nastavenie tlacidla aktualizovat
 (defun ConcreteAktualizacia()
   ;definovanie premenych pre vyhodnorenie
   (setq konstrukcia01 (get_tile "konstrukcia01"))
-  (setq beton01 (get_tile "beton01"))
+  (setq material01 (get_tile "material01"))
   (setq konstrukcia02 (get_tile "konstrukcia02"))
-  (setq beton02 (get_tile "beton02"))
+  (setq material02 (get_tile "material02"))
   (setq konstrukcia03 (get_tile "konstrukcia03"))
-  (setq beton03 (get_tile "beton03"))
+  (setq material03 (get_tile "material03"))
   (setq konstrukcia04 (get_tile "konstrukcia04"))
-  (setq beton04 (get_tile "beton04"))
+  (setq material04 (get_tile "material04"))
   (setq konstrukcia05 (get_tile "konstrukcia05"))
-  (setq beton05 (get_tile "beton05"))
+  (setq material05 (get_tile "material05"))
   (setq konstrukcia06 (get_tile "konstrukcia06"))
-  (setq beton06 (get_tile "beton06"))
+  (setq material06 (get_tile "material06"))
   (setq konstrukcia07 (get_tile "konstrukcia07"))
-  (setq beton07 (get_tile "beton07"))
+  (setq material07 (get_tile "material07"))
   (setq konstrukcia08 (get_tile "konstrukcia08"))
-  (setq beton08 (get_tile "beton08"))
+  (setq material08 (get_tile "material08"))
   (setq konstrukcia09 (get_tile "konstrukcia09"))
-  (setq beton09 (get_tile "beton09"))
+  (setq material09 (get_tile "material09"))
   (setq konstrukcia10 (get_tile "konstrukcia10"))
-  (setq beton10 (get_tile "beton10"))
+  (setq material10 (get_tile "material10"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia11 (get_tile "konstrukcia11"))
+  (setq material11 (get_tile "material11"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia12 (get_tile "konstrukcia12"))
+  (setq material12 (get_tile "material12"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia13 (get_tile "konstrukcia13"))
+  (setq material13 (get_tile "material13"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia14 (get_tile "konstrukcia14"))
+  (setq material14 (get_tile "material14"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia15 (get_tile "konstrukcia15"))
+  (setq material15 (get_tile "material15"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia16 (get_tile "konstrukcia16"))
+  (setq material16 (get_tile "material16"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia17 (get_tile "konstrukcia17"))
+  (setq material17 (get_tile "material17"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia18 (get_tile "konstrukcia18"))
+  (setq material18 (get_tile "material18"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia19 (get_tile "konstrukcia19"))
+  (setq material19 (get_tile "material19"))
+  (setq vystuz (get_tile "vystuz"))
+  (setq konstrukcia20 (get_tile "konstrukcia20"))
+  (setq material20 (get_tile "material20"))
   (setq vystuz (get_tile "vystuz"))
   (setq oznacit01 (get_tile "oznacit01"))
   (setq oznacit02 (get_tile "oznacit02"))
@@ -332,38 +539,78 @@
   (setq oznacit08 (get_tile "oznacit08"))
   (setq oznacit09 (get_tile "oznacit09"))
   (setq oznacit10 (get_tile "oznacit10"))
+  (setq oznacit11 (get_tile "oznacit11"))
+  (setq oznacit12 (get_tile "oznacit12"))
+  (setq oznacit13 (get_tile "oznacit13"))
+  (setq oznacit14 (get_tile "oznacit14"))
+  (setq oznacit15 (get_tile "oznacit15"))
+  (setq oznacit16 (get_tile "oznacit16"))
+  (setq oznacit17 (get_tile "oznacit17"))
+  (setq oznacit18 (get_tile "oznacit18"))
+  (setq oznacit19 (get_tile "oznacit19"))
+  (setq oznacit20 (get_tile "oznacit20"))
   
   ;vyhodnotenie ci je dany riadok zapisany
   (setq ListOfMaterials (list))
   (if (= oznacit01 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia01 beton01 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia01 material01 vystuz)))
   )
   (if (= oznacit02 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia02 beton02 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia02 material02 vystuz)))
   )
   (if (= oznacit03 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia03 beton03 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia03 material03 vystuz)))
   )
   (if (= oznacit04 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia04 beton04 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia04 material04 vystuz)))
   )
   (if (= oznacit05 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia05 beton05 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia05 material05 vystuz)))
   )
   (if (= oznacit06 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia06 beton06 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia06 material06 vystuz)))
   )
   (if (= oznacit07 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia07 beton07 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia07 material07 vystuz)))
   )
   (if (= oznacit08 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia08 beton08 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia08 material08 vystuz)))
   )
   (if (= oznacit09 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia09 beton09 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia09 material09 vystuz)))
   )
   (if (= oznacit10 "1")
-    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia10 beton10 vystuz)))
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia10 material10 vystuz)))
+  )
+  (if (= oznacit11 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia11 material11 vystuz)))
+  )
+  (if (= oznacit12 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia12 material12 vystuz)))
+  )
+  (if (= oznacit13 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia13 material13 vystuz)))
+  )
+  (if (= oznacit14 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia14 material14 vystuz)))
+  )
+  (if (= oznacit15 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia15 material15 vystuz)))
+  )
+  (if (= oznacit16 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia16 material16 vystuz)))
+  )
+  (if (= oznacit17 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia17 material17 vystuz)))
+  )
+  (if (= oznacit18 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia18 material18 vystuz)))
+  )
+  (if (= oznacit19 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia19 material19 vystuz)))
+  )
+  (if (= oznacit20 "1")
+    (setq ListOfMaterials (append ListOfMaterials (list konstrukcia20 material20 vystuz)))
   )
   
   ;zistenie dlzky zoznamy
@@ -380,14 +627,20 @@
 
 )
 
-;funkcia tlacidla zavriet
+;;----------------------------------------------------------------------;;
+;;                      Funkcia tlacidla zavriet                        ;;
+;;----------------------------------------------------------------------;;
+
 (defun UkoncenieConcreteUpdate()
   (done_dialog)
   (princ "\nNenacitany ziaden material.\n")
   (exit)
 )
 
-;nacitanie udajov do blocku
+;;----------------------------------------------------------------------;;
+;;                Funkcia nacitavanie udajov do bloku                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun TabulkaMaterialovUpdate()
   ;premazanie tagov pred vlozenim udajov
   ;konstrukcia 01
@@ -461,13 +714,19 @@
  
 )
 
-;vyska tabulky materialov
+;;----------------------------------------------------------------------;;
+;;                   Funkcia vysky tabulky materialov                   ;;
+;;----------------------------------------------------------------------;;
+
 (defun VyskaTabulky()
   (Setdynpropvalue BlockTabulkaMaterialov "VYSKA_TAB_O" VyskaTabulkyMaterialov)
   (Setdynpropvalue BlockTabulkaMaterialov "VYSKA_TAB_H" VyskaTabulkyMaterialov)
 )
 
-;nastavenie hranatej tabulky
+;;----------------------------------------------------------------------;;
+;;                   Funkcia nastavenia typu tabulky                    ;;
+;;----------------------------------------------------------------------;;
+
 (defun NastavenieTypuTabulky()
   ;vyhodnotenie tabulky - beton + okruhle rohy
   (if (and (= VyberTypTabulky "0") (= VyberHranataTabulka "0"))
