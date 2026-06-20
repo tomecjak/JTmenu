@@ -10,12 +10,12 @@ Material_update //nazod dcl
 : dialog
 {
   //nazov dialogu
-  label = "Update betonu";
+  label = "Materialy update";
 
   //prvy riadok
   : boxed_row
   {
-    label = "Konstrukcie a ich betony";
+    label = "Konstrukcie a ich materialy";
     
     //stlpec z nazvom konstrukcie
     : column
@@ -65,55 +65,135 @@ Material_update //nazod dcl
       {
         key = "konstrukcia10";
       }
+      : edit_box
+      {
+        key = "konstrukcia11";
+      }
+      : edit_box
+      {
+        key = "konstrukcia12";
+      }
+      : edit_box
+      {
+        key = "konstrukcia13";
+      }
+      : edit_box
+      {
+        key = "konstrukcia14";
+      }
+      : edit_box
+      {
+        key = "konstrukcia15";
+      }
+      : edit_box
+      {
+        key = "konstrukcia16";
+      }
+      : edit_box
+      {
+        key = "konstrukcia17";
+      }
+      : edit_box
+      {
+        key = "konstrukcia18";
+      }
+      : edit_box
+      {
+        key = "konstrukcia19";
+      }
+      : edit_box
+      {
+        key = "konstrukcia20";
+      }
     }
 
-    //stlpec z betonom
+    //stlpec z materialom
     : column
     {
       width = 40;
       : text
       {
-        label = "Popis betonu";
+        label = "Popis materialu";
       }
       : edit_box
       {
-        key = "beton01";
+        key = "material01";
       }
       : edit_box
       {
-        key = "beton02";
+        key = "material02";
       }
       : edit_box
       {
-        key = "beton03";
+        key = "material03";
       }
       : edit_box
       {
-        key = "beton04";
+        key = "material04";
       }
       : edit_box
       {
-        key = "beton05";
+        key = "material05";
       }
       : edit_box
       {
-        key = "beton06";
+        key = "material06";
       }
       : edit_box
       {
-        key = "beton07";
+        key = "material07";
       }
       : edit_box
       {
-        key = "beton08";
+        key = "material08";
       }
       : edit_box
       {
-        key = "beton09";
+        key = "material09";
       }
       : edit_box
       {
-        key = "beton10";
+        key = "material10";
+      }
+      : edit_box
+      {
+        key = "material11";
+      }
+      : edit_box
+      {
+        key = "material12";
+      }
+      : edit_box
+      {
+        key = "material13";
+      }
+      : edit_box
+      {
+        key = "material14";
+      }
+      : edit_box
+      {
+        key = "material15";
+      }
+      : edit_box
+      {
+        key = "material16";
+      }
+      : edit_box
+      {
+        key = "material17";
+      }
+      : edit_box
+      {
+        key = "material18";
+      }
+      : edit_box
+      {
+        key = "material19";
+      }
+      : edit_box
+      {
+        key = "material20";
       }
     }
 
@@ -172,6 +252,56 @@ Material_update //nazod dcl
       : toggle
       {
         key = "oznacit10";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit11";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit12";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit13";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit14";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit15";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit16";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit17";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit18";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit19";
+        label = "Zapisat";
+      }
+      : toggle
+      {
+        key = "oznacit19";
         label = "Zapisat";
       }
     }
@@ -255,11 +385,18 @@ Material_update //nazod dcl
   //posledny riadok
   : row
   {
-    //tlacidlo napoveday
+    //tlacidlo napoveday beton
     : button
     {
-      label = "Napoveda";
-      key = "napoveda";
+      label = "Beton";
+      key = "napovedaBeton";
+      mnemonic = "N";
+    }
+    //tlacidlo napoveday ocel
+    : button
+    {
+      label = "Ocel";
+      key = "napovedaOcel";
       mnemonic = "N";
     }
     //tlacidlo ulozit
