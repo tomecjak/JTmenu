@@ -45,6 +45,15 @@
   (mapcar 'add_list TypTabulkyList)
   (end_list)
   
+  ;nastavenie checkboxu na tabulku
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;aktivovane
+    (mode_tile "hranataTabulka" 0)
+    ;deaktivovane
+    (mode_tile "hranataTabulka" 1)
+  )
+
+  
   ;podmienka ak neexistuje subor MaterialData.dat
   (if (= (open CestaMaterialData "r") nil)
     ;nastavenie oznamovacej hlasky
