@@ -23,19 +23,19 @@
   )
   
   ;nastavenie premenej RezimVystuze pre vyber zpnutia/vypnutia
-  (setq RezimVystuze
-    (getstring "\nZapnut rezim farebnej vystuze [Zapnut/Vypnut] <Zapnut>: ")
-  )
-    
-  (if (or (= RezimVystuze "") (= RezimVystuze "Z") (= RezimVystuze "z"))
-  (RezimVystuzeZapnuty)
-    
-    (if (or (= RezimVystuze "V") (= RezimVystuze "v"))
-      (RezimVystuzeVypnuty)
-      
-      (princ "\nNeplatny vyber.")
+  (initget "Zapnut Vypnut")
+  (setq RezimVystuze (getkword "\nAke pouzit UCS? [Zapnut/Vypnut] <Zapnut>: "))
+  (if (null RezimVystuze) (setq RezimVystuze "Zapnut"))
+
+  (cond
+    ((= RezimVystuze "Zapnut")
+      (RezimVystuzeZapnuty)
+      (princ)
     )
-      
+    ((= RezimVystuze "Vypnut")
+      (RezimVystuzeVypnuty)
+      (princ)
+    )
   )
 
 (princ)

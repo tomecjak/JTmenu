@@ -14,17 +14,6 @@
 ;;----------------------------------------------------------------------;;
 
 ;;----------------------------------------------------------------------;;
-;;               Navrat na poslednu nastavenu hladinu                   ;;
-;;----------------------------------------------------------------------;;
-
-(defun NavratNaPoslednuHladinu()
-
-  ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (command "_.layerp")
-
-)
-
-;;----------------------------------------------------------------------;;
 ;;                Vyhodnotenie GlovalnaHladinaBlokov                    ;;
 ;;----------------------------------------------------------------------;;
 
@@ -76,7 +65,7 @@
 (defun c:JTDirection ()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer z JTMenu
@@ -92,7 +81,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -104,7 +93,7 @@
 (defun c:JTDirection2 ()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer2 z JTmenu
@@ -120,7 +109,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -132,7 +121,7 @@
 (defun c:JTWaterDirection ()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku SmerToku z JTmenu
@@ -148,7 +137,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -160,7 +149,8 @@
 (defun c:JTSymmetry ()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
+  
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Smer
     (progn
@@ -175,7 +165,7 @@
   )   
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -187,7 +177,7 @@
 (defun c:JTViewName()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
@@ -216,7 +206,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -228,7 +218,7 @@
 (defun c:JTSectionVertical()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku RezZvisly z JTMenu
@@ -244,7 +234,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -256,7 +246,7 @@
 (defun c:JTSectionHorizontal()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku RezVodorovny z JTmenu
@@ -272,7 +262,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -284,7 +274,7 @@
 (defun c:JTSectionBreak()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku RezZlom z JTmenu
@@ -300,7 +290,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -312,11 +302,8 @@
 (defun c:JTAlignedText()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku ZarovnanyText z JTmenu
     (progn
@@ -331,7 +318,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -343,11 +330,8 @@
 (defun c:JTDotText()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku TextZBodom z JTmenu
     (progn
@@ -362,7 +346,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -374,11 +358,8 @@
 (defun c:JTSlopeSymbol()
   
   ;nastavenie hladiny
-  (LayerSetting)
-  
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-  
+  (setq oldLayer (LayerSetting))
+    
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku Sklon z JTmenu
     (progn
@@ -393,7 +374,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -405,11 +386,8 @@
 (defun c:JTAxisSymbol()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku SymbolOsi z JTmenu
     (progn
@@ -424,7 +402,7 @@
   )
 
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -436,10 +414,7 @@
 (defun c:JTDetailSymbol()
   
   ;nastavenie hladiny
-  (LayerSetting)
-  
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie blocku SymbolDetailu
@@ -455,7 +430,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -469,10 +444,7 @@
 (defun c:JTPointBlock()
   
   ;nastavenie hladiny
-  (LayerSetting)
-    
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
+  (setq oldLayer (LayerSetting))
 
   ;prikaz na vlozenie blocku OznacenieBodu
   (command "._insert" "OznacenieBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
@@ -480,7 +452,7 @@
   (princ)
       
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -490,10 +462,7 @@
 (defun c:JTPointHeight()
 
   ;nastavenie hladiny
-  (LayerSetting)
-  
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
+  (setq oldLayer (LayerSetting))
 
   ;prikaz na vlozenie blocku VyskaBodu
   (command "._insert" "VyskaBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
@@ -501,7 +470,7 @@
   (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
 
   (princ)
   
@@ -513,18 +482,15 @@
 (defun c:JTHeightTable()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   ;prikaz na vlozenie blocku TabulkaVysok
   (command "._insert" "TabulkaVysok" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
   (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -536,18 +502,15 @@
 (defun c:JTHectometricNetwork()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   ;prikaz na vlozenie blocku HectometricNetwork
   (command "._insert" "HectometricNetwork" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
   (princ)
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -559,18 +522,15 @@
 (defun c:JTBearingSymbol()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   ;prikaz na vlozenie blocku ZnackaLoziska
   (command "._insert" "ZnackaLoziska" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
   (princ)
 
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -582,18 +542,15 @@
 (defun c:JTGeodeticMark()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   ;prikaz na vlozenie blocku GeodetickaZnacka
   (command "._insert" "GeodetickaZnacka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
   
   (princ)
 
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -605,7 +562,7 @@
 (defun c:JTCylinderEnd()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;prikaz na vlozenie znacky konca valca
@@ -621,7 +578,7 @@
   )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -635,7 +592,7 @@
 (defun c:JTTabMaterial()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
@@ -676,7 +633,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -688,7 +645,7 @@
 (defun c:JTTabBends()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
@@ -730,7 +687,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -742,7 +699,7 @@
 (defun c:JTNote()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
@@ -784,7 +741,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -794,7 +751,7 @@
 (defun c:JTProtectionZone()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   ;nastavenie prepinaca jazyku blokov podla GlobalnaBlocksLanguage
   (if (= (getenv "GlobalnaBlocksLanguage") "SVK")
@@ -822,7 +779,7 @@
   )
   
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -861,7 +818,7 @@
 (defun c:JTRebarMark()
   
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
 
   ;vytvorenie premenej VyberJTOznacenieVystuze
   (initget "Vystuz KariSiet")
@@ -890,7 +847,7 @@
   )
    
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
