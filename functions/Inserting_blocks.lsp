@@ -848,9 +848,9 @@
   ;prikaz na vlozenie blocku vystuze
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;vlozenie blocku z JTmenu
-    (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0)
     ;vlozenie blocku z DPPtools
-    (command "._insert" "PopisVystuze" "_S" 1 "_R" 0 pause)
+    (command "._insert" "PopisVystuze" "_S" 1 "_R" 0)
   )
      
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
