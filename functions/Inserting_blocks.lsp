@@ -872,8 +872,8 @@
   (ScaleRefactorToMeter)
    
   ;vytvorenie premenej VyberJTOznacenieVystuze
-  (initget "Vystuz Kari_siet")
-  (setq VyberJTOznacenieVystuze (getkword "\nAku znacku pouzit? [Vystuz/Kari_siet] <Vystuz>: "))
+  (initget "Vystuz KariSiet")
+  (setq VyberJTOznacenieVystuze (getkword "\nAku znacku pouzit? [Vystuz/KariSiet] <Vystuz>: "))
   (if (null VyberJTOznacenieVystuze) (setq VyberJTOznacenieVystuze "Vystuz"))
   
   (cond
@@ -881,7 +881,7 @@
       ;prikaz na vlozenie blocku symbolu Popis vystuze
       (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     )
-    ((= VyberJTOznacenieVystuze "Kari_siet")
+    ((= VyberJTOznacenieVystuze "KariSiet")
       ;prikaz na vlozenie blocku symbolu Popis kari siete
       (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     )
