@@ -867,10 +867,8 @@
   
   ;nastavenie hladiny
   (LayerSetting)
+
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-   
   ;vytvorenie premenej VyberJTOznacenieVystuze
   (initget "Vystuz KariSiet")
   (setq VyberJTOznacenieVystuze (getkword "\nAku znacku pouzit? [Vystuz/KariSiet] <Vystuz>: "))
@@ -879,11 +877,21 @@
   (cond
     ((= VyberJTOznacenieVystuze "Vystuz")
       ;prikaz na vlozenie blocku symbolu Popis vystuze
-      (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+        ;vlozenie blocku z JTmenu
+        (command "._insert" "OznacenieVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        ;vlozenie blocku z DPPtools
+        (command "._insert" "OznacenieVystuze" "_S" 1 "_R" 0 pause)
+      )
     )
     ((= VyberJTOznacenieVystuze "KariSiet")
       ;prikaz na vlozenie blocku symbolu Popis kari siete
-      (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+        ;vlozenie blocku z JTmenu
+        (command "._insert" "OznacenieVystuzeKari" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+        ;vlozenie blocku z DPPtools
+        (command "._insert" "OznacenieVystuzeKari" "_S" 1 "_R" 0 pause)
+      )
     )
   )
    
