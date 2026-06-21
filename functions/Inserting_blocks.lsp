@@ -28,37 +28,33 @@
 ;;                Vyhodnotenie GlovalnaHladinaBlokov                    ;;
 ;;----------------------------------------------------------------------;;
 
-(defun LayerSetting()
-  ;vytvorenie premenej VytvorenieHladinyPopisu pre vyber hladiny pre vlozene bloky
-  (setq VytvorenieHladinyPopisu
-    (getenv "GlobalnaHladinaBlokov")
-  )
-  
-  ;vyhodnotenie vyberu hladiny pre bloky
-  (if (= VytvorenieHladinyPopisu  "Popis")
-    (progn
-      (setq rec (tblnext "LAYER" T))
-      (while (and rec (not found))
-        (setq lay (cdr (assoc 2 rec)))
-        (if (wcmatch (strcase lay) "*POPIS")
-          (setq found lay)
-        )
-        (setq rec (tblnext "LAYER"))
-      )
+(defun LayerSetting ( / oldLayer VytvorenieHladinyPopisu rec lay found )
+  (setq oldLayer (getvar "CLAYER"))
+  (setq VytvorenieHladinyPopisu (getenv "GlobalnaHladinaBlokov"))
+  (setq found nil)
 
-      (if found
-        (setvar "CLAYER" found)
-        (command "._layer" "s" "0" "")
-      )
-      (princ)
+  (cond
+    ((= VytvorenieHladinyPopisu "Popis")
+     (setq rec (tblnext "LAYER" T))
+     (while (and rec (not found))
+       (setq lay (cdr (assoc 2 rec)))
+       (if (wcmatch (strcase lay) "*POPIS")
+         (setq found lay)
+       )
+       (setq rec (tblnext "LAYER"))
+     )
+     (if found
+       (setvar "CLAYER" found)
+       (setvar "CLAYER" "0")
+     )
     )
-  
-    (if (= VytvorenieHladinyPopisu "0")
-    ;bez vytvorenia hladiny a nastavenie na hladinu 0
-    (command "._layer" "s" "0" "")
-    (princ)
+
+    ((= VytvorenieHladinyPopisu "0")
+     (setvar "CLAYER" "0")
     )
   )
+
+  oldLayer
 )
 
 ;;----------------------------------------------------------------------;;
@@ -840,17 +836,15 @@
 ;vloženie bloku Vystuz
 (defun c:JTRebarDescription()
   
-  (setq oldLayer (getvar "CLAYER"))
-  
   ;nastavenie hladiny
-  (LayerSetting)
+  (setq oldLayer (LayerSetting))
   
   ;prikaz na vlozenie blocku vystuze
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;vlozenie blocku z JTmenu
-    (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0)
+    (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
     ;vlozenie blocku z DPPtools
-    (command "._insert" "PopisVystuze" "_S" 1 "_R" 0)
+    (command "._insert" "PopisVystuze" "_S" 1 "_R" 0 pause)
   )
      
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
