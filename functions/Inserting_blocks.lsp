@@ -21,7 +21,6 @@
 
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (command "_.layerp")
-  (command "_-layer" "_filter" "_set" "All" "")
 
 )
 
@@ -841,19 +840,21 @@
 ;vloženie bloku Vystuz
 (defun c:JTRebarDescription()
   
+  (setq oldLayer (getvar "CLAYER"))
+  
   ;nastavenie hladiny
   (LayerSetting)
   
-  ;nastavenie Rescalingu
-  (ScaleRefactorToMeter)
-
   ;prikaz na vlozenie blocku vystuze
-  (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-  
-  (princ)
-    
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;vlozenie blocku z JTmenu
+    (command "._insert" "PopisVystuze" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+    ;vlozenie blocku z DPPtools
+    (command "._insert" "PopisVystuze" "_S" 1 "_R" 0 pause)
+  )
+     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
-  (NavratNaPoslednuHladinu)
+  (setvar "CLAYER" oldLayer)
   
   (princ)
   
@@ -868,7 +869,6 @@
   ;nastavenie hladiny
   (LayerSetting)
 
-  
   ;vytvorenie premenej VyberJTOznacenieVystuze
   (initget "Vystuz KariSiet")
   (setq VyberJTOznacenieVystuze (getkword "\nAku znacku pouzit? [Vystuz/KariSiet] <Vystuz>: "))
