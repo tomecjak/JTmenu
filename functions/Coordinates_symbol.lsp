@@ -63,16 +63,15 @@
     (progn
       (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
           (command "._insert" "Suradnice" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
-          (princ)
         (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
           (command "._insert" "Suradnice" "_S" (* (getvar "dimscale") 20) "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
-          (princ)
         )
       )
     )
     ;prikaz na vlozenie blocku suradnic z DPPtools
     (progn
       (command "._insert" "Suradnice" "_S" 1 "_R" (* 180.0 (/ (- 0.0 (angle '(0 0 0) (getvar 'UCSXDIR))) pi)) pause)
+      (princ)
     )
   )
       
