@@ -435,10 +435,18 @@
   ;nastavenie hladiny
   (setq oldLayer (LayerSetting))
 
-  ;prikaz na vlozenie blocku OznacenieBodu
-  (command "._insert" "OznacenieBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-
-  (princ)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku OznacenieBodu z JTmenu
+    (progn
+      (command "._insert" "OznacenieBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
+    )
+    ;prikaz na vlozenie blocku OznacenieBodu z DPPtools
+    (progn
+      (command "._insert" "DPP_Oznacenie_bodu" "_S" 1 "_R" 0 pause)
+      (princ)
+    )
+  )
       
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (setvar "CLAYER" oldLayer)
