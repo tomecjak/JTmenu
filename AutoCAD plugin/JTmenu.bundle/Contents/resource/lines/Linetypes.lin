@@ -1,0 +1,635 @@
+;;
+;;  AutoCAD Linetype Definition file
+;;  Version 3.0
+
+;;  Copyright 2017 Autodesk, Inc.  All rights reserved.
+;;
+;;  Use of this software is subject to the terms of the Autodesk license 
+;;  agreement provided at the time of installation or download, or which 
+;;  otherwise accompanies this software in either electronic or hard copy form.
+;;
+;;  Note: in order to ease migration of this file when upgrading 
+;;  to a future version of AutoCAD, it is recommended that you add
+;;  your customizations to the User Defined Linetypes section at the
+;;  end of this file.
+;;
+*BORDER,Border __ __ . __ __ . __ __ . __ __ . __ __ .
+A,.5,-.25,.5,-.25,0,-.25
+*BORDER2,Border (.5x) __.__.__.__.__.__.__.__.__.__.__.
+A,.25,-.125,.25,-.125,0,-.125
+*BORDERX2,Border (2x) ____  ____  .  ____  ____  .  ___
+A,1.0,-.5,1.0,-.5,0,-.5
+
+*CENTER,Center ____ _ ____ _ ____ _ ____ _ ____ _ ____
+A,1.25,-.25,.25,-.25
+*CENTER2,Center (.5x) ___ _ ___ _ ___ _ ___ _ ___ _ ___
+A,.75,-.125,.125,-.125
+*CENTERX2,Center (2x) ________  __  ________  __  _____
+A,2.5,-.5,.5,-.5
+
+*DASHDOT,Dash dot __ . __ . __ . __ . __ . __ . __ . __
+A,.5,-.25,0,-.25
+*DASHDOT2,Dash dot (.5x) _._._._._._._._._._._._._._._.
+A,.25,-.125,0,-.125
+*DASHDOTX2,Dash dot (2x) ____  .  ____  .  ____  .  ___
+A,1.0,-.5,0,-.5
+
+*DASHED,Dashed __ __ __ __ __ __ __ __ __ __ __ __ __ _
+A,.5,-.25
+*DASHED2,Dashed (.5x) _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+A,.25,-.125
+*DASHEDX2,Dashed (2x) ____  ____  ____  ____  ____  ___
+A,1.0,-.5
+
+*DIVIDE,Divide ____ . . ____ . . ____ . . ____ . . ____
+A,.5,-.25,0,-.25,0,-.25
+*DIVIDE2,Divide (.5x) __..__..__..__..__..__..__..__.._
+A,.25,-.125,0,-.125,0,-.125
+*DIVIDEX2,Divide (2x) ________  .  .  ________  .  .  _
+A,1.0,-.5,0,-.5,0,-.5
+
+*DOT,Dot . . . . . . . . . . . . . . . . . . . . . . . .
+A,0,-.25
+*DOT2,Dot (.5x) ........................................
+A,0,-.125
+*DOTX2,Dot (2x) .  .  .  .  .  .  .  .  .  .  .  .  .  .
+A,0,-.5
+
+*HIDDEN,Hidden __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,.25,-.125
+*HIDDEN2,Hidden (.5x) _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+A,.125,-.0625
+*HIDDENX2,Hidden (2x) ____ ____ ____ ____ ____ ____ ____ 
+A,.5,-.25
+
+*PHANTOM,Phantom ______  __  __  ______  __  __  ______ 
+A,1.25,-.25,.25,-.25,.25,-.25
+*PHANTOM2,Phantom (.5x) ___ _ _ ___ _ _ ___ _ _ ___ _ _
+A,.625,-.125,.125,-.125,.125,-.125
+*PHANTOMX2,Phantom (2x) ____________    ____    ____   _
+A,2.5,-.5,.5,-.5,.5,-.5
+
+;;
+;;  ISO 128 (ISO/DIS 12011) linetypes
+;;
+;;  The size of the line segments for each defined ISO line, is 
+;;  defined for an usage with a pen width of 1 mm. To use them with 
+;;  the other ISO predefined pen widths, the line has to be scaled 
+;;  with the appropriate value (e.g. pen width 0,5 mm -> ltscale 0.5).
+;;
+*ACAD_ISO02W100,ISO dash __ __ __ __ __ __ __ __ __ __ __ __ __
+A,12,-3
+*ACAD_ISO03W100,ISO dash space __    __    __    __    __    __
+A,12,-18
+*ACAD_ISO04W100,ISO long-dash dot ____ . ____ . ____ . ____ . _
+A,24,-3,0,-3
+*ACAD_ISO05W100,ISO long-dash double-dot ____ .. ____ .. ____ . 
+A,24,-3,0,-3,0,-3
+*ACAD_ISO06W100,ISO long-dash triple-dot ____ ... ____ ... ____
+A,24,-3,0,-3,0,-3,0,-3
+*ACAD_ISO07W100,ISO dot . . . . . . . . . . . . . . . . . . . . 
+A,0,-3
+*ACAD_ISO08W100,ISO long-dash short-dash ____ __ ____ __ ____ _
+A,24,-3,6,-3
+*ACAD_ISO09W100,ISO long-dash double-short-dash ____ __ __ ____
+A,24,-3,6,-3,6,-3
+*ACAD_ISO10W100,ISO dash dot __ . __ . __ . __ . __ . __ . __ . 
+A,12,-3,0,-3
+*ACAD_ISO11W100,ISO double-dash dot __ __ . __ __ . __ __ . __ _
+A,12,-3,12,-3,0,-3
+*ACAD_ISO12W100,ISO dash double-dot __ . . __ . . __ . . __ . . 
+A,12,-3,0,-3,0,-3
+*ACAD_ISO13W100,ISO double-dash double-dot __ __ . . __ __ . . _
+A,12,-3,12,-3,0,-3,0,-3
+*ACAD_ISO14W100,ISO dash triple-dot __ . . . __ . . . __ . . . _
+A,12,-3,0,-3,0,-3,0,-3
+*ACAD_ISO15W100,ISO double-dash triple-dot __ __ . . . __ __ . .
+A,12,-3,12,-3,0,-3,0,-3,0,-3
+
+;;  Complex linetypes
+;;
+;;  Complex linetypes have been added to this file.
+;;  These linetypes were defined in LTYPESHP.LIN in
+;;  Release 13, and are incorporated in ACAD.LIN in
+;;  Release 14.
+;;  
+;;  These linetype definitions use LTYPESHP.SHX.
+;;
+*FENCELINE1,Fenceline circle ----0-----0----0-----0----0-----0--
+A,.25,-.1,[CIRC1,ltypeshp.shx,x=-.1,s=.1],-.1,1
+*FENCELINE2,Fenceline square ----[]-----[]----[]-----[]----[]---
+A,.25,-.1,[BOX,ltypeshp.shx,x=-.1,s=.1],-.1,1
+*TRACKS,Tracks -|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-
+A,.15,[TRACK1,ltypeshp.shx,s=.25],.15
+*BATTING,Batting SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+A,.0001,-.1,[BAT,ltypeshp.shx,x=-.1,s=.1],-.2,[BAT,ltypeshp.shx,r=180,x=.1,s=.1],-.1
+*HOT_WATER_SUPPLY,Hot water supply ---- HW ---- HW ---- HW ----
+A,.5,-.2,["HW",STANDARD,S=.1,U=0.0,X=-0.1,Y=-.05],-.2
+*GAS_LINE,Gas line ----GAS----GAS----GAS----GAS----GAS----GAS--
+A,.5,-.2,["GAS",STANDARD,S=.1,U=0.0,X=-0.1,Y=-.05],-.25
+*ZIGZAG,Zig zag /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+A,.0001,-.2,[ZIG,ltypeshp.shx,x=-.2,s=.2],-.4,[ZIG,ltypeshp.shx,r=180,x=.2,s=.2],-.2
+
+;;  User Defined Linetypes
+;;
+;;  Add any linetypes that you define to this section of
+;;  the file to ensure that they migrate properly when
+;;  upgrading to a future AutoCAD version.  If duplicate
+;;  linetype definitions are found in this file, items
+;;  in the User Defined Linetypes section take precedence
+;;  over definitions that appear earlier in the file.
+;;
+
+*_600_1200CM,_ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,6.0,-12.0
+*_600_600CM,_ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,6.0,-6.0
+*_300_600CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,3.0,-6.0
+*_300_300CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,3.0,-3.0
+*_150_300CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,1.5,-3.0
+*_150_150CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,1.5,-1.5
+*_100_150CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,1.0,-1.5
+*_100_100CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,1.0,-1.0
+*_50_100CM,__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __
+A,0.5,-1.0
+*_50_50CM,__ __ __ __ __ __ __ __  __ __ __ __ __ __ __ __ __ __ __ __
+A,0.5,-0.5
+*_25_50CM,__ __ __ __ __ __ __ __  __ __ __ __ __ __ __ __ __ __ __ __
+A,0.25,-0.5
+*_25_25CM,__ __ __ __ __ __ __ __  __ __ __ __ __ __ __ __ __ __ __ __
+A,0.25,-0.25
+
+;;  Typy �ar ISO 128 (ISO/DIS 12011)
+;;
+;;  Velikost �arov�ch segment� pro ka�dou ISO ��ru v definici je 
+;;  zalo�ena na pou�it� pera tlou��ky 1 mm. Pro pou�it� s jin�mi 
+;;  p�eddefinovan�m tlou��kami per mus� b�t odpov�daj�c�m zp�sobem 
+;;  zm�n�no m���tko ��ry (nap�. tlou��ka pera 0,5 mm -> ltscale 0.5).
+;;
+*ACAD_ISO02W100,ISO ��rkovan� __ __ __ __ __ __ __ __ __ __ __ __ __
+A,12,-3
+*ACAD_ISO03W100,ISO p�eru�ovan� __    __    __    __    __    __
+A,12,-18
+*ACAD_ISO04W100,ISO dlouh� �erchovan� ____ . ____ . ____ . ____ . _
+A,24,-3,.5,-3
+*ACAD_ISO05W100,ISO dlouh� dvoj�erchovan� ____ .. ____ .. ____ . 
+A,24,-3,.5,-3,.5,-3
+*ACAD_ISO06W100,ISO dlouh� troj�erchovan� ____ ... ____ ... ____
+A,24,-3,.5,-3,.5,-3,.5,-3
+*ACAD_ISO07W100,ISO te�kovan� . . . . . . . . . . . . . . . . . . . . 
+A,.5,-3
+*ACAD_ISO08W100,ISO ��rkovan� dlouh�-kr�tk� ____ __ ____ __ ____ _
+A,24,-3,6,-3
+*ACAD_ISO09W100,ISO ��rkovan� dlouh�-dvojkr�tk� ____ __ __ ____
+A,24,-3,6,-3,6,-3
+*ACAD_ISO10W100,ISO �erchovan� __ . __ . __ . __ . __ . __ . __ . 
+A,12,-3,.5,-3
+*ACAD_ISO11W100,ISO �erchovan� p�eru�ovan� __ __ . __ __ . __ __ . __ _
+A,12,-3,12,-3,.5,-3
+*ACAD_ISO12W100,ISO dvoj�erchovan� __ . . __ . . __ . . __ . . 
+A,12,-3,.5,-3,.5,-3
+*ACAD_ISO13W100,ISO dvoj�erchovan� p�eru�ovan� __ __ . . __ __ . . _
+A,12,-3,12,-3,.5,-3,.5,-3
+*ACAD_ISO14W100,ISO troj�erchovan� __ . . . __ . . . __ . . . _
+A,12,-3,.5,-3,.5,-3,.5,-3
+*ACAD_ISO15W100,ISO troj�erchovan� p�eru�ovan� __ __ . . . __ __ . .
+A,12,-3,12,-3,.5,-3,.5,-3,.5,-3
+
+*MS1,MicroStation 1
+A,.5,-3
+*MS2,MicroStation 2
+A,2,-2
+*MS3,MicroStation 3
+A,4,-2
+*MS4,MicroStation 4
+A,4,-2,.5,-2
+*MS5,MicroStation 5
+A,1,-2
+*MS6,MicroStation 6
+A,4,-2,.5,-2,.5
+*MS7,MicroStation 7
+A,4,-2,1,-2
+
+*001,001,__________________________________
+A,1,1
+*002,002,_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+A,1,-1
+*003,003,__ __ __ __ __ __ __ __ __ __ __ __
+A,2,-1
+*004,004,__  __  __  __  __  __  __  __  _
+A,2,-2
+*005,005,___ ___ ___ ___ ___ ___ ___ ___ __
+A,3,-1
+*006,006,____ ____ ____ ____ ____ ____ ____
+A,5,-1
+*007,007,___  ___  ___  ___  ___  ___  ____
+A,5,-2
+*008,008,____  ____  ____  ____  ____  ____
+A,7,-3
+*009,009,__________________________________
+A,.3,-.5
+*010,010,..................................
+A,.3,-1
+*011,011,. . . . . . . . . . . . . . . . . .
+A,.3,-2
+*012,012,_._._._._._._._._._._._._._._._._._
+A,1,-.8,.3,-.8
+*013,013,__.__.__.__.__.__.__.__.__.__.__.__
+A,2,-.8,.3,-.8
+*014,014,___.___.___.___.___.___.___.___.___
+A,3,-1.3,.3,-1.3
+*015,015,____.____.____.____.____.____.____
+A,5,-1.3,.3,-1.3
+*016,016,__..__..__..__..__..__..__..__..__
+A,6,-1.8,.3,-1.8,.3,-1.8
+*017,017,__ _ __  __ _ __  __ _ __  __ _ __
+A,.5,-1,2,-3,2,-1,.5
+*018,018,__.__  __.__  __.__ __.__  __.__  
+A,.15,-1.3,3,-2,3,-1.3,.15
+*019,019,___.___  ___.___  ___.___  ___.___
+A,.15,-1.3,5,-2,5,-1.3,.15
+*020,020,___..___  ___..__  ___..___  ___..__
+A,5,-0.8,.3,-0.8,0.3,-0.8,5,-2
+
+*201,Hranica �t�tu
+A,1,-1.75,[201A,Linetypes.shx,x=0,y=0,s=0.05],-1.75,1.0,-0.5,[201B,Linetypes.shx,x=0,y=0,s=0.05],-0.5,0.001
+*203,Hranica krajsk�
+A,1,-1.5,[203A,Linetypes.shx,x=0,y=0,s=0.05],-1.5,2.0,-1.5,[203A,Linetypes.shx,x=0,y=0,s=0.05],-1.5,1,-.35,[203B,Linetypes.shx,x=0,y=0,s=0.05],-.35,.0001
+*204,Hranica okresu
+A,1,-1.5,[204A,Linetypes.shx,x=0,y=0,s=0.05],-1.5,1,-.35,[204B,Linetypes.shx,x=0,y=0,s=0.05],-.35,.0001
+*205,Hranica obecn�
+A,25,[205,Linetypes.shx,x=0,y=0,s=0.05],2.5,[205,Linetypes.shx,x=0,y=0,s=0.05],2.5,[205,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*206,Hranica katastr�lneho �zemia
+A,25,[205,Linetypes.shx,x=0,y=0,s=0.05],2.5,[205,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*207L,Hranica zastavan�ho �zemia obce pre ��ely ochrany PPF
+A,25,[207l,Linetypes.shx,x=0,y=0,s=0.05],11.5,[207l,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*207R,Hranica zastavan�ho �zemia obce pre ��ely ochrany PPF
+A,25,[208R,Linetypes.shx,x=0,y=0,s=0.05],11.5,[208R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*208,Rozhranie presnosti mapovania
+A,25,[208,Linetypes.shx,x=0,y=0,s=0.05],11.5,[208,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*209,Plot bez rozl�enia druhu
+A,10,[209,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*210L,Dreven� plot L
+A,10,[210L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*210R,Dreven� plot P
+A,10,[210R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*211,Dreven� plot spoluvlastn�ctva
+A,10,[211A,Linetypes.shx,x=0,y=0,s=0.05],10,[211B,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*211L,Dreven� plot spoluvlastn�ctva L
+A,20,[211L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*211R,Dreven� plot spoluvlastn�ctva P
+A,20,[211R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*212L,Dr�ten� kovov� plot vlastn�ctvo z jednej strany L
+A,10,[212L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*212R,Dr�ten� kovov� plot vlastn�ctvo z jednej strany P
+A,10,[212R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*213,Dr�ten� kovov� plot spoluvlastn�ctvo
+A,10,[213A,Linetypes.shx,x=0,y=0,s=0.05],10,[213B,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*213L,Dr�ten� kovov� plot spoluvlastn�ctvo L
+A,20,[213L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*213R,Dr�ten� kovov� plot spoluvlastn�ctvo P
+A,20,[213R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*214L,�iv� plot vlastn�ctvo z jednej strany L
+A,10,[214L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*214R,�iv� plot vlastn�ctvo z jednej strany P
+A,10,[214R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*215,�iv� plot spoluvlastn�ctvo
+A,10,[215A,Linetypes.shx,x=0,y=0,s=0.05],10,[215B,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*215L,�iv� plot spoluvlastn�ctvo L
+A,20,[215L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*215R,�iv� plot spoluvlastn�ctvo P
+A,20,[215R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*216L,Ochrann� m�r vlastn�ctvo z jednej strany L
+A,10,[216L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*216R,Ochrann� m�r vlastn�ctvo z jednej strany P
+A,10,[216R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*217,Ochrann� m�r spoluvlastn�ctvo
+A,10,[217A,Linetypes.shx,x=0,y=0,s=0.05],10,[217B,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*217L,Ochrann� m�r spoluvlastn�ctvo L
+A,20,[216L,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*217R,Ochrann� m�r spoluvlastn�ctvo P
+A,20,[216R,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*218,Slu�ka
+A,20,[218,Linetypes.shx,x=0,y=0,s=0.05],.0001
+*220,Hranica vlastn�cka zhora nevidite�n�
+A,1,-1
+*221,Hranica pohybliv� nest�la
+A,.1,-1.2
+*222,Hranica neznate�n�
+A,1,-.95,.1,-.95
+*223,Hranica chr�nen�ho �zemia
+A,3,-2,3,-1.5,.1,-1.5
+*224,Hranica ochrann�ho p�sma
+A,5,-2,5,-1.5,.1,-1.5
+*225,Hranica technick�ho ochrann�ho p�sma
+A,5,-2,5,-.8,.3,-.8,.3,-.8
+*226,Hranica podzemn�
+A,3,-1
+*227,Hranica sporn�
+A,0.0001,-1,[227A,Linetypes.shx,x=0,y=0,s=0.05],-2,[227B,Linetypes.shx,x=0,y=0,s=0.05],-1,0.0001
+*422L,Zvisl� opora alebo z�rubn� stena L
+A,6,[422L,Linetypes.shx,x=0,y=.5,s=0.1],.0001
+*422R,Zvisl� opora alebo z�rubn� stena P
+A,6,[422L,Linetypes.shx,x=0,y=-.5,s=0.1],.0001
+*423,Stupe� alebo vjazd do budovy, vjazd na pozemok
+A,.0001,-.25,[423,Linetypes.shx,x=0,y=0,s=0.025],-.25,.00001
+*501A,Os �elezni�n�ch ko�aj� norm�lneho rozchodu
+A,.0001,-.175,[423,Linetypes.shx,x=0,y=0,s=0.0175],-.175,.00001
+*501B,Os �elezni�n�ch ko�aj� norm�lneho rozchodu
+A,.0001,-.175,[423,Linetypes.shx,x=0,y=0,s=0.0175],-.175,.00001
+*502,Os trolejov�ho vedenia
+A,0.0001,-1,[502,Linetypes.shx,x=0,y=0,s=0.05],-3,0.0001
+*521,Visut� lanov� dr�ha
+A,.0001,-1,[502,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-0.0001,[521,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-3,.0001
+*522,Pozemn� lanov� dr�ha
+A,.0001,-1,[502,Linetypes.shx,x=0,y=0,s=0.05],-2,[502,Linetypes.shx,x=0,y=0,s=0.05],-2,[502,Linetypes.shx,x=0,y=0,s=0.05],-0.0001,[522,Linetypes.shx,x=0,y=0,s=0.05],-2,[502,Linetypes.shx,x=0,y=0,s=0.05],-2,[502,Linetypes.shx,x=0,y=0,s=0.05],-1,.0001
+*523A,Dopravn�k
+A,0.0001,-.15,[523A2,Linetypes.shx,x=0,y=0,s=0.05],-4.95,[523A1,Linetypes.shx,x=0,y=0,s=0.05],-9,[523A,Linetypes.shx,x=0,y=0,s=0.1],-9,[523A1,Linetypes.shx,x=0,y=0,s=0.05],-4.95,[523A2,Linetypes.shx,x=0,y=0,s=0.05],-1.8
+*523B,Dopravn�k
+A,.0001,-3,[523A1,Linetypes.shx,x=0,y=0,s=0.05],-6,[523A1,Linetypes.shx,x=0,y=0,s=0.05],-9,[523A,Linetypes.shx,x=0,y=0,s=0.1],-9,[523A1,Linetypes.shx,x=0,y=0,s=0.05],-3
+*523C,Dopravn�k
+A,.0001,-1,[502,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-7.5,[523A,Linetypes.shx,x=0,y=0,s=0.1],-7.5,[502,Linetypes.shx,x=0,y=0,s=0.05],-4,[502,Linetypes.shx,x=0,y=0,s=0.05],-3
+*529AL,Zvodidlo �avostrann�
+A,5,[529AL,Linetypes.shx,x=0,y=0,s=0.05],5
+*529AR,Zvodidlo pravostrann�
+A,5,[529AR,Linetypes.shx,x=0,y=0,s=0.05],5
+*529B,Zvodidlo zdvojen�
+A,2.5,[529B1,Linetypes.shx,x=0,y=0,s=0.05],6,[529B2,Linetypes.shx,x=0,y=0,s=0.05],1.5
+*530,Z�bradlie
+A,5,[530,Linetypes.shx,x=0,y=0,s=0.05],5
+*605,Os nadzemn�ho vedenia/potrubia
+A,2,-2
+*606,Os podzemn�ho vedenia/potrubia
+A,5,-2
+*607,Os vedenia pribli�ne
+A,2,-1,1,-1,2,-3
+*610,Re�az
+A,2.5,-2,5,-3,[208,Linetypes.shx,x=0,y=0,s=0.1],-3,5,-2,2.5
+*611,Trativod
+A,5,-2,5,-5.5,[611,Linetypes.shx,x=-3,y=0,s=0.05],-5.5,5,-2
+*612,Z�bradlie
+A,12,[208,Linetypes.shx,x=0,y=0,s=0.075],.0001
+*615A,Vod.potr.bez rozl�enia druhu nadzemn�
+A,2,-2,2,-2,2,-6,[615A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*615B,Vod.potr.bez rozl�enia druhu podzemn�
+A,5,-2,5,-5.5,[615A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*615C,Vod.potr.bez rozl�enia druhu podzemn� pribl.
+A,2,-1,1,-1,2,-13,[615A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*616A,Vod.potr.pitnej vody nadzemn�
+A,2,-2,2,-2,2,-6,[616A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*616B,Vod.potr.pitnej vody podzemn�
+A,5,-2,5,-5.5,[616A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*616C,Vod.potr.pitnej vody podzemn� pribl.
+A,2,-1,1,-1,2,-13,[616A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*617A,Vod.potr.��itkovej vody nadzemn�
+A,2,-2,2,-2,2,-6,[617A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*617B,Vod.potr.��itkovej vody podzemn�
+A,5,-2,5,-5.5,[617A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*617C,Vod.potr.��itkovej vody podzemn� pribl.
+A,2,-1,1,-1,2,-13,[617A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*623A,Kanaliza�n� stoka bez rozl�enia druhu nadzemn�
+A,2,-2,2,-2,2,-6,[623A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*623B,Kanaliza�n� stoka bez rozl�enia druhu podzemn�
+A,5,-2,5,-5.5,[623A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*623C,Kanaliza�n� stoka bez rozl�enia druhu podzemn� pribl.
+A,2,-1,1,-1,2,-13,[623A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*624A,Jednotn� kanaliz�cia nadzemn�
+A,2,-2,2,-2,2,-6,[624A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*624B,Jednotn� kanaliz�cia podzemn�
+A,5,-2,5,-5.5,[624A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*624C,Jednotn� kanaliz�cia podzemn� pribl.
+A,2,-1,1,-1,2,-13,[624A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*625A,Od�ah�ovacia stoka jedn. kanaliz�cie nadzemn�
+A,2,-2,2,-2,2,-6,[625A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*625B,Od�ah�ovacia stoka jedn. kanaliz�cie podzemn�
+A,5,-2,5,-5.5,[625A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*625C,Od�ah�ovacia stoka jedn. kanaliz�cie podzemn� pribl.
+A,2,-1,1,-1,2,-13,[625A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*626A,Da��ov� kanaliz�cia nadzemn�
+A,2,-2,2,-2,2,-6,[626A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*626B,Da��ov� kanaliz�cia podzemn�
+A,5,-2,5,-5.5,[626A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*626C,Da��ov� kanaliz�cia podzemn� pribl.
+A,2,-1,1,-1,2,-13,[626A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*627A,Spla�kov� kanaliz�cia nadzemn�
+A,2,-2,2,-2,2,-6,[627A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*627B,Spla�kov� kanaliz�cia podzemn�
+A,5,-2,5,-5.5,[627A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*627C,Spla�kov� kanaliz�cia podzemn� pribl.
+A,2,-1,1,-1,2,-13,[627A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*628A,Kanaliz�cia priem. odpadov nadzemn�
+A,2,-2,2,-2,2,-6,[628A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*628B,Kanaliz�cia priem. odpadov podzemn�
+A,5,-2,5,-5.5,[628A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*628C,Kanaliz�cia priem. odpadov podzemn� pribl.
+A,2,-1,1,-1,2,-13,[628A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*629A,V�tla�n� kalov� potrubie nadzemn�
+A,2,-2,2,-2,2,-6,[629A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*629B,V�tla�n� kalov� potrubie podzemn�
+A,5,-2,5,-5.5,[629A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*629C,V�tla�n� kalov� potrubie podzemn� pribl.
+A,2,-1,1,-1,2,-13,[629A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*630A,Hrdlov� vedenie liatinov� pln� �iara
+A,20,-1,[630A,Linetypes.shx,x=0,y=0,s=0.1],.0001
+*630B,Hrdlov� vedenie liatinov� da��ov� pln� �iara
+A,18,-3,[630B,Linetypes.shx,x=0,y=0,s=0.1],.0001
+*630C,Hrdlov� vedenie kameninov� pln� �iara
+A,20,-1,[630C,Linetypes.shx,x=0,y=0,s=0.1],.0001
+*630D,Hrdlov� vedenie kameninov� da��ov� pln� �iara
+A,18,-3,[630D,Linetypes.shx,x=0,y=0,s=0.1],.0001
+*630E,Hrdlov� vedenie bet�nov� pln� �iara
+A,20,-1,[630E,Linetypes.shx,x=0,y=0,s=0.1],.0001
+*630F,Hrdlov� vedenie plastov� pln� �iara
+A,20,-1,[630F,Linetypes.shx,x=0,y=0,s=0.1],.0001
+*631A,Hrdlov� vedenie liatinov� pln� �iara
+A,0.0001,-2,9,-1,[630A,Linetypes.shx,x=0,y=0,s=0.1],9
+*631B,Hrdlov� vedenie liatinov� da��ov� pln� �iara
+A,0.0001,-2,8,-3,[630B,Linetypes.shx,x=0,y=0,s=0.1],8
+*631C,Hrdlov� vedenie kameninov� pln� �iara
+A,.0001,-2,9,-1,[630C,Linetypes.shx,x=0,y=0,s=0.1],9
+*631D,Hrdlov� vedenie kameninov� da��ov� pln� �iara
+A,.0001,-2,8,-3,[630D,Linetypes.shx,x=0,y=0,s=0.1],8
+*631E,Hrdlov� vedenie bet�nov� pln� �iara
+A,.0001,-2,9,-1,[630E,Linetypes.shx,x=0,y=0,s=0.1],9
+*631F,Hrdlov� vedenie plastov� pln� �iara
+A,.0001,-2,9,-1,[630F,Linetypes.shx,x=0,y=0,s=0.1],9
+*632A,Plynovodn� potrubie bez rozl. tlaku nadzemn�
+A,2,-2,2,-2,2,-6,[632A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*632B,Plynovodn� potrubie bez rozl. tlaku podzemn�
+A,5,-2,5,-5.5,[632A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*632C,Plynovodn� potrubie bez rozl. tlaku podzemn� pribl.
+A,2,-1,1,-1,2,-13,[632A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*633A,Plynovodn� potrubie n�zkotlak� nadzemn�
+A,2,-2,2,-2,2,-6,[633A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*633B,Plynovodn� potrubie n�zkotlak� podzemn�
+A,5,-2,5,-5.5,[633A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*633C,Plynovodn� potrubie n�zkotlak� podzemn� pribl.
+A,2,-1,1,-1,2,-13,[633A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*634A,Plynovodn� potrubie strednotlak� nadzemn�
+A,2,-2,2,-2,2,-6,[634A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*634B,Plynovodn� potrubie strednotlak� podzemn�
+A,5,-2,5,-5.5,[634A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*634C,Plynovodn� potrubie strednotlak� podzemn� pribl.
+A,2,-1,1,-1,2,-13,[634A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*635A,Plynovodn� potrubie vysokotlak� nadzemn�
+A,2,-2,2,-2,2,-6,[635A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*635B,Plynovodn� potrubie vysokotlak� podzemn�
+A,5,-2,5,-5.5,[635A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*635C,Plynovodn� potrubie vysokotlak� podzemn� pribl.
+A,2,-1,1,-1,2,-13,[635A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*636A,Potrubie technick�ho plynu nadzemn�
+A,2,-2,2,-2,2,-6,[636A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*636B,Potrubie technick�ho plynu podzemn�
+A,5,-2,5,-5.5,[636A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*636C,Potrubie technick�ho plynu podzemn� pribl.
+A,2,-1,1,-1,2,-13,[636A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*637A,Potrubie stla�en�ho vzduchu nadzemn�
+A,2,-2,2,-2,2,-6,[637A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*637B,Potrubie stla�en�ho vzduchu podzemn�
+A,5,-2,5,-5.5,[637A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*637C,Potrubie stla�en�ho vzduchu podzemn� pribl.
+A,2,-1,1,-1,2,-13,[637A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*651A,Tepeln� potrubie bez rozl. druhu nadzemn�
+A,2,-2,2,-2,2,-6,[651A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*651B,Tepeln� potrubie bez rozl. druhu podzemn�
+A,5,-2,5,-5.5,[651A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*651C,Tepeln� potrubie bez rozl. druhu podzemn� pribl.
+A,2,-1,1,-1,2,-13,[651A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*652A,Prim�rny teplovodn� rozvod nadzemn�
+A,2,-2,2,-2,2,-6,[652A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*652B,Prim�rny teplovodn� rozvod podzemn�
+A,5,-2,5,-5.5,[652A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*652C,Prim�rny teplovodn� rozvod podzemn� pribl.
+A,2,-1,1,-1,2,-13,[652A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*653A,Prim�rny hor�covodn� rozvod nadzemn�
+A,2,-2,2,-2,2,-6,[653A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*653B,Prim�rny hor�covodn� rozvod podzemn�
+A,5,-2,5,-5.5,[653A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*653C,Prim�rny hor�covodn� rozvod podzemn� pribl.
+A,2,-1,1,-1,2,-13,[653A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*654A,Prim�rne tepeln� potrubie nadzemn�
+A,2,-2,2,-2,2,-6,[654A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*654B,Prim�rne tepeln� potrubie podzemn�
+A,5,-2,5,-5.5,[654A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*654C,Prim�rne tepeln� potrubie podzemn� pribl.
+A,2,-1,1,-1,2,-13,[654A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*655A,Sekund�rny rozvod tepla nadzemn�
+A,2,-2,2,-2,2,-6,[655A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*655B,Sekund�rny rozvod tepla podzemn�
+A,5,-2,5,-5.5,[655A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*655C,Sekund�rny rozvod tepla podzemn� pribl.
+A,2,-1,1,-1,2,-13,[655A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*659A,Vonkaj�ie silov� vedenie bez rozl. druhu nadzemn�
+A,2,-2,2,-2,2,-6,[659A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*659B,Vonkaj�ie silov� vedenie bez rozl. druhu podzemn�
+A,5,-2,5,-5.5,[659A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*659C,Vonkaj�ie silov� vedenie bez rozl. druhu podzemn� pribl.
+A,2,-1,1,-1,2,-13,[659A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*660A,Vonkaj�ie silov� vedenie NN nadzemn�
+A,2,-2,2,-2,2,-6,[660A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*660B,Vonkaj�ie silov� vedenie NN podzemn�
+A,5,-2,5,-5.5,[660A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*660C,Vonkaj�ie silov� vedenie NN podzemn� pribl.
+A,2,-1,1,-1,2,-13,[660A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*660D,Vonkaj�ie silov� vedenie NN podzemn� DP
+A,5,-2,4.5,-6,[660D,Linetypes.shx,x=0,y=0,s=0.1],-6,4.5,-2
+*660E,Vonkaj�ie silov� vedenie NN podzemn� VO
+A,5,-2,4.5,-6,[660E,Linetypes.shx,x=0,y=0,s=0.1],-6,4.5,-2
+*661A,Vonkaj�ie silov� vedenie VN nadzemn�
+A,2,-2,2,-2,2,-6,[661A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*661B,Vonkaj�ie silov� vedenie VN podzemn�
+A,5,-2,5,-5.5,[661A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*661C,Vonkaj�ie silov� vedenie VN podzemn� pribl.
+A,2,-1,1,-1,2,-13,[661A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*662A,Vonkaj�ie silov� vedenie VVN nadzemn�
+A,2,-2,2,-2,2,-6,[662A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*662B,Vonkaj�ie silov� vedenie VVN podzemn�
+A,5,-2,5,-5.5,[662A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*662C,Vonkaj�ie silov� vedenie VVN podzemn� pribl.
+A,2,-1,1,-1,2,-13,[662A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*663A,Ochrann� vedenie zemniace nadzemn�
+A,2,-2,2,-2,2,-6,[663A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*663B,Ochrann� vedenie zemniace podzemn�
+A,5,-2,5,-5.5,[663A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*663C,Ochrann� vedenie zemniace podzemn� pribl.
+A,2,-1,1,-1,2,-13,[663A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*664A,K�blov� spojka nadzemn�
+A,2,-2,2,-2,2,-6,[664A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*664B,K�blov� spojka podzemn�
+A,5,-2,5,-5.5,[664A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*664C,K�blov� spojka podzemn� pribl.
+A,2,-1,1,-1,2,-13,[664A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*670A,Slabopr�dov� vedenie spojov� nadzemn�
+A,2,-2,2,-2,2,-6,[670A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*670B,Slabopr�dov� vedenie spojov� podzemn�
+A,5,-2,5,-5.5,[670A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*670C,Slabopr�dov� vedenie spojov� podzemn� pribl.
+A,2,-1,1,-1,2,-13,[670A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*670D,Slabopr�dov� vedenie spojov� MR podzemn�
+A,5,-2,4.5,-6,[670D,Linetypes.shx,x=0,y=0,s=0.1],-6,4.5,-2
+*670E,Slabopr�dov� vedenie spojov� DK podzemn�
+A,5,-2,4.5,-6,[670E,Linetypes.shx,x=0,y=0,s=0.1],-6,4.5,-2
+*671A,Slabopr�dov� vedenie po�iarnej ochrany nadzemn�
+A,2,-2,2,-2,2,-6,[671A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*671B,Slabopr�dov� vedenie po�iarnej ochrany podzemn�
+A,5,-2,5,-5.5,[671A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*671C,Slabopr�dov� vedenie po�iarnej ochrany podzemn� pribl.
+A,2,-1,1,-1,2,-13,[671A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*672A,Slabopr�dov� vedenie hodin. zar. nadzemn�
+A,2,-2,2,-2,2,-6,[672A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*672B,Slabopr�dov� vedenie hodin. zar. podzemn�
+A,5,-2,5,-5.5,[672A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*672C,Slabopr�dov� vedenie hodin. zar. podzemn� pribl.
+A,2,-1,1,-1,2,-13,[672A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*673A,Vedenie pre ant�nny rozvod nadzemn�
+A,2,-2,2,-2,2,-6,[673A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*673B,Vedenie pre ant�nny rozvod podzemn�
+A,5,-2,5,-5.5,[673A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*673C,Vedenie pre ant�nny rozvod podzemn� pribl.
+A,2,-1,1,-1,2,-13,[673A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*674A,Potrubn� po�ta nadzemn�
+A,2,-2,2,-2,2,-6,[674A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*674B,Potrubn� po�ta podzemn�
+A,5,-2,5,-5.5,[674A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*674C,Potrubn� po�ta podzemn� pribl.
+A,2,-1,1,-1,2,-13,[674A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*680A,Produktovod nadzemn�
+A,2,-2,2,-2,2,-6,[680A,Linetypes.shx,x=0,y=0,s=0.1],-6,2,-2,2,-2
+*680B,Produktovod podzemn�
+A,5,-2,5,-5.5,[680A,Linetypes.shx,x=0,y=0,s=0.1],-5.5,5,-2
+*680C,Produktovod podzemn� pribl.
+A,2,-1,1,-1,2,-13,[680A,Linetypes.shx,x=-6.5,y=0,s=0.1],2,-1,1,-1,2,-3
+*802,Vodn� tok
+A,20,[802,Linetypes.shx,x=0,y=-1,s=0.1],.0001
+*807,Vodn� tok ob�asn�
+A,20,[807,Linetypes.shx,x=0,y=-1,s=0.1],.0001
+*901,Vrstevnice z�kladn�
+A,1,1
+*902,Vrstevnice z�kl. v jednofar. map�ch
+A,.3,-1
+*903,Vrstevnica zd�raznen�
+A,.0001,-.175,[423,Linetypes.shx,x=0,y=0,s=0.0175],-.175,.00001
+*904,Vrstevnica zd�raznen� v jednofarebn�ch map�ch
+A,.0001,-.15,[523A2,Linetypes.shx,x=0,y=0,s=0.05],-1.15
+*905A,Vrst. doplnkov� pre pol. int.
+A,5,-1
+*905B,Vrst. doplnkov� pre �tvr�. int.
+A,3,-1
+*906,Vrstevnice pomocn�
+A,2,-1
+*909,Ter�nny stupe� u��� ako .5 mm na mape
+A,20,[909,Linetypes.shx,x=0,y=0,s=0.05],.0001
+
+*_TI,Tepeln� izol�cia
+A,.000127,-.127,[TI,Linetypes.shx,x=-.127,s=.127],-.254,[TI,Linetypes.shx,r=180,x=.127,s=.127],-.127
+*_HI,Hydroizol�cia
+A,0.0001,-2,[HIA,Linetypes.shx,x=0,y=0,s=0.1],-2,-2,[HIB,Linetypes.shx,x=0,y=0,s=0.1],-2
+*_CIK,Cik-Cak
+A,10,-1,[CIK,Linetypes.shx,x=0,y=0,s=1],-1
+
