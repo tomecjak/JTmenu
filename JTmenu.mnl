@@ -59,7 +59,6 @@
 (AUTOLOAD "JT_commands" '("JTBlockScaleVar"))
 (AUTOLOAD "JT_commands" '("JTMenuScale"))
 (AUTOLOAD "JT_commands" '("JTPreviewMode"))
-(print)
 
 ;;----------------------------------------------------------------------;;
 ;;                              Dokumentacia                            ;;
