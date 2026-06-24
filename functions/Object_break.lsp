@@ -53,7 +53,7 @@
 (setq breakobject:dxf
    '(
         (006 . "BYLAYER") ;; Linetype (must be loaded)
-        (008 . "DP_Skryta ciara")  ;; Layer
+        (008 . "Defpoints")  ;; Layer
         (039 . 0.0)       ;; Thickness
         (048 . 1.0)       ;; Linetype Scale
         (062 . 256)       ;; Colour (0 = ByBlock, 256 = ByLayer)
