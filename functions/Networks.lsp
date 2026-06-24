@@ -11,6 +11,17 @@
 
 (defun c:JTNetworks ()
 
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;spustenie funkcie z JTmenu
+    (JTNetworksLines)
+    ;spustenie funkcie z DPPtools
+    (DppLines)
+  )
+  
+)
+
+(defun JTNetworksLines ()
+
   ;nacitanie dialogoveho okna
   (setq dcl_id (load_dialog "Networks.dcl"))
   
