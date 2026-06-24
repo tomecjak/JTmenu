@@ -4,29 +4,47 @@ on:
   push:
     branches:
       - JTmenu
+    # Zabranenie nekonecnej slucke - ignorovat commity od tohto workflow
+    paths-ignore:
+      - "AutoCAD plugin/JTmenu.bundle/Contents/**"
 
 jobs:
   build-bundle:
-    name: Copy files into JTmenu.bundle
+    name: Copy files into JTmenu.bundle/Contents
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: JTmenu
+          fetch-depth: 0
 
       - name: Create bundle Contents directory
         run: mkdir -p "AutoCAD plugin/JTmenu.bundle/Contents"
 
       - name: Copy folders into Contents
         run: |
-          cp -r functions  "AutoCAD plugin/JTmenu.bundle/Contents/"
-          cp -r icons      "AutoCAD plugin/JTmenu.bundle/Contents/"
-          cp -r resource   "AutoCAD plugin/JTmenu.bundle/Contents/"
+          cp -r functions "AutoCAD plugin/JTmenu.bundle/Contents/"
+          cp -r icons     "AutoCAD plugin/JTmenu.bundle/Contents/"
+          cp -r resource  "AutoCAD plugin/JTmenu.bundle/Contents/"
 
       - name: Copy root files into Contents
         run: |
-          cp JTMenu.cuix  "AutoCAD plugin/JTmenu.bundle/Contents/"
-          cp JTmenu.mnl   "AutoCAD plugin/JTmenu.bundle/Contents/"
+          cp JTMenu.cuix "AutoCAD plugin/JTmenu.bundle/Contents/"
+          cp JTmenu.mnl  "AutoCAD plugin/JTmenu.bundle/Contents/"
+
+      - name: Commit and push bundle Contents
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "AutoCAD plugin/JTmenu.bundle/Contents/"
+          # Commitni len ak su skutocne nejake zmeny
+          git diff --cached --quiet || git commit -m "bundle: update Contents from commit ${{ github.sha }}"
+          git push
 
       - name: Upload bundle as artifact
         uses: actions/upload-artifact@v4
