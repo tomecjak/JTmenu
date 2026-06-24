@@ -489,10 +489,18 @@
   ;nastavenie hladiny
   (setq oldLayer (LayerSetting))
   
-  ;prikaz na vlozenie blocku TabulkaVysok
-  (command "._insert" "TabulkaVysok" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-  
-  (princ)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku TabulkaVysok
+    (progn
+      (command "._insert" "TabulkaVysok" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
+    )
+    ;prikaz na vlozenie blocku TabulkaVysok z DPPtools
+    (progn
+      (command "._insert" "TabulkaVysok" "_S" 1 "_R" 0 pause)
+      (princ)
+    )
+  )
     
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (setvar "CLAYER" oldLayer)
@@ -529,10 +537,18 @@
   ;nastavenie hladiny
   (setq oldLayer (LayerSetting))
   
-  ;prikaz na vlozenie blocku ZnackaLoziska
-  (command "._insert" "ZnackaLoziska" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-  
-  (princ)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku ZnackaLoziska
+    (progn
+      (command "._insert" "ZnackaLoziska" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
+    )
+    ;prikaz na vlozenie blocku ZnackaLoziska z DPPtools
+    (progn
+      (command "._insert" "ZnackaLoziska" "_S" 1 "_R" 0 pause)
+      (princ)
+    )
+  ) 
 
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (setvar "CLAYER" oldLayer)
@@ -549,10 +565,18 @@
   ;nastavenie hladiny
   (setq oldLayer (LayerSetting))
   
-  ;prikaz na vlozenie blocku GeodetickaZnacka
-  (command "._insert" "GeodetickaZnacka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-  
-  (princ)
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku GeodetickaZnacka
+    (progn
+      (command "._insert" "GeodetickaZnacka" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
+    )
+    ;prikaz na vlozenie blocku GeodetickaZnacka z DPPtools
+    (progn
+      (command "._insert" "GeodetickaZnacka" "_S" 1 "_R" 0 pause)
+      (princ)
+    )
+  )
 
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (setvar "CLAYER" oldLayer)
