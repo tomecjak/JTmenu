@@ -3,7 +3,7 @@ name: Build JTmenu.bundle
 on:
   push:
     branches:
-      - JTmenu
+      ["main"]
 
 jobs:
   build-bundle:
