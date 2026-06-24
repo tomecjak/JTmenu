@@ -15,7 +15,7 @@
     ;spustenie funkcie z JTmenu
     (JTNetworksLines)
     ;spustenie funkcie z DPPtools
-    (DppLines)
+    (c:DppLines)
   )
   
 )
