@@ -461,11 +461,19 @@
   ;nastavenie hladiny
   (setq oldLayer (LayerSetting))
 
-  ;prikaz na vlozenie blocku VyskaBodu
-  (command "._insert" "VyskaBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
-  
-  (princ)
-    
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;prikaz na vlozenie blocku VyskaBodu
+    (progn
+      (command "._insert" "VyskaBodu" "_S" (/ (atof (getenv "GlobalnaBlocksScale")) 1000) "_R" 0 pause)
+      (princ)
+    )
+    ;prikaz na vlozenie blocku Vyskabodu z DPPtools
+    (progn
+      (command "._insert" "VyskaBodu" "_S" 1 "_R" 0 pause)
+      (princ)
+    )
+  )  
+      
   ;navrat na predchadzajucu hladiny a nastavenie skupiny hladiny na "All"
   (setvar "CLAYER" oldLayer)
 
