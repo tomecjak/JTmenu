@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ApplicationPackage
   SchemaVersion="1.0"
-  AppVersion="1.0.0"
+  AutodeskProduct="AutoCAD"
   Name="JTmenu"
-  Description="JTmenu - AutoCAD plugin pre infrastrukturne projekty"
-  Author="Jakub Tomecko"
-  Icon="./Contents/icons/JTmenu.png">
+  Description="JTmenu - AutoCAD rozšírenie"
+  AppVersion="1.0.0"
+  Author="tomecjak"
+  Icon="./Contents/icons/JTmenu.ico">
 
   <CompanyDetails
-    Name="Jakub Tomecko"
-    Url="https://github.com/tomecjak/JTmenu" />
+    Name="JT Tools"
+    Email="" />
 
   <Components>
+
+    <!-- 1. Načítanie LISP loadera pri štarte AutoCADu -->
     <ComponentEntry
       AppName="JTmenu"
       Version="1.0.0"
-      ModuleName="./Contents/JTmenu.mnl"
-      LoadOnAutoCADStartup="True">
-      <HostApplication
-        ProductType="AutoCAD"
-        Platform="Win32_64" />
-    </ComponentEntry>
-  </Components>
+      ModuleName="./Contents/JTmenuloader.lsp"
+      LoadOnAutoCADStartup="True" />
 
+    <!-- 2. Načítanie partial CUIX menu -->
+    <ComponentEntry
+      AppName="JTmenu_CUIX"
+      Version="1.0.0"
+      ModuleName="./Contents/JTMenu.cuix"
+      LoadOnAutoCADStartup="True" />
+
+  </Components>
 </ApplicationPackage>
