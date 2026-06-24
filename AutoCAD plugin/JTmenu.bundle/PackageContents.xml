@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage
+  SchemaVersion="1.0"
+  AppVersion="1.0.0"
+  Name="JTmenu"
+  Description="JTmenu - AutoCAD plugin pre infrastrukturne projekty"
+  Author="Jakub Tomecko"
+  Icon="./Contents/icons/JTmenu.png">
+
+  <CompanyDetails
+    Name="Jakub Tomecko"
+    Url="https://github.com/tomecjak/JTmenu" />
+
+  <Components>
+    <ComponentEntry
+      AppName="JTmenu"
+      Version="1.0.0"
+      ModuleName="./Contents/JTmenu.mnl"
+      LoadOnAutoCADStartup="True">
+      <HostApplication
+        ProductType="AutoCAD"
+        Platform="Win32_64" />
+    </ComponentEntry>
+  </Components>
+
+</ApplicationPackage>
