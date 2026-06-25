@@ -15,15 +15,15 @@
           (0 . "STYLE")
           (100 . "AcDbSymbolTableRecord")
           (100 . "AcDbTextStyleTableRecord")
-          (2 . "DP_ISOCPEUR")
-          (70 . 0)
-          (40 . 0.0);<- definovanie vysky textu
-          (41 . 1.0)
-          (50 . 0.0)
-          (71 . 0)
-          (42 . 2.0)
-          (3 . "isocpeur.ttf")
-          (4 . "")
+          (2 . "DP_ISOCPEUR")   ;nazov stylu textu
+          (70 . 0)              ;standard flag values (bit-coded values) 
+          (40 . 0.0)            ;vyska textu
+          (41 . 1.0)            ;sirka textu
+          (50 . 0.0)            ;uhol natočenia textu
+          (71 . 0)              ;generovanie textu "0" normalny text
+          (42 . 2.0)            ;posledna vyska textu
+          (3 . "isocpeur.ttf")  ;nazov fontu
+          (4 . "")              ;bigfont (prazde pre "no")
         )
       )
       ;prednastavenie textoveho stylu DP_ISOCPEUR
@@ -34,31 +34,84 @@
       ;DPP_Text 2.0
       (entmake
         (list
-         '(0 . "STYLE")
-         '(-3
-           ("AcadAnnotative"
-             (1000 . "AnnotativeData")
-             (1002 . "{")
-             (1070 . 1)
-             (1070 . 1)
-             (1002 . "}")
-           )
+          '(0 . "STYLE")
+          '(-3
+            ("AcadAnnotative"
+              (1000 . "AnnotativeData")
+              (1002 . "{")
+              (1070 . 1)
+              (1070 . 1)
+              (1002 . "}")
+            )
           )
-         '(100 . "AcDbSymbolTableRecord")
-         '(100 . "AcDbTextStyleTableRecord")
-         '(2 . "Tekst 2.5")     ;; Style name
-         '(70 . 0)              ;; Standard flag values (bit-coded values)
-         '(40 . 2.5)            ;; text height
-         '(41 . 1.0)            ;; width factor
-         '(50 . 0.0)            ;; oblique angle
-         '(71 . 0)              ;; text generation "0" normal text
-         '(42 . 0)              ;; last height used
-         '(3 . "Arial.ttf")     ;; font file name
-         '(4 . "")              ;; bigfont (blank for no)
-        )                        ;; end list
-      )                          ;; end entmake
+          
+          '(100 . "AcDbSymbolTableRecord")
+          '(100 . "AcDbTextStyleTableRecord")
+          '(2 . "DPP_Text 2.0 X") ;nazov stylu textu
+          '(70 . 0)               ;standard flag values (bit-coded values)
+          '(40 . 2.0)             ;vyska textu
+          '(41 . 1.0)             ;sirka textu
+          '(50 . 0.0)             ;uhol natočenia textu
+          '(71 . 0)               ;generovanie textu "0" normalny text
+          '(42 . 0)               ;posledna vyska textu
+          '(3 . "isocpeur.ttf")   ;nazov fontu
+          '(4 . "")               ;bigfont (prazde pre "no")
+        )                        
+      )                           
       ;DPP_Text 3.5
+      (entmake
+        (list
+          '(0 . "STYLE")
+          '(-3
+            ("AcadAnnotative"
+              (1000 . "AnnotativeData")
+              (1002 . "{")
+              (1070 . 1)
+              (1070 . 1)
+              (1002 . "}")
+            )
+          )
+          
+          '(100 . "AcDbSymbolTableRecord")
+          '(100 . "AcDbTextStyleTableRecord")
+          '(2 . "DPP_Text 3.5 X") ;nazov stylu textu
+          '(70 . 0)               ;standard flag values (bit-coded values)
+          '(40 . 3.5)             ;vyska textu
+          '(41 . 1.0)             ;sirka textu
+          '(50 . 0.0)             ;uhol natočenia textu
+          '(71 . 0)               ;generovanie textu "0" normalny text
+          '(42 . 0)               ;posledna vyska textu
+          '(3 . "isocpeur.ttf")   ;nazov fontu
+          '(4 . "")               ;bigfont (prazde pre "no")
+        )                        
+      ) 
       ;DPP_Text 5.0
+      (entmake
+        (list
+          '(0 . "STYLE")
+          '(-3
+            ("AcadAnnotative"
+              (1000 . "AnnotativeData")
+              (1002 . "{")
+              (1070 . 1)
+              (1070 . 1)
+              (1002 . "}")
+            )
+          )
+          
+          '(100 . "AcDbSymbolTableRecord")
+          '(100 . "AcDbTextStyleTableRecord")
+          '(2 . "DPP_Text 5.0 X") ;nazov stylu textu
+          '(70 . 0)               ;standard flag values (bit-coded values)
+          '(40 . 5.0)             ;vyska textu
+          '(41 . 1.0)             ;sirka textu
+          '(50 . 0.0)             ;uhol natočenia textu
+          '(71 . 0)               ;generovanie textu "0" normalny text
+          '(42 . 0)               ;posledna vyska textu
+          '(3 . "isocpeur.ttf")   ;nazov fontu
+          '(4 . "")               ;bigfont (prazde pre "no")
+        )                        
+      ) 
     )
   )
   
