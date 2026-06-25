@@ -436,7 +436,7 @@
   
   ;set tab Primary Units
   (setvar "DIMLUNIT" 2)
-  (setvar "DIMDSEP" ".")
+  (setvar "DIMDSEP" ",")
   (setvar "DIMAUNIT" 2)
   (setvar "DIMRND" 0)
   (setvar "DIMADEC" 0)
