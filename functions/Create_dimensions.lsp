@@ -375,20 +375,20 @@
   ;set tab Lines
   (setvar "DIMEXE" 1)
   (setvar "DIMFXLON" prepinacDlzkyCiary)
-  (setvar "DIMFXL" 1)
+  (setvar "DIMFXL" 4.5)
   
   ;set tab Symbols and Arrows
-  (setvar "DIMASZ" 1)
+  (setvar "DIMASZ" 1.4)
 
   ;set tab Text
   (setvar "DIMTXT" 1)
-  (setvar "DIMGAP" 1)
+  (setvar "DIMGAP" 0.9)
   
   ;set tab Primary Units
   (setvar "DIMLFAC" prepinacJednotiek)
   (if (= prepinacJednotiek 1000)
-    (setvar "DIMRND" 0)
-    (setvar "DIMRND" 0)
+    (setvar "DIMDEC" 0)
+    (setvar "DIMDEC" 2)
   )
   
   ;nastavenie jednotky v nazve koty
@@ -406,7 +406,7 @@
 (defun SetDPPDimensionParametres ()
          
   ;set tab Lines
-  (setvar "DIMDLI" 0.38)
+  (setvar "DIMDLI" 3.8)
   (setvar "DIMCLRD" 0)
   (setvar "DIMLTYPE" "BYBLOCK")
   (setvar "DIMLWD" -2)
@@ -440,9 +440,9 @@
   ;set tab Primary Units
   (setvar "DIMLUNIT" 2)
   (setvar "DIMDSEP" ".")
-  (setvar "DIMAUNIT" 0)
+  (setvar "DIMAUNIT" 2)
+  (setvar "DIMRND" 0)
   (setvar "DIMADEC" 0)
-  (setvar "DIMDEC" 0)
 )
 
 ;;----------------------------------------------------------------------;;
