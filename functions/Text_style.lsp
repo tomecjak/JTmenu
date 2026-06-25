@@ -47,7 +47,7 @@
           
           '(100 . "AcDbSymbolTableRecord")
           '(100 . "AcDbTextStyleTableRecord")
-          '(2 . "DPP_Text 2.0 X") ;nazov stylu textu
+          '(2 . "DPP_Text 2.0")   ;nazov stylu textu
           '(70 . 0)               ;standard flag values (bit-coded values)
           '(40 . 2.0)             ;vyska textu
           '(41 . 1.0)             ;sirka textu
@@ -74,7 +74,7 @@
           
           '(100 . "AcDbSymbolTableRecord")
           '(100 . "AcDbTextStyleTableRecord")
-          '(2 . "DPP_Text 3.5 X") ;nazov stylu textu
+          '(2 . "DPP_Text 3.5")   ;nazov stylu textu
           '(70 . 0)               ;standard flag values (bit-coded values)
           '(40 . 3.5)             ;vyska textu
           '(41 . 1.0)             ;sirka textu
@@ -101,7 +101,7 @@
           
           '(100 . "AcDbSymbolTableRecord")
           '(100 . "AcDbTextStyleTableRecord")
-          '(2 . "DPP_Text 5.0 X") ;nazov stylu textu
+          '(2 . "DPP_Text 5.0")   ;nazov stylu textu
           '(70 . 0)               ;standard flag values (bit-coded values)
           '(40 . 5.0)             ;vyska textu
           '(41 . 1.0)             ;sirka textu
