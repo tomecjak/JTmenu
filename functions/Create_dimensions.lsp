@@ -26,7 +26,7 @@
 
 (defun JTCreateDimensionsStyle()
   
-  ;vytvorenie textoveho stylu DP_ISOCPEUR
+  ;vytvorenie textoveho stylu JT_ISOCPEUR
   (TextStyleCreator)
   
   ;vytvorenie listu nasobicov pre vytvorenie kot
@@ -43,7 +43,7 @@
     )
   )
   
-  (princ "\nStyly kot boli vytvorene!")
+  (princ "\nStyly JTmenu kot boli vytvorene!")
   (princ)
 )
 
@@ -73,7 +73,7 @@
   )
   
   ;nastavenie predvybratoho kotovacieho stylu
-  (command "dimstyle" "r" "DP_Kota [50]")
+  (command "dimstyle" "r" "JT_Kota [50]")
   (princ)
 )
 
@@ -98,7 +98,7 @@
   )
 
   ;nastavenie predvybratoho kotovacieho stylu
-  (command "dimstyle" "r" "DP_Kota")
+  (command "dimstyle" "r" "JT_Kota")
   (princ)
 )
   
@@ -123,7 +123,7 @@
   )
 
   ;nastavenie predvybratoho kotovacieho stylu
-  (command "dimstyle" "r" "DP_Kota")
+  (command "dimstyle" "r" "JT_Kota")
   (princ)
 )
 
@@ -136,12 +136,12 @@
   ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
   (foreach i listNasobic
     (DimensionCreator i 0 1000 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
   (foreach i listNasobic
     (DimensionCreator i 0 1 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
 )
@@ -155,12 +155,12 @@
   ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES 
   (foreach i listNasobic
     (DimensionCreator i 1 1000 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
   (foreach i listNasobic
     (DimensionCreator i 1 1 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
 )
@@ -175,7 +175,7 @@
   (DimensionCreator 20 0 1000 0)
   (DimensionCreator 20 0 1 0)
   
-  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+  (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
 
 )
 
@@ -189,7 +189,7 @@
   (DimensionCreator 20 1 1000 0)
   (DimensionCreator 20 1 1 0)
   
-  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+  (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
 
 )
 
@@ -203,7 +203,7 @@
   (DimensionCreator 20 0 1000 1)
   (DimensionCreator 20 0 1 1)
   
-  (command "dimstyle" "_Annotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
+  (command "dimstyle" "_Annotative" "y" (strcat "JT_Kota") "s" (strcat "JT_Kota " jednotkaKoty))
 
 )
 
@@ -217,10 +217,10 @@
   (DimensionCreator 20 1 1000 1)
   (DimensionCreator 20 1 1 1)
   
-  (command "dimstyle" "_Annotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
-  (command "_.dimstyle" "_R" "DP_Kota")       ;nastavit DP_Kota ako current
+  (command "dimstyle" "_Annotative" "y" (strcat "JT_Kota") "s" (strcat "JT_Kota " jednotkaKoty))
+  (command "_.dimstyle" "_R" "JT_Kota")       ;nastavit JT_Kota ako current
   (setvar "DIMLFAC" 1000.0)                   ;scale Factor = 1000
-  (command "_.dimstyle" "_S" "DP_Kota" "y")   ;ulozit zmeny do stylu
+  (command "_.dimstyle" "_S" "JT_Kota" "y")   ;ulozit zmeny do stylu
 
 )
 
@@ -284,7 +284,7 @@
   (setvar "DIMARCSYM" 0)
   
   ;set tab Text
-  (setvar "DIMTXSTY" "DP_ISOCPEUR")
+  (setvar "DIMTXSTY" "JT_ISOCPEUR")
   (setvar "DIMCLRT" 0)
   (setvar "DIMTFILL" 0)
   (setvar "DIMTAD" 1)
@@ -309,7 +309,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;              Vytvorenie textoveho stylu DP_ISOCPEUR                  ;;
+;;              Vytvorenie textoveho stylu JT_ISOCPEUR                  ;;
 ;;----------------------------------------------------------------------;;
 
 (defun TextStyleCreator ()
@@ -318,7 +318,7 @@
     (0 . "STYLE")
     (100 . "AcDbSymbolTableRecord")
     (100 . "AcDbTextStyleTableRecord")
-    (2 . "DP_ISOCPEUR")
+    (2 . "JT_ISOCPEUR")
     (70 . 0)
     (40 . 0.0);<- definovanie vysky textu
     (41 . 1.0)
@@ -342,7 +342,7 @@
   
   (KotyDPPAnnotationMod)
   
-  (princ "\nStyly kot boli vytvorene!")
+  (princ "\nStyly DPP kot boli vytvorene!")
   (princ)
   
 )
@@ -357,11 +357,11 @@
   (DimensionDPPCreator 1 1000 1)
   (DimensionDPPCreator 1 1 1)
   
-  (command "dimstyle" "_Annotative" "y" (strcat "DPP_Kota mm") "s" (strcat "DPP_Kota " jednotkaKoty))
-  (command "_.dimstyle" "_R" "DPP_Kota mm")      ;nastavit DPP_Kota mm ako current
-  (setvar "DIMLFAC" 1000.0)
-(setvar "DIMDEC" 0)  ;scale Factor = 1000
-  (command "_.dimstyle" "_S" "DPP_Kota mm" "y")  ;ulozit zmeny do stylu
+  (command "dimstyle" "_Annotative" "y" (strcat "DPP_Koty mm") "s" (strcat "DPP_Koty " jednotkaKoty))
+  (command "_.dimstyle" "_R" "DPP_Koty mm")      ;nastavit DPP_Kota mm ako current
+  (setvar "DIMLFAC" 1000.0)                      ;scale Factor = 1000
+  (setvar "DIMDEC" 0)                            ;pocet desatinnych miest = 0
+  (command "_.dimstyle" "_S" "DPP_Koty mm" "y")  ;ulozit zmeny do stylu
   
 )
 

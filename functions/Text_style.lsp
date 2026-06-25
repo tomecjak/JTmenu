@@ -8,14 +8,14 @@
 (defun c:JTTextStyle ()
   
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
-    ;vytvorenie stylu textu DP_ISOCPEUR
+    ;vytvorenie stylu textu JT_ISOCPEUR
     (progn
       (entmakex
         '(
           (0 . "STYLE")
           (100 . "AcDbSymbolTableRecord")
           (100 . "AcDbTextStyleTableRecord")
-          (2 . "DP_ISOCPEUR")   ;nazov stylu textu
+          (2 . "JT_ISOCPEUR")   ;nazov stylu textu
           (70 . 0)              ;standard flag values (bit-coded values) 
           (40 . 0.0)            ;vyska textu
           (41 . 1.0)            ;sirka textu
@@ -26,8 +26,8 @@
           (4 . "")              ;bigfont (prazde pre "no")
         )
       )
-      ;prednastavenie textoveho stylu DP_ISOCPEUR
-      (setvar "textstyle" "DP_ISOCPEUR")
+      ;prednastavenie textoveho stylu JT_ISOCPEUR
+      (setvar "textstyle" "JT_ISOCPEUR")
     )
     ;vytvorenie stylu textu DPP_Text
     (progn
