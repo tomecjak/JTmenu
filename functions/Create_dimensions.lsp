@@ -359,8 +359,13 @@
   
   (command "dimstyle" "_Annotative" "y" (strcat "DPP_Kota mm") "s" (strcat "DPP_Kota " jednotkaKoty))
   (command "_.dimstyle" "_R" "DPP_Kota mm")      ;nastavit DPP_Kota mm ako current
-  (setvar "DIMLFAC" 1000.0)                      ;scale Factor = 1000
+  (setvar "DIMLFAC" 1000.0)
+(setvar "DIMDEC" 0)  ;scale Factor = 1000
   (command "_.dimstyle" "_S" "DPP_Kota mm" "y")  ;ulozit zmeny do stylu
+  
+  (command "_.dimstyle" "_R" "DPP_Kota m")      ;nastavit DPP_Kota mm ako current
+(setvar "DIMDEC" 2)  ;scale Factor = 1000
+  (command "_.dimstyle" "_S" "DPP_Kota m" "y")  ;ulozit zmeny do stylu
 
 )
 
@@ -386,10 +391,6 @@
   
   ;set tab Primary Units
   (setvar "DIMLFAC" prepinacJednotiek)
-  (if (= prepinacJednotiek 1000)
-    (setvar "DIMDEC" 0)
-    (setvar "DIMDEC" 2)
-  )
   
   ;nastavenie jednotky v nazve koty
   (if (= prepinacJednotiek 1000)
