@@ -32,7 +32,31 @@
     ;vytvorenie stylu textu DPP_Text
     (progn
       ;DPP_Text 2.0
-      (command "-style" "DP_ISOCPEUR-test" "isocpeur.ttf" "Annotative" 2.0 1.0 0 "N" "N")
+      (entmake
+        (list
+         '(0 . "STYLE")
+         '(-3
+           ("AcadAnnotative"
+             (1000 . "AnnotativeData")
+             (1002 . "{")
+             (1070 . 1)
+             (1070 . 1)
+             (1002 . "}")
+           )
+          )
+         '(100 . "AcDbSymbolTableRecord")
+         '(100 . "AcDbTextStyleTableRecord")
+         '(2 . "Tekst 2.5")     ;; Style name
+         '(70 . 0)              ;; Standard flag values (bit-coded values)
+         '(40 . 2.5)            ;; text height
+         '(41 . 1.0)            ;; width factor
+         '(50 . 0.0)            ;; oblique angle
+         '(71 . 0)              ;; text generation "0" normal text
+         '(42 . 0)              ;; last height used
+         '(3 . "Arial.ttf")     ;; font file name
+         '(4 . "")              ;; bigfont (blank for no)
+        )                        ;; end list
+      )                          ;; end entmake
       ;DPP_Text 3.5
       ;DPP_Text 5.0
     )
