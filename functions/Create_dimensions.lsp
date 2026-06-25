@@ -6,10 +6,25 @@
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
-;;                Vytvorenie jednotlivych stylov kot                    ;;
+;;                   Orchestrator vytvorenia kot                        ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTCreateDimensions()
+  
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;vytvorenie kot podla JTmenu
+    (JTCreateDimensionsStyle)
+    ;vytvorenie kot podla DPPtools
+    (DPPCreateDimensionsStyle)
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;            Vytvorenie jednotlivych stylov kot podla JTmenu           ;;
+;;----------------------------------------------------------------------;;
+
+(defun JTCreateDimensionsStyle()
   
   ;vytvorenie textoveho stylu DP_ISOCPEUR
   (TextStyleCreator)
@@ -188,7 +203,7 @@
   (DimensionCreator 20 0 1000 1)
   (DimensionCreator 20 0 1 1)
   
-  (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
+  (command "dimstyle" "_Annotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
 
 )
 
@@ -202,7 +217,7 @@
   (DimensionCreator 20 1 1000 1)
   (DimensionCreator 20 1 1 1)
   
-  (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
+  (command "dimstyle" "_Annotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
   (command "_.dimstyle" "_R" "DP_Kota")   ; nastaviť DP_Kota ako current
   (setvar "DIMLFAC" 1000.0)              ; Scale Factor = 1000
   (command "_.dimstyle" "_S" "DP_Kota" "y")  ; uložiť zmeny do štýlu
@@ -314,6 +329,155 @@
     (4 . "")
   )
   )
+)
+
+;;----------------------------------------------------------------------;;
+;;           Vytvorenie jednotlivych stylov kot podla DPPtools          ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPCreateDimensionsStyle()
+  
+  ;vytvorenie textoveho stylu DPP_Text 2.0
+  (TextStyleCreatorDPP)
+  
+  (KotyDPPAnnotationMod)
+  
+  (princ "\nStyly kot boli vytvorene!")
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;                  Koty DPP - pevna dlzka - annotation                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun KotyDPPAnnotationMod()
+
+  ;parametre prepinac
+  (DimensionDPPCreator 1 1000 1)
+  (DimensionDPPCreator 1 1 1)
+  
+  (command "dimstyle" "_Annotative" "y" (strcat "DPP_Kota") "s" (strcat "DPP_Kota " jednotkaKoty))
+  (command "_.dimstyle" "_R" "DPP_Kota mm")      ;nastavit DPP_Kota mm ako current
+  (setvar "DIMLFAC" 1000.0)                      ;scale Factor = 1000
+  (command "_.dimstyle" "_S" "DPP_Kota mm" "y")  ;ulozit zmeny do stylu
+
+)
+
+;;----------------------------------------------------------------------;;
+;;                   Nastavenie parametrov DPP koty                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun DimensionDPPCreator (prepinacDlzkyCiary prepinacJednotiek prepinacAnnotative)
+
+  (SetDPPDimensionParametres)
+  
+  ;set tab Lines
+  (setvar "DIMEXE" 1)
+  (setvar "DIMFXLON" prepinacDlzkyCiary)
+  (setvar "DIMFXL" 1)
+  
+  ;set tab Symbols and Arrows
+  (setvar "DIMASZ" 1)
+
+  ;set tab Text
+  (setvar "DIMTXT" 1)
+  (setvar "DIMGAP" 1)
+  
+  ;set tab Primary Units
+  (setvar "DIMLFAC" prepinacJednotiek)
+  (if (= prepinacJednotiek 1000)
+    (setvar "DIMRND" 0)
+    (setvar "DIMRND" 0)
+  )
+  
+  ;nastavenie jednotky v nazve koty
+  (if (= prepinacJednotiek 1000)
+    (setq jednotkaKoty "mm")
+    (setq jednotkaKoty "m")
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;               Pevne nastavenia pre vsetky DPP koty                   ;;
+;;----------------------------------------------------------------------;;
+
+(defun SetDPPDimensionParametres ()
+         
+  ;set tab Lines
+  (setvar "DIMDLI" 0.38)
+  (setvar "DIMCLRD" 0)
+  (setvar "DIMLTYPE" "BYBLOCK")
+  (setvar "DIMLWD" -2)
+  (setvar "DIMDLE" 0)
+  (setvar "DIMCLRE" 0)
+  (setvar "DIMLTEX1" "BYBLOCK")
+  (setvar "DIMLTEX2" "BYBLOCK")
+  (setvar "DIMLWE" -2)
+  (setvar "DIMEXO" 0)
+  
+  ;set tab Symbols and Arrows
+  (setvar "DIMBLK" "_OBLIQUE")
+  (setvar "DIMARCSYM" 0)
+  
+  ;set tab Text
+  (setvar "DIMTXSTY" "DPP_Text 2.0")
+  (setvar "DIMCLRT" 0)
+  (setvar "DIMTFILL" 0)
+  (setvar "DIMTAD" 1)
+  (setvar "DIMTIH" 0)
+  (setvar "DIMTOH" 0)
+  (setvar "DIMJUST" 0)
+  (setvar "DIMTXTDIRECTION" 0)
+  
+  ;set tab Fit
+  (setvar "DIMATFIT" 3)
+  (setvar "DIMTMOVE" 1)
+  (setvar "DIMUPT" 0)
+  (setvar "DIMTOFL" 1)
+  
+  ;set tab Primary Units
+  (setvar "DIMLUNIT" 2)
+  (setvar "DIMDSEP" ".")
+  (setvar "DIMAUNIT" 0)
+  (setvar "DIMADEC" 0)
+  (setvar "DIMDEC" 0)
+)
+
+;;----------------------------------------------------------------------;;
+;;              Vytvorenie textoveho stylu DPP_Text 2.0                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun TextStyleCreatorDPP()
+
+      (entmake
+        (list
+          '(0 . "STYLE")
+          '(-3
+            ("AcadAnnotative"
+              (1000 . "AnnotativeData")
+              (1002 . "{")
+              (1070 . 1)
+              (1070 . 1)
+              (1002 . "}")
+            )
+          )
+          
+          '(100 . "AcDbSymbolTableRecord")
+          '(100 . "AcDbTextStyleTableRecord")
+          '(2 . "DPP_Text 2.0")   ;nazov stylu textu
+          '(70 . 0)               ;standard flag values (bit-coded values)
+          '(40 . 2.0)             ;vyska textu
+          '(41 . 1.0)             ;sirka textu
+          '(50 . 0.0)             ;uhol natočenia textu
+          '(71 . 0)               ;generovanie textu "0" normalny text
+          '(42 . 0)               ;posledna vyska textu
+          '(3 . "isocpeur.ttf")   ;nazov fontu
+          '(4 . "")               ;bigfont (prazde pre "no")
+        )                        
+      )   
+
 )
 
 ;;----------------------------------------------------------------------;;
