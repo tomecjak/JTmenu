@@ -218,9 +218,9 @@
   (DimensionCreator 20 1 1 1)
   
   (command "dimstyle" "_Annotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
-  (command "_.dimstyle" "_R" "DP_Kota")   ; nastaviť DP_Kota ako current
-  (setvar "DIMLFAC" 1000.0)              ; Scale Factor = 1000
-  (command "_.dimstyle" "_S" "DP_Kota" "y")  ; uložiť zmeny do štýlu
+  (command "_.dimstyle" "_R" "DP_Kota")       ;nastavit DP_Kota ako current
+  (setvar "DIMLFAC" 1000.0)                   ;scale Factor = 1000
+  (command "_.dimstyle" "_S" "DP_Kota" "y")   ;ulozit zmeny do stylu
 
 )
 
@@ -357,7 +357,7 @@
   (DimensionDPPCreator 1 1000 1)
   (DimensionDPPCreator 1 1 1)
   
-  (command "dimstyle" "_Annotative" "y" (strcat "DPP_Kota " jednotkaKoty) "s")
+  (command "dimstyle" "_Annotative" "y" (strcat "DP_Kota mm") "s" (strcat "DP_Kota " jednotkaKoty))
   (command "_.dimstyle" "_R" "DPP_Kota mm")      ;nastavit DPP_Kota mm ako current
   (setvar "DIMLFAC" 1000.0)                      ;scale Factor = 1000
   (command "_.dimstyle" "_S" "DPP_Kota mm" "y")  ;ulozit zmeny do stylu
