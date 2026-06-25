@@ -205,7 +205,7 @@
   (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
   (command "_.dimstyle" "_R" "DP_Kota")   ; nastaviť DP_Kota ako current
   (setvar "DIMLFAC" 1000.0)              ; Scale Factor = 1000
-  (command "_.dimstyle" "_S" "DP_Kota")  ; uložiť zmeny do štýlu
+  ;(command "_.dimstyle" "_S" "DP_Kota")  ; uložiť zmeny do štýlu
 
 )
 
