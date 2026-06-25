@@ -185,8 +185,8 @@
 (defun KotyVlastneAnnotation()
 
   ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
-  (DimensionCreator 20 0 1000 1)
-  (DimensionCreator 20 0 1 1)
+  (DimensionCreator 1 0 1000 1)
+  (DimensionCreator 1 0 1 1)
   
   (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
 
@@ -199,8 +199,8 @@
 (defun KotyPevneAnnotation()
 
   ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
-  (DimensionCreator 20 1 1000 1)
-  (DimensionCreator 20 1 1 1)
+  (DimensionCreator 1 1 1000 1)
+  (DimensionCreator 1 1 1 1)
   
   (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
 
