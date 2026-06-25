@@ -363,10 +363,6 @@
 (setvar "DIMDEC" 0)  ;scale Factor = 1000
   (command "_.dimstyle" "_S" "DPP_Kota mm" "y")  ;ulozit zmeny do stylu
   
-  (command "_.dimstyle" "_R" "DPP_Kota m")      ;nastavit DPP_Kota mm ako current
-(setvar "DIMDEC" 2)  ;scale Factor = 1000
-  (command "_.dimstyle" "_S" "DPP_Kota m" "y")  ;ulozit zmeny do stylu
-
 )
 
 ;;----------------------------------------------------------------------;;
@@ -444,6 +440,7 @@
   (setvar "DIMAUNIT" 2)
   (setvar "DIMRND" 0)
   (setvar "DIMADEC" 0)
+  (setvar "DIMDEC" 2)
 )
 
 ;;----------------------------------------------------------------------;;
