@@ -524,13 +524,13 @@
     (list
       '("AlignSpace" 4)
       (list "ArrowSize"
-            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 1.6)
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 1.2)
       )
       '("BitFlags" 0)
       '("BlockConnectionType" 1)
       '("BlockRotation" 0.0)
       '("BlockScale" 1.0)
-      '("BreakSize" 1.0)
+      '("BreakSize" 2.0)
       '("ContentType" 2)   ; MTEXT
       '("Description" "")
       '("DoglegLength" 2.0)
@@ -543,7 +543,7 @@
       '("EnableLanding" -1)
       '("FirstSegmentAngleConstraint" 0)
       (list "LandingGap"
-            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 1)
       )
       '("LeaderLineType" 1)
       '("LeaderLineTypeId" "ByBlock")
@@ -552,8 +552,8 @@
       '("ScaleFactor" 1.0)
       '("SecondSegmentAngleConstraint" 0)
       '("TextAlignmentType" 0)
-      '("TextAngleType" 0)
-      '("TextHeight" 2.5)        ; papierová výška
+      '("TextAngleType" 1)
+      '("TextHeight" 2.0)        ; papierová výška
       '("TextLeftAttachmentType" 4)
       '("TextRightAttachmentType" 4)
       '("TextString" "Default\\PText")
@@ -661,7 +661,7 @@
       '("BlockConnectionType" 1)
       '("BlockRotation" 0.0)
       '("BlockScale" 1.0)
-      '("BreakSize" 1.0)
+      '("BreakSize" 2.0)
       '("ContentType" 2)   ; MTEXT
       '("Description" "")
       '("DoglegLength" 2.0)
@@ -674,7 +674,7 @@
       '("EnableLanding" -1)
       '("FirstSegmentAngleConstraint" 0)
       (list "LandingGap"
-            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 1)
       )
       '("LeaderLineType" 1)
       '("LeaderLineTypeId" "ByBlock")
@@ -683,8 +683,8 @@
       '("ScaleFactor" 1.0)
       '("SecondSegmentAngleConstraint" 0)
       '("TextAlignmentType" 0)
-      '("TextAngleType" 0)
-      '("TextHeight" 2.5)        ; papierová výška
+      '("TextAngleType" 1)
+      '("TextHeight" 2.0)        ; papierová výška
       '("TextLeftAttachmentType" 4)
       '("TextRightAttachmentType" 4)
       '("TextString" "Default\\PText")
