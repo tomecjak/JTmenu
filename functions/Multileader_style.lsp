@@ -6,29 +6,45 @@
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
-;;            Vytvorenie jednotlivych stylov multileadrov               ;;
+;;                   Orchestrator vytvorenia kot                        ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTMultileader()
   
-  ;vytvorenie textoveho stylu DP_ISOCPEUR
-  (TextStyleCreator)
-
-  ;vyhodnotenie pouzitia stylu kot podla modu
-  (if (= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-      (msv_klasika)
-    
-      (if (= (getenv "GlobalnaDIMSCALEset") "Mierka")
-        (msv_mierka)
-      )
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;vytvorenie leadru podla JTmenu
+    (JTMenuMultileader)
+    ;vytvorenie leadru podla DPPtools
+    (DPPtoolsMultileader)
   )
   
-  (princ "\nStyl multileadru bol vytvoreny!")
+)
+
+;;----------------------------------------------------------------------;;
+;;            Vytvorenie jednotlivych stylov multileadrov               ;;
+;;----------------------------------------------------------------------;;
+
+(defun JTMenuMultileader()
+  
+  (TextStyleCreator)
+  
+  ;vyhodnotenie pouzitia stylu kot podla modu
+  (if (= (getenv "GlobalnaKotyDIMSCALEset") "Klasicky")
+      (msv_klasika)
+    (if (= (getenv "GlobalnaKotyDIMSCALEset") "Mierka")
+        (msv_mierka)
+      (if (= (getenv "GlobalnaKotyDIMSCALEset") "Annotation")
+          (msv_annotation)
+      )
+    )
+  )
+
+  (princ "\nStyl JTmenu multileadru bol vytvoreny!")
   (princ)
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Nastavenie multileadru - klasicky mod                  ;;
+;;            Nastavenie JTmenu multileadru - klasicky mod              ;;
 ;;----------------------------------------------------------------------;;
 
 (defun make_mleader_style_klasicky	(mleaderstylename
@@ -81,7 +97,7 @@
 	     '("BlockScale" 1.0)
 	     '("BreakSize" 0.05)
 	     '("ContentType" 2)		;nastavenie mtextu
-	     '("Description" "My Style Description")
+	     '("Description" "")
 	     '("DoglegLength" 0.1)
 	     '("DrawLeaderOrderType" 0)
 	     '("DrawMLeaderOrderType" 1)
@@ -107,7 +123,7 @@
 	     '("TextLeftAttachmentType" 4)
 	     '("TextRightAttachmentType" 4)
 	     '("TextString" "Default\\PText")
-	     '("TextStyle" "DP_ISOCPEUR")
+	     '("TextStyle" "JT_ISOCPEUR")
 	   )
 
     (vlax-put newldrstyle (car item) (cadr item))
@@ -116,7 +132,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;                Nastavenie multileadru - mierka mod                   ;;
+;;             Nastavenie JTmenu multileadru - mierka mod               ;;
 ;;----------------------------------------------------------------------;;
 
 (defun make_mleader_style_mierka	(mleaderstylename
@@ -169,7 +185,7 @@
 	     '("BlockScale" 1.0)
 	     '("BreakSize" 1.0)
 	     '("ContentType" 2)		;nastavenie mtextu
-	     '("Description" "My Style Description")
+	     '("Description" "")
 	     '("DoglegLength" 2.0)
 	     '("DrawLeaderOrderType" 0)
 	     '("DrawMLeaderOrderType" 1)
@@ -195,7 +211,7 @@
 	     '("TextLeftAttachmentType" 4)
 	     '("TextRightAttachmentType" 4)
 	     '("TextString" "Default\\PText")
-	     '("TextStyle" "DP_ISOCPEUR")
+	     '("TextStyle" "JT_ISOCPEUR")
 	   )
 
     (vlax-put newldrstyle (car item) (cadr item))
@@ -204,7 +220,90 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Vytvorenie multileadru - klasicky mod                  ;;
+;;             Nastavenie Jtmenu multileadru - anno mod                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun make_mleader_style_annotation  (mleaderstylename
+                                       textcolor
+                                       leadercolor
+                                       /
+                                       adoc
+                                       mldrdict
+                                       newldrstyle
+                                       objcolor
+                                      )
+  (vl-load-com)
+  (setq adoc     (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (setq mldrdict (vla-item (vla-get-dictionaries adoc) "ACAD_MLEADERSTYLE"))
+  (setq newldrstyle
+        (vlax-invoke mldrdict 'addobject mleaderstylename "AcDbMLeaderStyle"))
+
+  (setq objcolor (vla-getinterfaceobject
+                   (vlax-get-acad-object)
+                   (strcat "AutoCAD.AcCmColor."
+                           (substr (getvar "acadver") 1 2)
+                   )
+                 )
+  )
+
+  ;; farby
+  (vla-put-colorindex objcolor textcolor)
+  (vla-put-textcolor newldrstyle objcolor)
+  (vla-put-colorindex objcolor leadercolor)
+  (vla-put-leaderlinecolor newldrstyle objcolor)
+
+  ;; nastavenie vlastností vrátane Annotative
+  (foreach item
+    (list
+      '("AlignSpace" 4)
+      (list "ArrowSize"
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 1.6)
+      )
+      '("BitFlags" 0)
+      '("BlockConnectionType" 1)
+      '("BlockRotation" 0.0)
+      '("BlockScale" 1.0)
+      '("BreakSize" 1.0)
+      '("ContentType" 2)   ; MTEXT
+      '("Description" "")
+      '("DoglegLength" 2.0)
+      '("DrawLeaderOrderType" 0)
+      '("DrawMLeaderOrderType" 1)
+      '("EnableBlockRotation" -1)
+      '("EnableBlockScale" -1)
+      '("EnableDogleg" -1)
+      '("EnableFrameText" 0)
+      '("EnableLanding" -1)
+      '("FirstSegmentAngleConstraint" 0)
+      (list "LandingGap"
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
+      )
+      '("LeaderLineType" 1)
+      '("LeaderLineTypeId" "ByBlock")
+      '("LeaderLineWeight" -3)
+      '("MaxLeaderSegmentsPoints" 2)
+      '("ScaleFactor" 1.0)
+      '("SecondSegmentAngleConstraint" 0)
+      '("TextAlignmentType" 0)
+      '("TextAngleType" 0)
+      '("TextHeight" 2.5)        ; papierová výška
+      '("TextLeftAttachmentType" 4)
+      '("TextRightAttachmentType" 4)
+      '("TextString" "Default\\PText")
+      '("TextStyle" "JT_ISOCPEUR")
+    )
+
+    (vlax-put newldrstyle (car item) (cadr item))
+  )
+
+  ;; tu sa prepina annotativnost stylu
+  (vlax-put-property newldrstyle 'Annotative :vlax-true)  [web:176][web:187]
+
+  newldrstyle
+)
+
+;;----------------------------------------------------------------------;;
+;;           Vytvorenie JTmenu multileadru - klasicky mod               ;;
 ;;----------------------------------------------------------------------;;
 
 (defun msv_klasika (/ *error* ms)
@@ -226,12 +325,12 @@
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
 	  '(lambda ()
-	     (setq ms (make_mleader_style_klasicky "DP_Multileader" 0 0))
+	     (setq ms (make_mleader_style_klasicky "JT_Multileader" 0 0))
 	   )
 	) 
       )
     (alert "Problem s vytvorenim stylu multileadru!")
-    (setvar "CMLEADERSTYLE" "DP_Multileader")
+    (setvar "CMLEADERSTYLE" "JT_Multileader")
   ) 
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
@@ -246,11 +345,12 @@
       ) 
     ) 
   ) 
+  
   (princ)
 ) 
 
 ;;----------------------------------------------------------------------;;
-;;                Vytvorenie multileadru - mierka mod                   ;;
+;;             Vytvorenie JTmenu multileadru - mierka mod               ;;
 ;;----------------------------------------------------------------------;;
 
 ;; Test
@@ -273,12 +373,12 @@
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
 	  '(lambda ()
-	     (setq ms (make_mleader_style_mierka "DP_Multileader" 0 0))
+	     (setq ms (make_mleader_style_mierka "JT_Multileader" 0 0))
 	   ) 
 	) 
       ) 
     (alert "Problem s vytvorenim stylu multileadru!")
-    (setvar "CMLEADERSTYLE" "DP_Multileader")
+    (setvar "CMLEADERSTYLE" "JT_Multileader")
   ) 
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
@@ -293,11 +393,60 @@
       )
     ) 
   ) 
+  
   (princ)
 ) 
 
 ;;----------------------------------------------------------------------;;
-;;              Vytvorenie textoveho stylu DP_ISOCPEUR                  ;;
+;;              Vytvorenie JTmenu multileadru - anno mod                ;;
+;;----------------------------------------------------------------------;;
+
+(defun msv_annotation (/ *error* ms)
+
+  (vl-load-com)
+
+  (defun *error* (msg)
+    (command "_undo" "_e")
+    (if (and msg
+             (not (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*"))
+        )
+      (princ (strcat "\nError: " msg))
+    )
+    (princ)
+  )
+  (command "_undo" "_be")
+
+  (if (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda ()
+             (setq ms (make_mleader_style_annotation "JT_Multileader" 0 0))
+           )
+        )
+      )
+    (alert "Problem s vytvorenim annotativneho stylu multileadru!")
+    (setvar "CMLEADERSTYLE" "JT_Multileader")
+  )
+
+  ;; nastavenie sipky
+  (if (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda () (vla-put-arrowsymbol ms "_Origin2"))
+        )
+      )
+    (not
+      (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda () (vla-put-arrowsymbol ms acarrowdefault))
+        )
+      )
+    )
+  )
+
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;              Vytvorenie textoveho stylu JT_ISOCPEUR                  ;;
 ;;----------------------------------------------------------------------;;
 
 (defun TextStyleCreator ()
@@ -306,7 +455,7 @@
     (0 . "STYLE")
     (100 . "AcDbSymbolTableRecord")
     (100 . "AcDbTextStyleTableRecord")
-    (2 . "DP_ISOCPEUR")
+    (2 . "JT_ISOCPEUR")
     (70 . 0)
     (40 . 0.0);<- definovanie vysky textu
     (41 . 1.0)
@@ -317,6 +466,354 @@
     (4 . "")
   )
   )
+)
+
+;;----------------------------------------------------------------------;;
+;;          Vytvorenie jednotlivych stylov kot podla DPPtools           ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPtoolsMultileader()
+  
+  ;vytvorenie textoveho stylu DPP_Text 2.0
+  (TextStyleCreatorDPP)
+  
+  ;multileader - sipka
+  (DPPtools_msv_annotation_sipka)
+  ;multileader - uzol
+  (DPPtools_msv_annotation_uzol)
+  
+  ;nastavenie Set landing distance = 1
+  (DPPtools_MLeaderLandingDistance "DPP_Sipka X" 1 T)
+  (DPPtools_MLeaderLandingDistance "DPP_Uzol X" 1 T)
+  
+  (princ "\nStyly DPPtools multileadrov boli vytvorene!")
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;          Nastavenie DPPtools multileadru - anno mod - sipka          ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPtools_make_mleader_style_annotation_sipka  (mleaderstylename
+                                       textcolor
+                                       leadercolor
+                                       /
+                                       adoc
+                                       mldrdict
+                                       newldrstyle
+                                       objcolor
+                                      )
+  (vl-load-com)
+  (setq adoc     (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (setq mldrdict (vla-item (vla-get-dictionaries adoc) "ACAD_MLEADERSTYLE"))
+  (setq newldrstyle
+        (vlax-invoke mldrdict 'addobject mleaderstylename "AcDbMLeaderStyle"))
+
+  (setq objcolor (vla-getinterfaceobject
+                   (vlax-get-acad-object)
+                   (strcat "AutoCAD.AcCmColor."
+                           (substr (getvar "acadver") 1 2)
+                   )
+                 )
+  )
+
+  ;; farby
+  (vla-put-colorindex objcolor textcolor)
+  (vla-put-textcolor newldrstyle objcolor)
+  (vla-put-colorindex objcolor leadercolor)
+  (vla-put-leaderlinecolor newldrstyle objcolor)
+
+  ;; nastavenie vlastností vrátane Annotative
+  (foreach item
+    (list
+      '("AlignSpace" 4)
+      (list "ArrowSize"
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 2)
+      )
+      '("BitFlags" 0)
+      '("BlockConnectionType" 1)
+      '("BlockRotation" 0.0)
+      '("BlockScale" 1.0)
+      '("BreakSize" 2.0)
+      '("ContentType" 2)   ; MTEXT
+      '("Description" "")
+      '("DoglegLength" 2.0)
+      '("DrawLeaderOrderType" 0)
+      '("DrawMLeaderOrderType" 1)
+      '("EnableBlockRotation" -1)
+      '("EnableBlockScale" -1)
+      '("EnableDogleg" -1)
+      '("EnableFrameText" 0)
+      '("EnableLanding" -1)
+      '("FirstSegmentAngleConstraint" 0)
+      (list "LandingGap"
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
+      )
+      '("LeaderLineType" 1)
+      '("LeaderLineTypeId" "ByBlock")
+      '("LeaderLineWeight" -3)
+      '("MaxLeaderSegmentsPoints" 2)
+      '("ScaleFactor" 1.0)
+      '("SecondSegmentAngleConstraint" 0)
+      '("TextAlignmentType" 0)
+      '("TextAngleType" 1)
+      '("TextHeight" 2.0)        ; papierová výška
+      '("TextLeftAttachmentType" 4)
+      '("TextRightAttachmentType" 4)
+      '("TextString" "Default\\PText")
+      '("TextStyle" "DPP_Text 2.0")
+    )
+
+    (vlax-put newldrstyle (car item) (cadr item))
+  )
+
+  ;; tu sa prepina annotativnost stylu
+  (vlax-put-property newldrstyle 'Annotative :vlax-true)  [web:176][web:187]
+
+  newldrstyle
+)
+
+;;----------------------------------------------------------------------;;
+;;          Vytvorenie DPPtools multileadru - anno mod - sipka          ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPtools_msv_annotation_sipka (/ *error* ms)
+
+  (vl-load-com)
+
+  (defun *error* (msg)
+    (command "_undo" "_e")
+    (if (and msg
+             (not (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*"))
+        )
+      (princ (strcat "\nError: " msg))
+    )
+    (princ)
+  )
+  (command "_undo" "_be")
+
+  (if (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda ()
+             (setq ms (DPPtools_make_mleader_style_annotation_sipka "DPP_Sipka X" 0 0))
+           )
+        )
+      )
+    (alert "Problem s vytvorenim annotativneho stylu multileadru!")
+    (setvar "CMLEADERSTYLE" "DPP_Sipka X")
+  )
+
+  ;; nastavenie sipky
+  (if (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda () (vla-put-arrowsymbol ms "_Origin2"))
+        )
+      )
+    (not
+      (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda () (vla-put-arrowsymbol ms acarrowdefault))
+        )
+      )
+    )
+  )
+
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;           Nastavenie DPPtools multileadru - anno mod - uzol          ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPtools_make_mleader_style_annotation_uzol  (mleaderstylename
+                                       textcolor
+                                       leadercolor
+                                       /
+                                       adoc
+                                       mldrdict
+                                       newldrstyle
+                                       objcolor
+                                      )
+  (vl-load-com)
+  (setq adoc     (vla-get-ActiveDocument (vlax-get-acad-object)))
+  (setq mldrdict (vla-item (vla-get-dictionaries adoc) "ACAD_MLEADERSTYLE"))
+  (setq newldrstyle
+        (vlax-invoke mldrdict 'addobject mleaderstylename "AcDbMLeaderStyle"))
+
+  (setq objcolor (vla-getinterfaceobject
+                   (vlax-get-acad-object)
+                   (strcat "AutoCAD.AcCmColor."
+                           (substr (getvar "acadver") 1 2)
+                   )
+                 )
+  )
+
+  ;; farby
+  (vla-put-colorindex objcolor textcolor)
+  (vla-put-textcolor newldrstyle objcolor)
+  (vla-put-colorindex objcolor leadercolor)
+  (vla-put-leaderlinecolor newldrstyle objcolor)
+
+  ;; nastavenie vlastností vrátane Annotative
+  (foreach item
+    (list
+      '("AlignSpace" 4)
+      (list "ArrowSize"
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 4)
+      )
+      '("BitFlags" 0)
+      '("BlockConnectionType" 1)
+      '("BlockRotation" 0.0)
+      '("BlockScale" 1.0)
+      '("BreakSize" 2.0)
+      '("ContentType" 2)   ; MTEXT
+      '("Description" "")
+      '("DoglegLength" 2.0)
+      '("DrawLeaderOrderType" 0)
+      '("DrawMLeaderOrderType" 1)
+      '("EnableBlockRotation" -1)
+      '("EnableBlockScale" -1)
+      '("EnableDogleg" -1)
+      '("EnableFrameText" 0)
+      '("EnableLanding" -1)
+      '("FirstSegmentAngleConstraint" 0)
+      (list "LandingGap"
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
+      )
+      '("LeaderLineType" 1)
+      '("LeaderLineTypeId" "ByBlock")
+      '("LeaderLineWeight" -3)
+      '("MaxLeaderSegmentsPoints" 2)
+      '("ScaleFactor" 1.0)
+      '("SecondSegmentAngleConstraint" 0)
+      '("TextAlignmentType" 0)
+      '("TextAngleType" 1)
+      '("TextHeight" 2.0)        ; papierová výška
+      '("TextLeftAttachmentType" 4)
+      '("TextRightAttachmentType" 4)
+      '("TextString" "Default\\PText")
+      '("TextStyle" "DPP_Text 2.0")
+    )
+
+    (vlax-put newldrstyle (car item) (cadr item))
+  )
+
+  ;; tu sa prepina annotativnost stylu
+  (vlax-put-property newldrstyle 'Annotative :vlax-true)  [web:176][web:187]
+
+  newldrstyle
+)
+
+;;----------------------------------------------------------------------;;
+;;          Vytvorenie DPPtools multileadru - anno mod - uzol           ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPtools_msv_annotation_uzol (/ *error* ms)
+
+  (vl-load-com)
+
+  (defun *error* (msg)
+    (command "_undo" "_e")
+    (if (and msg
+             (not (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*"))
+        )
+      (princ (strcat "\nError: " msg))
+    )
+    (princ)
+  )
+  (command "_undo" "_be")
+
+  (if (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda ()
+             (setq ms (DPPtools_make_mleader_style_annotation_uzol "DPP_Uzol X" 0 0))
+           )
+        )
+      )
+    (alert "Problem s vytvorenim annotativneho stylu multileadru!")
+    (setvar "CMLEADERSTYLE" "DPP_Uzol X")
+  )
+
+  ;; nastavenie uzla
+  (if (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda () (vla-put-arrowsymbol ms "_Dot"))
+        )
+      )
+    (not
+      (vl-catch-all-error-p
+        (vl-catch-all-apply
+          '(lambda () (vla-put-arrowsymbol ms acarrowdefault))
+        )
+      )
+    )
+  )
+
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;         Pomocna funkcie pre nastavenie Set Landing Distance          ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPtools_MLeaderLandingDistance (sty dist flg / dic)
+
+  (if (and
+        (setq dic (dictsearch (namedobjdict) "ACAD_MLEADERSTYLE"))
+        (setq dic (dictsearch (cdr (assoc -1 dic)) sty))
+      )
+    (progn
+      (setq dic (subst (cons 43 (abs dist)) (assoc 43 dic) dic))
+
+      (setq dic
+        (subst
+          (cons 43 ((if flg + -) (abs (cdr (assoc 43 dic)))))
+          (assoc 43 dic)
+          dic
+        )
+      )
+
+      (entmod dic)
+    )
+  )
+  
+  (princ)
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;              Vytvorenie textoveho stylu DPP_Text 2.0                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun TextStyleCreatorDPP()
+
+      (entmake
+        (list
+          '(0 . "STYLE")
+          '(-3
+            ("AcadAnnotative"
+              (1000 . "AnnotativeData")
+              (1002 . "{")
+              (1070 . 1)
+              (1070 . 1)
+              (1002 . "}")
+            )
+          )
+          
+          '(100 . "AcDbSymbolTableRecord")
+          '(100 . "AcDbTextStyleTableRecord")
+          '(2 . "DPP_Text 2.0")   ;nazov stylu textu
+          '(70 . 0)               ;standard flag values (bit-coded values)
+          '(40 . 2.0)             ;vyska textu
+          '(41 . 1.0)             ;sirka textu
+          '(50 . 0.0)             ;uhol natočenia textu
+          '(71 . 0)               ;generovanie textu "0" normalny text
+          '(42 . 0)               ;posledna vyska textu
+          '(3 . "isocpeur.ttf")   ;nazov fontu
+          '(4 . "")               ;bigfont (prazde pre "no")
+        )                        
+      )   
+
 )
 
 ;;----------------------------------------------------------------------;;

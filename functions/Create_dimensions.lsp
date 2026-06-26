@@ -6,12 +6,27 @@
 ;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
-;;                Vytvorenie jednotlivych stylov kot                    ;;
+;;                   Orchestrator vytvorenia kot                        ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTCreateDimensions()
   
-  ;vytvorenie textoveho stylu DP_ISOCPEUR
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;vytvorenie kot podla JTmenu
+    (JTCreateDimensionsStyle)
+    ;vytvorenie kot podla DPPtools
+    (DPPCreateDimensionsStyle)
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;            Vytvorenie jednotlivych stylov kot podla JTmenu           ;;
+;;----------------------------------------------------------------------;;
+
+(defun JTCreateDimensionsStyle()
+  
+  ;vytvorenie textoveho stylu JT_ISOCPEUR
   (TextStyleCreator)
   
   ;vytvorenie listu nasobicov pre vytvorenie kot
@@ -28,7 +43,7 @@
     )
   )
   
-  (princ "\nStyly kot boli vytvorene!")
+  (princ "\nStyly JTmenu kot boli vytvorene!")
   (princ)
 )
 
@@ -58,7 +73,7 @@
   )
   
   ;nastavenie predvybratoho kotovacieho stylu
-  (command "dimstyle" "r" "DP_Kota [50]")
+  (command "dimstyle" "r" "JT_Kota [50]")
   (princ)
 )
 
@@ -83,7 +98,7 @@
   )
 
   ;nastavenie predvybratoho kotovacieho stylu
-  (command "dimstyle" "r" "DP_Kota")
+  (command "dimstyle" "r" "JT_Kota")
   (princ)
 )
   
@@ -108,7 +123,7 @@
   )
 
   ;nastavenie predvybratoho kotovacieho stylu
-  (command "dimstyle" "r" "DP_Kota")
+  (command "dimstyle" "r" "JT_Kota")
   (princ)
 )
 
@@ -121,12 +136,12 @@
   ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES
   (foreach i listNasobic
     (DimensionCreator i 0 1000 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
   (foreach i listNasobic
     (DimensionCreator i 0 1 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
 )
@@ -140,12 +155,12 @@
   ;parametre prepinacDlzkyCiary = 0->OFF 1->ON, prepinacJednotiek = 1->m 1000->mm, prepinacAnnotative = 0->NO 1->YES 
   (foreach i listNasobic
     (DimensionCreator i 1 1000 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
   (foreach i listNasobic
     (DimensionCreator i 1 1 0)
-    (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+    (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
   )
   
 )
@@ -160,7 +175,7 @@
   (DimensionCreator 20 0 1000 0)
   (DimensionCreator 20 0 1 0)
   
-  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+  (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
 
 )
 
@@ -174,7 +189,7 @@
   (DimensionCreator 20 1 1000 0)
   (DimensionCreator 20 1 1 0)
   
-  (command "dimstyle" "s" (strcat "DP_Kota " mierkaZatvorka jednotkaKoty) "y")
+  (command "dimstyle" "s" (strcat "JT_Kota " mierkaZatvorka jednotkaKoty) "y")
 
 )
 
@@ -188,7 +203,7 @@
   (DimensionCreator 20 0 1000 1)
   (DimensionCreator 20 0 1 1)
   
-  (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
+  (command "dimstyle" "_Annotative" "y" (strcat "JT_Kota") "s" (strcat "JT_Kota " jednotkaKoty))
 
 )
 
@@ -202,7 +217,10 @@
   (DimensionCreator 20 1 1000 1)
   (DimensionCreator 20 1 1 1)
   
-  (command "dimstyle" "_ANnotative" "y" (strcat "DP_Kota") "s" (strcat "DP_Kota " jednotkaKoty))
+  (command "dimstyle" "_Annotative" "y" (strcat "JT_Kota") "s" (strcat "JT_Kota " jednotkaKoty))
+  (command "_.dimstyle" "_R" "JT_Kota")       ;nastavit JT_Kota ako current
+  (setvar "DIMLFAC" 1000.0)                   ;scale Factor = 1000
+  (command "_.dimstyle" "_S" "JT_Kota" "y")   ;ulozit zmeny do stylu
 
 )
 
@@ -266,7 +284,7 @@
   (setvar "DIMARCSYM" 0)
   
   ;set tab Text
-  (setvar "DIMTXSTY" "DP_ISOCPEUR")
+  (setvar "DIMTXSTY" "JT_ISOCPEUR")
   (setvar "DIMCLRT" 0)
   (setvar "DIMTFILL" 0)
   (setvar "DIMTAD" 1)
@@ -291,7 +309,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;              Vytvorenie textoveho stylu DP_ISOCPEUR                  ;;
+;;              Vytvorenie textoveho stylu JT_ISOCPEUR                  ;;
 ;;----------------------------------------------------------------------;;
 
 (defun TextStyleCreator ()
@@ -300,7 +318,7 @@
     (0 . "STYLE")
     (100 . "AcDbSymbolTableRecord")
     (100 . "AcDbTextStyleTableRecord")
-    (2 . "DP_ISOCPEUR")
+    (2 . "JT_ISOCPEUR")
     (70 . 0)
     (40 . 0.0);<- definovanie vysky textu
     (41 . 1.0)
@@ -311,6 +329,162 @@
     (4 . "")
   )
   )
+)
+
+;;----------------------------------------------------------------------;;
+;;           Vytvorenie jednotlivych stylov kot podla DPPtools          ;;
+;;----------------------------------------------------------------------;;
+
+(defun DPPCreateDimensionsStyle()
+  
+  ;kontrola, či už existuje hlavný DPP štýl
+  (if (tblsearch "DIMSTYLE" "DPP_Koty mm")
+    (progn
+      (princ "\nKotovaci styl s nazvom \"DPP_Koty mm\" uz vo vykrese existuju.")
+      (princ)
+    )
+    (progn    
+      ;vytvorenie textoveho stylu DPP_Text 2.0
+      (TextStyleCreatorDPP)
+      
+      (KotyDPPAnnotationMod)
+      
+      (princ "\nStyly DPP kot boli vytvorene!")
+      (princ)    
+    )
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;                  Koty DPP - pevna dlzka - annotation                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun KotyDPPAnnotationMod()
+
+  ;parametre prepinac
+  (DimensionDPPCreator 1 1000 1)
+  (DimensionDPPCreator 1 1 1)
+  
+  (command "dimstyle" "_Annotative" "y" (strcat "DPP_Koty mm") "s" (strcat "DPP_Koty " jednotkaKoty))
+  (command "_.dimstyle" "_R" "DPP_Koty mm")      ;nastavit DPP_Kota mm ako current
+  (setvar "DIMLFAC" 1000.0)                      ;scale Factor = 1000
+  (setvar "DIMDEC" 0)                            ;pocet desatinnych miest = 0
+  (command "_.dimstyle" "_S" "DPP_Koty mm" "y")  ;ulozit zmeny do stylu
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;                   Nastavenie parametrov DPP koty                     ;;
+;;----------------------------------------------------------------------;;
+
+(defun DimensionDPPCreator (prepinacDlzkyCiary prepinacJednotiek prepinacAnnotative)
+
+  (SetDPPDimensionParametres)
+  
+  ;set tab Lines
+  (setvar "DIMEXE" 1)
+  (setvar "DIMFXLON" prepinacDlzkyCiary)
+  (setvar "DIMFXL" 4.5)
+  
+  ;set tab Symbols and Arrows
+  (setvar "DIMASZ" 1.4)
+
+  ;set tab Text
+  (setvar "DIMTXT" 1)
+  (setvar "DIMGAP" 0.9)
+  
+  ;set tab Primary Units
+  (setvar "DIMLFAC" prepinacJednotiek)
+  
+  ;nastavenie jednotky v nazve koty
+  (if (= prepinacJednotiek 1000)
+    (setq jednotkaKoty "mm")
+    (setq jednotkaKoty "m")
+  )
+  
+)
+
+;;----------------------------------------------------------------------;;
+;;               Pevne nastavenia pre vsetky DPP koty                   ;;
+;;----------------------------------------------------------------------;;
+
+(defun SetDPPDimensionParametres ()
+         
+  ;set tab Lines
+  (setvar "DIMDLI" 3.8)
+  (setvar "DIMCLRD" 0)
+  (setvar "DIMLTYPE" "BYBLOCK")
+  (setvar "DIMLWD" -2)
+  (setvar "DIMDLE" 0)
+  (setvar "DIMCLRE" 0)
+  (setvar "DIMLTEX1" "BYBLOCK")
+  (setvar "DIMLTEX2" "BYBLOCK")
+  (setvar "DIMLWE" -2)
+  (setvar "DIMEXO" 0)
+  
+  ;set tab Symbols and Arrows
+  (setvar "DIMBLK" "_OBLIQUE")
+  (setvar "DIMARCSYM" 0)
+  
+  ;set tab Text
+  (setvar "DIMTXSTY" "DPP_Text 2.0")
+  (setvar "DIMCLRT" 0)
+  (setvar "DIMTFILL" 0)
+  (setvar "DIMTAD" 1)
+  (setvar "DIMTIH" 0)
+  (setvar "DIMTOH" 0)
+  (setvar "DIMJUST" 0)
+  (setvar "DIMTXTDIRECTION" 0)
+  
+  ;set tab Fit
+  (setvar "DIMATFIT" 3)
+  (setvar "DIMTMOVE" 1)
+  (setvar "DIMUPT" 0)
+  (setvar "DIMTOFL" 1)
+  
+  ;set tab Primary Units
+  (setvar "DIMLUNIT" 2)
+  (setvar "DIMDSEP" ",")
+  (setvar "DIMAUNIT" 2)
+  (setvar "DIMRND" 0)
+  (setvar "DIMADEC" 0)
+  (setvar "DIMDEC" 2)
+)
+
+;;----------------------------------------------------------------------;;
+;;              Vytvorenie textoveho stylu DPP_Text 2.0                 ;;
+;;----------------------------------------------------------------------;;
+
+(defun TextStyleCreatorDPP()
+
+      (entmake
+        (list
+          '(0 . "STYLE")
+          '(-3
+            ("AcadAnnotative"
+              (1000 . "AnnotativeData")
+              (1002 . "{")
+              (1070 . 1)
+              (1070 . 1)
+              (1002 . "}")
+            )
+          )
+          
+          '(100 . "AcDbSymbolTableRecord")
+          '(100 . "AcDbTextStyleTableRecord")
+          '(2 . "DPP_Text 2.0")   ;nazov stylu textu
+          '(70 . 0)               ;standard flag values (bit-coded values)
+          '(40 . 2.0)             ;vyska textu
+          '(41 . 1.0)             ;sirka textu
+          '(50 . 0.0)             ;uhol natočenia textu
+          '(71 . 0)               ;generovanie textu "0" normalny text
+          '(42 . 0)               ;posledna vyska textu
+          '(3 . "isocpeur.ttf")   ;nazov fontu
+          '(4 . "")               ;bigfont (prazde pre "no")
+        )                        
+      )   
+
 )
 
 ;;----------------------------------------------------------------------;;
