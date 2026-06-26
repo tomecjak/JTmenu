@@ -260,8 +260,87 @@
   )
 
   ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
-  (setq obj (vlax-ename->vla-object plEnt))
-  (setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj))) ; [web:130]
+  
+  ;;;;;;;;;;;;;;;;;;;
+  
+  (progn
+      ;; pôvodná polyline + jej dĺžka
+      (setq orig-obj (vlax-ename->vla-object plEnt))
+      (setq orig-len (vla-get-length orig-obj)) ; dĺžka pôvodnej polyliny[web:3][web:6]
+
+      ;; offset vzdialenost = global_width
+      (setq dist (/ (abs global_width) 2))
+
+      (setq ptMax (getvar "EXTMAX")) ; bod pre jednu stranu[web:29]
+      (setq ptMin (getvar "EXTMIN")) ; bod pre opačnú stranu[web:29]
+
+      ;; OFFSET na stranu k EXTMAX (erase = no)
+      (command
+        "_.OFFSET"
+        "E" "N"
+        dist
+        plEnt
+        ptMax
+        ""
+      )
+      (setq off1 (entlast))
+
+      (if off1
+        (setq len1 (vla-get-length (vlax-ename->vla-object off1))) ; dĺžka 1. offsetu[web:3][web:6]
+      )
+
+      ;; OFFSET na stranu k EXTMIN (erase = no)
+      (command
+        "_.OFFSET"
+        "E" "N"
+        dist
+        plEnt
+        ptMin
+        ""
+      )
+      (setq off2 (entlast))
+
+      (if off2
+        (setq len2 (vla-get-length (vlax-ename->vla-object off2))) ; dĺžka 2. offsetu[web:3][web:6]
+      )
+
+      ;; vyber dlhšiu offsetovanú polylínu
+      (cond
+        ((and off1 off2)
+         (if (>= len1 len2)
+           (progn
+             (setq chosen    off1
+                   chosenLen len1)
+             (entdel off2) ; kratšiu zmaž[web:19]
+           )
+           (progn
+             (setq chosen    off2
+                   chosenLen len2)
+             (entdel off1) ; kratšiu zmaž[web:19]
+           )
+         )
+        )
+        ((and off1 (not off2))
+         (setq chosen    off1
+               chosenLen len1)
+        )
+        ((and off2 (not off1))
+         (setq chosen    off2
+               chosenLen len2)
+        )
+      )
+  )
+  
+  ;; výslednú hodnotu ulož do globálnej premennej obj
+          (setq len chosenLen)
+  
+  ;; po ziskani dlzky zmaz offset (povodna polylina zostane)
+          (entdel chosen)[web:19]
+  
+  ;;;;;;;;;;;;;;;;;;
+  
+  ;(setq obj (vlax-ename->vla-object plEnt))
+  ;(setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj))) ; [web:130]
   (setq lenmm  (* len 1000.0))
   (setq lenmm5 (LM:roundm lenmm 5)) ; najbližší násobok 5 [web:171]
 
@@ -289,6 +368,131 @@
 
   (princ)
 )
+
+
+;;;;;;;;;;;;;;
+
+(vl-load-com)
+
+(defun c:OFFLEN (/ ename edata width dist
+                   orig-obj orig-len
+                   ptMax ptMin
+                   off1 off2
+                   len1 len2
+                   chosen chosenLen)
+
+  (prompt "\nVyber LWPOLYLINE so zadanou WIDTH: ")
+  (if (setq ename (car (entsel)))
+    (progn
+      ;; pôvodná polyline + jej dĺžka
+      (setq orig-obj (vlax-ename->vla-object ename))
+      (setq orig-len (vla-get-length orig-obj)) ; dĺžka pôvodnej polyliny[web:3][web:6]
+
+      ;; DXF kód 43 = global / constant width pre LWPOLYLINE
+      (setq edata (entget ename))
+      (setq width (cdr (assoc 43 edata)))
+
+      ;; Ak nemá global width, spýtaj sa na hodnotu
+      (if (or (null width) (<= (abs width) 1e-9))
+        (setq width (getreal "\nPolyline nema global WIDTH, zadaj offset vzdialenost: "))
+      )
+
+      (if width
+        (progn
+          (setq dist (/ (abs width) 2)) ; offset vzdialenost = WIDTH
+
+          (setq ptMax (getvar "EXTMAX")) ; bod pre jednu stranu[web:29]
+          (setq ptMin (getvar "EXTMIN")) ; bod pre opacnu stranu[web:29]
+
+          ;; OFFSET na stranu k EXTMAX (erase = no)
+          (command
+            "_.OFFSET"
+            "E" "N"
+            dist
+            ename
+            ptMax
+            ""
+          )
+          (setq off1 (entlast))
+
+          (if off1
+            (setq len1 (vla-get-length (vlax-ename->vla-object off1))) ; dĺžka 1. offsetu[web:3][web:6]
+          )
+
+          ;; OFFSET na stranu k EXTMIN (erase = no)
+          (command
+            "_.OFFSET"
+            "E" "N"
+            dist
+            ename
+            ptMin
+            ""
+          )
+          (setq off2 (entlast))
+
+          (if off2
+            (setq len2 (vla-get-length (vlax-ename->vla-object off2))) ; dĺžka 2. offsetu[web:3][web:6]
+          )
+
+          ;; vyber dlhšiu offsetovanú polylínu
+          (cond
+            ((and off1 off2)
+             (if (>= len1 len2)
+               (progn
+                 (setq chosen    off1
+                       chosenLen len1)
+                 (entdel off2) ; kratšiu zmaž[web:19]
+               )
+               (progn
+                 (setq chosen    off2
+                       chosenLen len2)
+                 (entdel off1) ; kratšiu zmaž[web:19]
+               )
+             )
+            )
+            ((and off1 (not off2))
+             (setq chosen    off1
+                   chosenLen len1)
+            )
+            ((and off2 (not off1))
+             (setq chosen    off2
+                   chosenLen len2)
+            )
+          )
+
+          (if chosen
+            (progn
+              ;; voliteľná kontrola – mala by byť väčšia ako pôvodná
+              (if (<= chosenLen orig-len)
+                (prompt "\nUpozornenie: dlzka offsetu nie je vacsia ako povodna.")
+              )
+
+              (prompt
+                (strcat
+                  "\nDlzka (dlhsej) offsetovanej polyliny = "
+                  (rtos chosenLen 2 3)
+                )
+              )
+
+              ;; po ziskani dlzky zmaz offset (povodna polylina zostane)
+              (entdel chosen)[web:19]
+            )
+            (prompt "\nOffset sa nepodaril.")
+          )
+        )
+      )
+    )
+    (prompt "\nNebola zvolena ziadna entita.")
+  )
+
+  (princ)
+)
+
+
+;;;;;;;;;;;;;
+
+
+
 
 ;;----------------------------------------------------------------------;;
 ;;               Funkcia pre vytvaranie hladin vystuze                  ;;
@@ -391,12 +595,18 @@
         (princ "\nPocet musi byy kladne cele cislo.")
         (progn
           (setq tag   (if (= volba "Vystuz") "B" "BS"))
-          (setq farby '(10 20 30))
+          (setq farby_B '(11 31 51 71 91 111 131 151 171 191 211 231))
+          (setq farby_BS '(14 34 54 74 94 114 134 154 174 194 214 234))
           (setq info (_get-max-layer-info tag))
           (setq maxNum (car info))
           (setq lastColor (cadr info))
 
-          (setq farba (_next-cycle-color lastColor farby))
+          (if (= tag "B")
+            ;pre "B"
+            (setq farba (_next-cycle-color lastColor farby_B))
+            ;pre "BS"
+            (setq farba (_next-cycle-color lastColor farby_BS))
+          )
 
           (setq i 1)
           (while (<= i pocet)
@@ -410,7 +620,12 @@
               )
             )
 
-            (setq farba (_next-cycle-color farba farby))
+            (if (= tag "B")
+              ;pre "B"
+              (setq farba (_next-cycle-color farba farby_B))
+              ;pre "BS"
+              (setq farba (_next-cycle-color farba farby_BS))
+            )
             (setq i (1+ i))
           )
 
