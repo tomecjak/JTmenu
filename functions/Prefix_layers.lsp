@@ -18,7 +18,7 @@
   )
  
   (if (and (setq old (getstring T "\nZadajte prefix alebo subfix k premenovaniu: "))
-           (setq new getstring T "\nZadajte novy prefix alebo subfix: ")
+           (setq new (getstring T "\nZadajte novy prefix alebo subfix: "))
       )
     (progn
       (vla-startundomark
