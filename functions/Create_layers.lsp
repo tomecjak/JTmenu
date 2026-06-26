@@ -167,7 +167,7 @@
 ;;----------------------------------------------------------------------;;
 
 (defun RebarLayers()
-  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz") 7 "CONTINUOUS" "DEFAULT")
+  (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz") 7 "CONTINUOUS" acLnWtByLwDefault)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz_06") 181 "CONTINUOUS" 0.25)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz_07") 221 "CONTINUOUS" 0.25)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz_08") 11 "CONTINUOUS" 0.30)
@@ -183,7 +183,7 @@
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz_28") 61 "CONTINUOUS" 0.60)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz_30") 101 "CONTINUOUS" 0.60)
   (CreateLayers (strcat (getenv "GlobalnaPrefixHladiny") (getenv "GlobalnaPrefixHladinySeparator") "Vystuz_32") 141 "CONTINUOUS" 0.60)
-  (CreateLayers "0" 7 "CONTINUOUS" "DEFAULT")
+  (CreateLayers "0" 7 "CONTINUOUS" acLnWtByLwDefault)
 )
 
 ;;----------------------------------------------------------------------;;

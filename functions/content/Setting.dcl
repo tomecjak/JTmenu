@@ -20,7 +20,7 @@ Setting //nazov dcl
     : radio_button
     {
       key = "hladinaPrefixPopis";
-      label = "Hladina XX_Popis";
+      label = "Hladina Prefix_Popis";
     }
     //prepinac pre hlaidnu 0
     : radio_button
@@ -36,7 +36,7 @@ Setting //nazov dcl
     //druhy riadok poznamky nastavenia
     : text_part
     { 
-      label = "v hladine XX_Popis alebo v hladine 0.";
+      label = "v hladine Prefix_Popis alebo v hladine 0.";
     }
   }
 
@@ -142,12 +142,45 @@ Setting //nazov dcl
       //druhy riadok poznamky nastavenia
       : text_part
       { 
-        label = "s vystuzov budu pracovat podla hladiny vystuze";
+        label = "s vystuzov budu pracovat podla JTmenu hladiny";
       }
       //treti riadok poznamky nastavenia
       : text_part
       { 
-        label = "alebo podla polyliny.";
+        label = "vystuze [JT_Vystuz_30] alebo podla polyliny.";
+      }
+    }
+
+  //xx riadok dialogu - dlzka vystuze
+    : boxed_radio_column
+    {
+      label = "Aku dlzku vystuze pouzivat";  
+      //prepinac pre osovu vzdialenost
+      : radio_button
+      {
+        key = "rebarLengthAxis";
+        label = "Osova dlzka";
+      }
+      //prepinac pre vzdielenost povrchu
+      : radio_button
+      {
+        key = "rebarLengthFace";
+        label = "Dlzka vonkajsieho povrchu";
+      }
+      //prvy riadok poznamky nastavenia
+      : text_part
+      {
+        label = "Mosnost si nastavit aku dlzku vystuze pouzivat";
+      }
+      //druhy riadok poznamky nastavenia
+      : text_part
+      {
+        label = "pri nastroji zapisania dlzky vystuze do popisku.";
+      }
+      //treti riadok poznamky nastavenia
+      : text_part
+      {
+        label = "Dlzka je pocitana v tvare v akom je polylina!";
       }
     }
 

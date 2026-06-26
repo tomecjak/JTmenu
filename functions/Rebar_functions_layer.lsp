@@ -211,11 +211,11 @@
 
   (setq plEd (entget plEnt))
 
-  ;; priemer výstuže v mm z názvu hladiny DP_Vystuz_XX
+  ;; priemer výstuže v mm z názvu hladiny XX_Vystuz_XX
   (setq D (_rebar-get-diameter-from-layer plEd))
   (if (or (null D) (<= D 0.0))
     (progn
-      (prompt "\nZ nazvu hladiny sa nepodarilo zistit platny priemer (ocakavany tvar 'DP_Vystuz_XX').")
+      (prompt "\nZ nazvu hladiny sa nepodarilo zistit platny priemer (ocakavany tvar 'XX_Vystuz_XX').")
       (princ) (exit)
     )
   )
