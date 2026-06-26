@@ -160,7 +160,7 @@ Setting //nazov dcl
       //xx riadok dialogu - dlzka vystuze
       : boxed_radio_column
       {
-        label = "Aku dlzku vystuze pouzivat";  
+        label = "Aku dlzku vystuze pouzivat?";  
         //prepinac pre osovu vzdialenost
         : radio_button
         {
@@ -330,10 +330,6 @@ Setting //nazov dcl
       : boxed_row
       {
         label = "Verzia JTmenu";
-        : text_part
-        { 
-          label = "Vytvoril: Jakub Tomecko";
-        }
         : text_part
         { 
           label = "";

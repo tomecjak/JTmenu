@@ -47,12 +47,20 @@
     (set_tile "blokyDPPtools" "1")
   )
   
-  ;nastavenie prepinaca modov vystozovania
+  ;nastavenie prepinaca modov vystuzovania
   (if (= (getenv "GlobalnaRebarType") "Layer")
     ;splnena podmienka
     (set_tile "rebarLayerType" "1")
     ;nesplnena podmienka
     (set_tile "rebarPolylineType" "1")
+  )
+  
+  ;nastavenie prepinaca modov dlzky vystuze
+  (if (= (getenv "GlobalnaRebarLegth") "Os")
+    ;splnena podmienka
+    (set_tile "rebarLengthAxis" "1")
+    ;nesplnena podmienka
+    (set_tile "rebarLengthFace" "1")
   )
     
   ;nastavenie prepinaca mierky vkladanych blokov GlobalnaBlocksScale
@@ -156,6 +164,12 @@
     (setenv "GlobalnaRebarType" "Layer")
     (setenv "GlobalnaRebarType" "Polyline")
   )
+  
+  ;vyhodnotenie vyberu modu pre dlzku vystuze
+  (if (= rebarLengthAxis "1")
+    (setenv "GlobalnaRebarLegth" "Os")
+    (setenv "GlobalnaRebarLegth" "Povrch")
+  )
     
   ;vyhodnotenie vyberu modu pre mierku blokov
   (if (/= blocksScale "50")
@@ -208,7 +222,8 @@
                  "\nNastavily ste prefix hladiny na: " (getenv "GlobalnaPrefixHladiny") "!"
                  "\nNastavily ste rozdelovac hladiny na: " (getenv "GlobalnaPrefixHladinySeparator") "!"
                  "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
-                 "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
+                 "\nNastavily ste mod pre vystuzovanie na: " (getenv "GlobalnaRebarType") "!"
+                 "\nNastavily ste mod pre vystuzovanie na: " (getenv "GlobalnaRebarLegth") "!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
                  "\nNastavily ste jazyk pre vkladane bloky na: " (getenv "GlobalnaBlocksLanguage") "!"
@@ -227,6 +242,8 @@
   (setq rebarLayerType (get_tile "rebarLayerType"))
   (setq rebarPolylineType (get_tile "rebarPolylineType"))
   (setq blocksScale (get_tile "blocksScale"))
+  (setq rebarLengthAxis (get_tile "rebarLengthAxis"))
+  (setq rebarLengthFace (get_tile "rebarLengthFace"))
   (setq signBlocksScale (get_tile "signBlocksScale"))
   (setq blocksLanguageSK (get_tile "blocksLanguageSK"))
   (setq blocksLanguageCZ (get_tile "blocksLanguageCZ"))
