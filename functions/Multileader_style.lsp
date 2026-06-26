@@ -12,16 +12,16 @@
 (defun c:JTMultileader()
   
   (TextStyleCreator)
-
-  (cond
-    ((= (getenv "GlobalnaDIMSCALEset") "Klasicky")
-     (msv_klasika))
-
-    ((= (getenv "GlobalnaDIMSCALEset") "Mierka")
-     (msv_mierka))
-
-    ((= (getenv "GlobalnaDIMSCALEset") "Annotation")
-     (msv_annotation))
+  
+  ;vyhodnotenie pouzitia stylu kot podla modu
+  (if (= (getenv "GlobalnaKotyDIMSCALEset") "Klasicky")
+      (msv_klasika)
+    (if (= (getenv "GlobalnaKotyDIMSCALEset") "Mierka")
+        (msv_mierka)
+      (if (= (getenv "GlobalnaKotyDIMSCALEset") "Annotation")
+          (msv_annotation)
+      )
+    )
   )
 
   (princ "\nStyl multileadru bol vytvoreny!")
