@@ -655,7 +655,7 @@
     (list
       '("AlignSpace" 4)
       (list "ArrowSize"
-            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 1.6)
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 2)
       )
       '("BitFlags" 0)
       '("BlockConnectionType" 1)
@@ -674,7 +674,7 @@
       '("EnableLanding" -1)
       '("FirstSegmentAngleConstraint" 0)
       (list "LandingGap"
-            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 1)
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
       )
       '("LeaderLineType" 1)
       '("LeaderLineTypeId" "ByBlock")
