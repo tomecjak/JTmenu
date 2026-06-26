@@ -769,7 +769,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 
 ;nacitanie statusbaru
-(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny) | Mode: $(getenv,GlobalnaBlocksType) | Symbols: $(getenv,GlobalnaHladinaBlokov) | Rebar: $(getenv,GlobalnaRebarType) | Signs: $(getenv,GlobalnaSignBlocksScale)")
+(command "modemacro" "Layer prefix: $(getenv,GlobalnaPrefixHladiny) | Mode: $(getenv,GlobalnaBlocksType) | Symbols: $(getenv,GlobalnaHladinaBlokov) | Rebar: $(getenv,GlobalnaRebarType)+$(getenv,GlobalnaRebarLegth) | Signs: $(getenv,GlobalnaSignBlocksScale)")
 
 ;vypisanie statusu o stave globalnych premenych
 (princ
