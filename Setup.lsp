@@ -1,4 +1,4 @@
-(defun c:Setup ( / SelectedFolderPath SupportList TrustedList CuiPath )
+(defun c:JTMenuSetup ( / SelectedFolderPath SupportList TrustedList CuiPath )
 
   (vl-load-com)
 
@@ -181,7 +181,7 @@
 (load "Version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nSetup.lsp | " "Pre instalaciu zadajte prikaz Setup" " | Jakub Tomecko | "
+        "\nSetup.lsp | " "Pre instalaciu zadajte prikaz JTMenuSetup" " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )
