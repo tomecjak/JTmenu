@@ -105,6 +105,27 @@
     )
   )
   
+  ;nastavenie aktivnosti pri mode DPPtools
+  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
+    ;aktivovane
+    (progn
+      (mode_tile "blocksLanguageSK" 0)
+      (mode_tile "blocksLanguageCZ" 0)
+      (mode_tile "blocksLanguageEN" 0)
+      (mode_tile "modKotyKlasicky" 0)
+      (mode_tile "modKotyDimscale" 0)
+    )
+    ;deaktivovane
+    (progn
+      (mode_tile "blocksLanguageSK" 1)
+      (mode_tile "blocksLanguageCZ" 1)
+      (mode_tile "blocksLanguageEN" 1)
+      (mode_tile "modKotyKlasicky" 1)
+      (mode_tile "modKotyDimscale" 1)
+      (set_tile "modKotyAnnotation" "1")
+    )
+  )
+  
   ;nacitanie verzie JTmenu do dialogu
   (set_tile "verziaJtMenu" (JTmenuVersion))
   

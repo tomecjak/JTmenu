@@ -45,7 +45,7 @@
   (mapcar 'add_list TypTabulkyList)
   (end_list)
   
-  ;nastavenie checkboxu na tabulku
+  ;nastavenie aktivnosti checkboxu na tabulku
   (if (= (getenv "GlobalnaBlocksType") "JTmenu")
     ;aktivovane
     (mode_tile "hranataTabulka" 0)

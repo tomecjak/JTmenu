@@ -153,7 +153,7 @@ Setting //nazov dcl
         //treti riadok poznamky nastavenia
         : text_part
         { 
-          label = "vystuze [JT_Vystuz_30] alebo podla polyliny.";
+          label = "vystuze [JT_Vystuz_30] alebo podla hrubky polyliny.";
         }
       }
 
@@ -214,6 +214,11 @@ Setting //nazov dcl
         { 
           label = "Moznost si nastavit mierku vkladanych blokov.";
         }
+        //druhy riadok poznamky nastavenia
+        : text_part
+        { 
+          label = "Toto nastavenie funguje iba v mode JTmenu.";
+        }
       }
 
       //piaty riadok dialogu - nastavenie mierky vkladanych blokov dopravneho znacenia
@@ -268,7 +273,7 @@ Setting //nazov dcl
         //prvy riadok poznamky nastavenia
         : text_part
         { 
-          label = "Toto nastavenie funguje iba pri rezime JTmenu.";
+          label = "Toto nastavenie funguje iba v mode JTmenu.";
         }
       }
 
