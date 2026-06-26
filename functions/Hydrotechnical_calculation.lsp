@@ -273,105 +273,254 @@
 (defun ReportHydrotechnicalCalculation ( /
     in out err filePath file
     dwgName dwgPrefix reportDateTime defaultName reportDateForName
+    q q1 q2 q5 q10 q20 q50 q100
+    evalQ1 evalQ2 evalQ5 evalQ10 evalQ20 evalQ50 evalQ100
   )
 
-  (setq in (HydroGetInputs))
+  (defun HydroWriteLine (f s)
+    (write-line s f)
+  )
+
+  (defun HydroStatusClass (txt / t1)
+    (setq t1 (strcase txt))
+    (cond
+      ((wcmatch t1 "*VYHOV*") "ok")
+      ((wcmatch t1 "*NEVYHOV*") "bad")
+      (T "neutral")
+    )
+  )
+
+  (setq in  (HydroGetInputs))
   (setq out (HydroCalculate in))
   (setq err (cdr (assoc 'error out)))
 
   (if err
     (alert err)
     (progn
-      ; udaje o zdrojovom subore
       (setq dwgName   (getvar "DWGNAME"))
       (setq dwgPrefix (getvar "DWGPREFIX"))
-      (setq reportDateTime (menucmd "M=$(edtime,$(getvar,date),DD.MM.YYYY HH:MM:SS)"))
-      (setq reportDateForName (menucmd "M=$(edtime,$(getvar,date),YYYYMODD)"))
+      (setq reportDateTime    (menucmd "M=$(edtime,$(getvar,date),DD.MM.YYYY HH:MM:SS)"))
+      (setq reportDateForName (menucmd "M=$(edtime,$(getvar,date),YYYYMMDD)"))
 
-      ; predvoleny nazov reportu
       (setq defaultName
         (strcat
           "Hydrotechnical_report_"
           reportDateForName
-          ".txt"
+          ".html"
         )
       )
 
-      ; vyber cesty a nazvu suboru
       (setq filePath
         (getfiled
           "Ulozit hydrotechnicky report"
           (strcat dwgPrefix defaultName)
-          "txt"
+          "html"
           1
         )
       )
 
-      ; ak uzivatel zrusil dialog, nic sa neulozi
       (if filePath
         (progn
           (setq file (open filePath "w"))
 
           (if file
             (progn
-              (write-line "============================================================" file)
-              (write-line "HYDROTECHNICKY VYPOCET KAPACITY KORYTA - REPORT" file)
-              (write-line "============================================================" file)
-              (write-line "" file)
+              (setq q    (cdr (assoc 'prietok_Q out)))
+              (setq q1   (cdr (assoc 'prietok_Q1 out)))
+              (setq q2   (cdr (assoc 'prietok_Q2 out)))
+              (setq q5   (cdr (assoc 'prietok_Q5 out)))
+              (setq q10  (cdr (assoc 'prietok_Q10 out)))
+              (setq q20  (cdr (assoc 'prietok_Q20 out)))
+              (setq q50  (cdr (assoc 'prietok_Q50 out)))
+              (setq q100 (cdr (assoc 'prietok_Q100 out)))
 
-              (write-line "INFORMACIE O REPORTE" file)
-              (write-line "------------------------------------------------------------" file)
-              (write-line (strcat "Zdrojovy subor DWG:       " dwgName) file)
-              (write-line (strcat "Datum a cas vytvorenia:   " reportDateTime) file)
-              (write-line "" file)
+              (setq evalQ1   (cdr (assoc 'vyhodnotenieQ1 out)))
+              (setq evalQ2   (cdr (assoc 'vyhodnotenieQ2 out)))
+              (setq evalQ5   (cdr (assoc 'vyhodnotenieQ5 out)))
+              (setq evalQ10  (cdr (assoc 'vyhodnotenieQ10 out)))
+              (setq evalQ20  (cdr (assoc 'vyhodnotenieQ20 out)))
+              (setq evalQ50  (cdr (assoc 'vyhodnotenieQ50 out)))
+              (setq evalQ100 (cdr (assoc 'vyhodnotenieQ100 out)))
 
-              (write-line "VSTUPNE HODNOTY" file)
-              (write-line "------------------------------------------------------------" file)
-              (write-line (strcat "Vyska na zaciatku koryta: " (rtos (cdr (assoc 'vyska_h1 out)) 2 3) " m") file)
-              (write-line (strcat "Vyska na konci koryta:    " (rtos (cdr (assoc 'vyska_h2 out)) 2 3) " m") file)
-              (write-line (strcat "Dlzka koryta:             " (rtos (cdr (assoc 'dlzka_L out)) 2 3) " m") file)
-              (write-line (strcat "Stupen drsnosti n:        " (rtos (cdr (assoc 'drsnost_n out)) 2 3) " -") file)
-              (write-line (strcat "Prietocna plocha S:       " (rtos (cdr (assoc 'plocha_S out)) 2 2) " m2") file)
-              (write-line (strcat "Omoceny obvod O:          " (rtos (cdr (assoc 'obvod_O out)) 2 2) " m") file)
-              (write-line "" file)
+              ;; HTML dokument
+              (HydroWriteLine file "<!DOCTYPE html>")
+              (HydroWriteLine file "<html lang='sk'>")
+              (HydroWriteLine file "<head>")
+              (HydroWriteLine file "  <meta charset='UTF-8'>")
+              (HydroWriteLine file "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>")
+              (HydroWriteLine file "  <title>Hydrotechnický report</title>")
+              (HydroWriteLine file "  <style>")
+              (HydroWriteLine file "    :root {")
+              (HydroWriteLine file "      --bg: #f4f7fb;")
+              (HydroWriteLine file "      --panel: #ffffff;")
+              (HydroWriteLine file "      --panel-2: #f8fafc;")
+              (HydroWriteLine file "      --text: #1f2937;")
+              (HydroWriteLine file "      --muted: #6b7280;")
+              (HydroWriteLine file "      --line: #e5e7eb;")
+              (HydroWriteLine file "      --primary: #0f766e;")
+              (HydroWriteLine file "      --primary-soft: #ccfbf1;")
+              (HydroWriteLine file "      --ok: #166534;")
+              (HydroWriteLine file "      --ok-bg: #dcfce7;")
+              (HydroWriteLine file "      --bad: #991b1b;")
+              (HydroWriteLine file "      --bad-bg: #fee2e2;")
+              (HydroWriteLine file "      --neutral: #92400e;")
+              (HydroWriteLine file "      --neutral-bg: #fef3c7;")
+              (HydroWriteLine file "      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);")
+              (HydroWriteLine file "      --radius: 18px;")
+              (HydroWriteLine file "    }")
+              (HydroWriteLine file "    * { box-sizing: border-box; }")
+              (HydroWriteLine file "    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: linear-gradient(180deg, #eef4f8 0%, #f8fafc 100%); color: var(--text); }")
+              (HydroWriteLine file "    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 64px; }")
+              (HydroWriteLine file "    .hero { background: linear-gradient(135deg, #0f766e 0%, #155e75 100%); color: #fff; border-radius: 24px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 24px; }")
+              (HydroWriteLine file "    .hero h1 { margin: 0 0 8px; font-size: 34px; }")
+              (HydroWriteLine file "    .hero p { margin: 0; color: rgba(255,255,255,0.86); }")
+              (HydroWriteLine file "    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 22px; }")
+              (HydroWriteLine file "    .meta-card { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 16px; }")
+              (HydroWriteLine file "    .meta-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; margin-bottom: 6px; }")
+              (HydroWriteLine file "    .meta-card .value { font-size: 16px; font-weight: bold; word-break: break-word; }")
+              (HydroWriteLine file "    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }")
+              (HydroWriteLine file "    .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }")
+              (HydroWriteLine file "    .card-head { padding: 18px 22px; background: var(--panel-2); border-bottom: 1px solid var(--line); }")
+              (HydroWriteLine file "    .card-head h2 { margin: 0; font-size: 20px; }")
+              (HydroWriteLine file "    .card-body { padding: 18px 22px 22px; }")
+              (HydroWriteLine file "    table { width: 100%; border-collapse: collapse; }")
+              (HydroWriteLine file "    th, td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }")
+              (HydroWriteLine file "    th { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }")
+              (HydroWriteLine file "    td.num { text-align: right; font-variant-numeric: tabular-nums; }")
+              (HydroWriteLine file "    .kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }")
+              (HydroWriteLine file "    .kpi-box { background: var(--panel-2); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }")
+              (HydroWriteLine file "    .kpi-box .label { color: var(--muted); font-size: 13px; margin-bottom: 8px; }")
+              (HydroWriteLine file "    .kpi-box .value { font-size: 26px; font-weight: bold; color: var(--primary); }")
+              (HydroWriteLine file "    .badge { display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: bold; }")
+              (HydroWriteLine file "    .badge.ok { color: var(--ok); background: var(--ok-bg); }")
+              (HydroWriteLine file "    .badge.bad { color: var(--bad); background: var(--bad-bg); }")
+              (HydroWriteLine file "    .badge.neutral { color: var(--neutral); background: var(--neutral-bg); }")
+              (HydroWriteLine file "    .foot { margin-top: 24px; color: var(--muted); font-size: 13px; text-align: center; }")
+              (HydroWriteLine file "    @media (max-width: 700px) {")
+              (HydroWriteLine file "      .hero h1 { font-size: 26px; }")
+              (HydroWriteLine file "      .wrap { padding: 20px 14px 40px; }")
+              (HydroWriteLine file "      th, td { padding: 10px 8px; font-size: 14px; }")
+              (HydroWriteLine file "    }")
+              (HydroWriteLine file "  </style>")
+              (HydroWriteLine file "</head>")
+              (HydroWriteLine file "<body>")
+              (HydroWriteLine file "  <div class='wrap'>")
 
-              (write-line "NAVRHOVE PRIETOKY" file)
-              (write-line "------------------------------------------------------------" file)
-              (write-line (strcat "Q1:   " (rtos (cdr (assoc 'prietok_Q1 out)) 2 2) " m3/s") file)
-              (write-line (strcat "Q2:   " (rtos (cdr (assoc 'prietok_Q2 out)) 2 2) " m3/s") file)
-              (write-line (strcat "Q5:   " (rtos (cdr (assoc 'prietok_Q5 out)) 2 2) " m3/s") file)
-              (write-line (strcat "Q10:  " (rtos (cdr (assoc 'prietok_Q10 out)) 2 2) " m3/s") file)
-              (write-line (strcat "Q20:  " (rtos (cdr (assoc 'prietok_Q20 out)) 2 2) " m3/s") file)
-              (write-line (strcat "Q50:  " (rtos (cdr (assoc 'prietok_Q50 out)) 2 2) " m3/s") file)
-              (write-line (strcat "Q100: " (rtos (cdr (assoc 'prietok_Q100 out)) 2 2) " m3/s") file)
-              (write-line "" file)
+              ;; hero
+              (HydroWriteLine file "    <section class='hero'>")
+              (HydroWriteLine file "      <h1>Hydrotechnický výpočet kapacity koryta</h1>")
+              (HydroWriteLine file "      <p>Automaticky vygenerovaný výstup výpočtu s prehľadným zobrazením vstupov, návrhových prietokov, výsledkov a posúdenia.</p>")
+              (HydroWriteLine file "      <div class='meta'>")
+              (HydroWriteLine file (strcat "        <div class='meta-card'><div class='label'>Zdrojový DWG</div><div class='value'>" dwgName "</div></div>"))
+              (HydroWriteLine file (strcat "        <div class='meta-card'><div class='label'>Dátum a čas</div><div class='value'>" reportDateTime "</div></div>"))
+              (HydroWriteLine file (strcat "        <div class='meta-card'><div class='label'>Kapacita koryta Q</div><div class='value'>" (rtos q 2 2) " m3/s</div></div>"))
+              (HydroWriteLine file (strcat "        <div class='meta-card'><div class='label'>Sklon koryta</div><div class='value'>" (rtos (* (cdr (assoc 'sklon_i out)) 100.0) 2 2) " %</div></div>"))
+              (HydroWriteLine file "      </div>")
+              (HydroWriteLine file "    </section>")
 
-              (write-line "VYSLEDKY VYPOCTU" file)
-              (write-line "------------------------------------------------------------" file)
-              (write-line (strcat "Vyskovy rozdiel dh:       " (rtos (cdr (assoc 'delta_h out)) 2 2) " m") file)
-              (write-line (strcat "Sklon koryta i:           " (rtos (cdr (assoc 'sklon_i out)) 2 5) " -") file)
-              (write-line (strcat "Sklon koryta:             " (rtos (* (cdr (assoc 'sklon_i out)) 100.0) 2 2) " %") file)
-              (write-line (strcat "Hydraulicky polomer R:    " (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 3) " m [S/O]") file)
-              (write-line (strcat "Rychlostny sucinitel C:   " (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 3) " - [1/n*R^1/6]") file)
-              (write-line (strcat "Kapacita koryta Q:        " (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s [C*S*ODMOCNINA(R*io)]") file)
-              (write-line "" file)
+              ;; vstupy + KPI
+              (HydroWriteLine file "    <div class='grid'>")
 
-              (write-line "POSUDENIE PRIETOKOV" file)
-              (write-line "------------------------------------------------------------" file)
-              (write-line (strcat "Q1:   " (cdr (assoc 'vyhodnotenieQ1 out))) file)
-              (write-line (strcat "Q2:   " (cdr (assoc 'vyhodnotenieQ2 out))) file)
-              (write-line (strcat "Q5:   " (cdr (assoc 'vyhodnotenieQ5 out))) file)
-              (write-line (strcat "Q10:  " (cdr (assoc 'vyhodnotenieQ10 out))) file)
-              (write-line (strcat "Q20:  " (cdr (assoc 'vyhodnotenieQ20 out))) file)
-              (write-line (strcat "Q50:  " (cdr (assoc 'vyhodnotenieQ50 out))) file)
-              (write-line (strcat "Q100: " (cdr (assoc 'vyhodnotenieQ100 out))) file)
-              (write-line "" file)
+              (HydroWriteLine file "      <section class='card'>")
+              (HydroWriteLine file "        <div class='card-head'><h2>Vstupné hodnoty</h2></div>")
+              (HydroWriteLine file "        <div class='card-body'>")
+              (HydroWriteLine file "          <table>")
+              (HydroWriteLine file "            <thead><tr><th>Parameter</th><th>Hodnota</th></tr></thead>")
+              (HydroWriteLine file "            <tbody>")
+              (HydroWriteLine file (strcat "              <tr><td>Výška na začiatku koryta</td><td class='num'>" (rtos (cdr (assoc 'vyska_h1 out)) 2 3) " m</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Výška na konci koryta</td><td class='num'>" (rtos (cdr (assoc 'vyska_h2 out)) 2 3) " m</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Dĺžka koryta</td><td class='num'>" (rtos (cdr (assoc 'dlzka_L out)) 2 3) " m</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Stupeň drsnosti n</td><td class='num'>" (rtos (cdr (assoc 'drsnost_n out)) 2 3) " -</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Prietočná plocha S</td><td class='num'>" (rtos (cdr (assoc 'plocha_S out)) 2 2) " m2</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Omočený obvod O</td><td class='num'>" (rtos (cdr (assoc 'obvod_O out)) 2 2) " m</td></tr>"))
+              (HydroWriteLine file "            </tbody>")
+              (HydroWriteLine file "          </table>")
+              (HydroWriteLine file "        </div>")
+              (HydroWriteLine file "      </section>")
 
-              (write-line "============================================================" file)
+              (HydroWriteLine file "      <section class='card'>")
+              (HydroWriteLine file "        <div class='card-head'><h2>Hlavné výsledky</h2></div>")
+              (HydroWriteLine file "        <div class='card-body'>")
+              (HydroWriteLine file "          <div class='kpi'>")
+              (HydroWriteLine file (strcat "            <div class='kpi-box'><div class='label'>Výškový rozdiel dh</div><div class='value'>" (rtos (cdr (assoc 'delta_h out)) 2 2) " m</div></div>"))
+              (HydroWriteLine file (strcat "            <div class='kpi-box'><div class='label'>Sklon i</div><div class='value'>" (rtos (cdr (assoc 'sklon_i out)) 2 5) "</div></div>"))
+              (HydroWriteLine file (strcat "            <div class='kpi-box'><div class='label'>Hydraulický polomer R</div><div class='value'>" (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 3) " m</div></div>"))
+              (HydroWriteLine file (strcat "            <div class='kpi-box'><div class='label'>Rýchlostný súčiniteľ C</div><div class='value'>" (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 3) "</div></div>"))
+              (HydroWriteLine file (strcat "            <div class='kpi-box'><div class='label'>Kapacita koryta Q</div><div class='value'>" (rtos q 2 2) " m3/s</div></div>"))
+              (HydroWriteLine file "          </div>")
+              (HydroWriteLine file "        </div>")
+              (HydroWriteLine file "      </section>")
+
+              (HydroWriteLine file "    </div>")
+
+              ;; návrhové prietoky
+              (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
+              (HydroWriteLine file "      <div class='card-head'><h2>Návrhové prietoky</h2></div>")
+              (HydroWriteLine file "      <div class='card-body'>")
+              (HydroWriteLine file "        <table>")
+              (HydroWriteLine file "          <thead><tr><th>Prietok</th><th>Hodnota</th></tr></thead>")
+              (HydroWriteLine file "          <tbody>")
+              (HydroWriteLine file (strcat "            <tr><td>Q1</td><td class='num'>" (rtos q1 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q2</td><td class='num'>" (rtos q2 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q5</td><td class='num'>" (rtos q5 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q10</td><td class='num'>" (rtos q10 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q20</td><td class='num'>" (rtos q20 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q50</td><td class='num'>" (rtos q50 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q100</td><td class='num'>" (rtos q100 2 2) " m3/s</td></tr>"))
+              (HydroWriteLine file "          </tbody>")
+              (HydroWriteLine file "        </table>")
+              (HydroWriteLine file "      </div>")
+              (HydroWriteLine file "    </section>")
+
+              ;; posudenie
+              (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
+              (HydroWriteLine file "      <div class='card-head'><h2>Posúdenie prietokov</h2></div>")
+              (HydroWriteLine file "      <div class='card-body'>")
+              (HydroWriteLine file "        <table>")
+              (HydroWriteLine file "          <thead><tr><th>Prietok</th><th>Hodnota</th><th>Kapacita koryta</th><th>Vyhodnotenie</th></tr></thead>")
+              (HydroWriteLine file "          <tbody>")
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q1</td><td class='num'>" (rtos q1 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ1) "'>" evalQ1 "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q2</td><td class='num'>" (rtos q2 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ2) "'>" evalQ2 "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q5</td><td class='num'>" (rtos q5 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ5) "'>" evalQ5 "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q10</td><td class='num'>" (rtos q10 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ10) "'>" evalQ10 "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q20</td><td class='num'>" (rtos q20 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ20) "'>" evalQ20 "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q50</td><td class='num'>" (rtos q50 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ50) "'>" evalQ50 "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat
+                "            <tr><td>Q100</td><td class='num'>" (rtos q100 2 2) " m3/s</td><td class='num'>" (rtos q 2 2) " m3/s</td><td><span class='badge "
+                (HydroStatusClass evalQ100) "'>" evalQ100 "</span></td></tr>"))
+
+              (HydroWriteLine file "          </tbody>")
+              (HydroWriteLine file "        </table>")
+              (HydroWriteLine file "      </div>")
+              (HydroWriteLine file "    </section>")
+
+              (HydroWriteLine file "    <div class='foot'>Report bol vytvorený automaticky z výpočtu hydrotechnickej kapacity koryta.</div>")
+              (HydroWriteLine file "  </div>")
+              (HydroWriteLine file "</body>")
+              (HydroWriteLine file "</html>")
 
               (close file)
-              (alert (strcat "Report bol ulozeny do suboru:\n" filePath))
-              (princ (strcat "\nReport bol ulozeny: " filePath))
+              (alert (strcat "HTML report bol ulozeny do suboru:\n" filePath))
+              (princ (strcat "\nHTML report bol ulozeny: " filePath))
             )
             (alert "Subor reportu sa nepodarilo vytvorit.")
           )
@@ -383,7 +532,6 @@
 
   (princ)
 )
-
 
 ;;----------------------------------------------------------------------;;
 ;;                  Funkcia zavretia dialogoveho okna                   ;;
