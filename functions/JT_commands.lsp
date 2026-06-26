@@ -16,18 +16,6 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;    Nastavenie premennej JTMenuScale, pre zmenu DIMSCALE a TEXTSIZE   ;;
-;;----------------------------------------------------------------------;;
-
-(defun c:JTMenuScale()
-  (setenv "GlobalnaJTMenuScale" (getstring "Zadajte mierku 1:"))
-  (setvar "DIMSCALE" (/ (atof (getenv "GlobalnaJTMenuScale")) 1000))
-  (setvar "TEXTSIZE" (* 2.5 (/ (atof (getenv "GlobalnaJTMenuScale")) 1000)))
-  (princ "Nastavena mierka je 1:" (getenv "GlobalnaJTMenuScale"))
-  (princ)
-)
-
-;;----------------------------------------------------------------------;;
 ;;                 Nastavenie premennej JTPreviewMode                   ;;
 ;;----------------------------------------------------------------------;;
 
