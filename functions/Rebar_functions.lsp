@@ -259,88 +259,91 @@
     (setq cislo (strcat "S" cislo))
   )
 
-  ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
-  
-  ;;;;;;;;;;;;;;;;;;;
-  
-  (progn
-      ;; pôvodná polyline + jej dĺžka
-      (setq orig-obj (vlax-ename->vla-object plEnt))
-      (setq orig-len (vla-get-length orig-obj)) ; dĺžka pôvodnej polyliny[web:3][web:6]
+  ;nastavenie modu urcenia dlzky vystuze
+  (if (= (getenv "GlobalnaRebarLegth") "Os")
+    ;dlzka polyliny z osi
+    (progn
+      (setq obj (vlax-ename->vla-object plEnt))
+      (setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj)))
+    )
+    ;dlzka polyliny z povrchu  
+    (progn
+        ;; pôvodná polyline + jej dĺžka
+        (setq orig-obj (vlax-ename->vla-object plEnt))
+        (setq orig-len (vla-get-length orig-obj)) ; dĺžka pôvodnej polyliny[web:3][web:6]
 
-      ;; offset vzdialenost = global_width
-      (setq dist (/ (abs global_width) 2))
+        ;; offset vzdialenost = global_width
+        (setq dist (/ (abs global_width) 2))
 
-      (setq ptMax (getvar "EXTMAX")) ; bod pre jednu stranu[web:29]
-      (setq ptMin (getvar "EXTMIN")) ; bod pre opačnú stranu[web:29]
+        (setq ptMax (getvar "EXTMAX")) ; bod pre jednu stranu[web:29]
+        (setq ptMin (getvar "EXTMIN")) ; bod pre opačnú stranu[web:29]
 
-      ;; OFFSET na stranu k EXTMAX (erase = no)
-      (command
-        "_.OFFSET"
-        "E" "N"
-        dist
-        plEnt
-        ptMax
-        ""
-      )
-      (setq off1 (entlast))
-
-      (if off1
-        (setq len1 (vla-get-length (vlax-ename->vla-object off1))) ; dĺžka 1. offsetu[web:3][web:6]
-      )
-
-      ;; OFFSET na stranu k EXTMIN (erase = no)
-      (command
-        "_.OFFSET"
-        "E" "N"
-        dist
-        plEnt
-        ptMin
-        ""
-      )
-      (setq off2 (entlast))
-
-      (if off2
-        (setq len2 (vla-get-length (vlax-ename->vla-object off2))) ; dĺžka 2. offsetu[web:3][web:6]
-      )
-
-      ;; vyber dlhšiu offsetovanú polylínu
-      (cond
-        ((and off1 off2)
-         (if (>= len1 len2)
-           (progn
-             (setq chosen    off1
-                   chosenLen len1)
-             (entdel off2) ; kratšiu zmaž[web:19]
-           )
-           (progn
-             (setq chosen    off2
-                   chosenLen len2)
-             (entdel off1) ; kratšiu zmaž[web:19]
-           )
-         )
+        ;; OFFSET na stranu k EXTMAX (erase = no)
+        (command
+          "_.OFFSET"
+          "E" "N"
+          dist
+          plEnt
+          ptMax
+          ""
         )
-        ((and off1 (not off2))
-         (setq chosen    off1
-               chosenLen len1)
+        (setq off1 (entlast))
+
+        (if off1
+          (setq len1 (vla-get-length (vlax-ename->vla-object off1))) ; dĺžka 1. offsetu[web:3][web:6]
         )
-        ((and off2 (not off1))
-         (setq chosen    off2
-               chosenLen len2)
+
+        ;; OFFSET na stranu k EXTMIN (erase = no)
+        (command
+          "_.OFFSET"
+          "E" "N"
+          dist
+          plEnt
+          ptMin
+          ""
         )
-      )
+        (setq off2 (entlast))
+
+        (if off2
+          (setq len2 (vla-get-length (vlax-ename->vla-object off2))) ; dĺžka 2. offsetu[web:3][web:6]
+        )
+
+        ;; vyber dlhšiu offsetovanú polylínu
+        (cond
+          ((and off1 off2)
+          (if (>= len1 len2)
+            (progn
+              (setq chosen    off1
+                    chosenLen len1)
+              (entdel off2) ; kratšiu zmaž[web:19]
+            )
+            (progn
+              (setq chosen    off2
+                    chosenLen len2)
+              (entdel off1) ; kratšiu zmaž[web:19]
+            )
+          )
+          )
+          ((and off1 (not off2))
+          (setq chosen    off1
+                chosenLen len1)
+          )
+          ((and off2 (not off1))
+          (setq chosen    off2
+                chosenLen len2)
+          )
+        )
+      
+      ;; výslednú hodnotu ulož do globálnej premennej obj
+      (setq len chosenLen)
+    
+      ;; po ziskani dlzky zmaz offset (povodna polylina zostane)
+      (entdel chosen)[web:19]
+      
+    )  
   )
   
-  ;; výslednú hodnotu ulož do globálnej premennej obj
-          (setq len chosenLen)
-  
-  ;; po ziskani dlzky zmaz offset (povodna polylina zostane)
-          (entdel chosen)[web:19]
-  
-  ;;;;;;;;;;;;;;;;;;
-  
-  ;(setq obj (vlax-ename->vla-object plEnt))
-  ;(setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj))) ; [web:130]
+  ;dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
   (setq lenmm  (* len 1000.0))
   (setq lenmm5 (LM:roundm lenmm 5)) ; najbližší násobok 5 [web:171]
 
