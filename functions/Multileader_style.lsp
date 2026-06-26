@@ -472,7 +472,7 @@
 ;;          Vytvorenie jednotlivych stylov kot podla DPPtools           ;;
 ;;----------------------------------------------------------------------;;
 
-(defun DPPCreateDimensionsStyle()
+(defun DPPtoolsMultileader()
   
   ;vytvorenie textoveho stylu DPP_Text 2.0
   (TextStyleCreatorDPP)
