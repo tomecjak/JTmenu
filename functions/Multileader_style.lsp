@@ -482,6 +482,9 @@
   ;multileader - uzol
   (DPPtools_msv_annotation_uzol)
   
+  ;; napr. pre tvoj štýl "DPP_Sipka X"
+(DPPtools_MLeaderLandingDistance "DPP_Sipka X" 1 T)  ; 5.0 jednotiek, Set landing distance ON
+  
   (princ "\nStyly DPPtools multileadrov boli vytvorene!")
   (princ)
 )
@@ -524,7 +527,7 @@
     (list
       '("AlignSpace" 4)
       (list "ArrowSize"
-            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 1.2)
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 2)
       )
       '("BitFlags" 0)
       '("BlockConnectionType" 1)
@@ -543,7 +546,7 @@
       '("EnableLanding" -1)
       '("FirstSegmentAngleConstraint" 0)
       (list "LandingGap"
-            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 1)
+            (/ (vla-get-landinggap (vla-item mldrdict "Standard")) 2)
       )
       '("LeaderLineType" 1)
       '("LeaderLineTypeId" "ByBlock")
@@ -655,7 +658,7 @@
     (list
       '("AlignSpace" 4)
       (list "ArrowSize"
-            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 2)
+            (/ (vla-get-arrowsize (vla-item mldrdict "Standard")) 4)
       )
       '("BitFlags" 0)
       '("BlockConnectionType" 1)
@@ -745,6 +748,37 @@
     )
   )
 
+  (princ)
+)
+
+
+;; zapne/vypne Set Landing Distance a nastaví pevnú dĺžku
+(defun DPPtools_MLeaderLandingDistance (sty dist flg / dic)
+  ;; sty  = názov MLEADER štýlu (napr. "DPP_Sipka X")
+  ;; dist = požadovaná dĺžka landing segmentu (napr. 5.0)
+  ;; flg  = T → zapnúť Set Landing Distance, nil → vypnúť
+
+  (if (and
+        (setq dic (dictsearch (namedobjdict) "ACAD_MLEADERSTYLE"))
+        (setq dic (dictsearch (cdr (assoc -1 dic)) sty))
+      )
+    (progn
+      ;; nastav landing distance (absolútna hodnota DXF 43)
+      (setq dic (subst (cons 43 (abs dist)) (assoc 43 dic) dic))
+
+      ;; zapnúť/vypnúť Set Landing Distance:
+      ;; kladná hodnota = fixná dĺžka, záporná = voľná
+      (setq dic
+        (subst
+          (cons 43 ((if flg + -) (abs (cdr (assoc 43 dic)))))
+          (assoc 43 dic)
+          dic
+        )
+      )
+
+      (entmod dic)
+    )
+  )
   (princ)
 )
 
