@@ -739,6 +739,11 @@
   (setenv "GlobalnaRebarType" "Layer")
 )
 
+(if (= (getenv "GlobalnaRebarLegth") nil)
+  ;nastavenie modu pre dlzku vystuze
+  (setenv "GlobalnaRebarLegth" "Os")
+)
+
 (if (= (getenv "GlobalnaBlocksScale") nil)
   ;nastavenie mierky vkladenych blokov
   (setenv "GlobalnaBlocksScale" "50")
@@ -775,7 +780,8 @@
     "\n**********************************************"
     "\nNastavena hladina " (getenv "GlobalnaHladinaBlokov") " pre vkladane bloky!"
     "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
-    "\nNastavily ste mod pre vystuzovanie na " (getenv "GlobalnaRebarType") "!"
+    "\nNastavily ste mod pre vystuzovanie na: " (getenv "GlobalnaRebarType") "!"
+    "\nNastavily ste mod pre dlzku vystuze na: " (getenv "GlobalnaRebarLegth") "!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
     "\nNastavena mierka je 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
     "\nNastaveny jazyk pre vkladane bloky je: " (getenv "GlobalnaBlocksLanguage") "!"

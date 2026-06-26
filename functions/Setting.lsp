@@ -223,7 +223,7 @@
                  "\nNastavily ste rozdelovac hladiny na: " (getenv "GlobalnaPrefixHladinySeparator") "!"
                  "\nNastavily ste typ " (getenv "GlobalnaBlocksType") " pre vkladane bloky!"
                  "\nNastavily ste mod pre vystuzovanie na: " (getenv "GlobalnaRebarType") "!"
-                 "\nNastavily ste mod pre vystuzovanie na: " (getenv "GlobalnaRebarLegth") "!"
+                 "\nNastavily ste mod pre dlzku vystuze na: " (getenv "GlobalnaRebarLegth") "!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaBlocksScale") " pre vkladane bloky!"
                  "\nNastavily ste mierku 1:" (getenv "GlobalnaSignBlocksScale") " pre vkladane bloky dopravneho znacenia!"
                  "\nNastavily ste jazyk pre vkladane bloky na: " (getenv "GlobalnaBlocksLanguage") "!"
