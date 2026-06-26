@@ -339,7 +339,10 @@
   
   ;kontrola, či už existuje hlavný DPP štýl
   (if (tblsearch "DIMSTYLE" "DPP_Koty mm")
-    (princ "\nKotovaci styl s nazvom \"DPP_Koty mm\" uz vo vykrese existuju.")
+    (progn
+      (princ "\nKotovaci styl s nazvom \"DPP_Koty mm\" uz vo vykrese existuju.")
+      (princ)
+    )
     (progn    
       ;vytvorenie textoveho stylu DPP_Text 2.0
       (TextStyleCreatorDPP)
