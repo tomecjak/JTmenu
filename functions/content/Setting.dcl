@@ -265,6 +265,11 @@ Setting //nazov dcl
           key = "blocksLanguageEN";
           label = "Anglicky";
         }
+        //prvy riadok poznamky nastavenia
+        : text_part
+        { 
+          label = "Toto nastavenie funguje iba pri rezime JTmenu.";
+        }
       }
 
       //siedmi riadok dialogu - nastavenie generovanych kot
@@ -309,13 +314,27 @@ Setting //nazov dcl
         { 
           label = "ktorej velkost je riadena hodnotou DIMSCALE.";
         }
+        //stvrty riadok poznamky nastavenia
+        : text_part
+        { 
+          label = "Toto nastavenie funguje iba pri rezime JTmenu.";
+        }
+        //piaty riadok poznamky nastavenia
+        : text_part
+        { 
+          label = "V rezime DPPtools je len annotativny mod.";
+        }
       }
 
       //osmi riadok dialogu - verzia JTmenu
       : boxed_row
       {
         label = "Verzia JTmenu";
-        : text
+        : text_part
+        { 
+          label = "Vytvoril: Jakub Tomecko";
+        }
+        : text_part
         { 
           label = "";
           key = "verziaJtMenu";
@@ -370,7 +389,7 @@ About
   : boxed_column
   {
     label = "Ikony";
-    : text_part { label = "Vsetky ikony pouzite v JTmenu su pouzite zo stanky: [www.flaticon.com](https://www.flaticon.com)."; }
+    : text_part { label = "Vsetky ikony pouzite v JTmenu su pouzite zo stanky: https://www.flaticon.com."; }
     : spacer {}
     : text_part { label = "Zoznanam autorov od ktorych boli pouzite ikony: Freepik, Suraiya Mili,"; }
     : text_part { label = "Riajulislam, Smashicons, Graphiverse, Soodesign, Juicy_fish, Zafdesign,"; }
