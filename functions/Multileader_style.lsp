@@ -44,7 +44,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Nastavenie multileadru - klasicky mod                  ;;
+;;            Nastavenie JTmenu multileadru - klasicky mod              ;;
 ;;----------------------------------------------------------------------;;
 
 (defun make_mleader_style_klasicky	(mleaderstylename
@@ -97,7 +97,7 @@
 	     '("BlockScale" 1.0)
 	     '("BreakSize" 0.05)
 	     '("ContentType" 2)		;nastavenie mtextu
-	     '("Description" "My Style Description")
+	     '("Description" "")
 	     '("DoglegLength" 0.1)
 	     '("DrawLeaderOrderType" 0)
 	     '("DrawMLeaderOrderType" 1)
@@ -123,7 +123,7 @@
 	     '("TextLeftAttachmentType" 4)
 	     '("TextRightAttachmentType" 4)
 	     '("TextString" "Default\\PText")
-	     '("TextStyle" "DP_ISOCPEUR")
+	     '("TextStyle" "JT_ISOCPEUR")
 	   )
 
     (vlax-put newldrstyle (car item) (cadr item))
@@ -132,7 +132,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;                Nastavenie multileadru - mierka mod                   ;;
+;;             Nastavenie JTmenu multileadru - mierka mod               ;;
 ;;----------------------------------------------------------------------;;
 
 (defun make_mleader_style_mierka	(mleaderstylename
@@ -185,7 +185,7 @@
 	     '("BlockScale" 1.0)
 	     '("BreakSize" 1.0)
 	     '("ContentType" 2)		;nastavenie mtextu
-	     '("Description" "My Style Description")
+	     '("Description" "")
 	     '("DoglegLength" 2.0)
 	     '("DrawLeaderOrderType" 0)
 	     '("DrawMLeaderOrderType" 1)
@@ -211,7 +211,7 @@
 	     '("TextLeftAttachmentType" 4)
 	     '("TextRightAttachmentType" 4)
 	     '("TextString" "Default\\PText")
-	     '("TextStyle" "DP_ISOCPEUR")
+	     '("TextStyle" "JT_ISOCPEUR")
 	   )
 
     (vlax-put newldrstyle (car item) (cadr item))
@@ -220,7 +220,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;                 Nastavenie multileadru - anno mod                    ;;
+;;             Nastavenie Jtmenu multileadru - anno mod                 ;;
 ;;----------------------------------------------------------------------;;
 
 (defun make_mleader_style_annotation  (mleaderstylename
@@ -265,7 +265,7 @@
       '("BlockScale" 1.0)
       '("BreakSize" 1.0)
       '("ContentType" 2)   ; MTEXT
-      '("Description" "Annotative DP_Multileader")
+      '("Description" "")
       '("DoglegLength" 2.0)
       '("DrawLeaderOrderType" 0)
       '("DrawMLeaderOrderType" 1)
@@ -290,7 +290,7 @@
       '("TextLeftAttachmentType" 4)
       '("TextRightAttachmentType" 4)
       '("TextString" "Default\\PText")
-      '("TextStyle" "DP_ISOCPEUR")
+      '("TextStyle" "JT_ISOCPEUR")
     )
 
     (vlax-put newldrstyle (car item) (cadr item))
@@ -303,7 +303,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Vytvorenie multileadru - klasicky mod                  ;;
+;;           Vytvorenie JTmenu multileadru - klasicky mod               ;;
 ;;----------------------------------------------------------------------;;
 
 (defun msv_klasika (/ *error* ms)
@@ -325,12 +325,12 @@
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
 	  '(lambda ()
-	     (setq ms (make_mleader_style_klasicky "DP_Multileader" 0 0))
+	     (setq ms (make_mleader_style_klasicky "JT_Multileader" 0 0))
 	   )
 	) 
       )
     (alert "Problem s vytvorenim stylu multileadru!")
-    (setvar "CMLEADERSTYLE" "DP_Multileader")
+    (setvar "CMLEADERSTYLE" "JT_Multileader")
   ) 
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
@@ -350,7 +350,7 @@
 ) 
 
 ;;----------------------------------------------------------------------;;
-;;                Vytvorenie multileadru - mierka mod                   ;;
+;;             Vytvorenie JTmenu multileadru - mierka mod               ;;
 ;;----------------------------------------------------------------------;;
 
 ;; Test
@@ -373,12 +373,12 @@
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
 	  '(lambda ()
-	     (setq ms (make_mleader_style_mierka "DP_Multileader" 0 0))
+	     (setq ms (make_mleader_style_mierka "JT_Multileader" 0 0))
 	   ) 
 	) 
       ) 
     (alert "Problem s vytvorenim stylu multileadru!")
-    (setvar "CMLEADERSTYLE" "DP_Multileader")
+    (setvar "CMLEADERSTYLE" "JT_Multileader")
   ) 
   (if (vl-catch-all-error-p
 	(vl-catch-all-apply
@@ -398,7 +398,7 @@
 ) 
 
 ;;----------------------------------------------------------------------;;
-;;                 Vytvorenie multileadru - anno mod                    ;;
+;;              Vytvorenie JTmenu multileadru - anno mod                ;;
 ;;----------------------------------------------------------------------;;
 
 (defun msv_annotation (/ *error* ms)
@@ -419,12 +419,12 @@
   (if (vl-catch-all-error-p
         (vl-catch-all-apply
           '(lambda ()
-             (setq ms (make_mleader_style_annotation "DP_Multileader" 0 0))
+             (setq ms (make_mleader_style_annotation "JT_Multileader" 0 0))
            )
         )
       )
     (alert "Problem s vytvorenim annotativneho stylu multileadru!")
-    (setvar "CMLEADERSTYLE" "DP_Multileader")
+    (setvar "CMLEADERSTYLE" "JT_Multileader")
   )
 
   ;; nastavenie sipky
@@ -446,7 +446,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;              Vytvorenie textoveho stylu DP_ISOCPEUR                  ;;
+;;              Vytvorenie textoveho stylu JT_ISOCPEUR                  ;;
 ;;----------------------------------------------------------------------;;
 
 (defun TextStyleCreator ()
@@ -455,7 +455,7 @@
     (0 . "STYLE")
     (100 . "AcDbSymbolTableRecord")
     (100 . "AcDbTextStyleTableRecord")
-    (2 . "DP_ISOCPEUR")
+    (2 . "JT_ISOCPEUR")
     (70 . 0)
     (40 . 0.0);<- definovanie vysky textu
     (41 . 1.0)
@@ -482,8 +482,9 @@
   ;multileader - uzol
   (DPPtools_msv_annotation_uzol)
   
-  ;; napr. pre tvoj štýl "DPP_Sipka X"
-(DPPtools_MLeaderLandingDistance "DPP_Sipka X" 1 T)  ; 5.0 jednotiek, Set landing distance ON
+  ;nastavenie Set landing distance = 1
+  (DPPtools_MLeaderLandingDistance "DPP_Sipka X" 1 T)
+  (DPPtools_MLeaderLandingDistance "DPP_Uzol X" 1 T)
   
   (princ "\nStyly DPPtools multileadrov boli vytvorene!")
   (princ)
@@ -751,23 +752,19 @@
   (princ)
 )
 
+;;----------------------------------------------------------------------;;
+;;         Pomocna funkcie pre nastavenie Set Landing Distance          ;;
+;;----------------------------------------------------------------------;;
 
-;; zapne/vypne Set Landing Distance a nastaví pevnú dĺžku
 (defun DPPtools_MLeaderLandingDistance (sty dist flg / dic)
-  ;; sty  = názov MLEADER štýlu (napr. "DPP_Sipka X")
-  ;; dist = požadovaná dĺžka landing segmentu (napr. 5.0)
-  ;; flg  = T → zapnúť Set Landing Distance, nil → vypnúť
 
   (if (and
         (setq dic (dictsearch (namedobjdict) "ACAD_MLEADERSTYLE"))
         (setq dic (dictsearch (cdr (assoc -1 dic)) sty))
       )
     (progn
-      ;; nastav landing distance (absolútna hodnota DXF 43)
       (setq dic (subst (cons 43 (abs dist)) (assoc 43 dic) dic))
 
-      ;; zapnúť/vypnúť Set Landing Distance:
-      ;; kladná hodnota = fixná dĺžka, záporná = voľná
       (setq dic
         (subst
           (cons 43 ((if flg + -) (abs (cdr (assoc 43 dic)))))
@@ -779,7 +776,9 @@
       (entmod dic)
     )
   )
+  
   (princ)
+  
 )
 
 ;;----------------------------------------------------------------------;;
