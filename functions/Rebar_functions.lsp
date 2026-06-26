@@ -353,7 +353,7 @@
   ;; do stringu dávam už zaokrúhlenú dĺžku v mm bez desatinných
   (setq str (strcat num "/" (rtos lenmm5 2 0) "-" kusy "ks"))
 
-  (setq blkEnt (car (entsel "\nVyber blok (s atributmi POPIS a Cislo): ")))
+  (setq blkEnt (car (entsel "\nVyber blok (s atributmi POPIS a CISLO): ")))
   (if (null blkEnt) (progn (prompt "\nZrusene.") (princ) (exit)))
 
   (if (_set-attr blkEnt "POPIS" str)
@@ -363,8 +363,8 @@
 
   (if cislo
     (if (_set-attr blkEnt "Cislo" cislo)
-      (prompt (strcat "\nZapisane do Cislo: " cislo))
-      (prompt "\nBlok nema atribut Cislo.")
+      (prompt (strcat "\nZapisane do CISLO: " cislo))
+      (prompt "\nBlok nema atribut CISLO.")
     )
     (prompt "\nV nazve hladiny sa nenaslo cislo za 'B' alebo 'BS'.")
   )

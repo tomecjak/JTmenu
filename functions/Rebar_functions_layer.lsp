@@ -223,18 +223,92 @@
   (setq D   (float D))
   (setq num (rtos D 2 0)) ; priemer v mm (string)
 
-  ;; načítaj číslo z názvu hladiny za "B" alebo "BS"
-  (setq lay (cdr (assoc 8 plEd)))
-  (setq cislo (_digits-after-B-or-BS lay))
-  
-  ;; ak je v hladine BS, pridaj S pred číslo
-  (if (and cislo (vl-string-search "BS" lay))
-    (setq cislo (strcat "S" cislo))
-  )
+  ;nastavenie modu urcenia dlzky vystuze
+  (if (= (getenv "GlobalnaRebarLegth") "Os")
+    ;dlzka polyliny z osi
+    (progn
+      (setq obj (vlax-ename->vla-object plEnt))
+      (setq len (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj)))
+    )
+    ;dlzka polyliny z povrchu
+    (progn
+        ;; pôvodná polyline + jej dĺžka
+        (setq orig-obj (vlax-ename->vla-object plEnt))
+        (setq orig-len (vla-get-length orig-obj)) ; dĺžka pôvodnej polyliny[web:3][web:6]
 
-  ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5
-  (setq obj   (vlax-ename->vla-object plEnt))
-  (setq len   (vlax-curve-getDistAtParam obj (vlax-curve-getEndParam obj)))
+        ;; offset vzdialenost = global_width
+        (setq dist (/ (abs (/ D 1000)) 2))
+
+        (setq ptMax (getvar "EXTMAX")) ; bod pre jednu stranu[web:29]
+        (setq ptMin (getvar "EXTMIN")) ; bod pre opačnú stranu[web:29]
+
+        ;; OFFSET na stranu k EXTMAX (erase = no)
+        (command
+          "_.OFFSET"
+          "E" "N"
+          dist
+          plEnt
+          ptMax
+          ""
+        )
+        (setq off1 (entlast))
+
+        (if off1
+          (setq len1 (vla-get-length (vlax-ename->vla-object off1))) ; dĺžka 1. offsetu[web:3][web:6]
+        )
+
+        ;; OFFSET na stranu k EXTMIN (erase = no)
+        (command
+          "_.OFFSET"
+          "E" "N"
+          dist
+          plEnt
+          ptMin
+          ""
+        )
+        (setq off2 (entlast))
+
+        (if off2
+          (setq len2 (vla-get-length (vlax-ename->vla-object off2))) ; dĺžka 2. offsetu[web:3][web:6]
+        )
+
+        ;; vyber dlhšiu offsetovanú polylínu
+        (cond
+          ((and off1 off2)
+          (if (>= len1 len2)
+            (progn
+              (setq chosen    off1
+                    chosenLen len1)
+              (entdel off2) ; kratšiu zmaž[web:19]
+            )
+            (progn
+              (setq chosen    off2
+                    chosenLen len2)
+              (entdel off1) ; kratšiu zmaž[web:19]
+            )
+          )
+          )
+          ((and off1 (not off2))
+          (setq chosen    off1
+                chosenLen len1)
+          )
+          ((and off2 (not off1))
+          (setq chosen    off2
+                chosenLen len2)
+          )
+        )
+      
+      ;; výslednú hodnotu ulož do globálnej premennej obj
+      (setq len chosenLen)
+    
+      ;; po ziskani dlzky zmaz offset (povodna polylina zostane)
+      (entdel chosen)[web:19]
+      
+    )  
+    
+  )  
+      
+  ;; dĺžka (v jednotkách výkresu) -> *1000 -> zaokrúhliť na 5  
   (setq lenmm (* len 1000.0))
   (setq lenmm5 (LM:roundm lenmm 5)) ; najbližší násobok 5
 
@@ -244,20 +318,12 @@
   ;; do stringu dávam už zaokrúhlenú dĺžku v mm bez desatinných
   (setq str (strcat num "/" (rtos lenmm5 2 0) "-" kusy "ks"))
 
-  (setq blkEnt (car (entsel "\nVyber blok (s atributmi POPIS a Cislo): ")))
+  (setq blkEnt (car (entsel "\nVyber blok (s atributmi POPIS): ")))
   (if (null blkEnt) (progn (prompt "\nZrusene.") (princ) (exit)))
 
   (if (_set-attr blkEnt "POPIS" str)
     (prompt (strcat "\nZapisane do POPIS: " str))
     (prompt "\nBlok nema atribut POPIS.")
-  )
-
-  (if cislo
-    (if (_set-attr blkEnt "Cislo" cislo)
-      (prompt (strcat "\nZapisane do Cislo: " cislo))
-      (prompt "\nBlok nema atribut Cislo.")
-    )
-    (prompt "\nV nazve hladiny sa nenaslo cislo za 'B' alebo 'BS'.")
   )
 
   (princ)
