@@ -478,9 +478,6 @@
               (HydroWriteLine file "</head>")
               (HydroWriteLine file "<body>")
               (HydroWriteLine file "  <div class='wrap'>")
-              (HydroWriteLine file "    <div class='toolbar'>")
-              (HydroWriteLine file "      <button class='btn btn-print' onclick='window.print()'>Export do PDF / Tla&#269;</button>")
-              (HydroWriteLine file "    </div>")
 
               ;; hero
               (HydroWriteLine file "    <section class='hero'>")
@@ -502,7 +499,7 @@
               (HydroWriteLine file (strcat "              <tr><td>V&#253;&#353;ka na konci koryta \"h2\"</td><td class='num'>" (HydroFmt h2 3) " m</td></tr>"))
               (HydroWriteLine file (strcat "              <tr><td>D&#314;&#382;ka koryta \"L\"</td><td class='num'>" (HydroFmt L 3) " m</td></tr>"))
               (HydroWriteLine file (strcat "              <tr><td>Stupe&#328; drsnosti \"n\"</td><td class='num'>" (HydroFmt drsnostN 3) " -</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td>Prieto&#269;n&#225; plocha \"S\"</td><td class='num'>" (HydroFmt plochaS 2) " m²</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Prieto&#269;n&#225; plocha \"S\"</td><td class='num'>" (HydroFmt plochaS 2) " m2</td></tr>"))
               (HydroWriteLine file (strcat "              <tr><td>Omo&#269;en&#253; obvod \"O\"</td><td class='num'>" (HydroFmt obvodO 2) " m</td></tr>"))
               (HydroWriteLine file "            </tbody>")
               (HydroWriteLine file "          </table>")
@@ -589,7 +586,7 @@
               (HydroWriteLine file "        <div class='formula'>")
               (HydroWriteLine file "          <h3>5. Kapacita koryta</h3>")
               (HydroWriteLine file "          <div class='eq'>Q = C * S * sqrt(R * i)</div>")
-              (HydroWriteLine file (strcat "          <div class='sub'>Q = " (HydroFmt C 3) " * " (HydroFmt plochaS 2) " * sqrt(" (HydroFmt R 3) " * " (HydroFmt sklonI 5) ") = " (HydroFmt q 2) " m³/s</div>"))
+              (HydroWriteLine file (strcat "          <div class='sub'>Q = " (HydroFmt C 3) " * " (HydroFmt plochaS 2) " * sqrt(" (HydroFmt R 3) " * " (HydroFmt sklonI 5) ") = " (HydroFmt q 2) " m3/s</div>"))
               (HydroWriteLine file "        </div>")
 
               (HydroWriteLine file "      </div>")
@@ -603,13 +600,13 @@
               (HydroWriteLine file "          <thead><tr><th>Prietok</th><th>N&#225;vrhovan&#253; prietok</th><th>Kapacita koryta</th><th>Vyhodnotenie</th></tr></thead>")
               (HydroWriteLine file "          <tbody>")
 
-              (HydroWriteLine file (strcat "            <tr><td>Q1</td><td class='num'>" (HydroFmt q1 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ1) "'>" (HydroSafe evalQ1) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q2</td><td class='num'>" (HydroFmt q2 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ2) "'>" (HydroSafe evalQ2) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q5</td><td class='num'>" (HydroFmt q5 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ5) "'>" (HydroSafe evalQ5) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q10</td><td class='num'>" (HydroFmt q10 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ10) "'>" (HydroSafe evalQ10) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q20</td><td class='num'>" (HydroFmt q20 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ20) "'>" (HydroSafe evalQ20) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q50</td><td class='num'>" (HydroFmt q50 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ50) "'>" (HydroSafe evalQ50) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q100</td><td class='num'>" (HydroFmt q100 2) " m³/s</td><td class='num'>" (HydroFmt q 2) " m³/s</td><td><span class='badge " (HydroStatusClass evalQ100) "'>" (HydroSafe evalQ100) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q1</td><td class='num'>" (HydroFmt q1 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ1) "'>" (HydroSafe evalQ1) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q2</td><td class='num'>" (HydroFmt q2 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ2) "'>" (HydroSafe evalQ2) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q5</td><td class='num'>" (HydroFmt q5 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ5) "'>" (HydroSafe evalQ5) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q10</td><td class='num'>" (HydroFmt q10 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ10) "'>" (HydroSafe evalQ10) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q20</td><td class='num'>" (HydroFmt q20 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ20) "'>" (HydroSafe evalQ20) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q50</td><td class='num'>" (HydroFmt q50 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ50) "'>" (HydroSafe evalQ50) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q100</td><td class='num'>" (HydroFmt q100 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ100) "'>" (HydroSafe evalQ100) "</span></td></tr>"))
 
               (HydroWriteLine file "          </tbody>")
               (HydroWriteLine file "        </table>")
