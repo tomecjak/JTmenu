@@ -12,20 +12,24 @@ Zone_update //nazod dcl
   //nazov dialogu
   label = "Update ochrannych pasiem";
 
-  //prvy riadok
+  //prvy riadok - cestne ochranne pasma
   : boxed_column
   {
-    label = "Ochranne pasma stavieb";
+    label = "Cestne ochranne pasma";
     
     : column
     {
       : text_part
       {
-        label = "Poznamka: Ochranne pasma dopravnych ciest podla zakonu c. 35/1984 a 1993/1997, zeleznicnych trati podla zakona c. 513/2009,";
+        label = "Sluzia na ochranu dialnic, ciest a miestnych komunikacii mimo uzemia zastaveneho, alebo urceneho na suvisle zastavenia.";
       }
       : text_part
       {
-        label = "pohrebisk a krematoria podla zokana c. 470/2005.";
+        label = "Pre jednotlive druhy komunikacii urcuje sirku ochrannych pasiem Vyhlaska c. 35/1984 Zb.";
+      }
+      : text_part
+      {
+        label = "Poznamka: Na smerovo rozdelenych cestach sa vzdialenosti meraju od osi prilahlej vozovky.";
       }
     }
 
@@ -39,57 +43,32 @@ Zone_update //nazod dcl
       width = 60;
       : text
       {
-        label = "Nazov stavby";
+        label = "Nazov";
       }
       : text
       {
-        label = "DIALNICA ALEBO RÝCHLOSTNÁ CESTA";
+        label = "Dialnica";
         key = "nazov_zony_01";
       }
       : text
       {
-        label = "CESTA I. TRIEDY";
+        label = "Cesta I. triedy";
         key = "nazov_zony_02";
       }
       : text
       {
-        label = "CESTA II. TRIEDY";
+        label = "Cesta II. triedy";
         key = "nazov_zony_03";
       }
       : text
       {
-        label = "CESTA III. TRIEDY";
+        label = "Cesta III. triedy";
         key = "nazov_zony_04";
       }
       : text
       {
-        label = "MIESTNA KOMUNIKÁCIA";
+        label = "Miestna komunikacia";
         key = "nazov_zony_05";
-      }
-      : text
-      {
-        label = "ŽELEZNICNÁ DRÁHA";
-        key = "nazov_zony_06";
-      }
-      : text
-      {
-        label = "OSTATNÉ KOLAJOVÉ A POZEMNÉ LANOVÉ DRÁHY";
-        key = "nazov_zony_07";
-      }
-      : text
-      {
-        label = "TROLEJBUSOVÁ DRÁHA";
-        key = "nazov_zony_08";
-      }
-      : text
-      {
-        label = "POHREBISKO";
-        key = "nazov_zony_09";
-      }
-      : text
-      {
-        label = "KREMATÓRIUM";
-        key = "nazov_zony_10";
       }
     }
 
@@ -99,57 +78,32 @@ Zone_update //nazod dcl
       width = 50;
       : text
       {
-        label = "Rozsah ochranneho pasma";
+        label = "Ochranne pasmo";
       }
       : text
       {
-        label = "100 m OD OSU VOZOVKY PRILAHLÉHO JAZDNÉHO PÁSU";
+        label = "100 m od osi vozovky";
         key = "vzdialenost01";
       }
       : text
       {
-        label = "50 m OD OSI VOZOVKY";
+        label = "50 m od osi vozovky";
         key = "vzdialenost02";
       }
       : text
       {
-        label = "25 m OD OSI VOZOVKY";
+        label = "25 m od osi vozovky";
         key = "vzdialenost03";
       }
       : text
       {
-        label = "20 m OD OSI VOZOVKY";
+        label = "20 m od osi vozovky";
         key = "vzdialenost04";
       }
       : text
       {
-        label = "15 m OD OSI VOZOVKY";
+        label = "15 m od osi vozovky";
         key = "vzdialenost05";
-      }
-      : text
-      {
-        label = "60 m OD OSI KRAJNEJ KOLAJE";
-        key = "vzdialenost06";
-      }
-      : text
-      {
-        label = "15 m OD OSI KRAJNEJ KOLAJE";
-        key = "vzdialenost07";
-      }
-      : text
-      {
-        label = "10 m OD KRAJNÉHO VODICA TRAKCNÉHO VEDENIA";
-        key = "vzdialenost08";
-      }
-      : text
-      {
-        label = "50 m OD HRANICE POZEMKU";
-        key = "vzdialenost09";
-      }
-      : text
-      {
-        label = "100 m OD HRANICE POZEMKU";
-        key = "vzdialenost10";
       }
     }
 
@@ -185,6 +139,108 @@ Zone_update //nazod dcl
         key = "oznacit05";
         label = "Zapisat";
       }
+    }
+    }
+  }
+
+  //druhy riadok - zeleznicne ochranne pasma
+  : boxed_column
+  {
+    label = "Zeleznicne ochranne pasma";
+    
+    : column
+    {
+      : text_part
+      {
+        label = "Sluzia na ochranu drahy a na ochranu prevadzky na drahe v zmysle Zakona o drahach c. 513/2009 Z. z.";
+      }
+      : text_part
+      {
+        label = "Su vymedzene pristorom po obidvoch stranach drahy.";
+      }
+    }
+
+    : spacer {  }
+    
+    : row {
+
+    //stlpec z nazvom stavby
+    : column
+    {
+      width = 60;
+      : text
+      {
+        label = "Nazov";
+      }
+      : text
+      {
+        label = "Zeleznicna draha";
+        key = "nazov_zony_06";
+      }
+      : text
+      {
+        label = "Ostatne kolajove drahy";
+        key = "nazov_zony_07";
+      }
+      : text
+      {
+        label = "Pozemna lanova draha";
+        key = "nazov_zony_08";
+      }
+      : text
+      {
+        label = "Visuta lanova draha";
+        key = "nazov_zony_09";
+      }
+      : text
+      {
+        label = "Trolejbusova draha";
+        key = "nazov_zony_10";
+      }
+    }
+
+    //stlpec zo vzdialenostou ochranneho pasma
+    : column
+    {
+      width = 50;
+      : text
+      {
+        label = "Ochranne pasmo";
+      }
+      : text
+      {
+        label = "60 m od osi krajnej kolaje";
+        key = "vzdialenost06";
+      }
+      : text
+      {
+        label = "15 m od osi krajnej kolaje";
+        key = "vzdialenost07";
+      }
+      : text
+      {
+        label = "15 m od osi krajnej kolaje";
+        key = "vzdialenost08";
+      }
+      : text
+      {
+        label = "15 m od nosneho alebo dopravneho lana";
+        key = "vzdialenost09";
+      }
+      : text
+      {
+        label = "10 m od krajneho vodica trakcneho vedenia";
+        key = "vzdialenost10";
+      }
+    }
+
+    //stlpec z oznacenim riadka
+    : column
+    {
+      : text
+      {
+        label = "";
+      }
       : toggle
       {
         key = "oznacit06";
@@ -214,115 +270,54 @@ Zone_update //nazod dcl
     }
   }
 
-  //druhy riadok
+  //treti riadok - ochranne pasma vodohospodarskych vedeni a zariadeni
   : boxed_column
   {
-    label = "Ochranne pasma sieti";
-
+    label = "Ochranne pasma vodohospodarskych vedeni a zariadeni";
+    
     : column
     {
       : text_part
       {
-        label = "Poznamka: Ochranne pasma verejneho vodovodu a kanalizacie podla zakona c. 442/2002 a 276/2001, vonkajsieho nadzemneho";
+        label = "Na ochranu verejnych vodovodov a verejnych kanalizacii sa vymedzuje podla Zakona c. 442/2002 Z. z.";
       }
       : text_part
       {
-        label = "a podzemneho elektrickeho vedenia podla zakona c. 656/2004, plynarenskych zariadeni podla zakona c. 656/2004.";
+        label = "o verejnych vodovodoch a verejnych kanalizaciach.";
       }
     }
 
     : spacer {  }
     
-    : row
-    {
-    
-    //stlpec z nazvom siete
+    : row {
+
+    //stlpec z nazvom stavby
     : column
     {
       width = 60;
       : text
       {
-        label = "Nazov siete";
+        label = "Nazov";
       }
       : text
       {
-        label = "VEREJNÝ VODOVOD A KANALIZÁCIA DO PRIEMERU 500 mm";
+        label = "Verejny vodovod do DN500";
         key = "nazov_zony_11";
       }
       : text
       {
-        label = "VEREJNÝ VODOVOD A KANALIZÁCIA NAD PRIEMER 500 mm";
+        label = "Verejny kanalizaci do DN500";
         key = "nazov_zony_12";
       }
       : text
       {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE OD 1 kV DO 35 kV";
+        label = "Verejny vodovod nad DN500";
         key = "nazov_zony_13";
       }
       : text
       {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE OD 1 kV DO 35 kV";
+        label = "Verejny kanalizaci nad DN500";
         key = "nazov_zony_14";
-      }
-      : text
-      {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE OD 1 kV DO 35 kV";
-        key = "nazov_zony_15";
-      }
-      : text
-      {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE OD 35 kV DO 110 kV";
-        key = "nazov_zony_16";
-      }
-      : text
-      {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE OD 110 kV DO 220 kV";
-        key = "nazov_zony_17";
-      }
-      : text
-      {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE OD 220 kV DO 400 kV";
-        key = "nazov_zony_18";
-      }
-      : text
-      {
-        label = "NADZEMNÉ ELEKTRICKÉ VEDENIE NAD 400 kV";
-        key = "nazov_zony_19";
-      }
-      : text
-      {
-        label = "PODZEMNÉ ELEKTRICKÉ VEDENIE DO 110 kv";
-        key = "nazov_zony_20";
-      }
-      : text
-      {
-        label = "PODZEMNÉ ELEKTRICKÉ VEDENIE NAD 110 kv";
-        key = "nazov_zony_21";
-      }
-      : text
-      {
-        label = "PLYNOVOD S PREVÁDZKOVÝM TLAKOM NIŽŠÍM AKO 0,4 MPa";
-        key = "nazov_zony_22";
-      }
-      : text
-      {
-        label = "PLYNOVOD S MENOVITOU SVETLOSTOU DO 200 mm";
-        key = "nazov_zony_23";
-      }
-      : text
-      {
-        label = "PLYNOVOD S MENOVITOU SVETLOSTOU OD 201 mm DO 500 mm";
-        key = "nazov_zony_24";
-      }
-      : text
-      {
-        label = "PLYNOVOD S MENOVITOU SVETLOSTOU OD 501 mm DO 700 mm";
-        key = "nazov_zony_25";
-      }
-      : text
-      {
-        label = "PLYNOVOD S MENOVITOU SVETLOSTOU NAD 700 mm";
-        key = "nazov_zony_26";
       }
     }
 
@@ -332,87 +327,27 @@ Zone_update //nazod dcl
       width = 50;
       : text
       {
-        label = "Rozsah ochranneho pasma";
+        label = "Ochranne pasmo";
       }
       : text
       {
-        label = "1,5 m OD OSI";
+        label = "1,8 m od vonkajsieho obrysu";
         key = "vzdialenost11";
       }
       : text
       {
-        label = "3,0 m OD OSI";
+        label = "1,8 m od vonkajsieho obrysu";
         key = "vzdialenost12";
       }
       : text
       {
-        label = "10 m OD KRAJNÉHO VODICA BEZ IZOLÁCIE";
+        label = "2,5 m od vonkajsieho obrysu";
         key = "vzdialenost13";
       }
       : text
       {
-        label = "4 m OD KRAJNÉHO VODICA SO ZÁKLADNOU IZOLÁCIOU";
+        label = "2,5 m od vonkajsieho obrysu";
         key = "vzdialenost14";
-      }
-      : text
-      {
-        label = "1 m PRE ZAVESENÉ KÁBLOVÉ VEDENIUE";
-        key = "vzdialenost15";
-      }
-      : text
-      {
-        label = "15 m OD KRAJNÉHO VODICA";
-        key = "vzdialenost16";
-      }
-      : text
-      {
-        label = "20 m OD KRAJNÉHO VODICA";
-        key = "vzdialenost17";
-      }
-      : text
-      {
-        label = "25 m OD KRAJNÉHO VODICA";
-        key = "vzdialenost18";
-      }
-      : text
-      {
-        label = "35 m OD KRAJNÉHO VODICA";
-        key = "vzdialenost19";
-      }
-      : text
-      {
-        label = "1 m OD KRAJNÉHO VODICA";
-        key = "vzdialenost20";
-      }
-      : text
-      {
-        label = "3 m OD KRAJNÉHO VODICA";
-        key = "vzdialenost21";
-      }
-      : text
-      {
-        label = "1 m OD OSI PLYNOVODU";
-        key = "vzdialenost22";
-      }
-      : text
-      {
-        label = "4 m OD OSI PLYNOVODU";
-        key = "vzdialenost23";
-      }
-      : text
-      {
-        label = "8 m OD OSI PLYNOVODU";
-        key = "vzdialenost24";
-      }
-      : text
-      {
-        label = "12 m OD OSI PLYNOVODU";
-        key = "vzdialenost25";
-      }
-      : text
-      {
-        label = "50 m OD OSI PLYNOVODU";
-        key = "vzdialenost11''26";
       }
     }
 
@@ -442,6 +377,154 @@ Zone_update //nazod dcl
       {
         key = "oznacit14";
         label = "Zapisat";
+      }
+    }
+    }
+  }
+
+  //stvrty riadok - ochranne pasma elektroenergetickych zariadeni
+  : boxed_column
+  {
+    label = "Ochranne pasma elektroenergetickych zariadeni";
+    
+    : column
+    {
+      : text_part
+      {
+        label = "Ochrana elektroenergetickych zariadeni sa vymedzuje podla Zakona c. 656/2004 Z. z. o energetike.";
+      }
+    }
+
+    : spacer {  }
+    
+    : row {
+
+    //stlpec z nazvom stavby
+    : column
+    {
+      width = 60;
+      : text
+      {
+        label = "Nazov";
+      }
+      : text
+      {
+        label = "Vonkajsie elektricke vedenie od 1 kV do 35 kV";
+        key = "nazov_zony_15";
+      }
+      : text
+      {
+        label = "Vonkajsie elektricke vedenie od 35 kV do 110 kV";
+        key = "nazov_zony_16";
+      }
+      : text
+      {
+        label = "Vonkajsie elektricke vedenie od 110 kV do 220 kV";
+        key = "nazov_zony_17";
+      }
+      : text
+      {
+        label = "Vonkajsie elektricke vedenie od 220 kV do 400 kV";
+        key = "nazov_zony_18";
+      }
+      : text
+      {
+        label = "Vonkajsie elektricke vedenie nad 400 kV";
+        key = "nazov_zony_19";
+      }
+      : text
+      {
+        label = "Zavesene kablove vedenie od 1 kv do 110 kV";
+        key = "nazov_zony_20";
+      }
+      : text
+      {
+        label = "Podzemne elektricke vedenie do 110 kv";
+        key = "nazov_zony_21";
+      }
+      : text
+      {
+        label = "Podzemne elektricke vedenie nad 110 kv";
+        key = "nazov_zony_22";
+      }
+      : text
+      {
+        label = "Elektricka stanica";
+        key = "nazov_zony_23";
+      }
+      : text
+      {
+        label = "Transfostanica z vysokeho na nizke napatie";
+        key = "nazov_zony_24";
+      }
+    }
+
+    //stlpec zo vzdialenostou ochranneho pasma
+    : column
+    {
+      width = 50;
+      : text
+      {
+        label = "Ochranne pasmo";
+      }
+      : text
+      {
+        label = "10 m od krajneho vodica";
+        key = "vzdialenost15";
+      }
+      : text
+      {
+        label = "15 m od krajneho vodica";
+        key = "vzdialenost16";
+      }
+      : text
+      {
+        label = "20 m od krajneho vodica";
+        key = "vzdialenost17";
+      }
+      : text
+      {
+        label = "25 m od krajneho vodica";
+        key = "vzdialenost18";
+      }
+      : text
+      {
+        label = "35 m od krajneho vodica";
+        key = "vzdialenost19";
+      }
+      : text
+      {
+        label = "2 m od krajneho vodica";
+        key = "vzdialenost20";
+      }
+      : text
+      {
+        label = "1 m od krajneho kabla";
+        key = "vzdialenost21";
+      }
+      : text
+      {
+        label = "3 m od krajneho kabla";
+        key = "vzdialenost22";
+      }
+      : text
+      {
+        label = "30 m od oplotenia";
+        key = "vzdialenost23";
+      }
+      : text
+      {
+        label = "10 m od konstrukcie stanice";
+        key = "vzdialenost24";
+      }
+    }
+
+    //stlpec z oznacenim riadka
+    : column
+    {
+      : text
+      {
+        label = "";
       }
       : toggle
       {
@@ -493,14 +576,157 @@ Zone_update //nazod dcl
         key = "oznacit24";
         label = "Zapisat";
       }
-      : toggle
+    }
+    }
+  }
+
+
+
+
+
+
+
+
+
+  //XX riadok - zeleznicne ochranne pasma
+  : boxed_column
+  {
+    label = "XXX";
+    
+    : column
+    {
+      : text_part
       {
-        key = "oznacit25";
-        label = "Zapisat";
+        label = "Sluzia na ochranu dialnic, ciest a miestnych komunikacii mimo uzemia zastaveneho, alebo urceneho na suvisle zastavenia.";
+      }
+      : text_part
+      {
+        label = "Pre jednotlive druhy komunikacii urcuje sirku ochrannych pasiem Vyhlaska c. 35/1984 Zb.";
+      }
+      : text_part
+      {
+        label = "Poznamka: Na smerovo rozdelenych cestach sa vzdialenosti meraju od osi prilahlej vozovky.";
+      }
+    }
+
+    : spacer {  }
+    
+    : row {
+
+    //stlpec z nazvom stavby
+    : column
+    {
+      width = 60;
+      : text
+      {
+        label = "Nazov";
+      }
+      : text
+      {
+        label = "XXa";
+        key = "nazov_zony_XX";
+      }
+    }
+
+    //stlpec zo vzdialenostou ochranneho pasma
+    : column
+    {
+      width = 50;
+      : text
+      {
+        label = "Ochranne pasmo";
+      }
+      : text
+      {
+        label = "XX";
+        key = "vzdialenostXX";
+      }
+    }
+
+    //stlpec z oznacenim riadka
+    : column
+    {
+      : text
+      {
+        label = "";
       }
       : toggle
       {
-        key = "oznacit26";
+        key = "oznacitXX";
+        label = "Zapisat";
+      }
+    }
+    }
+  }
+
+
+
+
+
+
+
+  //XX riadok - XX
+  : boxed_column
+  {
+    label = "XX";
+
+    : column
+    {
+      : text_part
+      {
+        label = "Poznamka: Ochranne pasma verejneho vodovodu a kanalizacie podla zakona c. 442/2002 a 276/2001, vonkajsieho nadzemneho";
+      }
+      : text_part
+      {
+        label = "a podzemneho elektrickeho vedenia podla zakona c. 656/2004, plynarenskych zariadeni podla zakona c. 656/2004.";
+      }
+    }
+
+    : spacer {  }
+    
+    : row
+    {
+    
+    //stlpec z nazvom siete
+    : column
+    {
+      width = 60;
+      : text
+      {
+        label = "Nazov";
+      }
+      : text
+      {
+        label = "VEREJNÝ VODOVOD A KANALIZÁCIA DO PRIEMERU 500 mm";
+        key = "nazov_zony_XX";
+      }
+    }
+
+    //stlpec zo vzdialenostou ochranneho pasma
+    : column
+    {
+      width = 50;
+      : text
+      {
+        label = "Ochranne pasmo";
+      }
+      : text
+      {
+        label = "1,5 m OD OSI";
+        key = "vzdialenostXX";
+      }
+    }
+
+    //stlpec z oznacenim riadka
+    : column
+    {
+      : text
+      {
+        label = "";
+      }
+      : toggle
+      {
+        key = "oznacitXX";
         label = "Zapisat";
       }
     }

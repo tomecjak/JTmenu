@@ -68,7 +68,7 @@
 ;nastavenie tlacidla aktualizovat
 (defun ZoneProtectionAktualizacia()
   ;definovanie premenych pre vyhodnorenie
-  (setq nazov_zony_01 (get_tile "nazov_zony_01"))
+  (setq nazov_zony_01 "TEST")
   (setq vzdialenost01 (get_tile "vzdialenost01"))
   (setq nazov_zony_02 (get_tile "nazov_zony_02"))
   (setq vzdialenost02 (get_tile "vzdialenost02"))
