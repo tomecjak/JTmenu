@@ -6,9 +6,9 @@
 ;-------------------------------------------------------------------------
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;                  Hlavna funkcia nacitania dialogu                    ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (defun c:JTHydrotechnical ()
 
@@ -21,10 +21,13 @@
   (if (not *hydro_drsnost*) (setq *hydro_drsnost* nil))
   (if (not *hydro_plocha*) (setq *hydro_plocha* nil))
   (if (not *hydro_obvod*) (setq *hydro_obvod* nil))
+  (if (not *hydro_q1*) (setq *hydro_q1* nil))
+  (if (not *hydro_q2*) (setq *hydro_q2* nil))
+  (if (not *hydro_q5*) (setq *hydro_q5* nil))
+  (if (not *hydro_q10*) (setq *hydro_q10* nil))
+  (if (not *hydro_q20*) (setq *hydro_q20* nil))
+  (if (not *hydro_q50*) (setq *hydro_q50* nil))
   (if (not *hydro_q100*) (setq *hydro_q100* nil))
-  (if (not *hydro_polyline_ename*) (setq *hydro_polyline_ename* nil))
-  (if (not *hydro_hladina_line*) (setq *hydro_hladina_line* nil))
-  (if (not *hydro_hladina_text*) (setq *hydro_hladina_text* nil))
   (setq select_polyline nil)
 
   ; nacitanie dialogoveho okna
@@ -42,11 +45,13 @@
   (if *hydro_drsnost* (set_tile "stupenDrsnostiKoryta" (rtos *hydro_drsnost* 2 3)))
   (if *hydro_plocha* (set_tile "prietocnaPlochaKoryta" (rtos *hydro_plocha* 2 2)))
   (if *hydro_obvod* (set_tile "omocvenyObvodKoryta" (rtos *hydro_obvod* 2 2)))
+  (if *hydro_q1* (set_tile "hodnotaPrietokuKorytaQ1" (rtos *hydro_q1* 2 2)))
+  (if *hydro_q2* (set_tile "hodnotaPrietokuKorytaQ2" (rtos *hydro_q2* 2 2)))
+  (if *hydro_q5* (set_tile "hodnotaPrietokuKorytaQ5" (rtos *hydro_q5* 2 2)))
+  (if *hydro_q10* (set_tile "hodnotaPrietokuKorytaQ10" (rtos *hydro_q10* 2 2)))
+  (if *hydro_q20* (set_tile "hodnotaPrietokuKorytaQ20" (rtos *hydro_q20* 2 2)))
+  (if *hydro_q50* (set_tile "hodnotaPrietokuKorytaQ50" (rtos *hydro_q50* 2 2)))
   (if *hydro_q100* (set_tile "hodnotaPrietokuKorytaQ100" (rtos *hydro_q100* 2 2)))
-
-  ; zablokovanie poli plochy a obvodu - len zobrazenie (mode 1 = disabled/grayed)
-  (mode_tile "prietocnaPlochaKoryta" 1)
-  (mode_tile "omocvenyObvodKoryta" 1)
 
   ; definovanie tlacidla vyber polylinu
   (action_tile "polylinaKoryta"
@@ -86,39 +91,53 @@
 )
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;            Pomocna funkcia na ziskanie vstupov z dialogu             ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (defun HydroGetInputs ( / )
   (list
-    (cons 'vyska_h1    (atof (get_tile "vyskaNaZaciatkuKoryta")))
-    (cons 'vyska_h2    (atof (get_tile "vyskaNaKonciKoryta")))
-    (cons 'dlzka_L     (atof (get_tile "dlzkaKoryta")))
-    (cons 'drsnost_n   (atof (get_tile "stupenDrsnostiKoryta")))
-    (cons 'plocha_S    (atof (get_tile "prietocnaPlochaKoryta")))
-    (cons 'obvod_O     (atof (get_tile "omocvenyObvodKoryta")))
+    (cons 'vyska_h1   (atof (get_tile "vyskaNaZaciatkuKoryta")))
+    (cons 'vyska_h2   (atof (get_tile "vyskaNaKonciKoryta")))
+    (cons 'dlzka_L    (atof (get_tile "dlzkaKoryta")))
+    (cons 'drsnost_n  (atof (get_tile "stupenDrsnostiKoryta")))
+    (cons 'plocha_S   (atof (get_tile "prietocnaPlochaKoryta")))
+    (cons 'obvod_O    (atof (get_tile "omocvenyObvodKoryta")))
+    (cons 'prietok_Q1   (atof (get_tile "hodnotaPrietokuKorytaQ1")))
+    (cons 'prietok_Q2   (atof (get_tile "hodnotaPrietokuKorytaQ2")))
+    (cons 'prietok_Q5   (atof (get_tile "hodnotaPrietokuKorytaQ5")))
+    (cons 'prietok_Q10  (atof (get_tile "hodnotaPrietokuKorytaQ10")))
+    (cons 'prietok_Q20  (atof (get_tile "hodnotaPrietokuKorytaQ20")))
+    (cons 'prietok_Q50  (atof (get_tile "hodnotaPrietokuKorytaQ50")))
     (cons 'prietok_Q100 (atof (get_tile "hodnotaPrietokuKorytaQ100")))
   )
 )
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;               Jedina centralna funkcia pre vypocet                   ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (defun HydroCalculate (in /
-    vyska_h1 vyska_h2 dlzka_L drsnost_n plocha_S obvod_O prietok_Q100
-    delta_h sklon_i R C prietok_Q
-    vyhodnoteniQ100 vyskaH kotaVodnejHladiny
+    vyska_h1 vyska_h2 dlzka_L drsnost_n plocha_S obvod_O
+    prietok_Q1 prietok_Q2 prietok_Q5 prietok_Q10 prietok_Q20 prietok_Q50 prietok_Q100
+    delta_h sklon_i hydroraulickyPolomer_R rychlostnySucinitelKoryta_C prietok_Q
+    vyhodnotenieQ1 vyhodnotenieQ2 vyhodnotenieQ5 vyhodnotenieQ10
+    vyhodnotenieQ20 vyhodnotenieQ50 vyhodnotenieQ100
   )
 
-  (setq vyska_h1    (cdr (assoc 'vyska_h1 in)))
-  (setq vyska_h2    (cdr (assoc 'vyska_h2 in)))
-  (setq dlzka_L     (cdr (assoc 'dlzka_L in)))
-  (setq drsnost_n   (cdr (assoc 'drsnost_n in)))
-  (setq plocha_S    (cdr (assoc 'plocha_S in)))
-  (setq obvod_O     (cdr (assoc 'obvod_O in)))
+  (setq vyska_h1   (cdr (assoc 'vyska_h1 in)))
+  (setq vyska_h2   (cdr (assoc 'vyska_h2 in)))
+  (setq dlzka_L    (cdr (assoc 'dlzka_L in)))
+  (setq drsnost_n  (cdr (assoc 'drsnost_n in)))
+  (setq plocha_S   (cdr (assoc 'plocha_S in)))
+  (setq obvod_O    (cdr (assoc 'obvod_O in)))
+  (setq prietok_Q1   (cdr (assoc 'prietok_Q1 in)))
+  (setq prietok_Q2   (cdr (assoc 'prietok_Q2 in)))
+  (setq prietok_Q5   (cdr (assoc 'prietok_Q5 in)))
+  (setq prietok_Q10  (cdr (assoc 'prietok_Q10 in)))
+  (setq prietok_Q20  (cdr (assoc 'prietok_Q20 in)))
+  (setq prietok_Q50  (cdr (assoc 'prietok_Q50 in)))
   (setq prietok_Q100 (cdr (assoc 'prietok_Q100 in)))
 
   ; kontrola vstupov
@@ -128,53 +147,45 @@
     ((<= drsnost_n 0.0)
       (list (cons 'error "Stupen drsnosti musi byt vacsi ako 0.")))
     ((<= obvod_O 0.0)
-      (list (cons 'error "Omoceny obvod musi byt vacsi ako 0. Najprv vyberte polylinu koryta.")))
+      (list (cons 'error "Omoceny obvod musi byt vacsi ako 0.")))
     ((< plocha_S 0.0)
       (list (cons 'error "Prietocna plocha nemoze byt zaporna.")))
-    ((<= prietok_Q100 0.0)
-      (list (cons 'error "Q100 musi byt vacsi ako 0.")))
     (T
       (setq delta_h (- vyska_h1 vyska_h2))
       (setq sklon_i (/ delta_h dlzka_L))
 
-      (if (<= sklon_i 0.0)
-        (list (cons 'error "Vypocitany sklon koryta je zaporny alebo nulovy."))
+      (if (< sklon_i 0.0)
+        (list (cons 'error "Vypocitany sklon koryta je zaporny."))
         (progn
-          ; hydraulicky polomer R = S / O
-          (setq R (/ plocha_S obvod_O))
+          (setq hydroraulickyPolomer_R (/ plocha_S obvod_O))
+          (setq rychlostnySucinitelKoryta_C
+                (* (/ 1.0 drsnost_n)
+                   (expt hydroraulickyPolomer_R (/ 1.0 6.0))))
+          (setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt (* sklon_i hydroraulickyPolomer_R))))
 
-          ; rychlostny sucinitel C = (1/n) * R^(1/6)
-          (setq C (* (/ 1.0 drsnost_n) (expt R (/ 1.0 6.0))))
-
-          ; kapacita koryta Q = C * S * sqrt(R * i)
-          (setq prietok_Q (* C plocha_S (sqrt (* sklon_i R))))
-
-          ; vyhodnotenie Q100
-          (setq vyhodnoteniQ100
-            (if (>= prietok_Q prietok_Q100) "vyhovuje" "nevyhovuje"))
-
-          ; vypocet vysky vodnej hladiny H nad dnom koryta
-          ; aproximacia z Manningovej rovnice pre konstantny profil:
-          ; H = R * (Q100 / Q)^(3/5)
-          (if (> prietok_Q 0.0)
-            (setq vyskaH (* R (expt (/ prietok_Q100 prietok_Q) (/ 3.0 5.0))))
-            (setq vyskaH 0.0)
-          )
-
-          ; kota vodnej hladiny Q100 = najnizsia kota dna (vyska_h2) + hlbka vody
-          (setq kotaVodnejHladiny (+ vyska_h2 vyskaH))
+          (setq vyhodnotenieQ1   (if (> prietok_Q prietok_Q1)   "vyhovuje" "nevyhovuje"))
+          (setq vyhodnotenieQ2   (if (> prietok_Q prietok_Q2)   "vyhovuje" "nevyhovuje"))
+          (setq vyhodnotenieQ5   (if (> prietok_Q prietok_Q5)   "vyhovuje" "nevyhovuje"))
+          (setq vyhodnotenieQ10  (if (> prietok_Q prietok_Q10)  "vyhovuje" "nevyhovuje"))
+          (setq vyhodnotenieQ20  (if (> prietok_Q prietok_Q20)  "vyhovuje" "nevyhovuje"))
+          (setq vyhodnotenieQ50  (if (> prietok_Q prietok_Q50)  "vyhovuje" "nevyhovuje"))
+          (setq vyhodnotenieQ100 (if (> prietok_Q prietok_Q100) "vyhovuje" "nevyhovuje"))
 
           (append
             in
             (list
               (cons 'delta_h delta_h)
               (cons 'sklon_i sklon_i)
-              (cons 'hydroraulickyPolomer_R R)
-              (cons 'rychlostnySucinitelKoryta_C C)
+              (cons 'hydroraulickyPolomer_R hydroraulickyPolomer_R)
+              (cons 'rychlostnySucinitelKoryta_C rychlostnySucinitelKoryta_C)
               (cons 'prietok_Q prietok_Q)
-              (cons 'vyhodnoteniQ100 vyhodnoteniQ100)
-              (cons 'vyskaH vyskaH)
-              (cons 'kotaVodnejHladiny kotaVodnejHladiny)
+              (cons 'vyhodnotenieQ1 vyhodnotenieQ1)
+              (cons 'vyhodnotenieQ2 vyhodnotenieQ2)
+              (cons 'vyhodnotenieQ5 vyhodnotenieQ5)
+              (cons 'vyhodnotenieQ10 vyhodnotenieQ10)
+              (cons 'vyhodnotenieQ20 vyhodnotenieQ20)
+              (cons 'vyhodnotenieQ50 vyhodnotenieQ50)
+              (cons 'vyhodnotenieQ100 vyhodnotenieQ100)
             )
           )
         )
@@ -184,9 +195,9 @@
 )
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;       Funkcia vypoctu - iba zobrazenie vysledkov do dialogu          ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (defun VypocetHydrotechnicalCalculation ( / in out err )
   (setq in (HydroGetInputs))
@@ -211,123 +222,28 @@
       (set_tile "prietokoveMnozstvo"
         (strcat (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s"))
 
-      (set_tile "vyskaVodnejHladinyH"
-        (strcat (rtos (cdr (assoc 'vyskaH out)) 2 2) " m"))
-
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ1"
+        (cdr (assoc 'vyhodnotenieQ1 out)))
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ2"
+        (cdr (assoc 'vyhodnotenieQ2 out)))
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ5"
+        (cdr (assoc 'vyhodnotenieQ5 out)))
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ10"
+        (cdr (assoc 'vyhodnotenieQ10 out)))
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ20"
+        (cdr (assoc 'vyhodnotenieQ20 out)))
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ50"
+        (cdr (assoc 'vyhodnotenieQ50 out)))
       (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ100"
-        (cdr (assoc 'vyhodnoteniQ100 out)))
-
-      ; vykreslenie vodnej hladiny Q100 v AutoCADe
-      (KresliVodnuHladinu out)
+        (cdr (assoc 'vyhodnotenieQ100 out)))
     )
   )
 )
 
 
-;;----------------------------------------------------------------------;; 
-;;         Funkcia vykreslenia vodorovnej ciary vodnej hladiny          ;;
-;;----------------------------------------------------------------------;; 
-
-(defun KresliVodnuHladinu (out /
-    kotaHladiny vyskaH prietok_Q100
-    pt1x pt1y pt2x pt2y
-    bbMin bbMax bbMinLst bbMaxLst
-    obj txtH txtStr midX
-  )
-
-  ; ziskanie hodnot z vysledkov
-  (setq kotaHladiny  (cdr (assoc 'kotaVodnejHladiny out)))
-  (setq vyskaH       (cdr (assoc 'vyskaH out)))
-  (setq prietok_Q100 (cdr (assoc 'prietok_Q100 out)))
-  (setq dlzka_L      (cdr (assoc 'dlzka_L out)))
-  (setq vyska_h2     (cdr (assoc 'vyska_h2 out)))
-
-  ; Zmazanie predchadzajucich entit vodnej hladiny
-  (if *hydro_hladina_line*
-    (if (entget *hydro_hladina_line*)
-      (entdel *hydro_hladina_line*)
-    )
-  )
-  (if *hydro_hladina_text*
-    (if (entget *hydro_hladina_text*)
-      (entdel *hydro_hladina_text*)
-    )
-  )
-  (setq *hydro_hladina_line* nil)
-  (setq *hydro_hladina_text* nil)
-
-  ; Zistenie X rozsahu z bounding boxu polyliny (ak existuje)
-  (setq pt1x 0.0)
-  (setq pt2x dlzka_L)
-
-  (if (and *hydro_polyline_ename* (entget *hydro_polyline_ename*))
-    (progn
-      (setq obj (vlax-ename->vla-object *hydro_polyline_ename*))
-      (vla-GetBoundingBox obj 'bbMin 'bbMax)
-      (setq bbMinLst (vlax-safearray->list bbMin))
-      (setq bbMaxLst (vlax-safearray->list bbMax))
-      (setq pt1x (car bbMinLst))
-      (setq pt2x (car bbMaxLst))
-    )
-  )
-
-  (setq pt1y kotaHladiny)
-  (setq pt2y kotaHladiny)
-
-  ; Nakreslenie vodorovnej ciary cez entmake (bezpecnejsie ako command)
-  (entmake
-    (list
-      (cons 0 "LINE")
-      (cons 8 "VODNA_HLADINA_Q100")
-      (cons 62 5)
-      (cons 10 (list pt1x pt1y 0.0))
-      (cons 11 (list pt2x pt2y 0.0))
-    )
-  )
-  (setq *hydro_hladina_line* (entlast))
-
-  ; Popisny text - stred ciary, mierne nad hladinou
-  (setq midX (/ (+ pt1x pt2x) 2.0))
-
-  ; vyska textu: 2% z vyskaH, min 0.05, max 1.5
-  (setq txtH (* vyskaH 0.08))
-  (if (< txtH 0.05) (setq txtH 0.05))
-  (if (> txtH 1.5)  (setq txtH 1.5))
-
-  (setq txtStr
-    (strcat
-      "Q100=" (rtos prietok_Q100 2 2) "m3/s"
-      " H=" (rtos vyskaH 2 2) "m"
-      " kota=" (rtos kotaHladiny 2 2) "m"
-    )
-  )
-
-  ; Text cez entmake - horizontalne zarovnanie na stred
-  (entmake
-    (list
-      (cons 0 "TEXT")
-      (cons 8 "VODNA_HLADINA_Q100")
-      (cons 62 5)
-      (cons 10 (list midX (+ kotaHladiny (* txtH 0.3)) 0.0))
-      (cons 11 (list midX (+ kotaHladiny (* txtH 0.3)) 0.0))
-      (cons 40 txtH)
-      (cons 1 txtStr)
-      (cons 72 1)
-      (cons 73 0)
-    )
-  )
-  (setq *hydro_hladina_text* (entlast))
-
-  (princ
-    (strcat "\nVodna hladina Q100 vykreslena na kote: "
-      (rtos kotaHladiny 2 2) " m\n"))
-  (princ)
-)
-
-
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;            Funkcia vyberu polyliny pre hydrotechnicky vypocet        ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (defun PolylineKorytaHydrotechnicalCalculation ()
   (vl-load-com)
@@ -338,10 +254,9 @@
       (if (= (vla-get-objectname obj) "AcDbPolyline")
         (progn
           (setq *hydro_plocha* (vla-get-area obj))
-          (setq *hydro_obvod*  (vla-get-length obj))
-          (setq *hydro_polyline_ename* (car ent))
-          (princ (strcat "\nPlocha: " (rtos *hydro_plocha* 2 2) " m2\n"))
-          (princ (strcat "Obvod: "  (rtos *hydro_obvod*  2 2) " m\n"))
+          (setq *hydro_obvod* (vla-get-length obj))
+          (princ (strcat "\nPlocha: " (rtos *hydro_plocha* 2 2) " m²\n"))
+          (princ (strcat "Obvod: " (rtos *hydro_obvod* 2 2) " m\n"))
         )
         (princ "\nVybrana entita nie je polylina.\n")
       )
@@ -351,16 +266,17 @@
 )
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;                  Funkcia reportu                                     ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (defun ReportHydrotechnicalCalculation ( /
     in out err filePath file
     dwgName dwgPrefix reportDateTime defaultName reportDateForName
-    q q100 evalQ100
+    q q1 q2 q5 q10 q20 q50 q100
+    evalQ1 evalQ2 evalQ5 evalQ10 evalQ20 evalQ50 evalQ100
     h1 h2 L deltaH sklonI sklonPercent
-    drsnostN plochaS obvodO R C vyskaH kotaVodnejHladiny
+    drsnostN plochaS obvodO R C
   )
 
   (defun HydroWriteLine (f s)
@@ -387,10 +303,12 @@
   (defun HydroHtmlEncode (txt)
     (if txt
       (progn
+        ;; najprv specialne HTML znaky
         (setq txt (HydroReplaceAll txt "&" "&amp;"))
         (setq txt (HydroReplaceAll txt "<" "&lt;"))
         (setq txt (HydroReplaceAll txt ">" "&gt;"))
         (setq txt (HydroReplaceAll txt "\"" "&quot;"))
+        ;; slovenska diakritika
         (setq txt (HydroReplaceAll txt "á" "&#225;"))
         (setq txt (HydroReplaceAll txt "ä" "&#228;"))
         (setq txt (HydroReplaceAll txt "č" "&#269;"))
@@ -460,7 +378,8 @@
       (setq reportDateForName (menucmd "M=$(edtime,$(getvar,date),YYYYMMDD)"))
 
       (setq defaultName
-        (strcat "Hydrotechnical_report_" reportDateForName ".html"))
+        (strcat "Hydrotechnical_report_" reportDateForName ".html")
+      )
 
       (setq filePath
         (getfiled
@@ -478,8 +397,21 @@
           (if file
             (progn
               (setq q    (cdr (assoc 'prietok_Q out)))
+              (setq q1   (cdr (assoc 'prietok_Q1 out)))
+              (setq q2   (cdr (assoc 'prietok_Q2 out)))
+              (setq q5   (cdr (assoc 'prietok_Q5 out)))
+              (setq q10  (cdr (assoc 'prietok_Q10 out)))
+              (setq q20  (cdr (assoc 'prietok_Q20 out)))
+              (setq q50  (cdr (assoc 'prietok_Q50 out)))
               (setq q100 (cdr (assoc 'prietok_Q100 out)))
-              (setq evalQ100 (cdr (assoc 'vyhodnoteniQ100 out)))
+
+              (setq evalQ1   (cdr (assoc 'vyhodnotenieQ1 out)))
+              (setq evalQ2   (cdr (assoc 'vyhodnotenieQ2 out)))
+              (setq evalQ5   (cdr (assoc 'vyhodnotenieQ5 out)))
+              (setq evalQ10  (cdr (assoc 'vyhodnotenieQ10 out)))
+              (setq evalQ20  (cdr (assoc 'vyhodnotenieQ20 out)))
+              (setq evalQ50  (cdr (assoc 'vyhodnotenieQ50 out)))
+              (setq evalQ100 (cdr (assoc 'vyhodnotenieQ100 out)))
 
               (setq h1 (cdr (assoc 'vyska_h1 out)))
               (setq h2 (cdr (assoc 'vyska_h2 out)))
@@ -492,8 +424,6 @@
               (setq obvodO (cdr (assoc 'obvod_O out)))
               (setq R (cdr (assoc 'hydroraulickyPolomer_R out)))
               (setq C (cdr (assoc 'rychlostnySucinitelKoryta_C out)))
-              (setq vyskaH (cdr (assoc 'vyskaH out)))
-              (setq kotaVodnejHladiny (cdr (assoc 'kotaVodnejHladiny out)))
 
               (HydroWriteLine file "<!DOCTYPE html>")
               (HydroWriteLine file "<html lang='sk'>")
@@ -507,9 +437,16 @@
               (HydroWriteLine file "    *{box-sizing:border-box}")
               (HydroWriteLine file "    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#eef4f8 0%,#f8fafc 100%);color:var(--text)}")
               (HydroWriteLine file "    .wrap{max-width:1200px;margin:0 auto;padding:32px 20px 56px}")
+              (HydroWriteLine file "    .toolbar{display:flex;justify-content:flex-end;gap:12px;margin-bottom:16px}")
+              (HydroWriteLine file "    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}")
+              (HydroWriteLine file "    .btn-print{background:#111827;color:#fff}")
               (HydroWriteLine file "    .hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary2) 100%);color:#fff;border-radius:24px;padding:32px;box-shadow:var(--shadow);margin-bottom:24px}")
               (HydroWriteLine file "    .hero h1{margin:0 0 8px;font-size:34px}")
               (HydroWriteLine file "    .hero p{margin:0;color:rgba(255,255,255,.88)}")
+              (HydroWriteLine file "    .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}")
+              (HydroWriteLine file "    .meta-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:16px}")
+              (HydroWriteLine file "    .meta-card .label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.82;margin-bottom:6px}")
+              (HydroWriteLine file "    .meta-card .value{font-size:16px;font-weight:bold;word-break:break-word}")
               (HydroWriteLine file "    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}")
               (HydroWriteLine file "    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}")
               (HydroWriteLine file "    .card-head{padding:18px 22px;background:var(--panel2);border-bottom:1px solid var(--line)}")
@@ -523,12 +460,11 @@
               (HydroWriteLine file "    .kpi-box{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:16px}")
               (HydroWriteLine file "    .kpi-box .label{color:var(--muted);font-size:13px;margin-bottom:8px}")
               (HydroWriteLine file "    .kpi-box .value{font-size:26px;font-weight:bold;color:var(--primary)}")
-              (HydroWriteLine file "    .kpi-box.hl{border:2px solid #0ea5e9;background:#f0f9ff}")
-              (HydroWriteLine file "    .kpi-box.hl .value{color:#0369a1}")
               (HydroWriteLine file "    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:bold}")
               (HydroWriteLine file "    .badge.ok{color:var(--ok);background:var(--okbg)}")
               (HydroWriteLine file "    .badge.bad{color:var(--bad);background:var(--badbg)}")
-              (HydroWriteLine file "    .geom{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:14px}")
+              (HydroWriteLine file "    .badge.neutral{color:var(--neutral);background:var(--neutralbg)}")
+              (HydroWriteLine file "    .geom{background:linear-gradient(180deg,#fcfdff 0%,#f8fafc 100%);border:1px solid var(--line);border-radius:16px;padding:14px}")
               (HydroWriteLine file "    .geom svg{width:100%;height:auto;display:block}")
               (HydroWriteLine file "    .geom-note{margin-top:10px;color:var(--muted);font-size:13px}")
               (HydroWriteLine file "    .formula{background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}")
@@ -536,87 +472,69 @@
               (HydroWriteLine file "    .formula .eq{font-family:'Courier New',monospace;font-size:15px;color:#0f172a;line-height:1.6}")
               (HydroWriteLine file "    .formula .sub{margin-top:8px;color:var(--muted);font-size:14px}")
               (HydroWriteLine file "    .foot{margin-top:24px;color:var(--muted);font-size:13px;text-align:center}")
-              (HydroWriteLine file "    @media print{body{background:#fff}.wrap{max-width:none;padding:0}.card,.hero{box-shadow:none;break-inside:avoid}.hero{margin-bottom:14px}@page{size:A4;margin:12mm}}")
+              (HydroWriteLine file "    @media print{body{background:#fff}.toolbar{display:none}.wrap{max-width:none;padding:0}.card,.hero{box-shadow:none;break-inside:avoid;page-break-inside:avoid}.hero{margin-bottom:14px}section{break-inside:avoid;page-break-inside:avoid}@page{size:A4;margin:12mm}}")
+              (HydroWriteLine file "    @media (max-width:700px){.hero h1{font-size:26px}.wrap{padding:20px 14px 40px}th,td{padding:10px 8px;font-size:14px}}")
               (HydroWriteLine file "  </style>")
               (HydroWriteLine file "</head>")
               (HydroWriteLine file "<body>")
               (HydroWriteLine file "  <div class='wrap'>")
 
+              ;; hero
               (HydroWriteLine file "    <section class='hero'>")
               (HydroWriteLine file "      <h1>Hydrotechnick&#253; v&#253;po&#269;et kapacity koryta</h1>")
-              (HydroWriteLine file "      <p>Vstupn&#233; hodnoty, v&#253;sledky, geometria sklonu a pos&#250;denie Q100.</p>")
+              (HydroWriteLine file "      <p>Preh&#318;ad vstupov, v&#253;sledkov, geometrie pozd&#314;&#382;neho sklonu a pos&#250;denia prietokov.</p>")
               (HydroWriteLine file "    </section>")
 
+              ;; grid
               (HydroWriteLine file "    <div class='grid'>")
 
-              ;; karta - vstupy
+              ;; vstupy
               (HydroWriteLine file "      <section class='card'>")
               (HydroWriteLine file "        <div class='card-head'><h2>Vstupn&#233; hodnoty</h2></div>")
               (HydroWriteLine file "        <div class='card-body'>")
               (HydroWriteLine file "          <table>")
               (HydroWriteLine file "            <thead><tr><th>Parameter</th><th>Hodnota</th></tr></thead>")
               (HydroWriteLine file "            <tbody>")
-              (HydroWriteLine file (strcat "              <tr><td>V&#253;&#353;ka na za&#269;iatku h1</td><td class='num'>" (HydroFmt h1 3) " m</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td>V&#253;&#353;ka na konci h2</td><td class='num'>" (HydroFmt h2 3) " m</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td>D&#314;&#382;ka koryta L</td><td class='num'>" (HydroFmt L 3) " m</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td>Stupe&#328; drsnosti n</td><td class='num'>" (HydroFmt drsnostN 3) "</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td>Prieto&#269;n&#225; plocha S</td><td class='num'>" (HydroFmt plochaS 2) " m2</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td>Omo&#269;en&#253; obvod O</td><td class='num'>" (HydroFmt obvodO 2) " m</td></tr>"))
-              (HydroWriteLine file (strcat "              <tr><td><strong>Q100</strong></td><td class='num'><strong>" (HydroFmt q100 2) " m3/s</strong></td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>V&#253;&#353;ka na za&#269;iatku koryta \"h1\"</td><td class='num'>" (HydroFmt h1 3) " m</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>V&#253;&#353;ka na konci koryta \"h2\"</td><td class='num'>" (HydroFmt h2 3) " m</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>D&#314;&#382;ka koryta \"L\"</td><td class='num'>" (HydroFmt L 3) " m</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Stupe&#328; drsnosti \"n\"</td><td class='num'>" (HydroFmt drsnostN 3) " -</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Prieto&#269;n&#225; plocha \"S\"</td><td class='num'>" (HydroFmt plochaS 2) " m2</td></tr>"))
+              (HydroWriteLine file (strcat "              <tr><td>Omo&#269;en&#253; obvod \"O\"</td><td class='num'>" (HydroFmt obvodO 2) " m</td></tr>"))
               (HydroWriteLine file "            </tbody>")
               (HydroWriteLine file "          </table>")
               (HydroWriteLine file "        </div>")
               (HydroWriteLine file "      </section>")
 
-              ;; karta - geometria s SVG
+              ;; geometria
               (HydroWriteLine file "      <section class='card'>")
               (HydroWriteLine file "        <div class='card-head'><h2>Pozd&#314;&#382;ny sklon koryta</h2></div>")
               (HydroWriteLine file "        <div class='card-body'>")
               (HydroWriteLine file "          <div class='geom'>")
-              (HydroWriteLine file "            <svg viewBox='0 0 760 300' xmlns='http://www.w3.org/2000/svg'>")
-              (HydroWriteLine file "              <defs><marker id='arr' markerWidth='10' markerHeight='10' refX='8' refY='5' orient='auto'><path d='M0,0 L10,5 L0,10 z' fill='#475569'/></marker></defs>")
-              (HydroWriteLine file "              <rect x='0' y='0' width='760' height='300' fill='#f8fafc'/>")
-              ;; bazova ciara
-              (HydroWriteLine file "              <line x1='70' y1='220' x2='690' y2='220' stroke='#cbd5e1' stroke-width='2'/>")
-              ;; dno koryta
-              (HydroWriteLine file "              <line x1='110' y1='90' x2='650' y2='155' stroke='#0f766e' stroke-width='6' stroke-linecap='round'/>")
+              (HydroWriteLine file "            <svg viewBox='0 0 760 260' xmlns='http://www.w3.org/2000/svg'>")
+              (HydroWriteLine file "              <defs><marker id='arrow' markerWidth='10' markerHeight='10' refX='8' refY='5' orient='auto'><path d='M0,0 L10,5 L0,10 z' fill='#475569'/></marker></defs>")
+              (HydroWriteLine file "              <rect x='0' y='0' width='760' height='260' fill='#f8fafc'/>")
+              (HydroWriteLine file "              <line x1='70' y1='190' x2='690' y2='190' stroke='#cbd5e1' stroke-width='2'/>")
+              (HydroWriteLine file "              <line x1='110' y1='90' x2='650' y2='150' stroke='#0f766e' stroke-width='6' stroke-linecap='round'/>")
               (HydroWriteLine file "              <circle cx='110' cy='90' r='6' fill='#0f766e'/>")
-              (HydroWriteLine file "              <circle cx='650' cy='155' r='6' fill='#0f766e'/>")
-              ;; zvisle kotovnice dna
-              (HydroWriteLine file "              <line x1='110' y1='90' x2='110' y2='220' stroke='#94a3b8' stroke-dasharray='6 5'/>")
-              (HydroWriteLine file "              <line x1='650' y1='155' x2='650' y2='220' stroke='#94a3b8' stroke-dasharray='6 5'/>")
-              ;; vodna hladina Q100 - Y pozicia odvodzena od vyskaH / deltaH pomer
-              ;; dno konca je na SVG Y=155, dno zaciatku na Y=90, teda 65px = deltaH
-              ;; hladina nad dnom konca = vyskaH / deltaH * 65 pixelov smerom hore (minus Y)
-              (HydroWriteLine file (strcat
-                "              <line x1='110' y1='"
-                (rtos (- 155.0 (if (> deltaH 0.0) (* (/ vyskaH deltaH) 65.0) 0.0)) 2 1)
-                "' x2='650' y2='"
-                (rtos (- 155.0 (if (> deltaH 0.0) (* (/ vyskaH deltaH) 65.0) 0.0)) 2 1)
-                "' stroke='#0ea5e9' stroke-width='3' stroke-dasharray='10 4'/>"
-              ))
-              (HydroWriteLine file (strcat
-                "              <text x='380' y='"
-                (rtos (- 151.0 (if (> deltaH 0.0) (* (/ vyskaH deltaH) 65.0) 0.0)) 2 1)
-                "' text-anchor='middle' font-size='13' fill='#0369a1' font-weight='700'>"
-                "Vodn&#225; hladina Q100  H=" (HydroFmt vyskaH 2) " m"
-                "</text>"
-              ))
-              ;; dlzka L
-              (HydroWriteLine file "              <line x1='110' y1='240' x2='650' y2='240' stroke='#475569' stroke-width='2' marker-start='url(#arr)' marker-end='url(#arr)'/>")
-              (HydroWriteLine file (strcat "              <text x='380' y='258' text-anchor='middle' font-size='14' fill='#334155'>L = " (HydroFmt L 2) " m</text>"))
-              ;; h1
-              (HydroWriteLine file "              <line x1='82' y1='90' x2='82' y2='220' stroke='#475569' stroke-width='2' marker-start='url(#arr)' marker-end='url(#arr)'/>")
-              (HydroWriteLine file (strcat "              <text x='78' y='162' text-anchor='end' font-size='14' font-weight='700' fill='#0f172a'>h1=" (HydroFmt h1 2) "</text>"))
-              ;; h2
-              (HydroWriteLine file "              <line x1='678' y1='155' x2='678' y2='220' stroke='#475569' stroke-width='2' marker-start='url(#arr)' marker-end='url(#arr)'/>")
-              (HydroWriteLine file (strcat "              <text x='682' y='192' text-anchor='start' font-size='14' font-weight='700' fill='#0f172a'>h2=" (HydroFmt h2 2) "</text>"))
-              ;; sklon label
-              (HydroWriteLine file "              <rect x='290' y='36' width='180' height='40' rx='10' fill='#e6fffb' stroke='#99f6e4'/>")
-              (HydroWriteLine file (strcat "              <text x='380' y='63' text-anchor='middle' font-size='17' font-weight='700' fill='#0f766e'>i = " (HydroFmt sklonPercent 2) " %</text>"))
+              (HydroWriteLine file "              <circle cx='650' cy='150' r='6' fill='#0f766e'/>")
+              (HydroWriteLine file "              <line x1='110' y1='90' x2='110' y2='190' stroke='#94a3b8' stroke-dasharray='6 5'/>")
+              (HydroWriteLine file "              <line x1='650' y1='150' x2='650' y2='190' stroke='#94a3b8' stroke-dasharray='6 5'/>")
+              (HydroWriteLine file "              <line x1='110' y1='210' x2='650' y2='210' stroke='#475569' stroke-width='2' marker-start='url(#arrow)' marker-end='url(#arrow)'/>")
+              (HydroWriteLine file "              <text x='380' y='232' text-anchor='middle' font-size='16' fill='#334155'>D&#314;&#382;ka koryta \"L\"</text>")
+              (HydroWriteLine file (strcat "              <text x='380' y='250' text-anchor='middle' font-size='18' font-weight='700' fill='#0f172a'>" (HydroFmt L 3) " m</text>"))
+              (HydroWriteLine file "              <line x1='82' y1='90' x2='82' y2='190' stroke='#475569' stroke-width='2' marker-start='url(#arrow)' marker-end='url(#arrow)'/>")
+              (HydroWriteLine file "              <text x='68' y='145' text-anchor='end' font-size='16' fill='#334155'>h1</text>")
+              (HydroWriteLine file (strcat "              <text x='68' y='165' text-anchor='end' font-size='16' font-weight='700' fill='#0f172a'>"(HydroFmt h1 2)"</text>"))
+              (HydroWriteLine file "              <line x1='678' y1='150' x2='678' y2='190' stroke='#475569' stroke-width='2' marker-start='url(#arrow)' marker-end='url(#arrow)'/>")
+              (HydroWriteLine file "              <text x='692' y='164' text-anchor='start' font-size='16' fill='#334155'>h2</text>")
+              (HydroWriteLine file (strcat "              <text x='692' y='184' text-anchor='start' font-size='16' font-weight='700' fill='#0f172a'>"(HydroFmt h2 2)"</text>"))
+              (HydroWriteLine file "              <rect x='270' y='40' width='220' height='56' rx='12' fill='#e6fffb' stroke='#99f6e4'/>")
+              (HydroWriteLine file "              <text x='380' y='62' text-anchor='middle' font-size='14' fill='#115e59'>Sklon koryta</text>")
+              (HydroWriteLine file (strcat "              <text x='380' y='82' text-anchor='middle' font-size='18' font-weight='700' fill='#0f766e'>" (HydroFmt sklonPercent 2) " %</text>"))
               (HydroWriteLine file "            </svg>")
               (HydroWriteLine file "          </div>")
-              (HydroWriteLine file (strcat "          <div class='geom-note'>V&#253;&#353;kov&#253; rozdiel dna: " (HydroFmt deltaH 2) " m. Modr&#225; &#269;iara = vodn&#225; hladina Q100 (H = " (HydroFmt vyskaH 2) " m nad dnom konca koryta).</div>"))
+              (HydroWriteLine file (strcat "          <div class='geom-note'>Geometria zobrazuje pozd&#314;&#382;ny priebeh dna koryta medzi za&#269;iatkom a koncom &#250;seku. V&#253;&#353;kov&#253; rozdiel je " (HydroFmt deltaH 2) " m.</div>"))
               (HydroWriteLine file "        </div>")
               (HydroWriteLine file "      </section>")
 
@@ -624,16 +542,14 @@
 
               ;; KPI
               (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
-              (HydroWriteLine file "      <div class='card-head'><h2>Hlavn&#233; v&#253;sledky</h2></div>")
+              (HydroWriteLine file "      <div class='card-head'><h2>Hlavn&#233; v&#253;sledky v&#253;po&#269;tu</h2></div>")
               (HydroWriteLine file "      <div class='card-body'>")
               (HydroWriteLine file "        <div class='kpi'>")
-              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>V&#253;&#353;kov&#253; rozdiel dh</div><div class='value'>" (HydroFmt deltaH 2) " m</div></div>"))
-              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Sklon i</div><div class='value'>" (HydroFmt sklonI 4) "</div></div>"))
-              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Hyd. polomer R</div><div class='value'>" (HydroFmt R 3) " m</div></div>"))
-              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>R&#253;chl. s&#250;&#269;. C</div><div class='value'>" (HydroFmt C 3) "</div></div>"))
-              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Kapacita Q</div><div class='value'>" (HydroFmt q 2) " m3/s</div></div>"))
-              (HydroWriteLine file (strcat "          <div class='kpi-box hl'><div class='label'>V&#253;&#353;ka hladiny H (Q100)</div><div class='value'>" (HydroFmt vyskaH 2) " m</div></div>"))
-              (HydroWriteLine file (strcat "          <div class='kpi-box hl'><div class='label'>K&#243;ta hladiny Q100</div><div class='value'>" (HydroFmt kotaVodnejHladiny 2) " m n.m.</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>V&#253;&#353;kov&#253; rozdiel \"dh\"</div><div class='value'>" (HydroFmt deltaH 2) " m</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Sklon koryta \"i\"</div><div class='value'>" (HydroFmt sklonI 3) "</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Hydraulick&#253; polomer \"R\"</div><div class='value'>" (HydroFmt R 3) " m</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>R&#253;chlostn&#253; s&#250;&#269;inite&#318; \"C\"</div><div class='value'>" (HydroFmt C 3) "</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Kapacita koryta \"Q\"</div><div class='value'>" (HydroFmt q 2) " m3/s</div></div>"))
               (HydroWriteLine file "        </div>")
               (HydroWriteLine file "      </div>")
               (HydroWriteLine file "    </section>")
@@ -642,36 +558,62 @@
               (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
               (HydroWriteLine file "      <div class='card-head'><h2>Vzorce a postup v&#253;po&#269;tu</h2></div>")
               (HydroWriteLine file "      <div class='card-body'>")
-              (HydroWriteLine file "        <div class='formula'><h3>1. V&#253;&#353;kov&#253; rozdiel</h3><div class='eq'>dh = h1 - h2</div>")
-              (HydroWriteLine file (strcat "        <div class='sub'>dh = " (HydroFmt h1 3) " - " (HydroFmt h2 3) " = " (HydroFmt deltaH 2) " m</div></div>"))
-              (HydroWriteLine file "        <div class='formula'><h3>2. Sklon koryta</h3><div class='eq'>i = dh / L</div>")
-              (HydroWriteLine file (strcat "        <div class='sub'>i = " (HydroFmt deltaH 2) " / " (HydroFmt L 2) " = " (HydroFmt sklonI 4) " (" (HydroFmt sklonPercent 2) " %)</div></div>"))
-              (HydroWriteLine file "        <div class='formula'><h3>3. Hydraulick&#253; polomer</h3><div class='eq'>R = S / O</div>")
-              (HydroWriteLine file (strcat "        <div class='sub'>R = " (HydroFmt plochaS 2) " / " (HydroFmt obvodO 2) " = " (HydroFmt R 3) " m</div></div>"))
-              (HydroWriteLine file "        <div class='formula'><h3>4. R&#253;chlostn&#253; s&#250;&#269;inite&#318;</h3><div class='eq'>C = (1/n) * R^(1/6)</div>")
-              (HydroWriteLine file (strcat "        <div class='sub'>C = (1/" (HydroFmt drsnostN 3) ") * " (HydroFmt R 3) "^(1/6) = " (HydroFmt C 3) "</div></div>"))
-              (HydroWriteLine file "        <div class='formula'><h3>5. Kapacita koryta</h3><div class='eq'>Q = C * S * sqrt(R * i)</div>")
-              (HydroWriteLine file (strcat "        <div class='sub'>Q = " (HydroFmt C 3) " * " (HydroFmt plochaS 2) " * sqrt(" (HydroFmt R 3) " * " (HydroFmt sklonI 5) ") = " (HydroFmt q 2) " m3/s</div></div>"))
-              (HydroWriteLine file "        <div class='formula'><h3>6. V&#253;&#353;ka vodnej hladiny H pre Q100</h3><div class='eq'>H = R * (Q100/Q)^(3/5)</div>")
-              (HydroWriteLine file (strcat "        <div class='sub'>H = " (HydroFmt R 3) " * (" (HydroFmt q100 2) "/" (HydroFmt q 2) ")^(3/5) = " (HydroFmt vyskaH 2) " m</div>"))
-              (HydroWriteLine file (strcat "        <div class='sub'>K&#243;ta = h2 + H = " (HydroFmt h2 2) " + " (HydroFmt vyskaH 2) " = " (HydroFmt kotaVodnejHladiny 2) " m n.m.</div></div>"))
+
+              (HydroWriteLine file "        <div class='formula'>")
+              (HydroWriteLine file "          <h3>1. V&#253;&#353;kov&#253; rozdiel</h3>")
+              (HydroWriteLine file "          <div class='eq'>dh = h1 - h2</div>")
+              (HydroWriteLine file (strcat "          <div class='sub'>dh = " (HydroFmt h1 3) " - " (HydroFmt h2 3) " = " (HydroFmt deltaH 2) " m</div>"))
+              (HydroWriteLine file "        </div>")
+
+              (HydroWriteLine file "        <div class='formula'>")
+              (HydroWriteLine file "          <h3>2. Sklon koryta</h3>")
+              (HydroWriteLine file "          <div class='eq'>i = dh / L</div>")
+              (HydroWriteLine file (strcat "          <div class='sub'>i = " (HydroFmt deltaH 2) " / " (HydroFmt L 3) " = " (HydroFmt sklonI 3) " = " (HydroFmt sklonPercent 2) " %</div>"))
+              (HydroWriteLine file "        </div>")
+
+              (HydroWriteLine file "        <div class='formula'>")
+              (HydroWriteLine file "          <h3>3. Hydraulick&#253; polomer</h3>")
+              (HydroWriteLine file "          <div class='eq'>R = S / O</div>")
+              (HydroWriteLine file (strcat "          <div class='sub'>R = " (HydroFmt plochaS 2) " / " (HydroFmt obvodO 2) " = " (HydroFmt R 3) " m</div>"))
+              (HydroWriteLine file "        </div>")
+
+              (HydroWriteLine file "        <div class='formula'>")
+              (HydroWriteLine file "          <h3>4. R&#253;chlostn&#253; s&#250;&#269;inite&#318;</h3>")
+              (HydroWriteLine file "          <div class='eq'>C = (1 / n) * R^(1/6)</div>")
+              (HydroWriteLine file (strcat "          <div class='sub'>C = (1 / " (HydroFmt drsnostN 3) ") * " (HydroFmt R 3) "^(1/6) = " (HydroFmt C 3) "</div>"))
+              (HydroWriteLine file "        </div>")
+
+              (HydroWriteLine file "        <div class='formula'>")
+              (HydroWriteLine file "          <h3>5. Kapacita koryta</h3>")
+              (HydroWriteLine file "          <div class='eq'>Q = C * S * sqrt(R * i)</div>")
+              (HydroWriteLine file (strcat "          <div class='sub'>Q = " (HydroFmt C 3) " * " (HydroFmt plochaS 2) " * sqrt(" (HydroFmt R 3) " * " (HydroFmt sklonI 5) ") = " (HydroFmt q 2) " m3/s</div>"))
+              (HydroWriteLine file "        </div>")
+
               (HydroWriteLine file "      </div>")
               (HydroWriteLine file "    </section>")
 
-              ;; posudenie Q100
+              ;; posudenie
               (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
-              (HydroWriteLine file "      <div class='card-head'><h2>Pos&#250;denie Q100</h2></div>")
+              (HydroWriteLine file "      <div class='card-head'><h2>Pos&#250;denie prietokov</h2></div>")
               (HydroWriteLine file "      <div class='card-body'>")
               (HydroWriteLine file "        <table>")
-              (HydroWriteLine file "          <thead><tr><th>Prietok</th><th>N&#225;vrhov&#253; prietok</th><th>Kapacita koryta</th><th>Vyhodnotenie</th></tr></thead>")
+              (HydroWriteLine file "          <thead><tr><th>Prietok</th><th>N&#225;vrhovan&#253; prietok</th><th>Kapacita koryta</th><th>Vyhodnotenie</th></tr></thead>")
               (HydroWriteLine file "          <tbody>")
-              (HydroWriteLine file (strcat "            <tr><td><strong>Q100</strong></td><td class='num'>" (HydroFmt q100 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ100) "'>" (HydroSafe evalQ100) "</span></td></tr>"))
+
+              (HydroWriteLine file (strcat "            <tr><td>Q1</td><td class='num'>" (HydroFmt q1 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ1) "'>" (HydroSafe evalQ1) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q2</td><td class='num'>" (HydroFmt q2 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ2) "'>" (HydroSafe evalQ2) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q5</td><td class='num'>" (HydroFmt q5 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ5) "'>" (HydroSafe evalQ5) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q10</td><td class='num'>" (HydroFmt q10 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ10) "'>" (HydroSafe evalQ10) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q20</td><td class='num'>" (HydroFmt q20 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ20) "'>" (HydroSafe evalQ20) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q50</td><td class='num'>" (HydroFmt q50 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ50) "'>" (HydroSafe evalQ50) "</span></td></tr>"))
+              (HydroWriteLine file (strcat "            <tr><td>Q100</td><td class='num'>" (HydroFmt q100 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ100) "'>" (HydroSafe evalQ100) "</span></td></tr>"))
+
               (HydroWriteLine file "          </tbody>")
               (HydroWriteLine file "        </table>")
               (HydroWriteLine file "      </div>")
               (HydroWriteLine file "    </section>")
 
-              (HydroWriteLine file "    <div class='foot'>Report vytvoren&#253; automaticky. (JTmenu)</div>")
+              (HydroWriteLine file "    <div class='foot'>Report bol vytvoren&#253; automaticky z hydrotechnick&#233;ho v&#253;po&#269;tu. (JTmenu)</div>")
               (HydroWriteLine file "  </div>")
               (HydroWriteLine file "</body>")
               (HydroWriteLine file "</html>")
@@ -691,27 +633,25 @@
   (princ)
 )
 
-
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;                  Funkcia zavretia dialogoveho okna                   ;;
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
-(defun UkoncenieHydrotechnicalCalculation ()
+(defun UkoncenieHydrotechnicalCalculation()
   ; ulozenie hodnot pred zatvorenim
-  (if (get_tile "vyskaNaZaciatkuKoryta")
-    (setq *hydro_vyska_zac* (atof (get_tile "vyskaNaZaciatkuKoryta"))))
-  (if (get_tile "vyskaNaKonciKoryta")
-    (setq *hydro_vyska_kon* (atof (get_tile "vyskaNaKonciKoryta"))))
-  (if (get_tile "dlzkaKoryta")
-    (setq *hydro_dlzka* (atof (get_tile "dlzkaKoryta"))))
-  (if (get_tile "stupenDrsnostiKoryta")
-    (setq *hydro_drsnost* (atof (get_tile "stupenDrsnostiKoryta"))))
-  (if (get_tile "prietocnaPlochaKoryta")
-    (setq *hydro_plocha* (atof (get_tile "prietocnaPlochaKoryta"))))
-  (if (get_tile "omocvenyObvodKoryta")
-    (setq *hydro_obvod* (atof (get_tile "omocvenyObvodKoryta"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ100")
-    (setq *hydro_q100* (atof (get_tile "hodnotaPrietokuKorytaQ100"))))
+  (if (get_tile "vyskaNaZaciatkuKoryta") (setq *hydro_vyska_zac* (atof (get_tile "vyskaNaZaciatkuKoryta"))))
+  (if (get_tile "vyskaNaKonciKoryta") (setq *hydro_vyska_kon* (atof (get_tile "vyskaNaKonciKoryta"))))
+  (if (get_tile "dlzkaKoryta") (setq *hydro_dlzka* (atof (get_tile "dlzkaKoryta"))))
+  (if (get_tile "stupenDrsnostiKoryta") (setq *hydro_drsnost* (atof (get_tile "stupenDrsnostiKoryta"))))
+  (if (get_tile "prietocnaPlochaKoryta") (setq *hydro_plocha* (atof (get_tile "prietocnaPlochaKoryta"))))
+  (if (get_tile "omocvenyObvodKoryta") (setq *hydro_obvod* (atof (get_tile "omocvenyObvodKoryta"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ1") (setq *hydro_q1* (atof (get_tile "hodnotaPrietokuKorytaQ1"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ2") (setq *hydro_q2* (atof (get_tile "hodnotaPrietokuKorytaQ2"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ5") (setq *hydro_q5* (atof (get_tile "hodnotaPrietokuKorytaQ5"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ10") (setq *hydro_q10* (atof (get_tile "hodnotaPrietokuKorytaQ10"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ20") (setq *hydro_q20* (atof (get_tile "hodnotaPrietokuKorytaQ20"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ50") (setq *hydro_q50* (atof (get_tile "hodnotaPrietokuKorytaQ50"))))
+  (if (get_tile "hodnotaPrietokuKorytaQ100") (setq *hydro_q100* (atof (get_tile "hodnotaPrietokuKorytaQ100"))))
 
   ; zavretie dialogu
   (done_dialog)
@@ -719,7 +659,7 @@
 )
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 
 (vl-load-com)
 (load "JTmenu_version" "\nVerzia nenacitana!")
@@ -733,6 +673,6 @@
 (princ)
 
 
-;;----------------------------------------------------------------------;; 
+;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
 ;;----------------------------------------------------------------------;;
