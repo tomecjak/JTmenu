@@ -28,7 +28,7 @@
   m
 )
 
-(defun _segment-area-below (p1 p2 y0 yh / x1 y1 x2 y2 t xi yi)
+(defun _segment-area-below (p1 p2 y0 yh / x1 y1 x2 y2 ratio xi)
   (setq x1 (car p1) y1 (cadr p1)
         x2 (car p2) y2 (cadr p2))
 
@@ -40,9 +40,8 @@
      0.0
     )
     (T
-     (setq t (/ (- yh y1) (- y2 y1)))
-     (setq xi (+ x1 (* t (- x2 x1))))
-     (setq yi yh)
+     (setq ratio (/ (- yh y1) (- y2 y1)))
+     (setq xi (+ x1 (* ratio (- x2 x1))))
      (cond
        ((<= y1 yh)
         (* 0.5 (+ (- y1 y0) (- yh y0)) (abs (- xi x1)))
@@ -84,7 +83,7 @@
   )
 )
 
-(defun c:Q100OPENFAST (/ e q100 pts lowpt lowz miny maxy lo hi mid area iter tol best lineEnt)
+(defun c:Q100OPENFAST (/ e q100 pts lowpt lowz miny maxy lo hi mid area iter lineEnt Hhladina)
   (setq e (car (entsel "\nVyber otvorenú polyline: ")))
   (cond
     ((null e)
@@ -102,19 +101,16 @@
      (setq maxy (cadr (_max-y pts)))
      (setq lo miny)
      (setq hi maxy)
-     (setq tol 0.0001)
      (setq iter 0)
 
      (if (<= (_area-below pts hi) q100)
-       (progn
-         (princ "\nAj pri najvyššej hladine je plocha menšia alebo rovná Q100.")
-       )
+       (princ "\nAj pri najvyššej hladine je plocha menšia alebo rovná Q100.")
        (progn
          (while (< iter 40)
            (setq mid (/ (+ lo hi) 2.0))
            (setq area (_area-below pts mid))
            (if (> area q100)
-             (setq hi mid best mid)
+             (setq hi mid)
              (setq lo mid)
            )
            (setq iter (1+ iter))
