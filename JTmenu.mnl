@@ -50,7 +50,7 @@
 (AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
 (AUTOLOAD "Polyline_from_coordinates" '("POLYCSV"))
 (AUTOLOAD "Oblique_dimension" '("JTDimOblique"))
-(AUTOLOAD "Test" '("Q100OPENFAST"))
+(AUTOLOAD "Test" '("Q100OPENPRECISE"))
 (print)
 
 ;;----------------------------------------------------------------------;;
