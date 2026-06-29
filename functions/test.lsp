@@ -1,5 +1,7 @@
 (vl-load-com)
 
+(setq *AREA-SCALE-TO-M2* 1) ; ak sú výkresové jednotky v mm, plocha / 1 000 000 = m2
+
 (defun _pl-pts (e / obj end i pts)
   (setq obj (vlax-ename->vla-object e))
   (setq end (fix (vlax-curve-getEndParam e)))
@@ -83,7 +85,7 @@
   )
 )
 
-(defun c:Q100OPENFAST (/ e q100 pts lowpt lowz miny maxy lo hi mid area iter lineEnt Hhladina)
+(defun c:Q100OPENFAST (/ e q100 q100dwg pts lowpt lowz miny maxy lo hi mid area areaM2 iter lineEnt Hhladina)
   (setq e (car (entsel "\nVyber otvorenú polyline: ")))
   (cond
     ((null e)
@@ -93,7 +95,7 @@
      (princ "\nVybraný objekt nie je polyline.")
     )
     (T
-     (setq q100 (getreal "\nZadaj hodnotu Q100: "))
+     (setq q100 (getreal "\nZadaj Q100 v m2: "))
      (setq pts (_pl-pts e))
      (setq lowpt (_min-y pts))
      (setq lowz (cadr lowpt))
@@ -103,13 +105,14 @@
      (setq hi maxy)
      (setq iter 0)
 
-     (if (<= (_area-below pts hi) q100)
+     (if (<= (/ (_area-below pts hi) *AREA-SCALE-TO-M2*) q100)
        (princ "\nAj pri najvyššej hladine je plocha menšia alebo rovná Q100.")
        (progn
          (while (< iter 40)
            (setq mid (/ (+ lo hi) 2.0))
            (setq area (_area-below pts mid))
-           (if (> area q100)
+           (setq areaM2 (/ area *AREA-SCALE-TO-M2*))
+           (if (> areaM2 q100)
              (setq hi mid)
              (setq lo mid)
            )
@@ -120,6 +123,7 @@
          (setq Hhladina (- hi lowz))
 
          (princ (strcat "\nDefinitívna hladina: " (rtos hi 2 3)))
+         (princ (strcat "\nPlocha pri hladine: " (rtos (/ (_area-below pts hi) *AREA-SCALE-TO-M2*) 2 4) " m2"))
          (princ (strcat "\nHhladina: " (rtos Hhladina 2 3)))
          (princ (strcat "\nPočet iterácií: " (itoa iter)))
        )
