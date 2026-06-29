@@ -36,18 +36,52 @@ Hydrotechnical_calculation //nazov dcl
   //durhy riadok dialogu - vyber polyliny
   : boxed_row
   {
-    label = "Poznamka";
-    : button
+    label = "Vyber priecneho profilu koryta (polylina)";
+    : column
     {
-      key = "polylinaKoryta";
-      label = "Vyberte polylinu";
+      : button
+      {
+        key = "polylinaKoryta";
+        label = "Vyberte polylinu";
+      }
+      : row
+      {
+        : column
+        {
+          width = 15;
+          : text
+          {
+            label = "Prietocna plocha [m2]";
+          }
+          : edit_box
+          {
+            key = "prietocnaPlochaKoryta";
+            value = "";
+            is_enabled = false;
+          }
+        }
+        : column
+        {
+          width = 15;
+          : text
+          {
+            label = "Omoceny obvod [m]";
+          }
+          : edit_box
+          {
+            key = "omocvenyObvodKoryta";
+            value = "";
+            is_enabled = false;
+          }
+        }
+      }
     }
   }
 
   //druhy riadok dialogu - vstupne hodnoty pre vypocet
   : boxed_row
   {
-    label = "Vypocet pozdlzneho sklonu koryta";
+    label = "Vstupne hodnoty pre vypocet";
     : column
     {
       : row
@@ -88,11 +122,11 @@ Hydrotechnical_calculation //nazov dcl
           }
           : text
           {
-            label = "Prietocna plocha koryta [m2]";
+            label = "Q100 [m3/s]";
           }
           : edit_box
           {
-            key = "prietocnaPlochaKoryta";
+            key = "hodnotaPrietokuKorytaQ100";
             value = "1";
           }
         }
@@ -108,115 +142,6 @@ Hydrotechnical_calculation //nazov dcl
           {
             key = "dlzkaKoryta";
             value = "10";
-          }
-          : text
-          {
-            label = "Omoceny obvod koryta [m]";
-          }
-          : edit_box
-          {
-            key = "omocvenyObvodKoryta";
-            value = "1";
-          }
-        }
-      }
-      : spacer { height = 0.5; }
-      : row
-      {
-        : text
-        {
-          label = "Hodnota prietoku";
-        }
-      }
-      : row
-      {
-        : column
-        {
-          : text
-          {
-            label = "Q1 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ1";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q2 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ2";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q5 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ5";
-            value = "1";
-          }
-        }
-        : column
-        {
-          width = 2;
-          fixed_width = true;
-          : text
-          {
-            label = "Q10 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ10";
-            value = "1";
-          }
-        }
-      }
-      : row
-      {
-        : column
-        {
-          : text
-          {
-            label = "Q20 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ20";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q50 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ50";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q100 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ100";
-            value = "1";
           }
         }
       }
@@ -403,7 +328,7 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 20;
-          label = "Prietokove mnoztvo:";
+          label = "Prietokove mnoztvo (kapacita):";
         }
         : text
         {
@@ -417,21 +342,13 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 20;
-          label = "Navrhovany profil koryta pre Qx:";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q1";
+          label = "Vyska vodnej hladiny H (Q100):";
         }
         : text
         {
           width = 10;
           label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ1";
+          key = "vyskaVodnejHladinyH";
         }
       }
       : row
@@ -439,77 +356,7 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 20;
-          label = "Q2";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ2";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q5";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ5";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q10";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ10";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q20";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ20";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q50";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ50";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q100";
+          label = "Navrhovany profil koryta pre Q100:";
         }
         : text
         {
