@@ -1,11 +1,10 @@
 (vl-load-com)
 
-(defun pt2d (p) (list (car p) (cadr p)))
-(defun zval (p) (if (and p (caddr p)) (caddr p) 0.0))
-
-(defun curve-pts (e / end i pts)
+(defun _pl-pts (e / obj end i pts)
+  (setq obj (vlax-ename->vla-object e))
   (setq end (fix (vlax-curve-getEndParam e)))
-  (setq i 0 pts '())
+  (setq i 0
+        pts '())
   (while (<= i end)
     (setq pts (cons (vlax-curve-getPointAtParam e i) pts))
     (setq i (1+ i))
@@ -13,68 +12,68 @@
   (reverse pts)
 )
 
-(defun lowest-pt (pts / m)
+(defun _min-y (pts / m)
   (setq m (car pts))
   (foreach p pts
-    (if (< (zval p) (zval m)) (setq m p))
+    (if (< (cadr p) (cadr m)) (setq m p))
   )
   m
 )
 
-(defun line-x-at-y (p1 p2 y / x1 y1 x2 y2 t)
-  (setq x1 (car p1) y1 (cadr p1) x2 (car p2) y2 (cadr p2))
-  (if (equal y1 y2 1e-12)
-    nil
-    (setq t (/ (- y y1) (- y2 y1)))
+(defun _max-y (pts / m)
+  (setq m (car pts))
+  (foreach p pts
+    (if (> (cadr p) (cadr m)) (setq m p))
   )
-  (if (and t (<= 0.0 t) (<= t 1.0))
-    (+ x1 (* t (- x2 x1)))
-    nil
-  )
+  m
 )
 
-(defun segment-area-below (p1 p2 ybase yh / x1 y1 x2 y2 xa xb ya yb xa2 xb2 h1 h2)
-  (setq x1 (car p1) y1 (cadr p1) x2 (car p2) y2 (cadr p2))
+(defun _segment-area-below (p1 p2 y0 yh / x1 y1 x2 y2 t xi yi)
+  (setq x1 (car p1) y1 (cadr p1)
+        x2 (car p2) y2 (cadr p2))
+
   (cond
     ((and (<= y1 yh) (<= y2 yh))
-     (* 0.5 (+ (- y1 ybase) (- y2 ybase)) (abs (- x2 x1)))
+     (* 0.5 (+ (- y1 y0) (- y2 y0)) (abs (- x2 x1)))
     )
-    ((and (> y1 yh) (> y2 yh)) 0.0)
+    ((and (> y1 yh) (> y2 yh))
+     0.0
+    )
     (T
-     (if (< y1 y2)
-       (progn (setq xa x1 ya y1 xb x2 yb y2))
-       (progn (setq xa x2 ya y2 xb x1 yb y1))
-     )
-     (setq xa2 (line-x-at-y (list xa ya 0.0) (list xb yb 0.0) yh))
-     (if xa2
-       (if (<= ya yh)
-         (* 0.5 (+ (- ya ybase) (- yh ybase)) (abs (- xa2 xa)))
-         (* 0.5 (+ (- yh ybase) (- yb ybase)) (abs (- xb xa2)))
+     (setq t (/ (- yh y1) (- y2 y1)))
+     (setq xi (+ x1 (* t (- x2 x1))))
+     (setq yi yh)
+     (cond
+       ((<= y1 yh)
+        (* 0.5 (+ (- y1 y0) (- yh y0)) (abs (- xi x1)))
        )
-       0.0
+       (T
+        (* 0.5 (+ (- yh y0) (- y2 y0)) (abs (- x2 xi)))
+       )
      )
     )
   )
 )
 
-(defun area-below-level (pts yh / ybase area i p1 p2)
-  (setq ybase (apply 'min (mapcar 'cadr pts)))
+(defun _area-below (pts yh / y0 area i p1 p2)
+  (setq y0 (cadr (_min-y pts)))
   (setq area 0.0
         i 0)
   (while (< i (1- (length pts)))
-    (setq p1 (nth i pts)
-          p2 (nth (1+ i) pts))
-    (setq area (+ area (segment-area-below p1 p2 ybase yh)))
+    (setq p1 (nth i pts))
+    (setq p2 (nth (1+ i) pts))
+    (setq area (+ area (_segment-area-below p1 p2 y0 yh)))
     (setq i (1+ i))
   )
   area
 )
 
-(defun draw-level-line (pts yh / xs xe y mid)
-  (setq xs nil xe nil)
+(defun _draw-level (pts yh / xs xe)
+  (setq xs (caar pts)
+        xe (caar pts))
   (foreach p pts
-    (if (or (null xs) (< (car p) xs)) (setq xs (car p)))
-    (if (or (null xe) (> (car p) xe)) (setq xe (car p)))
+    (if (< (car p) xs) (setq xs (car p)))
+    (if (> (car p) xe) (setq xe (car p)))
   )
   (entmakex
     (list
@@ -85,38 +84,51 @@
   )
 )
 
-(defun c:Q100OPENREAL (/ e obj pts lowpt lowz q100 yh area besth ln)
+(defun c:Q100OPENFAST (/ e q100 pts lowpt lowz miny maxy lo hi mid area iter tol best lineEnt)
   (setq e (car (entsel "\nVyber otvorenú polyline: ")))
-  (if (and e (member (cdr (assoc 0 (entget e))) '("LWPOLYLINE" "POLYLINE")))
-    (progn
-      (setq q100 (getreal "\nZadaj Q100: "))
-      (setq obj (vlax-ename->vla-object e))
-      (setq pts (curve-pts e))
-      (setq lowpt (lowest-pt pts))
-      (setq lowz (cadr lowpt))
-      (setq yh lowz)
-      (setq besth yh)
-
-      (while (<= yh (+ lowz 100000.0))
-        (setq area (area-below-level pts yh))
-        (if (> area q100)
-          (progn
-            (setq besth yh)
-            (setq ln (draw-level-line pts yh))
-            (setq Hhladina (- yh lowz))
-            (princ (strcat "\nHladina: " (rtos yh 2 3)))
-            (princ (strcat "\nHhladina: " (rtos Hhladina 2 3)))
-            (setq yh (+ lowz 1000000.0))
-          )
-          (setq yh (+ yh 0.01))
-        )
-      )
-
-      (if (null ln)
-        (princ "\nNenašla sa hladina, pri ktorej by plocha prekročila Q100.")
-      )
+  (cond
+    ((null e)
+     (princ "\nNebola vybraná polyline.")
     )
-    (princ "\nNie je vybraná polyline.")
+    ((not (member (cdr (assoc 0 (entget e))) '("LWPOLYLINE" "POLYLINE")))
+     (princ "\nVybraný objekt nie je polyline.")
+    )
+    (T
+     (setq q100 (getreal "\nZadaj hodnotu Q100: "))
+     (setq pts (_pl-pts e))
+     (setq lowpt (_min-y pts))
+     (setq lowz (cadr lowpt))
+     (setq miny lowz)
+     (setq maxy (cadr (_max-y pts)))
+     (setq lo miny)
+     (setq hi maxy)
+     (setq tol 0.0001)
+     (setq iter 0)
+
+     (if (<= (_area-below pts hi) q100)
+       (progn
+         (princ "\nAj pri najvyššej hladine je plocha menšia alebo rovná Q100.")
+       )
+       (progn
+         (while (< iter 40)
+           (setq mid (/ (+ lo hi) 2.0))
+           (setq area (_area-below pts mid))
+           (if (> area q100)
+             (setq hi mid best mid)
+             (setq lo mid)
+           )
+           (setq iter (1+ iter))
+         )
+
+         (setq lineEnt (_draw-level pts hi))
+         (setq Hhladina (- hi lowz))
+
+         (princ (strcat "\nDefinitívna hladina: " (rtos hi 2 3)))
+         (princ (strcat "\nHhladina: " (rtos Hhladina 2 3)))
+         (princ (strcat "\nPočet iterácií: " (itoa iter)))
+       )
+     )
+    )
   )
   (princ)
 )
