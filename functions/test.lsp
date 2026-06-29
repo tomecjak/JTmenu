@@ -104,7 +104,8 @@
      (setq lo miny)
      (setq hi maxy)
      (setq iter 0)
-
+    (setq areaHiM2 (/ (_area-below pts hi) *AREA-SCALE-TO-M2*))
+      
      (if (<= (/ (_area-below pts hi) *AREA-SCALE-TO-M2*) q100)
        (princ "\nAj pri najvyššej hladine je plocha menšia alebo rovná Q100.")
        (progn
@@ -121,6 +122,9 @@
 
          (setq lineEnt (_draw-level pts hi))
          (setq Hhladina (- hi lowz))
+         
+         (princ (strcat "\nareaHiM2 = " (rtos areaHiM2 2 6)))
+(princ (strcat "\nq100 = " (rtos q100 2 6)))
 
          (princ (strcat "\nDefinitívna hladina: " (rtos hi 2 3)))
          (princ (strcat "\nPlocha pri hladine: " (rtos (/ (_area-below pts hi) *AREA-SCALE-TO-M2*) 2 4) " m2"))
