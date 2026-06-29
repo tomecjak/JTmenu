@@ -57,7 +57,6 @@ Hydrotechnical_calculation //nazov dcl
           {
             key = "prietocnaPlochaKoryta";
             value = "";
-            is_enabled = false;
           }
         }
         : column
@@ -71,7 +70,6 @@ Hydrotechnical_calculation //nazov dcl
           {
             key = "omocvenyObvodKoryta";
             value = "";
-            is_enabled = false;
           }
         }
       }
@@ -208,7 +206,6 @@ Hydrotechnical_calculation //nazov dcl
     //hodnota
     :column
     {
- 
       fixed_width = true;
       : paragraph
       {
