@@ -7,6 +7,18 @@
 
 (vl-load-com)
 
+(defun HydroLine (p1 p2)
+  (entmake
+    (list
+      (cons 0 "LINE")
+      (cons 100 "AcDbEntity")
+      (cons 100 "AcDbLine")
+      (cons 10 p1)
+      (cons 11 p2)
+    )
+  )
+)
+
 (defun HydroSafeNumber (v)
   (if (and v (numberp v)) v 0.0)
 )
