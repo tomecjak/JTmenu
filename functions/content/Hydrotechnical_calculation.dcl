@@ -417,6 +417,34 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 20;
+          label = "Vyska hladiny pri Q100:";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "vyskaHladinyPriQ100";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 20;
+          label = "Prietocna plocha pri Q100:";
+        }
+        : text
+        {
+          width = 10;
+          label = "";
+          key = "prietocnaPlochaPriQ100";
+        }
+      }
+      : row
+      {
+        : text
+        {
+          width = 20;
           label = "Navrhovany profil koryta pre Qx:";
         }
       }

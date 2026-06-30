@@ -28,6 +28,8 @@
   (if (not *hydro_q20*) (setq *hydro_q20* nil))
   (if (not *hydro_q50*) (setq *hydro_q50* nil))
   (if (not *hydro_q100*) (setq *hydro_q100* nil))
+  (if (not *hydro_hhladina*) (setq *hydro_hhladina* nil))
+  (if (not *hydro_wetarea*) (setq *hydro_wetarea* nil))
   (setq select_polyline nil)
 
   ; nacitanie dialogoveho okna
@@ -53,9 +55,14 @@
   (if *hydro_q50* (set_tile "hodnotaPrietokuKorytaQ50" (rtos *hydro_q50* 2 2)))
   (if *hydro_q100* (set_tile "hodnotaPrietokuKorytaQ100" (rtos *hydro_q100* 2 2)))
 
+  ; zobrazenie vysledkov vypoctu hladiny z predchadzajuceho vyberu polyliny
+  (if *hydro_hhladina* (set_tile "vyskaHladinyPriQ100" (strcat (rtos *hydro_hhladina* 2 3) " m")))
+  (if *hydro_wetarea* (set_tile "prietocnaPlochaPriQ100" (strcat (rtos *hydro_wetarea* 2 2) " m2")))
+
   ; definovanie tlacidla vyber polylinu
+  ; pred zatvorenim dialogu ulozime vstupy, aby boli k dispozicii pre vypocet hladiny
   (action_tile "polylinaKoryta"
-    "(setq select_polyline t) (done_dialog)"
+    "(HydroSaveTiles) (setq select_polyline t) (done_dialog)"
   )
 
   ; definovanie tlacidla cancel
@@ -242,10 +249,145 @@
 
 
 ;;----------------------------------------------------------------------;;
+;;          Pomocna funkcia na ulozenie vstupov z dialogu               ;;
+;;----------------------------------------------------------------------;;
+
+(defun HydroSaveTiles ()
+  (setq *hydro_vyska_zac* (atof (get_tile "vyskaNaZaciatkuKoryta")))
+  (setq *hydro_vyska_kon* (atof (get_tile "vyskaNaKonciKoryta")))
+  (setq *hydro_dlzka*     (atof (get_tile "dlzkaKoryta")))
+  (setq *hydro_drsnost*   (atof (get_tile "stupenDrsnostiKoryta")))
+  (setq *hydro_plocha*    (atof (get_tile "prietocnaPlochaKoryta")))
+  (setq *hydro_obvod*     (atof (get_tile "omocvenyObvodKoryta")))
+  (setq *hydro_q1*        (atof (get_tile "hodnotaPrietokuKorytaQ1")))
+  (setq *hydro_q2*        (atof (get_tile "hodnotaPrietokuKorytaQ2")))
+  (setq *hydro_q5*        (atof (get_tile "hodnotaPrietokuKorytaQ5")))
+  (setq *hydro_q10*       (atof (get_tile "hodnotaPrietokuKorytaQ10")))
+  (setq *hydro_q20*       (atof (get_tile "hodnotaPrietokuKorytaQ20")))
+  (setq *hydro_q50*       (atof (get_tile "hodnotaPrietokuKorytaQ50")))
+  (setq *hydro_q100*      (atof (get_tile "hodnotaPrietokuKorytaQ100")))
+  (princ)
+)
+
+
+;;----------------------------------------------------------------------;;
+;;         Pomocne geometricke funkcie pre vypocet hladiny              ;;
+;;----------------------------------------------------------------------;;
+
+;; ziskanie vrcholov polyliny ako zoznam bodov ((x y) (x y) ...)
+;; pozn.: oblukove segmenty (bulge) su brane ako rovne usecky
+(defun HydroGetPolyPoints (obj / coords lst)
+  (setq coords (vlax-safearray->list
+                 (vlax-variant-value (vla-get-coordinates obj))))
+  (setq lst '())
+  (while coords
+    (setq lst (cons (list (car coords) (cadr coords)) lst))
+    (setq coords (cddr coords))
+  )
+  (setq lst (reverse lst))
+  ;; ak je polylina uzavreta, doplnime uzatvaraci segment
+  (if (= (vla-get-closed obj) :vlax-true)
+    (setq lst (append lst (list (car lst))))
+  )
+  lst
+)
+
+;; orezanie usecky na cast pod hladinou yw; vrati ((ax ay) (bx by)) alebo nil
+(defun HydroClipSeg (x1 y1 x2 y2 yw / b1 b2 tt xi)
+  (setq b1 (<= y1 yw) b2 (<= y2 yw))
+  (cond
+    ((and b1 b2) (list (list x1 y1) (list x2 y2)))
+    ((and (not b1) (not b2)) nil)
+    (T
+      (setq tt (/ (- yw y1) (- y2 y1)))
+      (setq xi (+ x1 (* tt (- x2 x1))))
+      (if b1
+        (list (list x1 y1) (list xi yw))
+        (list (list xi yw) (list x2 y2))
+      )
+    )
+  )
+)
+
+;; vypocet prietocnej plochy S a omoceneho obvodu O pri hladine yw
+;; vrati (S O)
+(defun HydroWetSO (pts yw / lst p1 p2 seg a b ax ay bx by S O)
+  (setq S 0.0 O 0.0 lst pts)
+  (while (cdr lst)
+    (setq p1 (car lst) p2 (cadr lst))
+    (setq seg (HydroClipSeg (car p1) (cadr p1) (car p2) (cadr p2) yw))
+    (if seg
+      (progn
+        (setq a (car seg) b (cadr seg))
+        (setq ax (car a) ay (cadr a) bx (car b) by (cadr b))
+        ;; prietocna plocha (integral (yw - y) dx pozdlz koryta)
+        (setq S (+ S (* 0.5 (- bx ax) (+ (- yw ay) (- yw by)))))
+        ;; omoceny obvod (dlzka casti koryta pod hladinou)
+        (setq O (+ O (sqrt (+ (expt (- bx ax) 2.0) (expt (- by ay) 2.0)))))
+      )
+    )
+    (setq lst (cdr lst))
+  )
+  (list (abs S) O)
+)
+
+;; kapacita koryta Q pri hladine yw (Chezyho vztah Q = C*S*sqrt(R*i))
+(defun HydroQAtLevel (pts yw n_drs i_slope / so S O R C)
+  (setq so (HydroWetSO pts yw))
+  (setq S (car so) O (cadr so))
+  (if (and (> O 0.0) (> S 0.0) (> i_slope 0.0))
+    (progn
+      (setq R (/ S O))
+      (setq C (* (/ 1.0 n_drs) (expt R (/ 1.0 6.0))))
+      (* C S (sqrt (* i_slope R)))
+    )
+    0.0
+  )
+)
+
+;; x-suradnice priesecnikov hladiny yw s polylinou
+(defun HydroCrossX (pts yw / lst p1 p2 x1 y1 x2 y2 tt res)
+  (setq lst pts res '())
+  (while (cdr lst)
+    (setq p1 (car lst) p2 (cadr lst))
+    (setq x1 (car p1) y1 (cadr p1) x2 (car p2) y2 (cadr p2))
+    (if (and (/= y1 y2)
+             (or (and (<= y1 yw) (>= y2 yw))
+                 (and (>= y1 yw) (<= y2 yw))))
+      (progn
+        (setq tt (/ (- yw y1) (- y2 y1)))
+        (setq res (cons (+ x1 (* tt (- x2 x1))) res))
+      )
+    )
+    (setq lst (cdr lst))
+  )
+  res
+)
+
+;; zabezpeci existenciu hladiny vrstvy bez zmeny aktualnej vrstvy
+(defun HydroEnsureLayer (name col)
+  (if (not (tblsearch "LAYER" name))
+    (entmakex
+      (list
+        (cons 0 "LAYER")
+        (cons 100 "AcDbSymbolTableRecord")
+        (cons 100 "AcDbLayerTableRecord")
+        (cons 2 name)
+        (cons 70 0)
+        (cons 62 col)
+      )
+    )
+  )
+)
+
+
+;;----------------------------------------------------------------------;;
 ;;            Funkcia vyberu polyliny pre hydrotechnicky vypocet        ;;
 ;;----------------------------------------------------------------------;;
 
-(defun PolylineKorytaHydrotechnicalCalculation ()
+(defun PolylineKorytaHydrotechnicalCalculation ( /
+    ent obj pts ymin ymax n_drs i_slope target qmax
+    ylo yhi ymid q iter so S O xs xmin xmax hh txh )
   (vl-load-com)
   (setq ent (entsel "\nVyber polylinu koryta: "))
   (if ent
@@ -257,6 +399,94 @@
           (setq *hydro_obvod* (vla-get-length obj))
           (princ (strcat "\nPlocha: " (rtos *hydro_plocha* 2 2) " m²\n"))
           (princ (strcat "Obvod: " (rtos *hydro_obvod* 2 2) " m\n"))
+
+          ;; --- vypocet vysky hladiny pre kapacitu Q100 ---
+          (setq pts     (HydroGetPolyPoints obj))
+          (setq n_drs   (if *hydro_drsnost* *hydro_drsnost* 0.0))
+          (setq target  (if *hydro_q100* *hydro_q100* 0.0))
+          (setq i_slope
+            (if (and *hydro_vyska_zac* *hydro_vyska_kon* *hydro_dlzka*
+                     (> *hydro_dlzka* 0.0))
+              (/ (- *hydro_vyska_zac* *hydro_vyska_kon*) *hydro_dlzka*)
+              0.0))
+
+          (cond
+            ((< (length pts) 2)
+              (princ "\nPolylina nema dostatok vrcholov pre vypocet hladiny.\n"))
+            ((<= n_drs 0.0)
+              (alert "Pre vypocet hladiny zadaj stupen drsnosti koryta vacsi ako 0."))
+            ((<= i_slope 0.0)
+              (alert "Pre vypocet hladiny musi byt sklon koryta vacsi ako 0.\nSkontroluj vysky na zaciatku/konci a dlzku koryta."))
+            ((<= target 0.0)
+              (alert "Pre vypocet hladiny zadaj hodnotu prietoku Q100 vacsiu ako 0."))
+            (T
+              (setq ymin (apply 'min (mapcar 'cadr pts)))
+              (setq ymax (apply 'max (mapcar 'cadr pts)))
+              (setq qmax (HydroQAtLevel pts ymax n_drs i_slope))
+
+              (if (< qmax target)
+                (progn
+                  (alert
+                    (strcat
+                      "Koryto nema dostatocnu kapacitu pre Q100 = "
+                      (rtos target 2 2) " m³/s.\nMaximalna kapacita koryta je "
+                      (rtos qmax 2 2) " m³/s.\nHladina sa vykresli na urovni hornej hrany koryta."))
+                  (setq ymid ymax))
+                (progn
+                  ;; bisekcia: Q rastie s vyskou hladiny -> hladame uroven kde Q = Q100
+                  (setq ylo ymin yhi ymax iter 0)
+                  (while (< iter 60)
+                    (setq ymid (* 0.5 (+ ylo yhi)))
+                    (setq q (HydroQAtLevel pts ymid n_drs i_slope))
+                    (if (< q target) (setq ylo ymid) (setq yhi ymid))
+                    (setq iter (1+ iter))
+                  )
+                )
+              )
+
+              ;; vysledky pri najdenej hladine
+              (setq so (HydroWetSO pts ymid))
+              (setq S (car so) O (cadr so))
+              (setq hh (- ymid ymin))
+              (setq *hydro_hhladina* hh)
+              (setq *hydro_wetarea* S)
+
+              ;; vykreslenie ciary hladiny - sirka hladiny (medzi priesecnikmi)
+              (setq xs (HydroCrossX pts ymid))
+              (if (>= (length xs) 2)
+                (progn
+                  (setq xmin (apply 'min xs) xmax (apply 'max xs))
+                  (HydroEnsureLayer "HLADINA" 5)
+                  (entmakex
+                    (list
+                      (cons 0 "LINE")
+                      (cons 8 "HLADINA")
+                      (cons 10 (list xmin ymid 0.0))
+                      (cons 11 (list xmax ymid 0.0))
+                    )
+                  )
+                  ;; popis hladiny
+                  (setq txh (* (- ymax ymin) 0.06))
+                  (if (<= txh 0.0) (setq txh (* (- xmax xmin) 0.03)))
+                  (if (> txh 0.0)
+                    (entmakex
+                      (list
+                        (cons 0 "TEXT")
+                        (cons 8 "HLADINA")
+                        (cons 10 (list xmin (+ ymid (* txh 0.3)) 0.0))
+                        (cons 40 txh)
+                        (cons 1 (strcat "Hhladina = " (rtos hh 2 3) " m, S = " (rtos S 2 2) " m2"))
+                      )
+                    )
+                  )
+                  (princ (strcat "\nVyska hladiny Hhladina = " (rtos hh 2 3) " m\n"))
+                  (princ (strcat "Prietocna plocha pri Q100 = " (rtos S 2 2) " m²"
+                                 " (Q100 = " (rtos target 2 2) " m³/s)\n"))
+                )
+                (princ "\nNepodarilo sa najst priesecniky hladiny s polylinou.\n")
+              )
+            )
+          )
         )
         (princ "\nVybrana entita nie je polylina.\n")
       )
@@ -639,19 +869,7 @@
 
 (defun UkoncenieHydrotechnicalCalculation()
   ; ulozenie hodnot pred zatvorenim
-  (if (get_tile "vyskaNaZaciatkuKoryta") (setq *hydro_vyska_zac* (atof (get_tile "vyskaNaZaciatkuKoryta"))))
-  (if (get_tile "vyskaNaKonciKoryta") (setq *hydro_vyska_kon* (atof (get_tile "vyskaNaKonciKoryta"))))
-  (if (get_tile "dlzkaKoryta") (setq *hydro_dlzka* (atof (get_tile "dlzkaKoryta"))))
-  (if (get_tile "stupenDrsnostiKoryta") (setq *hydro_drsnost* (atof (get_tile "stupenDrsnostiKoryta"))))
-  (if (get_tile "prietocnaPlochaKoryta") (setq *hydro_plocha* (atof (get_tile "prietocnaPlochaKoryta"))))
-  (if (get_tile "omocvenyObvodKoryta") (setq *hydro_obvod* (atof (get_tile "omocvenyObvodKoryta"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ1") (setq *hydro_q1* (atof (get_tile "hodnotaPrietokuKorytaQ1"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ2") (setq *hydro_q2* (atof (get_tile "hodnotaPrietokuKorytaQ2"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ5") (setq *hydro_q5* (atof (get_tile "hodnotaPrietokuKorytaQ5"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ10") (setq *hydro_q10* (atof (get_tile "hodnotaPrietokuKorytaQ10"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ20") (setq *hydro_q20* (atof (get_tile "hodnotaPrietokuKorytaQ20"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ50") (setq *hydro_q50* (atof (get_tile "hodnotaPrietokuKorytaQ50"))))
-  (if (get_tile "hodnotaPrietokuKorytaQ100") (setq *hydro_q100* (atof (get_tile "hodnotaPrietokuKorytaQ100"))))
+  (HydroSaveTiles)
 
   ; zavretie dialogu
   (done_dialog)
