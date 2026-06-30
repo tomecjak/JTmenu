@@ -157,10 +157,7 @@
 ;;                           Pomocne funkcie                            ;;
 ;;----------------------------------------------------------------------;;
 
-(defun LM:roundm ( n m )
-  ;; Round to the nearest multiple (Lee Mac style) [web:171]
-  (* m (fix ((if (minusp n) - +) (/ n (float m)) 0.5)))
-)
+;; LM:roundm je zdielana v JT_lib.lsp
 
 (defun _digits-after-last-underscore (s / i n out)
   (setq n (strlen s) i n out nil)

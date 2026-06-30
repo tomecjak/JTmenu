@@ -321,31 +321,8 @@
     (mapcar '(lambda ( n ) (* n s)) v)
 )
  
-;Start Undo  -  Lee Mac
-;Opens an Undo Group.
- 
-(defun LM:startundo ( doc )
-    (LM:endundo doc)
-    (vla-startundomark doc)
-)
- 
-;End Undo  -  Lee Mac
-;Closes an Undo Group.
- 
-(defun LM:endundo ( doc )
-    (while (= 8 (logand 8 (getvar 'undoctl)))
-        (vla-endundomark doc)
-    )
-)
- 
-;Active Document  -  Lee Mac
-;Returns the VLA Active Document Object
- 
-(defun LM:acdoc nil
-    (eval (list 'defun 'LM:acdoc 'nil (vla-get-activedocument (vlax-get-acad-object))))
-    (LM:acdoc)
-)
- 
+;LM:startundo, LM:endundo, LM:acdoc su zdielane v JT_lib.lsp
+
 ;-------------------------------------------------------------------------
 
 (princ)

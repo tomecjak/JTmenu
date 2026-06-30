@@ -178,7 +178,7 @@
 ;;----------------------------------------------------------------------;;
 
 (vl-load-com)
-(load "Version" "\nVerzia nenacitana!")
+(load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
         "\nSetup.lsp | " "Pre instalaciu zadajte prikaz JTMenuSetup" " | Jakub Tomecko | "
