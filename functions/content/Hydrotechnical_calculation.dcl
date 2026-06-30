@@ -570,6 +570,15 @@ Hydrotechnical_calculation //nazov dcl
       mnemonic = "V";
     }
 
+    //tlacidlo vykresli ciaru hladiny
+    : button
+    {
+      key = "vykresli";
+      label = "Vykresli hladinu";
+      is_default = false;
+      mnemonic = "H";
+    }
+
     //tlacidlo zavier
     : button
     {
