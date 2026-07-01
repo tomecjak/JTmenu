@@ -299,19 +299,30 @@
 
 ;; ziskanie vrcholov polyliny ako zoznam bodov ((x y) (x y) ...)
 ;; pozn.: oblukove segmenty (bulge) su brane ako rovne usecky
-(defun HydroGetPolyPoints (obj / coords lst) 
-  (setq coords (vlax-safearray->list 
+;; suradnice sa prepocitaju do AKTUALNEHO UCS, aby "vyska" (y) zodpovedala
+;; zvislej osi pouzivatelovho suradnicoveho systemu (nie len WCS/"word")
+(defun HydroGetPolyPoints (obj / coords normal elev lst pt)
+  (setq coords (vlax-safearray->list
                  (vlax-variant-value (vla-get-coordinates obj))
                )
   )
+  ;; extrusny vektor (normala) a elevation polyliny pre presny prevod OCS -> WCS
+  (setq normal (vlax-safearray->list
+                 (vlax-variant-value (vla-get-normal obj))
+               )
+  )
+  (setq elev (vla-get-elevation obj))
   (setq lst '())
-  (while coords 
-    (setq lst (cons (list (car coords) (cadr coords)) lst))
+  (while coords
+    ;; vrchol polyliny je v OCS (2D); prevedieme ho cez WCS do aktualneho UCS
+    (setq pt (trans (list (car coords) (cadr coords) elev) normal 0)) ; OCS -> WCS
+    (setq pt (trans pt 0 1))                                          ; WCS -> UCS
+    (setq lst (cons (list (car pt) (cadr pt)) lst))
     (setq coords (cddr coords))
   )
   (setq lst (reverse lst))
   ;; ak je polylina uzavreta, doplnime uzatvaraci segment
-  (if (= (vla-get-closed obj) :vlax-true) 
+  (if (= (vla-get-closed obj) :vlax-true)
     (setq lst (append lst (list (car lst))))
   )
   lst
@@ -666,6 +677,12 @@
       (setq obj (vlax-ename->vla-object (car ent)))
       (if (= (vla-get-objectname obj) "AcDbPolyline") 
         (progn 
+          ;; kontrola aktivneho suradnicoveho systemu pred vypoctom
+          (if (= (getvar "WORLDUCS") 1)
+            (princ "\nAktivny suradnicovy system: WCS (svetovy).\n")
+            (princ "\nAktivny suradnicovy system: UCS - suradnice budu prepocitane.\n")
+          )
+          ;; plocha a obvod su geometricke invarianty (nezavisia od UCS)
           (setq *hydro_plocha* (vla-get-area obj))
           (setq *hydro_obvod* (vla-get-length obj))
           (setq *hydro_poly_pts* (HydroGetPolyPoints obj))
@@ -744,12 +761,13 @@
                    xmax (apply 'max xs)
              )
              (setq lay (HydroWaterLayer))
-             (entmakex 
-               (list 
+             ;; body ciary su v aktualnom UCS -> prevod spat do WCS pre entmakex
+             (entmakex
+               (list
                  (cons 0 "LINE")
                  (cons 8 lay)
-                 (cons 10 (list xmin yw 0.0))
-                 (cons 11 (list xmax yw 0.0))
+                 (cons 10 (trans (list xmin yw 0.0) 1 0))
+                 (cons 11 (trans (list xmax yw 0.0) 1 0))
                )
              )
              (princ (strcat "\nCiara hladiny vykreslena na vrstvu \"" lay "\".\n"))
