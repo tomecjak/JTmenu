@@ -88,12 +88,13 @@ Hydrotechnical_calculation //nazov dcl
           }
           : text
           {
-            label = "Prietocna plocha koryta [m2]";
+            label = "Prietocna plocha koryta [m2] (z polyliny)";
           }
           : edit_box
           {
             key = "prietocnaPlochaKoryta";
-            value = "1";
+            value = "0";
+            is_enabled = false;
           }
         }
         : column
@@ -111,107 +112,25 @@ Hydrotechnical_calculation //nazov dcl
           }
           : text
           {
-            label = "Omoceny obvod koryta [m]";
+            label = "Omoceny obvod koryta [m] (z polyliny)";
           }
           : edit_box
           {
             key = "omocvenyObvodKoryta";
-            value = "1";
+            value = "0";
+            is_enabled = false;
           }
         }
       }
       : spacer { height = 0.5; }
       : row
       {
-        : text
-        {
-          label = "Hodnota prietoku";
-        }
-      }
-      : row
-      {
         : column
         {
+          width = 15;
           : text
           {
-            label = "Q1 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ1";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q2 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ2";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q5 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ5";
-            value = "1";
-          }
-        }
-        : column
-        {
-          width = 2;
-          fixed_width = true;
-          : text
-          {
-            label = "Q10 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ10";
-            value = "1";
-          }
-        }
-      }
-      : row
-      {
-        : column
-        {
-          : text
-          {
-            label = "Q20 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ20";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q50 [m3/s]";
-          }
-          : edit_box
-          {
-            key = "hodnotaPrietokuKorytaQ50";
-            value = "1";
-          }
-        }
-        : column
-        {
-          : text
-          {
-            label = "Q100 [m3/s]";
+            label = "Navrhovy prietok Q100 [m3/s]";
           }
           : edit_box
           {
@@ -445,99 +364,7 @@ Hydrotechnical_calculation //nazov dcl
         : text
         {
           width = 20;
-          label = "Navrhovany profil koryta pre Qx:";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q1";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ1";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q2";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ2";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q5";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ5";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q10";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ10";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q20";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ20";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q50";
-        }
-        : text
-        {
-          width = 10;
-          label = "";
-          key = "vyhodnoteniePosudeniaPrietokuKorytaQ50";
-        }
-      }
-      : row
-      {
-        : text
-        {
-          width = 20;
-          label = "Q100";
+          label = "Posudenie koryta pre Q100:";
         }
         : text
         {

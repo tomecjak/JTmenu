@@ -21,12 +21,6 @@
   (if (not *hydro_drsnost*) (setq *hydro_drsnost* nil))
   (if (not *hydro_plocha*) (setq *hydro_plocha* nil))
   (if (not *hydro_obvod*) (setq *hydro_obvod* nil))
-  (if (not *hydro_q1*) (setq *hydro_q1* nil))
-  (if (not *hydro_q2*) (setq *hydro_q2* nil))
-  (if (not *hydro_q5*) (setq *hydro_q5* nil))
-  (if (not *hydro_q10*) (setq *hydro_q10* nil))
-  (if (not *hydro_q20*) (setq *hydro_q20* nil))
-  (if (not *hydro_q50*) (setq *hydro_q50* nil))
   (if (not *hydro_q100*) (setq *hydro_q100* nil))
   (if (not *hydro_hhladina*) (setq *hydro_hhladina* nil))
   (if (not *hydro_wetarea*) (setq *hydro_wetarea* nil))
@@ -49,12 +43,6 @@
   (if *hydro_drsnost* (set_tile "stupenDrsnostiKoryta" (rtos *hydro_drsnost* 2 3)))
   (if *hydro_plocha* (set_tile "prietocnaPlochaKoryta" (rtos *hydro_plocha* 2 2)))
   (if *hydro_obvod* (set_tile "omocvenyObvodKoryta" (rtos *hydro_obvod* 2 2)))
-  (if *hydro_q1* (set_tile "hodnotaPrietokuKorytaQ1" (rtos *hydro_q1* 2 2)))
-  (if *hydro_q2* (set_tile "hodnotaPrietokuKorytaQ2" (rtos *hydro_q2* 2 2)))
-  (if *hydro_q5* (set_tile "hodnotaPrietokuKorytaQ5" (rtos *hydro_q5* 2 2)))
-  (if *hydro_q10* (set_tile "hodnotaPrietokuKorytaQ10" (rtos *hydro_q10* 2 2)))
-  (if *hydro_q20* (set_tile "hodnotaPrietokuKorytaQ20" (rtos *hydro_q20* 2 2)))
-  (if *hydro_q50* (set_tile "hodnotaPrietokuKorytaQ50" (rtos *hydro_q50* 2 2)))
   (if *hydro_q100* (set_tile "hodnotaPrietokuKorytaQ100" (rtos *hydro_q100* 2 2)))
 
   ; zobrazenie vysledkov vypoctu hladiny z predchadzajuceho vyberu polyliny
@@ -123,12 +111,6 @@
     (cons 'drsnost_n  (atof (get_tile "stupenDrsnostiKoryta")))
     (cons 'plocha_S   (atof (get_tile "prietocnaPlochaKoryta")))
     (cons 'obvod_O    (atof (get_tile "omocvenyObvodKoryta")))
-    (cons 'prietok_Q1   (atof (get_tile "hodnotaPrietokuKorytaQ1")))
-    (cons 'prietok_Q2   (atof (get_tile "hodnotaPrietokuKorytaQ2")))
-    (cons 'prietok_Q5   (atof (get_tile "hodnotaPrietokuKorytaQ5")))
-    (cons 'prietok_Q10  (atof (get_tile "hodnotaPrietokuKorytaQ10")))
-    (cons 'prietok_Q20  (atof (get_tile "hodnotaPrietokuKorytaQ20")))
-    (cons 'prietok_Q50  (atof (get_tile "hodnotaPrietokuKorytaQ50")))
     (cons 'prietok_Q100 (atof (get_tile "hodnotaPrietokuKorytaQ100")))
   )
 )
@@ -139,11 +121,9 @@
 ;;----------------------------------------------------------------------;;
 
 (defun HydroCalculate (in /
-    vyska_h1 vyska_h2 dlzka_L drsnost_n plocha_S obvod_O
-    prietok_Q1 prietok_Q2 prietok_Q5 prietok_Q10 prietok_Q20 prietok_Q50 prietok_Q100
+    vyska_h1 vyska_h2 dlzka_L drsnost_n plocha_S obvod_O prietok_Q100
     delta_h sklon_i hydroraulickyPolomer_R rychlostnySucinitelKoryta_C prietok_Q
-    vyhodnotenieQ1 vyhodnotenieQ2 vyhodnotenieQ5 vyhodnotenieQ10
-    vyhodnotenieQ20 vyhodnotenieQ50 vyhodnotenieQ100
+    vyhodnotenieQ100
   )
 
   (setq vyska_h1   (cdr (assoc 'vyska_h1 in)))
@@ -152,12 +132,6 @@
   (setq drsnost_n  (cdr (assoc 'drsnost_n in)))
   (setq plocha_S   (cdr (assoc 'plocha_S in)))
   (setq obvod_O    (cdr (assoc 'obvod_O in)))
-  (setq prietok_Q1   (cdr (assoc 'prietok_Q1 in)))
-  (setq prietok_Q2   (cdr (assoc 'prietok_Q2 in)))
-  (setq prietok_Q5   (cdr (assoc 'prietok_Q5 in)))
-  (setq prietok_Q10  (cdr (assoc 'prietok_Q10 in)))
-  (setq prietok_Q20  (cdr (assoc 'prietok_Q20 in)))
-  (setq prietok_Q50  (cdr (assoc 'prietok_Q50 in)))
   (setq prietok_Q100 (cdr (assoc 'prietok_Q100 in)))
 
   ; kontrola vstupov
@@ -183,12 +157,6 @@
                    (expt hydroraulickyPolomer_R (/ 1.0 6.0))))
           (setq prietok_Q (* rychlostnySucinitelKoryta_C plocha_S (sqrt (* sklon_i hydroraulickyPolomer_R))))
 
-          (setq vyhodnotenieQ1   (if (> prietok_Q prietok_Q1)   "vyhovuje" "nevyhovuje"))
-          (setq vyhodnotenieQ2   (if (> prietok_Q prietok_Q2)   "vyhovuje" "nevyhovuje"))
-          (setq vyhodnotenieQ5   (if (> prietok_Q prietok_Q5)   "vyhovuje" "nevyhovuje"))
-          (setq vyhodnotenieQ10  (if (> prietok_Q prietok_Q10)  "vyhovuje" "nevyhovuje"))
-          (setq vyhodnotenieQ20  (if (> prietok_Q prietok_Q20)  "vyhovuje" "nevyhovuje"))
-          (setq vyhodnotenieQ50  (if (> prietok_Q prietok_Q50)  "vyhovuje" "nevyhovuje"))
           (setq vyhodnotenieQ100 (if (> prietok_Q prietok_Q100) "vyhovuje" "nevyhovuje"))
 
           (append
@@ -199,12 +167,6 @@
               (cons 'hydroraulickyPolomer_R hydroraulickyPolomer_R)
               (cons 'rychlostnySucinitelKoryta_C rychlostnySucinitelKoryta_C)
               (cons 'prietok_Q prietok_Q)
-              (cons 'vyhodnotenieQ1 vyhodnotenieQ1)
-              (cons 'vyhodnotenieQ2 vyhodnotenieQ2)
-              (cons 'vyhodnotenieQ5 vyhodnotenieQ5)
-              (cons 'vyhodnotenieQ10 vyhodnotenieQ10)
-              (cons 'vyhodnotenieQ20 vyhodnotenieQ20)
-              (cons 'vyhodnotenieQ50 vyhodnotenieQ50)
               (cons 'vyhodnotenieQ100 vyhodnotenieQ100)
             )
           )
@@ -242,18 +204,6 @@
       (set_tile "prietokoveMnozstvo"
         (strcat (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s"))
 
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ1"
-        (cdr (assoc 'vyhodnotenieQ1 out)))
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ2"
-        (cdr (assoc 'vyhodnotenieQ2 out)))
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ5"
-        (cdr (assoc 'vyhodnotenieQ5 out)))
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ10"
-        (cdr (assoc 'vyhodnotenieQ10 out)))
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ20"
-        (cdr (assoc 'vyhodnotenieQ20 out)))
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ50"
-        (cdr (assoc 'vyhodnotenieQ50 out)))
       (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ100"
         (cdr (assoc 'vyhodnotenieQ100 out)))
 
@@ -299,12 +249,6 @@
   (setq *hydro_drsnost*   (atof (get_tile "stupenDrsnostiKoryta")))
   (setq *hydro_plocha*    (atof (get_tile "prietocnaPlochaKoryta")))
   (setq *hydro_obvod*     (atof (get_tile "omocvenyObvodKoryta")))
-  (setq *hydro_q1*        (atof (get_tile "hodnotaPrietokuKorytaQ1")))
-  (setq *hydro_q2*        (atof (get_tile "hodnotaPrietokuKorytaQ2")))
-  (setq *hydro_q5*        (atof (get_tile "hodnotaPrietokuKorytaQ5")))
-  (setq *hydro_q10*       (atof (get_tile "hodnotaPrietokuKorytaQ10")))
-  (setq *hydro_q20*       (atof (get_tile "hodnotaPrietokuKorytaQ20")))
-  (setq *hydro_q50*       (atof (get_tile "hodnotaPrietokuKorytaQ50")))
   (setq *hydro_q100*      (atof (get_tile "hodnotaPrietokuKorytaQ100")))
   (princ)
 )
@@ -402,6 +346,81 @@
     (setq lst (cdr lst))
   )
   res
+)
+
+;; prepocet world suradnic do SVG viewportu (Y je v SVG smerom dole)
+(defun HydroSvgX (x xmin ox scale) (+ ox (* (- x xmin) scale)))
+(defun HydroSvgY (y ymin vbh oy scale) (- vbh oy (* (- y ymin) scale)))
+
+;; vykreslenie priecneho rezu koryta a hladiny do SVG (do otvoreneho suboru)
+(defun HydroWriteCrossSvg (file pts yw hh /
+    xmin xmax ymin ymax dw dh vbw vbh pad scale ox oy
+    lst p1 p2 seg a b ax ay bx by p ptstr
+    xs xlc xrc wyN wx1N wx2N)
+  (setq xmin (apply 'min (mapcar 'car pts))
+        xmax (apply 'max (mapcar 'car pts))
+        ymin (apply 'min (mapcar 'cadr pts))
+        ymax (apply 'max (mapcar 'cadr pts)))
+  (setq dw (- xmax xmin) dh (- ymax ymin))
+  (if (<= dw 1e-9) (setq dw 1.0))
+  (if (<= dh 1e-9) (setq dh 1.0))
+  (setq vbw 760.0 vbh 360.0 pad 50.0)
+  (setq scale (min (/ (- vbw (* 2.0 pad)) dw) (/ (- vbh (* 2.0 pad)) dh)))
+  (setq ox (/ (- vbw (* dw scale)) 2.0))
+  (setq oy (/ (- vbh (* dh scale)) 2.0))
+
+  (write-line "            <svg viewBox='0 0 760 360' xmlns='http://www.w3.org/2000/svg'>" file)
+  (write-line "              <rect x='0' y='0' width='760' height='360' fill='#f8fafc'/>" file)
+
+  ;; vyplnenie vodnej plochy - trapezy medzi dnom koryta a hladinou
+  (setq lst pts)
+  (while (cdr lst)
+    (setq p1 (car lst) p2 (cadr lst))
+    (setq seg (HydroClipSeg (car p1) (cadr p1) (car p2) (cadr p2) yw))
+    (if seg
+      (progn
+        (setq a (car seg) b (cadr seg))
+        (setq ax (car a) ay (cadr a) bx (car b) by (cadr b))
+        (write-line
+          (strcat "              <polygon points='"
+            (rtos (HydroSvgX ax xmin ox scale) 2 2) "," (rtos (HydroSvgY yw ymin vbh oy scale) 2 2) " "
+            (rtos (HydroSvgX ax xmin ox scale) 2 2) "," (rtos (HydroSvgY ay ymin vbh oy scale) 2 2) " "
+            (rtos (HydroSvgX bx xmin ox scale) 2 2) "," (rtos (HydroSvgY by ymin vbh oy scale) 2 2) " "
+            (rtos (HydroSvgX bx xmin ox scale) 2 2) "," (rtos (HydroSvgY yw ymin vbh oy scale) 2 2)
+            "' fill='#bae6fd' stroke='none'/>")
+          file)
+      )
+    )
+    (setq lst (cdr lst))
+  )
+
+  ;; obrys koryta (polylinia dna)
+  (setq ptstr "")
+  (foreach p pts
+    (setq ptstr (strcat ptstr
+                  (rtos (HydroSvgX (car p) xmin ox scale) 2 2) ","
+                  (rtos (HydroSvgY (cadr p) ymin vbh oy scale) 2 2) " ")))
+  (write-line (strcat "              <polyline points='" ptstr "' fill='none' stroke='#475569' stroke-width='3'/>") file)
+
+  ;; ciara hladiny medzi priesecnikmi + popis
+  (setq xs (HydroCrossX pts yw))
+  (if (>= (length xs) 2)
+    (progn
+      (setq xlc (apply 'min xs) xrc (apply 'max xs))
+      (setq wyN  (HydroSvgY yw ymin vbh oy scale))
+      (setq wx1N (HydroSvgX xlc xmin ox scale))
+      (setq wx2N (HydroSvgX xrc xmin ox scale))
+      (write-line (strcat "              <line x1='" (rtos wx1N 2 2) "' y1='" (rtos wyN 2 2)
+                          "' x2='" (rtos wx2N 2 2) "' y2='" (rtos wyN 2 2)
+                          "' stroke='#0284c7' stroke-width='3'/>") file)
+      (write-line (strcat "              <text x='" (rtos (* 0.5 (+ wx1N wx2N)) 2 2)
+                          "' y='" (rtos (- wyN 8.0) 2 2)
+                          "' text-anchor='middle' font-size='15' font-weight='700' fill='#0369a1'>Hladina (Hhladina = "
+                          (rtos hh 2 3) " m)</text>") file)
+    )
+  )
+  (write-line "            </svg>" file)
+  (princ)
 )
 
 ;; najde vrstvu vodneho toku ("XX-VODNY TOK" s lubovolnym prefixom);
@@ -581,10 +600,10 @@
 (defun ReportHydrotechnicalCalculation ( /
     in out err filePath file
     dwgName dwgPrefix reportDateTime defaultName reportDateForName
-    q q1 q2 q5 q10 q20 q50 q100
-    evalQ1 evalQ2 evalQ5 evalQ10 evalQ20 evalQ50 evalQ100
+    q q100 evalQ100
     h1 h2 L deltaH sklonI sklonPercent
     drsnostN plochaS obvodO R C
+    hladRes ywR SwR hhR
   )
 
   (defun HydroWriteLine (f s)
@@ -705,20 +724,7 @@
           (if file
             (progn
               (setq q    (cdr (assoc 'prietok_Q out)))
-              (setq q1   (cdr (assoc 'prietok_Q1 out)))
-              (setq q2   (cdr (assoc 'prietok_Q2 out)))
-              (setq q5   (cdr (assoc 'prietok_Q5 out)))
-              (setq q10  (cdr (assoc 'prietok_Q10 out)))
-              (setq q20  (cdr (assoc 'prietok_Q20 out)))
-              (setq q50  (cdr (assoc 'prietok_Q50 out)))
               (setq q100 (cdr (assoc 'prietok_Q100 out)))
-
-              (setq evalQ1   (cdr (assoc 'vyhodnotenieQ1 out)))
-              (setq evalQ2   (cdr (assoc 'vyhodnotenieQ2 out)))
-              (setq evalQ5   (cdr (assoc 'vyhodnotenieQ5 out)))
-              (setq evalQ10  (cdr (assoc 'vyhodnotenieQ10 out)))
-              (setq evalQ20  (cdr (assoc 'vyhodnotenieQ20 out)))
-              (setq evalQ50  (cdr (assoc 'vyhodnotenieQ50 out)))
               (setq evalQ100 (cdr (assoc 'vyhodnotenieQ100 out)))
 
               (setq h1 (cdr (assoc 'vyska_h1 out)))
@@ -732,6 +738,12 @@
               (setq obvodO (cdr (assoc 'obvod_O out)))
               (setq R (cdr (assoc 'hydroraulickyPolomer_R out)))
               (setq C (cdr (assoc 'rychlostnySucinitelKoryta_C out)))
+
+              ;; vypocet vysky hladiny pre Q100 (pre report a vykres priecneho rezu)
+              (setq hladRes (HydroComputeHladina *hydro_poly_pts* drsnostN sklonI q100))
+              (setq ywR  (car hladRes))
+              (setq SwR  (cadr hladRes))
+              (setq hhR  (caddr hladRes))
 
               (HydroWriteLine file "<!DOCTYPE html>")
               (HydroWriteLine file "<html lang='sk'>")
@@ -848,6 +860,21 @@
 
               (HydroWriteLine file "    </div>")
 
+              ;; priecny rez koryta a hladina (z vybranej polyliny)
+              (if (and *hydro_poly_pts* ywR)
+                (progn
+                  (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
+                  (HydroWriteLine file "      <div class='card-head'><h2>Prie&#269;ny rez koryta a hladina pri Q100</h2></div>")
+                  (HydroWriteLine file "      <div class='card-body'>")
+                  (HydroWriteLine file "        <div class='geom'>")
+                  (HydroWriteCrossSvg file *hydro_poly_pts* ywR hhR)
+                  (HydroWriteLine file "        </div>")
+                  (HydroWriteLine file (strcat "        <div class='geom-note'>Tvar koryta poch&#225;dza z vybranej polylinie. Modr&#225; plocha predstavuje prieto&#269;n&#253; prierez pri kapacite Q100 = " (HydroFmt q100 2) " m3/s. V&#253;&#353;ka hladiny nad najni&#382;&#353;&#237;m bodom koryta je " (HydroFmt hhR 3) " m, prieto&#269;n&#225; plocha je " (HydroFmt SwR 2) " m2.</div>"))
+                  (HydroWriteLine file "      </div>")
+                  (HydroWriteLine file "    </section>")
+                )
+              )
+
               ;; KPI
               (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
               (HydroWriteLine file "      <div class='card-head'><h2>Hlavn&#233; v&#253;sledky v&#253;po&#269;tu</h2></div>")
@@ -858,6 +885,8 @@
               (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Hydraulick&#253; polomer \"R\"</div><div class='value'>" (HydroFmt R 3) " m</div></div>"))
               (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>R&#253;chlostn&#253; s&#250;&#269;inite&#318; \"C\"</div><div class='value'>" (HydroFmt C 3) "</div></div>"))
               (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Kapacita koryta \"Q\"</div><div class='value'>" (HydroFmt q 2) " m3/s</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>V&#253;&#353;ka hladiny pri Q100 \"Hhladina\"</div><div class='value'>" (HydroFmt hhR 3) " m</div></div>"))
+              (HydroWriteLine file (strcat "          <div class='kpi-box'><div class='label'>Prieto&#269;n&#225; plocha pri Q100</div><div class='value'>" (HydroFmt SwR 2) " m2</div></div>"))
               (HydroWriteLine file "        </div>")
               (HydroWriteLine file "      </div>")
               (HydroWriteLine file "    </section>")
@@ -902,18 +931,12 @@
 
               ;; posudenie
               (HydroWriteLine file "    <section class='card' style='margin-top:20px;'>")
-              (HydroWriteLine file "      <div class='card-head'><h2>Pos&#250;denie prietokov</h2></div>")
+              (HydroWriteLine file "      <div class='card-head'><h2>Pos&#250;denie prietoku Q100</h2></div>")
               (HydroWriteLine file "      <div class='card-body'>")
               (HydroWriteLine file "        <table>")
               (HydroWriteLine file "          <thead><tr><th>Prietok</th><th>N&#225;vrhovan&#253; prietok</th><th>Kapacita koryta</th><th>Vyhodnotenie</th></tr></thead>")
               (HydroWriteLine file "          <tbody>")
 
-              (HydroWriteLine file (strcat "            <tr><td>Q1</td><td class='num'>" (HydroFmt q1 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ1) "'>" (HydroSafe evalQ1) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q2</td><td class='num'>" (HydroFmt q2 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ2) "'>" (HydroSafe evalQ2) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q5</td><td class='num'>" (HydroFmt q5 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ5) "'>" (HydroSafe evalQ5) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q10</td><td class='num'>" (HydroFmt q10 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ10) "'>" (HydroSafe evalQ10) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q20</td><td class='num'>" (HydroFmt q20 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ20) "'>" (HydroSafe evalQ20) "</span></td></tr>"))
-              (HydroWriteLine file (strcat "            <tr><td>Q50</td><td class='num'>" (HydroFmt q50 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ50) "'>" (HydroSafe evalQ50) "</span></td></tr>"))
               (HydroWriteLine file (strcat "            <tr><td>Q100</td><td class='num'>" (HydroFmt q100 2) " m3/s</td><td class='num'>" (HydroFmt q 2) " m3/s</td><td><span class='badge " (HydroStatusClass evalQ100) "'>" (HydroSafe evalQ100) "</span></td></tr>"))
 
               (HydroWriteLine file "          </tbody>")
