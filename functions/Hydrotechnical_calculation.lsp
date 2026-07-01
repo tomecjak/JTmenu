@@ -523,7 +523,7 @@
 ;;----------------------------------------------------------------------;;
 
 (defun HydroVykresliHladina ( /
-    pts n_drs i_slope target res yw xs xmin xmax lay )
+    pts n_drs i_slope target res yw ycontain xs xmin xmax lay )
   (HydroSaveTiles)
   (setq pts *hydro_poly_pts*)
   (if (null pts)
@@ -538,9 +538,18 @@
           0.0))
       (setq res (HydroComputeHladina pts n_drs i_slope target))
       (setq yw (car res))
-      (if (null yw)
-        (alert (cadddr res))
-        (progn
+      ;; hladina je "mimo koryta" ak stupla nad hornu hranu (nizsi breh koryta)
+      ;; alebo koryto nema dostatocnu kapacitu pre Q100 (voda pretecie)
+      (setq ycontain (min (cadr (car pts)) (cadr (last pts))))
+      (cond
+        ;; neplatne vstupy pre vypocet
+        ((null yw)
+          (alert (cadddr res)))
+        ;; hladina mimo koryta -> ciara sa nevykresli
+        ((or (cadddr res) (> yw ycontain))
+          (alert "Hladina je mimo koryta - ciara sa nevykreslila.")
+          (princ "\nHladina je mimo koryta - ciara sa nevykreslila.\n"))
+        (T
           (setq *hydro_yw*       yw
                 *hydro_wetarea*  (cadr res)
                 *hydro_hhladina* (caddr res))
@@ -563,7 +572,7 @@
                 )
               )
               (princ (strcat "\nCiara hladiny vykreslena na vrstvu \"" lay "\".\n")))
-            (alert "Nepodarilo sa najst priesecniky hladiny s polylinou.")
+            (alert "Hladina je mimo koryta - ciara sa nevykreslila.")
           )
         )
       )
