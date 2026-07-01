@@ -26,6 +26,12 @@
   (if (not *hydro_wetarea*) (setq *hydro_wetarea* nil))
   (if (not *hydro_poly_pts*) (setq *hydro_poly_pts* nil))
   (if (not *hydro_yw*) (setq *hydro_yw* nil))
+  (if (not *hydro_res_deltah*) (setq *hydro_res_deltah* nil))
+  (if (not *hydro_res_sklon*) (setq *hydro_res_sklon* nil))
+  (if (not *hydro_res_R*) (setq *hydro_res_R* nil))
+  (if (not *hydro_res_C*) (setq *hydro_res_C* nil))
+  (if (not *hydro_res_Q*) (setq *hydro_res_Q* nil))
+  (if (not *hydro_res_vyhod*) (setq *hydro_res_vyhod* nil))
   (setq select_polyline nil)
 
   ; nacitanie dialogoveho okna
@@ -49,11 +55,19 @@
   (if *hydro_obvod* (set_tile "omocvenyObvodKoryta" (rtos *hydro_obvod* 2 2)))
   (if *hydro_q100* (set_tile "hodnotaPrietokuKorytaQ100" (rtos *hydro_q100* 2 2)))
 
+  ; obnovenie vystupov vypoctu z predchadzajuceho behu (ostavaju v pamati)
+  (if *hydro_res_deltah* (set_tile "vyskovyRozdielKoryta" *hydro_res_deltah*))
+  (if *hydro_res_sklon* (set_tile "vypocitanySklonKoryta" *hydro_res_sklon*))
+  (if *hydro_res_R* (set_tile "hydrailickyPolomer" *hydro_res_R*))
+  (if *hydro_res_C* (set_tile "rychlostniSucinitel" *hydro_res_C*))
+  (if *hydro_res_Q* (set_tile "prietokoveMnozstvo" *hydro_res_Q*))
+  (if *hydro_res_vyhod* (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ100" *hydro_res_vyhod*))
+
   ; zobrazenie vysledkov vypoctu hladiny z predchadzajuceho vyberu polyliny
-  (if *hydro_hhladina* 
+  (if *hydro_hhladina*
     (set_tile "vyskaHladinyPriQ100" (strcat (rtos *hydro_hhladina* 2 3) " m"))
   )
-  (if *hydro_wetarea* 
+  (if *hydro_wetarea*
     (set_tile "prietocnaPlochaPriQ100" (strcat (rtos *hydro_wetarea* 2 2) " m2"))
   )
 
@@ -204,34 +218,24 @@
   (setq out (HydroCalculate in))
   (setq err (cdr (assoc 'error out)))
 
-  (if err 
+  (if err
     (alert err)
-    (progn 
-      (set_tile "vyskovyRozdielKoryta" 
-                (strcat (rtos (cdr (assoc 'delta_h out)) 2 2) " m")
-      )
+    (progn
+      ; ulozenie vystupov do globalnych premennych, aby ostali v pamati
+      ; po zatvoreni dialogu az do vypnutia AutoCADu
+      (setq *hydro_res_deltah* (strcat (rtos (cdr (assoc 'delta_h out)) 2 2) " m"))
+      (setq *hydro_res_sklon*  (strcat (rtos (* (cdr (assoc 'sklon_i out)) 100.0) 2 2) " %"))
+      (setq *hydro_res_R*      (strcat (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 2) " m"))
+      (setq *hydro_res_C*      (strcat (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 2) " -"))
+      (setq *hydro_res_Q*      (strcat (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s"))
+      (setq *hydro_res_vyhod*  (cdr (assoc 'vyhodnotenieQ100 out)))
 
-      (set_tile "vypocitanySklonKoryta" 
-                (strcat (rtos (* (cdr (assoc 'sklon_i out)) 100.0) 2 2) " %")
-      )
-
-      (set_tile "hydrailickyPolomer" 
-                (strcat (rtos (cdr (assoc 'hydroraulickyPolomer_R out)) 2 2) " m")
-      )
-
-      (set_tile "rychlostniSucinitel" 
-                (strcat (rtos (cdr (assoc 'rychlostnySucinitelKoryta_C out)) 2 2) 
-                        " -"
-                )
-      )
-
-      (set_tile "prietokoveMnozstvo" 
-                (strcat (rtos (cdr (assoc 'prietok_Q out)) 2 2) " m3/s")
-      )
-
-      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ100" 
-                (cdr (assoc 'vyhodnotenieQ100 out))
-      )
+      (set_tile "vyskovyRozdielKoryta" *hydro_res_deltah*)
+      (set_tile "vypocitanySklonKoryta" *hydro_res_sklon*)
+      (set_tile "hydrailickyPolomer" *hydro_res_R*)
+      (set_tile "rychlostniSucinitel" *hydro_res_C*)
+      (set_tile "prietokoveMnozstvo" *hydro_res_Q*)
+      (set_tile "vyhodnoteniePosudeniaPrietokuKorytaQ100" *hydro_res_vyhod*)
 
       ; prepocet vysky hladiny a prietocnej plochy pre Q100 (ak je vybrana polylina)
       ; umoznuje zmenit hodnoty a spustit vypocet znovu bez noveho vyberu polyliny
@@ -416,10 +420,16 @@
 (defun HydroSvgY (y ymin vbh oy scale) (- vbh oy (* (- y ymin) scale)))
 
 ;; vykreslenie priecneho rezu koryta a hladiny do SVG (do otvoreneho suboru)
-(defun HydroWriteCrossSvg (file pts yw hh / xmin xmax ymin ymax dw dh vbw vbh pad 
-                           scale ox oy lst p1 p2 seg a b ax ay bx by p ptstr xs xlc 
-                           xrc wyN wx1N wx2N
-                          ) 
+(defun HydroWriteCrossSvg (file pts yw hh mimo / xmin xmax ymin ymax dw dh vbw vbh pad
+                           scale ox oy lst p1 p2 seg a b ax ay bx by p ptstr xs xlc
+                           xrc wyN wx1N wx2N fillCol lineCol textCol popis
+                          )
+  ;; ak je hladina mimo koryta -> cervena farba, inak modra
+  (setq fillCol (if mimo "#fecaca" "#bae6fd")
+        lineCol (if mimo "#dc2626" "#0284c7")
+        textCol (if mimo "#b91c1c" "#0369a1")
+        popis   (if mimo "Hladina MIMO koryta (Hhladina = " "Hladina (Hhladina = ")
+  )
   (setq xmin (apply 'min (mapcar 'car pts))
         xmax (apply 'max (mapcar 'car pts))
         ymin (apply 'min (mapcar 'cadr pts))
@@ -479,7 +489,9 @@
                   (rtos (HydroSvgX bx xmin ox scale) 2 2)
                   ","
                   (rtos (HydroSvgY yw ymin vbh oy scale) 2 2)
-                  "' fill='#bae6fd' stroke='none'/>"
+                  "' fill='"
+                  fillCol
+                  "' stroke='none'/>"
           )
           file
         )
@@ -526,16 +538,21 @@
                 (rtos wx2N 2 2)
                 "' y2='"
                 (rtos wyN 2 2)
-                "' stroke='#0284c7' stroke-width='3'/>"
+                "' stroke='"
+                lineCol
+                "' stroke-width='3'/>"
         )
         file
       )
-      (write-line 
-        (strcat "              <text x='" 
+      (write-line
+        (strcat "              <text x='"
                 (rtos (* 0.5 (+ wx1N wx2N)) 2 2)
                 "' y='"
                 (rtos (- wyN 8.0) 2 2)
-                "' text-anchor='middle' font-size='15' font-weight='700' fill='#0369a1'>Hladina (Hhladina = "
+                "' text-anchor='middle' font-size='15' font-weight='700' fill='"
+                textCol
+                "'>"
+                popis
                 (rtos hh 2 3)
                 " m)</text>"
         )
@@ -754,9 +771,9 @@
 (defun ReportHydrotechnicalCalculation (/ in out err filePath file dwgName dwgPrefix 
                                         reportDateTime defaultName reportDateForName q 
                                         q100 evalQ100 h1 h2 L deltaH sklonI 
-                                        sklonPercent drsnostN plochaS obvodO R C 
-                                        hladRes ywR hhR
-                                       ) 
+                                        sklonPercent drsnostN plochaS obvodO R C
+                                        hladRes ywR hhR mimoR
+                                       )
 
   (defun HydroWriteLine (f s) 
     (write-line s f)
@@ -898,6 +915,16 @@
               )
               (setq ywR (car hladRes))
               (setq hhR (caddr hladRes))
+              ;; hladina je mimo koryta ak nema koryto kapacitu pre Q100
+              ;; alebo hladina stupla nad nizsi breh koryta
+              (setq mimoR
+                     (and ywR *hydro_poly_pts*
+                          (or (cadddr hladRes)
+                              (> ywR (min (cadr (car *hydro_poly_pts*))
+                                          (cadr (last *hydro_poly_pts*))))
+                          )
+                     )
+              )
 
               (HydroWriteLine file "<!DOCTYPE html>")
               (HydroWriteLine file "<html lang='sk'>")
@@ -1152,15 +1179,26 @@
                   )
                   (HydroWriteLine file "        <div class='card-body'>")
                   (HydroWriteLine file "          <div class='geom'>")
-                  (HydroWriteCrossSvg file *hydro_poly_pts* ywR hhR)
+                  (HydroWriteCrossSvg file *hydro_poly_pts* ywR hhR mimoR)
                   (HydroWriteLine file "          </div>")
-                  (HydroWriteLine 
-                    file
-                    (strcat "          <div class='geom-note'>Tvar koryta poch&#225;dza z vybranej polylinie. Modr&#225; plocha predstavuje prieto&#269;n&#253; prierez pri kapacite Q100 = " 
-                            (HydroFmt q100 2)
-                            " m3/s. V&#253;&#353;ka hladiny nad najni&#382;&#353;&#237;m bodom koryta je "
-                            (HydroFmt hhR 3)
-                            " m.</div>"
+                  (if mimoR
+                    (HydroWriteLine
+                      file
+                      (strcat "          <div class='geom-note' style='color:#b91c1c;font-weight:700;'>Upozornenie: hladina je MIMO koryta - pri prietoku Q100 = "
+                              (HydroFmt q100 2)
+                              " m3/s voda pretecie cez breh koryta. V&#253;&#353;ka hladiny nad najni&#382;&#353;&#237;m bodom je "
+                              (HydroFmt hhR 3)
+                              " m.</div>"
+                      )
+                    )
+                    (HydroWriteLine
+                      file
+                      (strcat "          <div class='geom-note'>Tvar koryta poch&#225;dza z vybranej polylinie. Modr&#225; plocha predstavuje prieto&#269;n&#253; prierez pri kapacite Q100 = "
+                              (HydroFmt q100 2)
+                              " m3/s. V&#253;&#353;ka hladiny nad najni&#382;&#353;&#237;m bodom koryta je "
+                              (HydroFmt hhR 3)
+                              " m.</div>"
+                      )
                     )
                   )
                   (HydroWriteLine file "        </div>")
