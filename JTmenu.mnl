@@ -55,6 +55,7 @@
 (AUTOLOAD "Rebar_function_orchester" '("JTRebarFillet" "JTRebarWrite" "JTRebarOffset"))
 (AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFilletPolyline" "JTRebarWritePolyline" "JTRebarLayers" "JTRebarOffsetPolyline" "JTRebarTagExport"))
 (AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
+(AUTOLOAD "Rebar_dimension" '("JTRebarDim"))
 (AUTOLOAD "Oblique_dimension" '("JTDimOblique"))
 (print)
 
