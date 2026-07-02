@@ -162,7 +162,8 @@
                        oCmd oOsm oAun oClayer
                        outer vlist n closed origObj
                        styH anno sc th gap fixedH paperH
-                       i j a b bulge ang outAng mid c)
+                       i j bulge SS m k seg p0 p1 prevSeg nextSeg
+                       q0 q1 legmid ang outAng c)
 
   (defun *error* (msg)
     (if oCmd (setvar "CMDECHO" oCmd))
@@ -276,43 +277,71 @@
     )
   )
 
-  ;; 6) prejdi useky
+  ;; 6a) zozbieraj len ROVNE useky vonkajsej hrany v poradi ako (start end)
+  (setq SS '())
   (setq i 0)
   (while (< i (if closed n (1- n)))
-    (setq a     (car (nth i vlist)))
     (setq bulge (cadr (nth i vlist)))
     (setq j     (if (= i (1- n)) 0 (1+ i)))
-    (setq b     (car (nth j vlist)))
-    (setq mid   (list (/ (+ (car a) (car b)) 2.0)
-                      (/ (+ (cadr a) (cadr b)) 2.0)
-                      0.0))
-
     (if (< (abs bulge) 1e-8)
-      ;; --- rovny usek ---
-      (progn
-        (setq ang    (angle a b))
-        (setq outAng (_rd-outward mid origObj halfW pickPt))
-
-        ;; dlzka useku (po vonkajsej hrane) v mm
-        (_rd-text (_rd-mm (distance a b))
-                  (polar mid outAng gap)
-                  (_rd-read ang)
-                  fixedH paperH)
-
-        ;; sikmy usek -> pravouhly trojuholnik (vodorovna + zvisla odvesna)
-        (if (not (_rd-axis-aligned ang))
-          (progn
-            (setq c (_rd-outer-corner a b origObj halfW pickPt))
-            (_rd-dline a c)
-            (_rd-dline c b)
-            (_rd-leg-label a c b gap fixedH paperH)   ; odvesna a-c, treti vrchol b
-            (_rd-leg-label c b a gap fixedH paperH)   ; odvesna c-b, treti vrchol a
-          )
-        )
-      )
-      ;; --- oblukovy usek (zaoblenie v rohu) -> preskoc ---
+      (setq SS (cons (list (car (nth i vlist)) (car (nth j vlist))) SS))
     )
     (setq i (1+ i))
+  )
+  (setq SS (reverse SS))
+  (setq m  (length SS))
+
+  ;; 6b) kazdy rovny usek predlz k VRCHOLU (priesecniku) so susednymi
+  ;;     rovnymi usekmi -> tam kde je obluk, dostaneme ostry roh a dlzku
+  ;;     merame vrchol-vrchol.
+  (setq k 0)
+  (while (< k m)
+    (setq seg (nth k SS)
+          p0  (car seg)
+          p1  (cadr seg))
+
+    (setq prevSeg (cond ((> k 0) (nth (1- k) SS))
+                        (closed  (nth (1- m) SS))
+                        (t nil)))
+    (setq nextSeg (cond ((< k (1- m)) (nth (1+ k) SS))
+                        (closed       (nth 0 SS))
+                        (t nil)))
+
+    ;; vrchol na zaciatku = priesecnik predosleho a tohto useku (predlzene)
+    (setq q0 (if prevSeg
+               (cond ((inters (car prevSeg) (cadr prevSeg) p0 p1 nil))
+                     (t p0))
+               p0))
+    ;; vrchol na konci = priesecnik tohto a nasledujuceho useku (predlzene)
+    (setq q1 (if nextSeg
+               (cond ((inters p0 p1 (car nextSeg) (cadr nextSeg) nil))
+                     (t p1))
+               p1))
+
+    (setq ang    (angle q0 q1))
+    (setq legmid (list (/ (+ (car q0) (car q1)) 2.0)
+                       (/ (+ (cadr q0) (cadr q1)) 2.0)
+                       0.0))
+    (setq outAng (_rd-outward legmid origObj halfW pickPt))
+
+    ;; dlzka ramena vrchol-vrchol v mm
+    (_rd-text (_rd-mm (distance q0 q1))
+              (polar legmid outAng gap)
+              (_rd-read ang)
+              fixedH paperH)
+
+    ;; sikme rameno -> pravouhly trojuholnik (vodorovna + zvisla odvesna)
+    (if (not (_rd-axis-aligned ang))
+      (progn
+        (setq c (_rd-outer-corner q0 q1 origObj halfW pickPt))
+        (_rd-dline q0 c)
+        (_rd-dline c q1)
+        (_rd-leg-label q0 c q1 gap fixedH paperH)   ; odvesna q0-c, treti vrchol q1
+        (_rd-leg-label c q1 q0 gap fixedH paperH)   ; odvesna c-q1, treti vrchol q0
+      )
+    )
+
+    (setq k (1+ k))
   )
 
   ;; 7) upratovanie
