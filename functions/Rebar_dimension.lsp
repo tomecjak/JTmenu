@@ -196,12 +196,14 @@
   )
   (setq plEd (entget plEnt))
 
-  ;; 2) hrubka (global width 43); ak nie je, spytaj sa
+  ;; 2) hrubka (global width 43) - musi byt nastavena na polyline
   (setq width (cdr (assoc 43 plEd)))
   (if (or (null width) (<= (abs width) 1e-9))
-    (setq width (getreal "\nPolyline nema hrubku (global width), zadaj hrubku: "))
+    (progn
+      (prompt "\nPolyline nema nastavenu hrubku (global width) - najprv nastav hrubku polyliny.")
+      (exit)
+    )
   )
-  (if (null width) (progn (prompt "\nZrusene.") (exit)))
   (setq halfW (/ (abs width) 2.0))
 
   ;; 3) vonkajsia strana
