@@ -7,6 +7,8 @@
 ; Pri sikmych usekoch (uhol iny ako 90) dokresli ciarkovany
 ; pravouhly trojuholnik s vodorovnou a zvislou odvesnou a obe
 ; odvesny popise ich dlzkou (v mm).
+; Text je ANNOTATIVNY - pouzije aktualny textovy styl vykresu a
+; vysku prevezme z neho (papierova vyska stylu).
 ; Vykres v metroch -> hodnoty *1000 -> celé mm.
 ;-------------------------------------------------------------------------
 
@@ -64,21 +66,36 @@
   )
 )
 
-;; text (aktualny textovy styl a vyska), zarovnany na stred (middle-center)
-(defun _rd-text (str pt ang h)
-  (entmakex
-    (list
-      '(0 . "TEXT")
-      (cons 7 (getvar "TEXTSTYLE"))
-      (cons 8 (getvar "CLAYER"))
-      (cons 10 (_rd-3d pt))
-      (cons 11 (_rd-3d pt))
-      (cons 40 h)
-      (cons 1 str)
-      (cons 50 ang)
-      (cons 72 1)   ; horizontalne na stred
-      (cons 73 2)   ; vertikalne na stred
+;; je aktualny textovy styl annotativny?
+(defun _rd-anno-style-p (/ ent xd res)
+  (setq res nil)
+  (setq ent (tblobjname "style" (getvar "TEXTSTYLE")))
+  (if ent
+    (progn
+      (setq xd (cdr (assoc -3 (entget ent '("AcadAnnotative")))))
+      (if xd
+        (progn
+          (setq xd (cdar xd)) ; zoznam dvojic pod appid
+          (foreach it xd
+            (if (= (car it) 1070) (setq res (= (cdr it) 1)))
+          )
+        )
+      )
     )
+  )
+  res
+)
+
+;; ANNOTATIVNY text (aktualny styl, zarovnany middle-center).
+;; Vytvara sa prikazom TEXT, aby AutoCAD nastavil annotativnost a
+;; aktualnu annotativnu mierku. fixedH = styl ma pevnu vysku (papierova
+;; vyska sa neptata), inak sa poskytne paperH.
+;; Pozn.: pocas volania musi byt AUNITS = 0 (uhol v stupnoch) a OSMODE = 0.
+(defun _rd-text (str pt ang fixedH paperH / d)
+  (setq d (* ang (/ 180.0 pi)))
+  (if fixedH
+    (command "_.TEXT" "_J" "_MC" (_rd-3d pt) d str "")
+    (command "_.TEXT" "_J" "_MC" (_rd-3d pt) paperH d str "")
   )
 )
 
@@ -113,7 +130,7 @@
 )
 
 ;; popis jednej odvesny trojuholnika (P-Q), text mimo trojuholnika
-(defun _rd-leg-label (p q third h gap / dx dy mid sy sx)
+(defun _rd-leg-label (p q third gap fixedH paperH / dx dy mid sy sx)
   (setq dx (abs (- (car q) (car p))))
   (setq dy (abs (- (cadr q) (cadr p))))
   (setq mid (list (/ (+ (car p) (car q)) 2.0)
@@ -125,14 +142,14 @@
       (setq sy (if (> (cadr third) (cadr mid)) -1.0 1.0))
       (_rd-text (_rd-mm dx)
                 (list (car mid) (+ (cadr mid) (* sy gap)) 0.0)
-                0.0 h)
+                0.0 fixedH paperH)
     )
     ;; zvisla odvesna -> text zvisle, posun v X od tretieho vrchola
     (progn
       (setq sx (if (> (car third) (car mid)) -1.0 1.0))
       (_rd-text (_rd-mm dy)
                 (list (+ (car mid) (* sx gap)) (cadr mid) 0.0)
-                (* 0.5 pi) h)
+                (* 0.5 pi) fixedH paperH)
     )
   )
 )
@@ -142,13 +159,15 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTRebarDim (/ *error* plEnt plEd width halfW pickPt
-                       oCmd oOsm oClayer
-                       outer vlist n closed origObj th gap
-                       i j a b bulge ang outAng c)
+                       oCmd oOsm oAun oClayer
+                       outer vlist n closed origObj
+                       styH anno sc th gap fixedH paperH
+                       i j a b bulge ang outAng mid c)
 
   (defun *error* (msg)
     (if oCmd (setvar "CMDECHO" oCmd))
     (if oOsm (setvar "OSMODE" oOsm))
+    (if oAun (setvar "AUNITS" oAun))
     (if (and msg (not (wcmatch (strcase msg) "*BREAK*,*CANCEL*,*QUIT*")))
       (prompt (strcat "\nChyba: " msg))
     )
@@ -188,19 +207,38 @@
   (setq pickPt (getpoint "\nUrci VONKAJSIU stranu (klikni bod na vonkajsej hrane): "))
   (if (null pickPt) (progn (prompt "\nZrusene.") (exit)))
 
-  ;; textove nastavenia z vykresu
-  (setq th (getvar "TEXTSIZE"))
-  (if (<= th 0.0) (setq th (getvar "DIMTXT")))
-  (if (<= th 0.0) (setq th 2.5))
-  (setq gap (* th 1.0))
+  ;; --- ANNOTATIVNY textovy styl a vyska z neho ---
+  (setq styH (cdr (assoc 40 (tblsearch "style" (getvar "TEXTSTYLE")))))
+  (setq anno (_rd-anno-style-p))
+  (setq sc   (getvar "CANNOSCALEVALUE"))
+  (if (or (null sc) (<= sc 0.0)) (setq sc 1.0))
+  (cond
+    ;; annotativny styl s pevnou papierovou vyskou (bezny pripad)
+    ((and anno (> styH 0.0))
+     (setq fixedH T
+           th     (/ styH sc)))          ; modelova vyska = papierova / mierka
+    ;; nean. styl s pevnou vyskou
+    ((> styH 0.0)
+     (setq fixedH T
+           th     styH))
+    ;; styl bez pevnej vysky -> prikaz sa spyta, dodame TEXTSIZE
+    (t
+     (setq fixedH nil
+           paperH (getvar "TEXTSIZE"))
+     (if (<= paperH 0.0) (setq paperH 2.5))
+     (setq th (if anno (/ paperH sc) paperH)))
+  )
+  (setq gap th)
 
   (setq origObj (vlax-ename->vla-object plEnt))
 
-  ;; ulozime a vypneme premenne pre command OFFSET
+  ;; uloz a nastav systemove premenne
   (setq oCmd (getvar "CMDECHO")
-        oOsm (getvar "OSMODE"))
+        oOsm (getvar "OSMODE")
+        oAun (getvar "AUNITS"))
   (setvar "CMDECHO" 0)
   (setvar "OSMODE" 0)
+  (setvar "AUNITS" 0)   ; uhly v stupnoch pre prikaz TEXT
 
   ;; 4) vonkajsia hrana = offset osi o polovicu hrubky na stranu pickPt
   (if (> halfW 1e-9)
@@ -211,12 +249,12 @@
     (setq outer plEnt)   ; bez hrubky = meriame os
   )
 
-  (setvar "OSMODE" oOsm)
-
   (if (or (null outer)
           (and (> halfW 1e-9) (eq outer plEnt)))
     (progn
       (setvar "CMDECHO" oCmd)
+      (setvar "OSMODE" oOsm)
+      (setvar "AUNITS" oAun)
       (prompt "\nOffset vonkajsej hrany sa nepodaril.")
       (exit)
     )
@@ -231,6 +269,8 @@
     (progn
       (if (> halfW 1e-9) (entdel outer))
       (setvar "CMDECHO" oCmd)
+      (setvar "OSMODE" oOsm)
+      (setvar "AUNITS" oAun)
       (prompt "\nMalo vrcholov.")
       (exit)
     )
@@ -243,26 +283,21 @@
     (setq bulge (cadr (nth i vlist)))
     (setq j     (if (= i (1- n)) 0 (1+ i)))
     (setq b     (car (nth j vlist)))
+    (setq mid   (list (/ (+ (car a) (car b)) 2.0)
+                      (/ (+ (cadr a) (cadr b)) 2.0)
+                      0.0))
 
     (if (< (abs bulge) 1e-8)
       ;; --- rovny usek ---
       (progn
         (setq ang    (angle a b))
-        (setq outAng (_rd-outward
-                       (list (/ (+ (car a) (car b)) 2.0)
-                             (/ (+ (cadr a) (cadr b)) 2.0)
-                             0.0)
-                       origObj halfW pickPt))
+        (setq outAng (_rd-outward mid origObj halfW pickPt))
 
         ;; dlzka useku (po vonkajsej hrane) v mm
-        (_rd-text
-          (_rd-mm (distance a b))
-          (polar (list (/ (+ (car a) (car b)) 2.0)
-                       (/ (+ (cadr a) (cadr b)) 2.0)
-                       0.0)
-                 outAng gap)
-          (_rd-read ang)
-          th)
+        (_rd-text (_rd-mm (distance a b))
+                  (polar mid outAng gap)
+                  (_rd-read ang)
+                  fixedH paperH)
 
         ;; sikmy usek -> pravouhly trojuholnik (vodorovna + zvisla odvesna)
         (if (not (_rd-axis-aligned ang))
@@ -270,8 +305,8 @@
             (setq c (_rd-outer-corner a b origObj halfW pickPt))
             (_rd-dline a c)
             (_rd-dline c b)
-            (_rd-leg-label a c b th gap)   ; odvesna a-c, treti vrchol b
-            (_rd-leg-label c b a th gap)   ; odvesna c-b, treti vrchol a
+            (_rd-leg-label a c b gap fixedH paperH)   ; odvesna a-c, treti vrchol b
+            (_rd-leg-label c b a gap fixedH paperH)   ; odvesna c-b, treti vrchol a
           )
         )
       )
@@ -283,6 +318,8 @@
   ;; 7) upratovanie
   (if (> halfW 1e-9) (entdel outer))   ; docasna offset polylina prec
   (setvar "CMDECHO" oCmd)
+  (setvar "OSMODE" oOsm)
+  (setvar "AUNITS" oAun)
   (prompt "\nHotovo – vystuz okotovana.")
   (princ)
 )
