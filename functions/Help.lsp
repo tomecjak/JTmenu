@@ -9,7 +9,7 @@
 (defun c:JTHelp ()
   
   ;definovanie premenej "HelpURL" do ktorej je zapísana url adresa
-  (setq HelpURL "https://glib-dish-9f2.notion.site/JTmenu-1c7f4a277c79442aada3d2f6fded23dc")
+  (setq HelpURL "https://tomecjak.notion.site/JTmenu-1c7f4a277c79442aada3d2f6fded23dc?source=copy_link")
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" HelpURL)

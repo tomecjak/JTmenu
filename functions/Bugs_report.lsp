@@ -8,7 +8,7 @@
 (defun c:JTBugsReport ()
   
   ;definovanie premenej "BugsReportURL" do ktorej je zapísana url adresa
-  (setq BugsReportURL "https://glib-dish-9f2.notion.site/12becabd0095808e869dd8ccb23d4a99")
+  (setq BugsReportURL "https://tomecjak.notion.site/Bugs-report-12becabd00958006aa56cf8f824c65d7?source=copy_link")
 
   ;spustenie prikazu browser z vlozenou url
   (command "browser" BugsReportURL)
