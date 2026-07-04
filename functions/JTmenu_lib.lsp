@@ -1,5 +1,5 @@
 ;=========================================================================
-; JT_lib.lsp
+; JTmenu_lib.lsp
 ; Create by Jakub Tomecko
 ;
 ; Zdielana kniznica pomocnych funkcii pre JTmenu.
@@ -68,7 +68,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nJT_lib.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
+        "\nJTmenu_lib.lsp | " (JTmenuVersion) " | Lee Mac, Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
     )
 )

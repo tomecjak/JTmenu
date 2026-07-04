@@ -1,20 +1,30 @@
-;============================================================================
+;=========================================================================
 ; JTmenu.mnl
 ; Create by Jakub Tomecko
 ;
 ; Autoload pre JTmenu
-;----------------------------------------------------------------------------
+;-------------------------------------------------------------------------
 
 ;;----------------------------------------------------------------------;;
 ;;                  Zdielana kniznica (nacitana ako prva)               ;;
 ;;----------------------------------------------------------------------;;
 ;; Obsahuje spolocne pomocne funkcie (LM:acdoc, LM:startundo, LM:endundo,
-;; LM:roundm, JT:BlockScale, JT:SignScale), ktore vyuzivaju ostatne moduly.
-(load "JT_lib" "\nJT_lib nenacitany!")
+;; LM:roundm, JT:BlockScale, JT:SignScale), ktore vyuzivaju ostatne moduly
+(load "JTmenu_lib" "\nJT_lib nenacitany!")
+(princ)
+
+;;----------------------------------------------------------------------;;
+;;                                Commands                              ;;
+;;----------------------------------------------------------------------;;
+;; Obsahuje prikazy pre nastavenie globalnych premennych
+(AUTOLOAD "JTmenu_commands" '("JTBlockScaleVar"))
+(AUTOLOAD "JTmenu_commands" '("JTPreviewMode"))
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                               Funkcie                                ;;
 ;;----------------------------------------------------------------------;;
+;; Obsahuje rozne funkcie v ramci JTmenu
 (AUTOLOAD "Cadastre" '("JTCadastre"))
 (AUTOLOAD "Maps" '("JTMaps"))
 (AUTOLOAD "Road_maps" '("JTRoadMaps"))
@@ -57,13 +67,8 @@
 (AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
 (AUTOLOAD "Rebar_dimension" '("JTRebarDim"))
 (AUTOLOAD "Oblique_dimension" '("JTDimOblique"))
-(print)
-
-;;----------------------------------------------------------------------;;
-;;                                Commands                              ;;
-;;----------------------------------------------------------------------;;
-(AUTOLOAD "JT_commands" '("JTBlockScaleVar"))
-(AUTOLOAD "JT_commands" '("JTPreviewMode"))
+(AUTOLOAD "Curve_dimension" '("JTCurveDimension"))
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                              Dokumentacia                            ;;
@@ -89,14 +94,14 @@
 (AUTOLOAD "Technical_documents" '("JTVL60"))
 (AUTOLOAD "Technical_documents" '("TPSK"))
 (AUTOLOAD "Technical_documents" '("TPCZ"))
-(print)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                    Nastroje dopravne znacenia                        ;;
 ;;----------------------------------------------------------------------;;
 (AUTOLOAD "Traffic_signs_tools" '("JTTrafficSignsCanceled"))
 (AUTOLOAD "Traffic_signs_tools" '("JTTrafficSignsScale"))
-(print)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;            Kniznica blokov dopravneho znacenia (nove+jestv.)         ;;
@@ -105,7 +110,7 @@
 ;; preto sa nacitavaju rovno (uz nie cez stovky AUTOLOAD riadkov).
 (load "Traffic_signs" "\nTraffic_signs nenacitany!")
 (load "Traffic_signs_existing" "\nTraffic_signs_existing nenacitany!")
-(print)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                              Bloky symbolov                          ;;
@@ -117,7 +122,7 @@
                                "JTHectometricNetwork" "JTHeightTable" "JTDotText" "JTBearingSymbol"
                                "JTGeodeticMark" "JTSymmetry" "JTDetailSymbol" "JTCylinderEnd")
 )
-(print)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;         Nastavenie globalnych parametrov ak este neexistuju          ;;
@@ -218,7 +223,7 @@
     "\n**********************************************"
   )
 ) 
-(print)
+(princ)
 
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;

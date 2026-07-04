@@ -1,5 +1,5 @@
 ;=========================================================================
-; JT_commands.lsp
+; JTmenu_commands.lsp
 ; (c) Copyright 2023 Tomecko Jakub
 ;
 ; Rozne prikazy pre ovladanie premennych v JTmenu
@@ -57,7 +57,7 @@
 (load "JTmenu_version" "\nVerzia nenacitana!")
 (princ
     (strcat
-        "\nJT_commands.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
+        "\nJTmenu_commands.lsp | " (JTmenuVersion) " | Jakub Tomecko | "
         (menucmd "m=$(edtime,0,yyyy)")
         "\n"
     )
