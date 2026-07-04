@@ -179,8 +179,8 @@
 
 (defun c:JTCurveDimension (/ *error* ocmd oosm oaun en sel p1u p2u p1w p2w
                              d1 d2 tmp sidept offs dm pm tm nm pmdim textpos ang
-                             styh anno sc th fixedh paperh exe tickhalf textout sign
-                             nsteps i dcur p tv nv pts pdim tickang)
+                             styh anno sc th fixedh paperh exe fxl tickhalf textout sign
+                             nsteps i dcur p tv nv pts pdim tickang up)
 
   (defun *error* (msg)
     (if ocmd (setvar "CMDECHO" ocmd))
@@ -249,9 +249,10 @@
      (if (<= paperh 0.0) (setq paperh 2.5))
      (setq th (if anno (/ paperh sc) paperh)))
   )
-  (setq exe      (* th 0.4)    ; presah vynasacej ciary za kotu
-        tickhalf (* th 0.5)    ; polovica dlzky sikmej znacky
-        textout  (* th 0.85))  ; posun textu nad ciaru koty
+  (setq exe      (* th 0.4)     ; presah vynasacej ciary za ciaru koty
+        fxl      (* th 2.25)    ; fixna dlzka vynasacej ciary (~4.5 mm pri texte 2.0 mm)
+        tickhalf (* th 0.5)     ; polovica dlzky sikmej znacky
+        textout  (* th 0.85))   ; posun textu nad ciaru koty
 
   ;; uloz a nastav systemove premenne
   (setq ocmd (getvar "CMDECHO")
@@ -282,8 +283,10 @@
           tv   (_cd-tanu en dd)
           nv   (_cd-nrm tv)
           pdim (_cd-add p nv (* sign offs)))
-    ;; vynasacia ciara: z bodu na krivke az za ciaru koty (presah exe)
-    (_cd-line p (_cd-add p nv (* sign (+ offs exe))))
+    ;; vynasacia ciara: fixna dlzka od ciary koty (nejde az po objekt),
+    ;; s malym presahom exe za kotu smerom von
+    (_cd-line (_cd-add pdim nv (* sign exe))
+              (_cd-add pdim nv (* sign (- fxl))))
     ;; sikma znacka 45° vzhladom na ciaru koty, cez koncovy bod
     (setq tickang (+ (angle '(0.0 0.0) tv) (/ pi 4.0)))
     (_cd-line
@@ -296,10 +299,15 @@
     )
   )
 
-  ;; 4c) text s dlzkou na strede, nad ciarou koty, zarovnany na kotu
-  (setq pmdim   (_cd-add pm nm (* sign offs))
-        textpos (_cd-add pmdim nm (* sign textout))
-        ang     (_cd-read (angle '(0.0 0.0) tm)))
+  ;; 4c) text s dlzkou na strede, VZDY nad ciarou koty (v smere citania textu),
+  ;;     nezavisle od strany odsadenia
+  (setq pmdim (_cd-add pm nm (* sign offs))
+        ang   (_cd-read (angle '(0.0 0.0) tm))
+        up    (+ ang (/ pi 2.0)))   ; kolmica k citatelnej baseline -> "nahor"
+  (setq textpos
+    (list (+ (car pmdim)  (* textout (cos up)))
+          (+ (cadr pmdim) (* textout (sin up)))
+          (caddr pmdim)))
   (_cd-text (_cd-mm (- d2 d1)) textpos ang fixedh paperh)
 
   ;; obnov systemove premenne
