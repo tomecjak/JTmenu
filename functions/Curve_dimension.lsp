@@ -166,6 +166,33 @@
   )
 )
 
+;; bod a smer (uhol) v polovici dlzky polyliny danej zoznamom bodov
+;; -> vracia (bodStredu . uholSmeru)
+(defun _cd-midpoly (pts / total n i a b seglen half acc res dir)
+  (setq total 0.0 n (length pts) i 0)
+  (while (< i (1- n))
+    (setq total (+ total (distance (nth i pts) (nth (1+ i) pts)))
+          i     (1+ i))
+  )
+  (setq half (/ total 2.0) acc 0.0 i 0)
+  (while (and (< i (1- n)) (null res))
+    (setq a      (nth i pts)
+          b      (nth (1+ i) pts)
+          seglen (distance a b))
+    (if (>= (+ acc seglen) half)
+      (setq dir (angle a b)
+            res (polar a dir (- half acc)))
+      (setq acc (+ acc seglen))
+    )
+    (setq i (1+ i))
+  )
+  (if (null res)
+    (setq res (nth (1- n) pts)
+          dir (angle (nth (- n 2) pts) (nth (1- n) pts)))
+  )
+  (cons res dir)
+)
+
 ;; je vybrany objekt krivka?
 (defun _cd-iscurve (e)
   (and e
@@ -180,7 +207,7 @@
 (defun c:JTCurveDimension (/ *error* ocmd oosm oaun en sel p1u p2u p1w p2w
                              d1 d2 tmp sidept offs dm pm tm nm pmdim textpos ang
                              styh anno sc th fixedh paperh exe fxl tickhalf textout sign
-                             nsteps i dcur p tv nv pts pdim tickang up)
+                             nsteps i dcur p tv nv pts pdim tickang up mp)
 
   (defun *error* (msg)
     (if ocmd (setvar "CMDECHO" ocmd))
@@ -299,11 +326,12 @@
     )
   )
 
-  ;; 4c) text s dlzkou na strede, VZDY nad ciarou koty (v smere citania textu),
-  ;;     nezavisle od strany odsadenia
-  (setq pmdim (_cd-add pm nm (* sign offs))
-        ang   (_cd-read (angle '(0.0 0.0) tm))
-        up    (+ ang (/ pi 2.0)))   ; kolmica k citatelnej baseline -> "nahor"
+  ;; 4c) text s dlzkou v STREDE offsetnutej ciary koty, VZDY nad nou
+  ;;     (v smere citania textu), nezavisle od strany odsadenia
+  (setq mp    (_cd-midpoly pts)      ; (bodStredu . uholSmeru) offsetnutej ciary
+        pmdim (car mp)
+        ang   (_cd-read (cdr mp))
+        up    (+ ang (/ pi 2.0)))    ; kolmica k citatelnej baseline -> "nahor"
   (setq textpos
     (list (+ (car pmdim)  (* textout (cos up)))
           (+ (cadr pmdim) (* textout (sin up)))
