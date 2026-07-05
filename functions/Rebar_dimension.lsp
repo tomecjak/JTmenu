@@ -193,7 +193,7 @@
 ;;                            Hlavna funkcia                            ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarDim (/ *error* plEnt plEd width halfW pickPt axisMode useOffset
+(defun c:JTRebarDimension (/ *error* plEnt plEd width halfW pickPt axisMode useOffset
                        oCmd oOsm oAun
                        outer vlist n closed origObj ez
                        styH anno sc th gap fixedH paperH

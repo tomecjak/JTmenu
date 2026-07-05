@@ -2,21 +2,7 @@
 ; Curve_dimension.lsp
 ; Create by Jakub Tomecko
 ;
-; "Kota podla krivky" - meranie dlzky pozdlz krivky a vytvorenie koty.
-; Postup:
-;   1) vyber krivky (LINE / ARC / CIRCLE / LWPOLYLINE / POLYLINE / SPLINE / ELLIPSE)
-;   2) vyber pociatocneho a koncoveho bodu NA krivke -> dlzka sa merat po krivke
-;   3) klik na stranu, kam sa ma kota odsadit + zadanie velkosti offsetu
-;   4) vytvori sa:
-;        - ciara koty ako OFFSET krivky (kopiruje jej tvar - LWPOLYLINE)
-;        - vynasacie ciary na oboch koncoch (s presahom)
-;        - sikme znacky (oblique, 45°) na koncoch ciary koty
-;        - text s dlzkou (mm, cele cislo) na strede, zarovnany na ciaru koty
-; Velkosti (vyska textu, znacky, presah) sa odvodia z AKTUALNEHO textoveho
-; stylu (podpora annotativneho stylu - ako v Rebar_dimension).
-; Vykres v metroch -> hodnota *1000 -> mm.
-; Predpoklad: krivka lezi v rovine XY sveta (bezny 2D vykres); funguje aj
-; v UCS otocenom okolo osi Z.
+; Program na vytvorenie koty na krivke medzi dvoma vybranymi bodmi
 ;-------------------------------------------------------------------------
 
 (vl-load-com)
@@ -225,31 +211,31 @@
   ;; 1) vyber krivky
   (while
     (progn
-      (setq sel (entsel "\nVyber krivku na meranie: "))
+      (setq sel (entsel "\nVyberte krivku na kotovanie: "))
       (cond
         ((and sel (_cd-iscurve (car sel))) nil)
-        (t (princ "\nVyber krivku (LINE/ARC/PLINE/SPLINE...).") t)
+        (t (princ "\nVyberte krivku (LINE/ARC/PLINE/SPLINE...).") t)
       )
     )
   )
   (setq en (car sel))
 
   ;; 2) pociatocny a koncovy bod na krivke (loose pick -> premietne sa na krivku)
-  (if (null (setq p1u (getpoint "\nPociatocny bod na krivke: "))) (exit))
-  (if (null (setq p2u (getpoint "\nKoncovy bod na krivke: "))) (exit))
+  (if (null (setq p1u (getpoint "\nZadajte pociatocny bod na krivke: "))) (exit))
+  (if (null (setq p2u (getpoint "\nZadajte koncovy bod na krivke: "))) (exit))
   (setq p1w (vlax-curve-getclosestpointto en (_cd-u2w p1u))
         p2w (vlax-curve-getclosestpointto en (_cd-u2w p2u)))
   (setq d1 (vlax-curve-getdistatpoint en p1w)
         d2 (vlax-curve-getdistatpoint en p2w))
   (if (> d1 d2) (setq tmp d1 d1 d2 d2 tmp))
   (if (< (abs (- d2 d1)) 1e-6)
-    (progn (prompt "\nBody su prilis blizko - nulova dlzka.") (exit))
+    (progn (prompt "\nBody su prilis blizko seba - nulova dlzka.") (exit))
   )
 
   ;; 3) strana odsadenia + velkost offsetu
-  (if (null (setq sidept (getpoint "\nKlikni na stranu, kam odsadit kotu: "))) (exit))
+  (if (null (setq sidept (getpoint "\nKliknite na stranu, kde chcete odsadit kotu: "))) (exit))
   (initget 7)
-  (setq offs (getdist "\nVelkost offsetu koty: "))
+  (setq offs (getdist "\nZadajte velkost odsadenia koty: "))
 
   ;; smer odsadenia (znamienko) podla strany kliknutia - urceny na strede
   (setq dm (/ (+ d1 d2) 2.0)
@@ -343,7 +329,7 @@
   (setvar "OSMODE" oosm)
   (setvar "AUNITS" oaun)
   (LM:endundo (LM:acdoc))
-  (prompt (strcat "\nHotovo - dlzka koty: " (_cd-mm (- d2 d1)) " mm."))
+  (prompt (strcat "\nHotovo - dlzka koty je: " (_cd-mm (- d2 d1)) " mm."))
   (princ)
 )
 

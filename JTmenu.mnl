@@ -10,7 +10,7 @@
 ;;----------------------------------------------------------------------;;
 ;; Obsahuje spolocne pomocne funkcie (LM:acdoc, LM:startundo, LM:endundo,
 ;; LM:roundm, JT:BlockScale, JT:SignScale), ktore vyuzivaju ostatne moduly
-(load "JTmenu_lib" "\nJT_lib nenacitany!")
+(load "JTmenu_lib" "\nJTmenu_lib nenacitany!")
 (princ)
 
 ;;----------------------------------------------------------------------;;
@@ -65,7 +65,7 @@
 (AUTOLOAD "Rebar_function_orchester" '("JTRebarFillet" "JTRebarWrite" "JTRebarOffset"))
 (AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFilletPolyline" "JTRebarWritePolyline" "JTRebarLayers" "JTRebarOffsetPolyline" "JTRebarTagExport"))
 (AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
-(AUTOLOAD "Rebar_dimension" '("JTRebarDim"))
+(AUTOLOAD "Rebar_dimension" '("JTRebarDimension"))
 (AUTOLOAD "Oblique_dimension" '("JTDimOblique"))
 (AUTOLOAD "Curve_dimension" '("JTCurveDimension"))
 (princ)
