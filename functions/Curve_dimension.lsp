@@ -279,7 +279,7 @@
   (setq exe      (* th 0.4)     ; presah vynasacej ciary za ciaru koty
         fxl      (* th 2.25)    ; fixna dlzka vynasacej ciary (~4.5 mm pri texte 2.0 mm)
         tickhalf (* th 0.5)     ; polovica dlzky sikmej znacky
-        textout  (* th 0.85))   ; posun textu nad ciaru koty
+        textout  (* th 0.90))   ; posun textu nad ciaru koty
 
   ;; uloz a nastav systemove premenne
   (setq ocmd (getvar "CMDECHO")
