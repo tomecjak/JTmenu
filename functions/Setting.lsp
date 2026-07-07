@@ -106,25 +106,7 @@
   )
   
   ;nastavenie aktivnosti pri mode DPPtools
-  (if (= (getenv "GlobalnaBlocksType") "JTmenu")
-    ;aktivovane
-    (progn
-      (mode_tile "blocksLanguageSK" 0)
-      (mode_tile "blocksLanguageCZ" 0)
-      (mode_tile "blocksLanguageEN" 0)
-      (mode_tile "modKotyKlasicky" 0)
-      (mode_tile "modKotyDimscale" 0)
-    )
-    ;deaktivovane
-    (progn
-      (mode_tile "blocksLanguageSK" 1)
-      (mode_tile "blocksLanguageCZ" 1)
-      (mode_tile "blocksLanguageEN" 1)
-      (mode_tile "modKotyKlasicky" 1)
-      (mode_tile "modKotyDimscale" 1)
-      (set_tile "modKotyAnnotation" "1")
-    )
-  )
+  (AktualizujStavPoli)
   
   ;nacitanie verzie JTmenu do dialogu
   (set_tile "verziaJtMenu" (JTmenuVersion))
@@ -138,10 +120,19 @@
   (action_tile "cancel"
     "(UkoncenieNastavenia)"
   )
+
+  ;aktualizacia stavu polia pri zmene typu blokov
+  (action_tile "blokyJTmenu"
+    "(AktualizujStavPoli)"
+  )
+
+  (action_tile "blokyDPPtools"
+    "(AktualizujStavPoli)"
+  )
   
   ;definovanie tlacidla ulozit
   (action_tile "ulozit"
-    "(UlozitNastavenia)(done_dialog)"
+    "(UlozitNastavenia)"
   )
   
   ;spustenie dialogu
@@ -252,6 +243,28 @@
   (princ)
 )
 
+(defun AktualizujStavPoli()
+  (if (= (get_tile "blokyJTmenu") "1")
+    (progn
+      (mode_tile "blocksLanguageSK" 0)
+      (mode_tile "blocksLanguageCZ" 0)
+      (mode_tile "blocksLanguageEN" 0)
+      (mode_tile "modKotyKlasicky" 0)
+      (mode_tile "modKotyDimscale" 0)
+      (mode_tile "blocksScale" 0)
+    )
+    (progn
+      (mode_tile "blocksLanguageSK" 1)
+      (mode_tile "blocksLanguageCZ" 1)
+      (mode_tile "blocksLanguageEN" 1)
+      (mode_tile "modKotyKlasicky" 1)
+      (mode_tile "modKotyDimscale" 1)
+      (mode_tile "blocksScale" 1)
+      (set_tile "modKotyAnnotation" "1")
+    )
+  )
+)
+
 ;funkcia ulozenia nastavenia
 (defun UlozitNastavenia()
   (setq hladinaPrefixPopis (get_tile "hladinaPrefixPopis"))
@@ -272,6 +285,99 @@
   (setq modKotyKlasicky (get_tile "modKotyKlasicky"))
   (setq modKotyDimscale (get_tile "modKotyDimscale"))
   (setq modKotyAnnotation (get_tile "modKotyAnnotation"))
+  (AplikujNastavenia)
+  (AktualizujStavPoli)
+  (princ "\nNastavenia boli uložené.\n")
+)
+
+(defun AplikujNastavenia()
+  ;vyhodnotenie vyberu hladiny pre bloky
+  (if (= hladinaPrefixPopis "1")
+    ;nastavenie hladinu na Prefix_Popis
+    (setenv "GlobalnaHladinaBlokov" "Popis")
+
+    (if (= hladinaNula "1")
+      ;nastavenie hladinu na O
+      (setenv "GlobalnaHladinaBlokov" "0")
+      (princ)
+    )
+  )
+
+  ;vyhodnotenie nastavenie prefixu hladiny
+  (if (/= vykresVypracoval "JT_")
+    (setenv "GlobalnaPrefixHladiny" layerPrefix)
+    (setenv "GlobalnaPrefixHladiny" "JT_")
+  )
+
+  ;vyhodnotenie nastavenie prefixu hladiny pre novy stav
+  (if (/= vykresVypracoval "-")
+    (setenv "GlobalnaPrefixHladinySeparator" layerPrefixSeparator)
+    (setenv "GlobalnaPrefixHladinySeparator" "-")
+  )
+
+  ;vyhodnotenie vyberu modov pre bloky JTmenu alebo DPPtools
+  (if (= blokyJTmenu "1")
+    (setenv "GlobalnaBlocksType" "JTmenu")
+    (setenv "GlobalnaBlocksType" "DPPtools")
+  )
+
+  ;vyhodnotenie vyberu modu pre vystuzovanie
+  (if (= rebarLayerType "1")
+    (setenv "GlobalnaRebarType" "Layer")
+    (setenv "GlobalnaRebarType" "Polyline")
+  )
+
+  ;vyhodnotenie vyberu modu pre dlzku vystuze
+  (if (= rebarLengthAxis "1")
+    (setenv "GlobalnaRebarLegth" "Os")
+    (setenv "GlobalnaRebarLegth" "Povrch")
+  )
+
+  ;vyhodnotenie vyberu modu pre mierku blokov
+  (if (/= blocksScale "50")
+    (setenv "GlobalnaBlocksScale" blocksScale)
+    (setenv "GlobalnaBlocksScale" "50")
+  )
+
+  ;vyhodnotenie vyberu modu pre mierku blokov dopravneho znacenia
+  (if (/= signBlocksScale "1000")
+    (setenv "GlobalnaSignBlocksScale" signBlocksScale)
+    (setenv "GlobalnaSignBlocksScale" "1000")
+  )
+
+  ;vyhodnotenie vyberu jazyka pre bloky
+  (if (= blocksLanguageSK "1")
+    ;nastavenie jazyka SK
+    (setenv "GlobalnaBlocksLanguage" "SVK")
+
+    (if (= blocksLanguageCZ "1")
+      ;nastavenie jazyka CZ
+      (setenv "GlobalnaBlocksLanguage" "CZK")
+
+      (if (= blocksLanguageEN "1")
+      ;nastavenie jazyka EN
+      (setenv "GlobalnaBlocksLanguage" "ENG")
+      (princ)
+      )
+    )
+  )
+
+  ;vyhodnotenie vyberu modu pre koty
+  (if (= modKotyKlasicky "1")
+    ;nastavenie modu na Klasicky
+    (setenv "GlobalnaKotyDIMSCALEset" "Klasicky")
+
+    (if (= modKotyDimscale "1")
+      ;nastavenie modu na Mierka
+      (setenv "GlobalnaKotyDIMSCALEset" "Mierka")
+
+      (if (= modKotyAnnotation "1")
+        ;nastavenie modu na Annotation
+        (setenv "GlobalnaKotyDIMSCALEset" "Annotation")
+        (princ)
+      )
+    )
+  )
 )
 
 ;funkcia tlacidla zatvorit

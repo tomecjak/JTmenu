@@ -44,6 +44,7 @@ Setting //nazov dcl
         { 
           label = "v hladine Prefix_Popis alebo v hladine 0.";
         }
+        : spacer {}
       }
 
       //druhy riadok dialogu - nastavenie prexifu hladiny
@@ -84,12 +85,13 @@ Setting //nazov dcl
         { 
           label = "pri vytvarany novych hladin.";
         }
+        : spacer {}
       }
 
       //xx riadok dialogu - nastavenie pouzivanie funkci podla JTmenu alebo DPPtools
       : boxed_radio_column
       {
-        label = "Pouzivat bloky a funkcie z JTmenu alebo DPPtools?";
+        label = "JTmenu alebo DPPtools mode?";
         //prepinac pre bloky JTmenu
         : radio_button
         {
@@ -122,6 +124,7 @@ Setting //nazov dcl
         { 
           label = "Je potrebne mat nainstalovane DPPtools!";
         }
+        : spacer {}
       }
 
       //xx riadok dialogu - nastavenie pouzivanie nastrojov pre vystuzovania
@@ -153,8 +156,9 @@ Setting //nazov dcl
         //treti riadok poznamky nastavenia
         : text_part
         { 
-          label = "vystuze [JT_Vystuz_30] alebo podla hrubky polyliny.";
+          label = "vystuze alebo podla hrubky polyliny.";
         }
+        : spacer {}
       }
 
       //xx riadok dialogu - dlzka vystuze
@@ -188,6 +192,7 @@ Setting //nazov dcl
         {
           label = "Dlzka je pocitana v tvare v akom je polylina!";
         }
+        : spacer {}
       }
     }
 
@@ -219,6 +224,7 @@ Setting //nazov dcl
         { 
           label = "Toto nastavenie funguje iba v mode JTmenu.";
         }
+        : spacer {}
       }
 
       //piaty riadok dialogu - nastavenie mierky vkladanych blokov dopravneho znacenia
@@ -246,6 +252,7 @@ Setting //nazov dcl
         { 
           label = "dopravneho znacenia.";
         }
+        : spacer {}
       }
 
       //siesty riadok dialogu - nastavenie jazyku blokov
@@ -275,6 +282,7 @@ Setting //nazov dcl
         { 
           label = "Toto nastavenie funguje iba v mode JTmenu.";
         }
+        : spacer {}
       }
 
       //siedmi riadok dialogu - nastavenie generovanych kot
@@ -329,6 +337,7 @@ Setting //nazov dcl
         { 
           label = "V rezime DPPtools je len annotativny mod.";
         }
+        : spacer {}
       }
 
       //osmi riadok dialogu - verzia JTmenu
