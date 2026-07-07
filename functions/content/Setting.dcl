@@ -390,13 +390,8 @@ About
   : boxed_column
   {
     label = "Ikony";
-    : text_part { label = "Vsetky ikony pouzite v JTmenu su pouzite zo stanky: https://www.flaticon.com."; }
+    : text_part { label = "Vsetky ikony pouzite v JTmenu su vygenerovane v Claude Design."; }
     : spacer {}
-    : text_part { label = "Zoznanam autorov od ktorych boli pouzite ikony: Freepik, Suraiya Mili,"; }
-    : text_part { label = "Riajulislam, Smashicons, Graphiverse, Soodesign, Juicy_fish, Zafdesign,"; }
-    : text_part { label = "Meaicon, Laisa Islam Ani, Vector Market, IconixarPro, Creatype, Gulraiz,"; }
-    : text_part { label = "Bukeicon, DinosoftLabs, Elzicon, Elastic1, JC Icon, Kerismaker, Vectorsclub,"; }
-    : text_part { label = "Pixel perfec."; }
   }
 
   //scripty
@@ -404,6 +399,7 @@ About
   {
     label = "Scripty"; 
     : text_part { label = "Casti kodu boli pouzite/upravene od autora Lee Mac: www.lee-mac.com"; } 
+    : spacer {}
   }
 
   : button
