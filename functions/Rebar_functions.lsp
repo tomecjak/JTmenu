@@ -63,6 +63,23 @@
   )
 )
 
+;; ak je v nastaveniach zvolene vkladanie do hladiny "Popis"
+;; (GlobalnaHladinaBlokov = "Popis"), vrati nazov najdenej *POPIS hladiny,
+;; inak nil (nechame aktualnu hladinu)
+(defun _popis-layer (/ rec lay found)
+  (if (= (getenv "GlobalnaHladinaBlokov") "Popis")
+    (progn
+      (setq rec (tblnext "LAYER" T))
+      (while (and rec (not found))
+        (setq lay (cdr (assoc 2 rec)))
+        (if (wcmatch (strcase lay) "*POPIS") (setq found lay))
+        (setq rec (tblnext "LAYER"))
+      )
+    )
+  )
+  found
+)
+
 ;;----------------------------------------------------------------------;;
 ;;                Funkcia pre vytvorenie vrcholov oblukov               ;;
 ;;----------------------------------------------------------------------;;
@@ -71,13 +88,16 @@
                        pPrev pStart pEnd pNext
                        b oldlay ip
                        mode gw dist obj o1 o2 l1 l2
-                       srcEnt tmpObj)
+                       srcEnt tmpObj popisLay)
   (vl-load-com)
   (setq e (car (entsel "\nVyber polyline: ")))
   (if (and e (= (cdr (assoc 0 (entget e))) "LWPOLYLINE"))
     (progn
       (setq oldlay (getvar "CLAYER")) ; uložíme aktuálnu vrstvu [web:23]
-      (setvar "CLAYER" oldlay) ; nepotrebujeme ju meniť
+
+      ;; ak je v nastaveniach zvolena hladina "Popis", kresli do nej
+      (setq popisLay (_popis-layer))
+      (if popisLay (setvar "CLAYER" popisLay))
 
       (setq ed  (entget e))
 

@@ -42,7 +42,7 @@ Setting //nazov dcl
         //druhy riadok poznamky nastavenia
         : text_part
         { 
-          label = "v hladine Prefix_Popis alebo v hladine 0.";
+          label = "v hladine Prefix_Popis alebo v nule (akt. hladina).";
         }
         : spacer {}
       }
