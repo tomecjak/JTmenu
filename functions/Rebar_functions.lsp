@@ -54,13 +54,24 @@
   (if (and (>= i 0) (< i (length lst))) (nth i lst) def)
 )
 
+;; vrati vla-object prveho prvku z vysledku vla-Offset (variant / safearray)
+(defun _off-first-obj (v / a)
+  (setq a (vlax-variant-value v))
+  (cond
+    ((= (type a) 'safearray) (car (vlax-safearray->list a)))
+    (t a)
+  )
+)
+
 ;;----------------------------------------------------------------------;;
 ;;                Funkcia pre vytvorenie vrcholov oblukov               ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTRebarIntersect (/ e ed pts blg nv i
                        pPrev pStart pEnd pNext
-                       b oldlay ip)
+                       b oldlay ip
+                       mode gw dist obj o1 o2 l1 l2
+                       srcEnt tmpObj)
   (vl-load-com)
   (setq e (car (entsel "\nVyber polyline: ")))
   (if (and e (= (cdr (assoc 0 (entget e))) "LWPOLYLINE"))
@@ -69,39 +80,95 @@
       (setvar "CLAYER" oldlay) ; nepotrebujeme ju meniť
 
       (setq ed  (entget e))
-      (setq pts (_lw-get-pts e))
-      (setq blg (_lw-get-bulges e))
-      (setq nv (length pts))
 
-      (if (< nv 4)
-        (prompt "\nPolyline ma malo vrcholov (min. 4).")
+      ;; rezim urcenia geometrie podla globalnej premennej GlobalnaRebarLegth:
+      ;; "Os" = kresli po OSI (povodna polylina),
+      ;; inak = kresli po VONKAJSOM povrchu (offset o polovicu global width
+      ;;        na vonkajsiu = dlhsiu stranu).
+      (setq mode (getenv "GlobalnaRebarLegth"))
+
+      (if (= mode "Os")
         (progn
-          ;; segment i: pStart=pts[i] -> pEnd=pts[i+1], bulge=blg[i]
-          ;; predchádzajúca line: pPrev=pts[i-1] -> pStart
-          ;; nasledujúca line: pEnd -> pNext=pts[i+2]
-          (setq i 1)
-          (while (<= i (- nv 3))
-            (setq pPrev  (nth (1- i) pts))
-            (setq pStart (nth i      pts))
-            (setq pEnd   (nth (1+ i) pts))
-            (setq pNext  (nth (+ i 2) pts))
+          (setq srcEnt e)
+          (setq tmpObj nil)
+          (prompt "\nRezim: prieniky po OSI vystuze.")
+        )
+        (progn
+          ;; VONKAJSI POVRCH -> potrebny global width (DXF 43)
+          (setq gw (cdr (assoc 43 ed)))
+          (if (or (null gw) (<= (abs gw) 1e-9))
+            (progn
+              (prompt "\nPolyline nema nastaveny global width - potrebny pre rezim po povrchu.")
+              (setq srcEnt nil)
+            )
+            (progn
+              ;; offset na obe strany o global_width/2, vyber dlhsi (vonkajsi)
+              (setq dist (/ (abs gw) 2.0))
+              (setq obj  (vlax-ename->vla-object e))
+              (setq o1   (_off-first-obj (vla-Offset obj dist)))
+              (setq o2   (_off-first-obj (vla-Offset obj (- dist))))
+              (setq l1   (if o1 (vla-get-length o1) -1.0))
+              (setq l2   (if o2 (vla-get-length o2) -1.0))
+              (cond
+                ((and o1 o2)
+                 (if (>= l1 l2)
+                   (progn (setq tmpObj o1) (vla-delete o2))
+                   (progn (setq tmpObj o2) (vla-delete o1))))
+                (o1 (setq tmpObj o1))
+                (o2 (setq tmpObj o2))
+                (t  (setq tmpObj nil)))
+              (if tmpObj
+                (progn
+                  (setq srcEnt (vlax-vla-object->ename tmpObj))
+                  (prompt "\nRezim: prieniky po VONKAJSOM povrchu vystuze."))
+                (progn
+                  (prompt "\nOffset vonkajsej hrany sa nepodaril.")
+                  (setq srcEnt nil)))
+            )
+          )
+        )
+      )
 
-            (setq b (_safe-nth i blg 0.0))
+      (if srcEnt
+        (progn
+          (setq pts (_lw-get-pts srcEnt))
+          (setq blg (_lw-get-bulges srcEnt))
+          (setq nv (length pts))
 
-            (if (/= b 0.0)
-              (progn
-                ;; prienik dvoch čiar (pPrev->pStart) a (pEnd->pNext)
-                (setq ip (inters (_2d pPrev) (_2d pStart)
-                                 (_2d pEnd)  (_2d pNext)
-                                 nil))
-                (if ip
-                  (_draw-lwpoly (list pStart ip pEnd) nil)
+          (if (< nv 4)
+            (prompt "\nPolyline ma malo vrcholov (min. 4).")
+            (progn
+              ;; segment i: pStart=pts[i] -> pEnd=pts[i+1], bulge=blg[i]
+              ;; predchádzajúca line: pPrev=pts[i-1] -> pStart
+              ;; nasledujúca line: pEnd -> pNext=pts[i+2]
+              (setq i 1)
+              (while (<= i (- nv 3))
+                (setq pPrev  (nth (1- i) pts))
+                (setq pStart (nth i      pts))
+                (setq pEnd   (nth (1+ i) pts))
+                (setq pNext  (nth (+ i 2) pts))
+
+                (setq b (_safe-nth i blg 0.0))
+
+                (if (/= b 0.0)
+                  (progn
+                    ;; prienik dvoch čiar (pPrev->pStart) a (pEnd->pNext)
+                    (setq ip (inters (_2d pPrev) (_2d pStart)
+                                     (_2d pEnd)  (_2d pNext)
+                                     nil))
+                    (if ip
+                      (_draw-lwpoly (list pStart ip pEnd) nil)
+                    )
+                  )
                 )
+
+                (setq i (1+ i))
               )
             )
-
-            (setq i (1+ i))
           )
+
+          ;; docasnu offset polylinu (rezim po povrchu) zmaz, os zostava
+          (if tmpObj (vla-delete tmpObj))
         )
       )
 
