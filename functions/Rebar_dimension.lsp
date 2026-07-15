@@ -132,6 +132,23 @@
   )
 )
 
+;; ak je v nastaveniach zvolene vkladanie do hladiny "Popis"
+;; (GlobalnaHladinaBlokov = "Popis"), vrati nazov najdenej *POPIS hladiny,
+;; inak nil (nechame aktualnu hladinu)
+(defun _rd-popis-layer (/ rec lay found)
+  (if (= (getenv "GlobalnaHladinaBlokov") "Popis")
+    (progn
+      (setq rec (tblnext "LAYER" T))
+      (while (and rec (not found))
+        (setq lay (cdr (assoc 2 rec)))
+        (if (wcmatch (strcase lay) "*POPIS") (setq found lay))
+        (setq rec (tblnext "LAYER"))
+      )
+    )
+  )
+  found
+)
+
 ;; ciarkovana pomocna ciara (vstup UCS -> entmake vo WCS)
 (defun _rd-dline (p1 p2 / dxf)
   (setq dxf
@@ -145,6 +162,8 @@
   (if (tblsearch "ltype" "DASHED")
     (setq dxf (append dxf (list (cons 6 "DASHED"))))
   )
+  ;; Linetype Scale = 0.2 (DXF 48)
+  (setq dxf (append dxf (list (cons 48 0.2))))
   (entmakex dxf)
 )
 
@@ -194,7 +213,7 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTRebarDimension (/ *error* plEnt plEd width halfW pickPt axisMode useOffset
-                       oCmd oOsm oAun
+                       oCmd oOsm oAun oClay popisLay
                        outer vlist n closed origObj ez
                        styH anno sc th gap fixedH paperH
                        i j bulge SS m k seg p0 p1 prevSeg nextSeg
@@ -204,6 +223,7 @@
     (if oCmd (setvar "CMDECHO" oCmd))
     (if oOsm (setvar "OSMODE" oOsm))
     (if oAun (setvar "AUNITS" oAun))
+    (if oClay (setvar "CLAYER" oClay))
     (if (and msg (not (wcmatch (strcase msg) "*BREAK*,*CANCEL*,*QUIT*")))
       (prompt (strcat "\nChyba: " msg))
     )
@@ -276,10 +296,15 @@
   ;; uloz a nastav systemove premenne
   (setq oCmd (getvar "CMDECHO")
         oOsm (getvar "OSMODE")
-        oAun (getvar "AUNITS"))
+        oAun (getvar "AUNITS")
+        oClay (getvar "CLAYER"))
   (setvar "CMDECHO" 0)
   (setvar "OSMODE" 0)
   (setvar "AUNITS" 0)   ; uhly v stupnoch pre prikaz TEXT
+
+  ;; ak je v nastaveniach zvolena hladina "Popis", texty aj ciary tam zarad
+  (setq popisLay (_rd-popis-layer))
+  (if popisLay (setvar "CLAYER" popisLay))
 
   ;; 4) zdroj merania: os (povodna) alebo vonkajsia hrana (offset)
   (if useOffset
@@ -289,6 +314,7 @@
       (if (or (null outer) (eq outer plEnt))
         (progn
           (setvar "CMDECHO" oCmd) (setvar "OSMODE" oOsm) (setvar "AUNITS" oAun)
+          (setvar "CLAYER" oClay)
           (prompt "\nOffset vonkajsej hrany sa nepodaril.")
           (exit)
         )
@@ -307,6 +333,7 @@
     (progn
       (if useOffset (entdel outer))
       (setvar "CMDECHO" oCmd) (setvar "OSMODE" oOsm) (setvar "AUNITS" oAun)
+      (setvar "CLAYER" oClay)
       (prompt "\nMalo vrcholov.")
       (exit)
     )
@@ -378,6 +405,7 @@
   (setvar "CMDECHO" oCmd)
   (setvar "OSMODE" oOsm)
   (setvar "AUNITS" oAun)
+  (setvar "CLAYER" oClay)
   (prompt "\nHotovo – vystuz okotovana.")
   (princ)
 )
