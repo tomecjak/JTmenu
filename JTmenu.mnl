@@ -110,6 +110,7 @@
 ;; preto sa nacitavaju rovno (uz nie cez stovky AUTOLOAD riadkov).
 (load "Traffic_signs" "\nTraffic_signs nenacitany!")
 (load "Traffic_signs_existing" "\nTraffic_signs_existing nenacitany!")
+(load "Traffic_signs_horizontal" "\nTraffic_signs_horizontal nenacitany!")
 (princ)
 
 ;;----------------------------------------------------------------------;;
