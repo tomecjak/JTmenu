@@ -443,6 +443,8 @@
   )
 
   (_StartUndo doc)
+  
+  (command "-linetype" "load" ltype "Linetypes.lin" "")
 
   (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
   (cond
