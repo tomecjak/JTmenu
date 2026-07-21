@@ -853,6 +853,90 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;             Prerusovana ciara 602-66 (stredova dvojita)              ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60266 ( / *error* doc width ltype vmin vmax val off cwidth sel ent obj res )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (princ "\nTypy komunikacie:")
+  (princ "\n  BMO = Bezkol. mimo obce | BVO  = Bezkol. v obci | SMO = Semkol. mimo obce aj v obci")
+  (initget 1 "BMO BVO SMO")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [BMO/BVO/SMO] : ")
+  )
+
+  (cond
+    ( (eq typ "BMO") (setq width 0.12 ltype "VDZ_4.0-8.0" vmin 0.16 vmax 0.51) )
+    ( (eq typ "BVO") (setq width 0.12 ltype "VDZ_3.0-6.0" vmin 0.16 vmax 0.51) )
+    ( (eq typ "SMO") (setq width 0.12 ltype "VDZ_3.0-3.0" vmin 0.16 vmax 0.51) )
+  )
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  ;; Nacitanie celkovej hodnoty s obmedzenim vmin - vmax
+  (while
+    (progn
+      (initget 1)
+      (setq val (getdist (strcat "\nZadajte celkovu hodnotu <" (rtos vmin) " - " (rtos vmax) "> : ")))
+      (cond
+        ( (< val vmin) (princ (strcat "\nHodnota musi byt minimalne " (rtos vmin) ".")) t )
+        ( (> val vmax) (princ (strcat "\nHodnota musi byt maximalne " (rtos vmax) ".")) t )
+        ( t nil )
+      )
+    )
+  )
+
+  ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
+  (setq off (+ (/ val 2.0) 0.06))
+  ;; Sirka stredovej ciary: hodnota offsetu - 0.1
+  (setq cwidth (- val 0.1))
+
+  (StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      ;; Nastavenie sirky stredovej ciary
+      (vla-put-ConstantWidth obj cwidth)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+      ;; Odsadene ciary na obe strany
+      (foreach d (list off (- off))
+        (setq res (vl-catch-all-apply 'vlax-invoke (list obj 'Offset d)))
+        (if (vl-catch-all-error-p res)
+          (princ "\nNepodarilo sa odsadit polyliniu.")
+          (foreach no res
+            (vla-put-ConstantWidth no width)
+            (vla-put-Linetype no ltype)
+            (vla-Update no)
+          )
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
 
 (vl-load-com)
 (load "JTmenu_version" "\nVerzia nenacitana!")
