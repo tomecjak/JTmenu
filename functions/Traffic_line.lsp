@@ -1647,7 +1647,7 @@
   )
 
   ;; Celkova hodnota odsadenia 0.16, na kazdu stranu polovica (0.08)
-  (setq off 0.28)
+  (setq off (+ 0.16 0.12))
 
   ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
   (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
@@ -1664,6 +1664,199 @@
     )
     ( t
       (setq obj (vlax-ename->vla-object ent))
+      ;; Dvojity offset na obe strany o polovicu hodnoty
+      (setq res1 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (/ off 2.0))))
+      (setq res2 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (- (/ off 2.0)))))
+      (if (or (vl-catch-all-error-p res1) (vl-catch-all-error-p res2))
+        (princ "\nNepodarilo sa odsadit polyliniu.")
+        (progn
+          (setq o1 (car res1) o2 (car res2))
+          ;; Vyber strany, na ktorej bude prerusovana ciara
+          (initget 1)
+          (setq pt (getpoint "\nUrcte kliknutim stranu, kde ma byt prerusovana ciara : "))
+          (setq p (trans pt 1 0))
+          ;; Blizsia odsadena ciara k zadanemu bodu = prerusovana, druha = suvisla
+          (if (<= (distance p (vlax-curve-getClosestPointTo o1 p))
+                  (distance p (vlax-curve-getClosestPointTo o2 p)))
+            (setq dashObj o1 contObj o2)
+            (setq dashObj o2 contObj o1)
+          )
+          ;; Prerusovana ciara - typ podla kodu
+          (vla-put-ConstantWidth dashObj width)
+          (vla-put-Linetype dashObj ltype)
+          (vla-Update dashObj)
+          ;; Suvisla ciara na druhej strane
+          (vla-put-ConstantWidth contObj width)
+          (vla-put-Linetype contObj "Continuous")
+          (vla-Update contObj)
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;            Prerusovana + suvisla ciara 603-65 (specialna)            ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60365 ( / *error* doc typ width ltype off sel ent obj
+                     res1 res2 o1 o2 pt p dashObj contObj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (princ "\nTypy komunikacie:")
+  (princ "\n  BMO = Bezkol. mimo obce | BVO  = Bezkol. v obci | KMO = Kol. mimo obce aj v obci")
+  (initget 1 "BMO BVO KMO")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [BMO/BVO/KMO] : ")
+  )
+
+  (cond
+    ( (eq typ "BMO") (setq width 0.12 ltype "VDZ_4.0-8.0" vmin 0.16 vmax 0.51) )
+    ( (eq typ "BVO") (setq width 0.12 ltype "VDZ_3.0-6.0" vmin 0.16 vmax 0.51) )
+    ( (eq typ "KMO") (setq width 0.12 ltype "VDZ_3.0-3.0" vmin 0.16 vmax 0.51) )
+  )
+
+  ;; Nacitanie celkovej hodnoty s obmedzenim vmin - vmax
+  (while
+    (progn
+      (initget 1)
+      (setq val (getdist (strcat "\nZadajte celkovu hodnotu <" (rtos vmin) " - " (rtos vmax) "> : ")))
+      (cond
+        ( (< val vmin) (princ (strcat "\nHodnota musi byt minimalne " (rtos vmin) ".")) t )
+        ( (> val vmax) (princ (strcat "\nHodnota musi byt maximalne " (rtos vmax) ".")) t )
+        ( t nil )
+      )
+    )
+  )
+
+  ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
+  (setq off (+ val 0.12))
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  (StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      ;; Dvojity offset na obe strany o polovicu hodnoty
+      (setq res1 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (/ off 2.0))))
+      (setq res2 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (- (/ off 2.0)))))
+      (if (or (vl-catch-all-error-p res1) (vl-catch-all-error-p res2))
+        (princ "\nNepodarilo sa odsadit polyliniu.")
+        (progn
+          (setq o1 (car res1) o2 (car res2))
+          ;; Vyber strany, na ktorej bude prerusovana ciara
+          (initget 1)
+          (setq pt (getpoint "\nUrcte kliknutim stranu, kde ma byt prerusovana ciara : "))
+          (setq p (trans pt 1 0))
+          ;; Blizsia odsadena ciara k zadanemu bodu = prerusovana, druha = suvisla
+          (if (<= (distance p (vlax-curve-getClosestPointTo o1 p))
+                  (distance p (vlax-curve-getClosestPointTo o2 p)))
+            (setq dashObj o1 contObj o2)
+            (setq dashObj o2 contObj o1)
+          )
+          ;; Prerusovana ciara - typ podla kodu
+          (vla-put-ConstantWidth dashObj width)
+          (vla-put-Linetype dashObj ltype)
+          (vla-Update dashObj)
+          ;; Suvisla ciara na druhej strane
+          (vla-put-ConstantWidth contObj width)
+          (vla-put-Linetype contObj "Continuous")
+          (vla-Update contObj)
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;            Prerusovana + suvisla ciara 603-66 (specialna)            ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60366 ( / *error* doc typ width ltype off cwidth val vmin vmax sel ent obj
+                     res1 res2 o1 o2 pt p dashObj contObj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (princ "\nTypy komunikacie:")
+  (princ "\n  BMO = Bezkol. mimo obce | BVO  = Bezkol. v obci | KMO = Kol. mimo obce aj v obci")
+  (initget 1 "BMO BVO KMO")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [BMO/BVO/KMO] : ")
+  )
+
+  (cond
+    ( (eq typ "BMO") (setq width 0.12 ltype "VDZ_4.0-8.0" vmin 0.36 vmax 0.76) )
+    ( (eq typ "BVO") (setq width 0.12 ltype "VDZ_3.0-6.0" vmin 0.36 vmax 0.76) )
+    ( (eq typ "KMO") (setq width 0.12 ltype "VDZ_3.0-3.0" vmin 0.36 vmax 0.76) )
+  )
+
+  ;; Nacitanie celkovej hodnoty s obmedzenim vmin - vmax
+  (while
+    (progn
+      (initget 1)
+      (setq val (getdist (strcat "\nZadajte celkovu hodnotu <" (rtos vmin) " - " (rtos vmax) "> : ")))
+      (cond
+        ( (< val vmin) (princ (strcat "\nHodnota musi byt minimalne " (rtos vmin) ".")) t )
+        ( (> val vmax) (princ (strcat "\nHodnota musi byt maximalne " (rtos vmax) ".")) t )
+        ( t nil )
+      )
+    )
+  )
+
+  ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
+  (setq off (+ val 0.12))
+  ;; Sirka stredovej ciary: hodnota offsetu (na stranu) - 0.1
+  (setq cwidth (- (/ off 2.0) 0.1))
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  (StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      ;; Nastavenie sirky stredovej ciary
+      (vla-put-ConstantWidth obj cwidth)
+      (vla-Update obj)
       ;; Dvojity offset na obe strany o polovicu hodnoty
       (setq res1 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (/ off 2.0))))
       (setq res2 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (- (/ off 2.0)))))
