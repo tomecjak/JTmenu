@@ -242,7 +242,7 @@
   ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
   (setq off (+ (/ val 2.0) 0.06))
   ;; Sirka stredovej ciary: hodnota offsetu - 0.1
-  (setq cwidth (- width 0.1))
+  (setq cwidth (- val 0.1))
 
   (_StartUndo doc)
 
