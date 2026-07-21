@@ -9,9 +9,24 @@
 ;;                        Zdielane pomocne funkcie                       ;;
 ;;----------------------------------------------------------------------;;
 
-(defun _StartUndo ( doc ) (vla-StartUndoMark doc))
+(defun StartUndo ( doc ) (vla-StartUndoMark doc))
 
-(defun _EndUndo   ( doc ) (if (= 8 (logand 8 (getvar 'UNDOCTL))) (vla-EndUndomark doc)))
+(defun EndUndo   ( doc ) (if (= 8 (logand 8 (getvar 'UNDOCTL))) (vla-EndUndomark doc)))
+
+;; Nacita typ ciary "name" zo suboru "file", ak este nie je v kresbe nacitany
+(defun LoadLinetype ( doc name file )
+  (if
+    (vl-catch-all-error-p
+      (vl-catch-all-apply 'vla-Item (list (vla-get-Linetypes doc) name))
+    )
+    (if
+      (vl-catch-all-error-p
+        (vl-catch-all-apply 'vla-Load (list (vla-get-Linetypes doc) name file))
+      )
+      (princ (strcat "\nTyp ciary \"" name "\" sa nepodarilo nacitat zo suboru " file "."))
+    )
+  )
+)
 
 ;;----------------------------------------------------------------------;;
 ;;                 Suvisla ciara 601-50 (krajna - tenka)                ;;
@@ -20,7 +35,7 @@
 (defun c:DC60150 ( / *error* doc typ width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -38,7 +53,7 @@
     ( (eq typ "Mimo")     (setq width 0.12 ltype "Continuous") )
   )
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
   (cond
@@ -56,7 +71,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -67,7 +82,7 @@
 (defun c:DC60151 ( / *error* doc typ width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -85,7 +100,7 @@
     ( (eq typ "Mimo")     (setq width 0.25 ltype "Continuous") )
   )
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
   (cond
@@ -103,7 +118,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -114,7 +129,7 @@
 (defun c:DC60160 ( / *error* doc width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -124,7 +139,7 @@
 
   (setq width 0.12 ltype "Continuous")
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel "\nVyberte polyliniu : "))
   (cond
@@ -142,7 +157,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -153,7 +168,7 @@
 (defun c:DC60165 ( / *error* doc width ltype vmin vmax val off sel ent obj res )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -179,7 +194,7 @@
   ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
   (setq off (+ (/ val 2.0) 0.06))
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel "\nVyberte polyliniu : "))
   (cond
@@ -205,7 +220,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -216,7 +231,7 @@
 (defun c:DC60166 ( / *error* doc width ltype vmin vmax val off cwidth sel ent obj res )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -244,7 +259,7 @@
   ;; Sirka stredovej ciary: hodnota offsetu - 0.1
   (setq cwidth (- val 0.1))
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel "\nVyberte polyliniu : "))
   (cond
@@ -275,7 +290,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -286,7 +301,7 @@
 (defun c:DC60175 ( / *error* doc typ width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -304,7 +319,7 @@
     ( (eq typ "Mimo")     (setq width 0.25 ltype "Continuous") )
   )
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
   (cond
@@ -322,7 +337,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -333,7 +348,7 @@
 (defun c:DC60176 ( / *error* doc width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -343,7 +358,7 @@
 
   (setq width 0.12 ltype "Continuous")
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel "\nVyberte polyliniu : "))
   (cond
@@ -361,7 +376,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -372,7 +387,7 @@
 (defun c:DC60185 ( / *error* doc typ width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -390,7 +405,7 @@
     ( (eq typ "Cyklo")     (setq width 0.25 ltype "Continuous") )
   )
 
-  (_StartUndo doc)
+  (StartUndo doc)
 
   (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
   (cond
@@ -408,7 +423,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
@@ -419,7 +434,7 @@
 (defun c:DC60250 ( / *error* doc typ width ltype sel ent obj )
 
   (defun *error* ( msg )
-    (and doc (_EndUndo doc))
+    (and doc (EndUndo doc))
     (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
         (princ (strcat "\n** Chyba: " msg " **")))
     (princ)
@@ -442,10 +457,11 @@
     ( (eq typ "KC")  (setq width 0.10 ltype "VDZ_1.0-0.5") )
   )
 
-  (_StartUndo doc)
-  
-  (command "-linetype" "load" ltype "Linetypes.lin" "")
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
 
+  (StartUndo doc)
+  
   (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
   (cond
     ( (null sel)
@@ -462,7 +478,7 @@
     )
   )
 
-  (_EndUndo doc)
+  (EndUndo doc)
   (princ)
 )
 
