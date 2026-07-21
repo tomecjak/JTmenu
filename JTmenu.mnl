@@ -110,13 +110,14 @@
 (princ)
 
 ;;----------------------------------------------------------------------;;
-;;            Kniznica blokov dopravneho znacenia (nove+jestv.)         ;;
+;;     Kniznica blokov dopravneho znacenia (nove+jestv.+vodorovne)      ;;
 ;;----------------------------------------------------------------------;;
 ;; Prikazy DZxxx a DZxxx_J sa generuju datovo priamo v tychto suboroch,
 ;; preto sa nacitavaju rovno (uz nie cez stovky AUTOLOAD riadkov).
 (load "Traffic_signs" "\nTraffic_signs nenacitany!")
 (load "Traffic_signs_existing" "\nTraffic_signs_existing nenacitany!")
 (load "Traffic_signs_horizontal" "\nTraffic_signs_horizontal nenacitany!")
+(load "Traffic_line" "\nTraffic_line nenacitany!")
 (princ)
 
 ;;----------------------------------------------------------------------;;
