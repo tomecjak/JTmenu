@@ -147,7 +147,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;                   Suvisla ciara 610-65 (stredova)                    ;;
+;;               Suvisla ciara 610-65 (stredova dvojita)                ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:DC60165 ( / *error* doc width ltype vmin vmax val off sel ent obj res )
@@ -191,6 +191,76 @@
     )
     ( t
       (setq obj (vlax-ename->vla-object ent))
+      (foreach d (list off (- off))
+        (setq res (vl-catch-all-apply 'vlax-invoke (list obj 'Offset d)))
+        (if (vl-catch-all-error-p res)
+          (princ "\nNepodarilo sa odsadit polyliniu.")
+          (foreach no res
+            (vla-put-ConstantWidth no width)
+            (vla-put-Linetype no ltype)
+            (vla-Update no)
+          )
+        )
+      )
+    )
+  )
+
+  (_EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;               Suvisla ciara 610-66 (stredova dvojita)                ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60166 ( / *error* doc width ltype vmin vmax val off cwidth sel ent obj res )
+
+  (defun *error* ( msg )
+    (and doc (_EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.12 ltype "Continuous" vmin 0.36 vmax 0.76)
+
+  ;; Nacitanie celkovej hodnoty s obmedzenim vmin - vmax
+  (while
+    (progn
+      (initget 1)
+      (setq val (getdist (strcat "\nZadajte celkovu hodnotu <" (rtos vmin) " - " (rtos vmax) "> : ")))
+      (cond
+        ( (< val vmin) (princ (strcat "\nHodnota musi byt minimalne " (rtos vmin) ".")) t )
+        ( (> val vmax) (princ (strcat "\nHodnota musi byt maximalne " (rtos vmax) ".")) t )
+        ( t nil )
+      )
+    )
+  )
+
+  ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
+  (setq off (+ (/ val 2.0) 0.06))
+  ;; Sirka stredovej ciary: hodnota offsetu - 0.1
+  (setq cwidth (- width 0.1))
+
+  (_StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      ;; Nastavenie sirky stredovej ciary
+      (vla-put-ConstantWidth obj cwidth)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+      ;; Odsadene ciary na obe strany
       (foreach d (list off (- off))
         (setq res (vl-catch-all-apply 'vlax-invoke (list obj 'Offset d)))
         (if (vl-catch-all-error-p res)
