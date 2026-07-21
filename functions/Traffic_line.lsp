@@ -427,17 +427,17 @@
 
   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
 
-  (initget 1 "BezMimoObce BezObec BezCyklo KolObec KolCyklo")
+  (initget 1 "Bezkol_mimo_obce Bezkol_obec Bezkol_cyklo Kol_obec Kol_cyklo")
   (setq typ
-    (getkword "\nZvolte typ komunikacie [Bezkol. mimo obce (0.12)/Bezkol. v obci (0.12)/Bezkol. cyklochodnik (0.10)/ Kol. mimo aj v obici (0.12)/Kol. cyklochodnik (0.10)] : ")
+    (getkword "\nZvolte typ komunikacie [Bezkol_mimo_obce (0.12)/Bezkol_obec (0.12)/Bezkol_cyklo (0.10)/ Kol_obec (0.12)/Kol_cyklo (0.10)] : ")
   )
 
   (cond
-    ( (eq typ "BezMimoObce") (setq width 0.12 ltype "VDZ_4.0-2.0") )
-    ( (eq typ "BezObec") (setq width 0.12 ltype "VDZ_3.0-1.5") )
-    ( (eq typ "BezCyklo") (setq width 0.10 ltype "VDZ_1.0-0.5") )
-    ( (eq typ "KolObec") (setq width 0.12 ltype "VDZ_3.0-1.5") )
-    ( (eq typ "KolCyklo") (setq width 0.10 ltype "VDZ_1.0-0.5") )
+    ( (eq typ "Bezkol_mimo_obce") (setq width 0.12 ltype "VDZ_4.0-2.0") )
+    ( (eq typ "Bezkol_obec") (setq width 0.12 ltype "VDZ_3.0-1.5") )
+    ( (eq typ "Bezkol_cyklo") (setq width 0.10 ltype "VDZ_1.0-0.5") )
+    ( (eq typ "Kol_obec") (setq width 0.12 ltype "VDZ_3.0-1.5") )
+    ( (eq typ "Kol_cyklo") (setq width 0.10 ltype "VDZ_1.0-0.5") )
   )
 
   (_StartUndo doc)
