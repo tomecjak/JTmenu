@@ -5,6 +5,10 @@
 ; Nastavenie sirky a typu ciary dopravnej polylinie podla typu komunikacie
 ;-------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------;;
+;;                       Suvisla ciara 610-50                           ;;
+;;----------------------------------------------------------------------;;
+
 (defun c:DC60150 ( / *error* _StartUndo _EndUndo _LoadLinetype
                          doc typ width ltype sel ent obj )
 
@@ -23,7 +27,7 @@
 
   (initget 1 "Dialnica Mimo")
   (setq typ
-    (getkword "\nZvolte typ komunikacie [Dialnica (0.15)/Mimo dialnice (0.12)] : ")
+    (getkword "\nZvolte typ komunikacie [Dialnica (0,15)/Mimo dialnice (0,12)] : ")
   )
 
   (cond
@@ -35,7 +39,63 @@
 
   (while
     (progn
-      (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" alebo [Enter na ukoncenie] : ")))
+      (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" alebo [Esc na ukoncenie] : ")))
+      (cond
+        ( (null sel) nil )
+        ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+          (princ "\nVybrany objekt nie je polylinia, skuste znova.")
+          t
+        )
+        ( t
+          (setq obj (vlax-ename->vla-object ent))
+          (vla-put-ConstantWidth obj width)
+          (vla-put-Linetype obj ltype)
+          (vla-Update obj)
+          t
+        )
+      )
+    )
+  )
+
+  (_EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Suvisla ciara 610-51                           ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60151 ( / *error* _StartUndo _EndUndo _LoadLinetype
+                         doc typ width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (_EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (defun _StartUndo ( doc ) (vla-StartUndoMark doc))
+
+  (defun _EndUndo   ( doc ) (if (= 8 (logand 8 (getvar 'UNDOCTL))) (vla-EndUndomark doc)))
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (initget 1 "Dialnica Mimo")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [Dialnica (0,30)/Mimo dialnice (0,25)] : ")
+  )
+
+  (cond
+    ( (eq typ "Dialnica") (setq width 0.30 ltype "Continuous") )
+    ( (eq typ "Mimo")     (setq width 0.25 ltype "Continuous") )
+  )
+
+  (_StartUndo doc)
+
+  (while
+    (progn
+      (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" alebo [Esc na ukoncenie] : ")))
       (cond
         ( (null sel) nil )
         ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
