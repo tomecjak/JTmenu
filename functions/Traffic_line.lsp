@@ -14,7 +14,7 @@
 (defun _EndUndo   ( doc ) (if (= 8 (logand 8 (getvar 'UNDOCTL))) (vla-EndUndomark doc)))
 
 ;;----------------------------------------------------------------------;;
-;;                 Suvisla ciara 610-50 (krajna - tenka)                ;;
+;;                 Suvisla ciara 601-50 (krajna - tenka)                ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:DC60150 ( / *error* doc typ width ltype sel ent obj )
@@ -61,7 +61,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;                 Suvisla ciara 610-51 (krajna - hruba)                ;;
+;;                 Suvisla ciara 601-51 (krajna - hruba)                ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:DC60151 ( / *error* doc typ width ltype sel ent obj )
@@ -108,7 +108,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;                   Suvisla ciara 610-60 (stredova)                    ;;
+;;                   Suvisla ciara 601-60 (stredova)                    ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:DC60160 ( / *error* doc width ltype sel ent obj )
@@ -147,7 +147,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Suvisla ciara 610-65 (stredova dvojita)                ;;
+;;               Suvisla ciara 601-65 (stredova dvojita)                ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:DC60165 ( / *error* doc width ltype vmin vmax val off sel ent obj res )
@@ -210,7 +210,7 @@
 )
 
 ;;----------------------------------------------------------------------;;
-;;               Suvisla ciara 610-66 (stredova dvojita)                ;;
+;;               Suvisla ciara 601-66 (stredova dvojita)                ;;
 ;;----------------------------------------------------------------------;;
 
 (defun c:DC60166 ( / *error* doc width ltype vmin vmax val off cwidth sel ent obj res )
@@ -272,6 +272,189 @@
           )
         )
       )
+    )
+  )
+
+  (_EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                    Suvisla ciara 601-75 (deliaca)                    ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60175 ( / *error* doc typ width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (_EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (initget 1 "Dialnica Mimo")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [Dialnica (0.30)/Mimo dialnice (0.25)] : ")
+  )
+
+  (cond
+    ( (eq typ "Dialnica") (setq width 0.30 ltype "Continuous") )
+    ( (eq typ "Mimo")     (setq width 0.25 ltype "Continuous") )
+  )
+
+  (_StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+    )
+  )
+
+  (_EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                    Suvisla ciara 601-76 (tenka)                      ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60176 ( / *error* doc width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (_EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.12 ltype "Continuous")
+
+  (_StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+    )
+  )
+
+  (_EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                    Suvisla ciara 601-85 (deliaca)                    ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60185 ( / *error* doc typ width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (_EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (initget 1 "Dialnica Cyklo")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [Dialnica (0.25)/Cyklochodnik (0.25)] : ")
+  )
+
+  (cond
+    ( (eq typ "Dialnica") (setq width 0.25 ltype "Continuous") )
+    ( (eq typ "Cyklo")     (setq width 0.25 ltype "Continuous") )
+  )
+
+  (_StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+    )
+  )
+
+  (_EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;            Prerusovana ciara 602-50 (okrajava - tenka)               ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60250 ( / *error* doc typ width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (_EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (initget 1 "BezMimoObce BezObec BezCyklo KolObec KolCyklo")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [Bezkol. mimo obce (0.12)/Bezkol. v obci (0.12)/Bezkol. cyklochodnik (0.10)/ Kol. mimo aj v obici (0.12)/Kol. cyklochodnik (0.10)] : ")
+  )
+
+  (cond
+    ( (eq typ "BezMimoObce") (setq width 0.12 ltype "Continuous") )
+    ( (eq typ "BezObec") (setq width 0.12 ltype "Continuous") )
+    ( (eq typ "BezCyklo") (setq width 0.10 ltype "Continuous") )
+    ( (eq typ "KolObec") (setq width 0.12 ltype "Continuous") )
+    ( (eq typ "KolCyklo") (setq width 0.10 ltype "Continuous") )
+  )
+
+  (_StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
     )
   )
 
