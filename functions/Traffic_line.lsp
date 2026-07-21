@@ -428,11 +428,7 @@
   (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
 
   (princ "\nTypy komunikacie:")
-  (princ "\n  BMO = Bezkol. mimo obce (0.12)")
-  (princ "\n  BO  = Bezkol. v obci (0.12)")
-  (princ "\n  BC  = Bezkol. cyklochodnik (0.10)")
-  (princ "\n  KO  = Kol. mimo aj v obci (0.12)")
-  (princ "\n  KC  = Kol. cyklochodnik (0.10)")
+  (princ "\n  BMO = Bezkol. mimo obce | BO  = Bezkol. v obci | BC  = Bezkol. cyklochodnik | KO  = Kol. mimo aj v obci | KC  = Kol. cyklochodnik")
   (initget 1 "BMO BO BC KO KC")
   (setq typ
     (getkword "\nZvolte typ komunikacie [BMO/BO/BC/KO/KC] : ")
