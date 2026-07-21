@@ -1836,8 +1836,8 @@
 
   ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.06 (polovica sirky ciary)
   (setq off (+ val 0.12))
-  ;; Sirka stredovej ciary: hodnota offsetu (na stranu) - 0.1
-  (setq cwidth (- (/ off 2.0) 0.1))
+  ;; Sirka stredovej ciary: hodnota offsetu - 0.1
+  (setq cwidth (- off 0.1))
 
   ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
   (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
@@ -1882,6 +1882,421 @@
           (vla-put-ConstantWidth contObj width)
           (vla-put-Linetype contObj "Continuous")
           (vla-Update contObj)
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;             Prerusovana + suvisla ciara 603-70 (vodiaca)             ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60370 ( / *error* doc typ width ltype off sel ent obj
+                     res1 res2 o1 o2 pt p dashObj contObj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (princ "\nTypy komunikacie:")
+  (princ "\n  BD = Bezkol. dialnica | BMO = Bezkol. mimo obce | BVO  = Bezkol. v obci | SD = Semkol. dialnica | SMO = Semkol. mimo obce aj v obci")
+  (initget 1 "BD BMO BVO SD SMO")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [BD/BMO/BVO/SD/SMO] : ")
+  )
+
+  (cond
+    ( (eq typ "BD") (setq width 0.15 ltype "VDZ_6.0-12.0" dmax 0.20) )
+    ( (eq typ "BMO") (setq width 0.12 ltype "VDZ_4.0-8.0" dmax 0.16) )
+    ( (eq typ "BVO") (setq width 0.12 ltype "VDZ_3.0-6.0" dmax 0.16) )
+    ( (eq typ "SD") (setq width 0.15 ltype "VDZ_6.0-6.0" dmax 0.20) )
+    ( (eq typ "SMO") (setq width 0.12 ltype "VDZ_3.0-3.0" dmax 0.16) )
+  )
+
+  ;; Celkova hodnota odsadenia 0.16, na kazdu stranu polovica (0.08)
+  (setq off (+ dmax width))
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  (StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      ;; Dvojity offset na obe strany o polovicu hodnoty
+      (setq res1 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (/ off 2.0))))
+      (setq res2 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (- (/ off 2.0)))))
+      (if (or (vl-catch-all-error-p res1) (vl-catch-all-error-p res2))
+        (princ "\nNepodarilo sa odsadit polyliniu.")
+        (progn
+          (setq o1 (car res1) o2 (car res2))
+          ;; Vyber strany, na ktorej bude prerusovana ciara
+          (initget 1)
+          (setq pt (getpoint "\nUrcte kliknutim stranu, kde ma byt prerusovana ciara : "))
+          (setq p (trans pt 1 0))
+          ;; Blizsia odsadena ciara k zadanemu bodu = prerusovana, druha = suvisla
+          (if (<= (distance p (vlax-curve-getClosestPointTo o1 p))
+                  (distance p (vlax-curve-getClosestPointTo o2 p)))
+            (setq dashObj o1 contObj o2)
+            (setq dashObj o2 contObj o1)
+          )
+          ;; Prerusovana ciara - typ podla kodu
+          (vla-put-ConstantWidth dashObj width)
+          (vla-put-Linetype dashObj ltype)
+          (vla-Update dashObj)
+          ;; Suvisla ciara na druhej strane
+          (vla-put-ConstantWidth contObj width)
+          (vla-put-Linetype contObj "Continuous")
+          (vla-Update contObj)
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;             Prerusovana + suvisla ciara 603-75 (deliaca)             ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC60375 ( / *error* doc typ width ltype off sel ent obj
+                     res1 res2 o1 o2 pt p dashObj contObj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (princ "\nTypy komunikacie:")
+  (princ "\n  BD = Bezkol. dialnica | BMO = Bezkol. mimo obce | BVO  = Bezkol. v obci | SD = Semkol. dialnica | SMO = Semkol. mimo obce aj v obci")
+  (initget 1 "BD BMO BVO SD SMO")
+  (setq typ
+    (getkword "\nZvolte typ komunikacie [BD/BMO/BVO/SD/SMO] : ")
+  )
+
+  (cond
+    ( (eq typ "BD") (setq width 0.15 ltype "VDZ_6.0-6.0" dmax 0.20) )
+    ( (eq typ "BMO") (setq width 0.12 ltype "VDZ_4.0-4.0" dmax 0.16) )
+    ( (eq typ "BVO") (setq width 0.12 ltype "VDZ_3.0-3.0" dmax 0.16) )
+    ( (eq typ "SD") (setq width 0.15 ltype "VDZ_6.0-6.0" dmax 0.20) )
+    ( (eq typ "SMO") (setq width 0.12 ltype "VDZ_3.0-3.0" dmax 0.16) )
+  )
+
+  ;; Celkova hodnota odsadenia 0.16, na kazdu stranu polovica (0.08)
+  (setq off (+ dmax width))
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  (StartUndo doc)
+
+  (setq sel (entsel (strcat "\nVyberte polyliniu pre typ \"" typ "\" : ")))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      ;; Dvojity offset na obe strany o polovicu hodnoty
+      (setq res1 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (/ off 2.0))))
+      (setq res2 (vl-catch-all-apply 'vlax-invoke (list obj 'Offset (- (/ off 2.0)))))
+      (if (or (vl-catch-all-error-p res1) (vl-catch-all-error-p res2))
+        (princ "\nNepodarilo sa odsadit polyliniu.")
+        (progn
+          (setq o1 (car res1) o2 (car res2))
+          ;; Vyber strany, na ktorej bude prerusovana ciara
+          (initget 1)
+          (setq pt (getpoint "\nUrcte kliknutim stranu, kde ma byt prerusovana ciara : "))
+          (setq p (trans pt 1 0))
+          ;; Blizsia odsadena ciara k zadanemu bodu = prerusovana, druha = suvisla
+          (if (<= (distance p (vlax-curve-getClosestPointTo o1 p))
+                  (distance p (vlax-curve-getClosestPointTo o2 p)))
+            (setq dashObj o1 contObj o2)
+            (setq dashObj o2 contObj o1)
+          )
+          ;; Prerusovana ciara - typ podla kodu
+          (vla-put-ConstantWidth dashObj width)
+          (vla-put-Linetype dashObj ltype)
+          (vla-Update dashObj)
+          ;; Suvisla ciara na druhej strane
+          (vla-put-ConstantWidth contObj width)
+          (vla-put-Linetype contObj "Continuous")
+          (vla-Update contObj)
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                         Cyklisticka ciara 640                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC640 ( / *error* doc width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.10 ltype "Continuous")
+
+  (StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Cyklisticka ciara 641-50                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC64150 ( / *error* doc width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.10 ltype "VDZ_0.5-3.0")
+
+  (StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                       Cyklisticka ciara 641-51                       ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC64151 ( / *error* doc width ltype sel ent obj )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.10 ltype "VDZ_3.0-0.5")
+
+  (StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (vla-put-ConstantWidth obj width)
+      (vla-put-Linetype obj ltype)
+      (vla-Update obj)
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                      Cyklisticka ciara 641-60                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC64160 ( / *error* doc width ltype vmin vmax val off sel ent obj res )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.10 ltype "VDZ_0.5-3.0" vmin 0.10 vmax 0.30)
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  ;; Nacitanie celkovej hodnoty s obmedzenim vmin - vmax
+  (while
+    (progn
+      (initget 1)
+      (setq val (getdist (strcat "\nZadajte celkovu hodnotu <" (rtos vmin) " - " (rtos vmax) "> : ")))
+      (cond
+        ( (< val vmin) (princ (strcat "\nHodnota musi byt minimalne " (rtos vmin) ".")) t )
+        ( (> val vmax) (princ (strcat "\nHodnota musi byt maximalne " (rtos vmax) ".")) t )
+        ( t nil )
+      )
+    )
+  )
+
+  ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.05 (polovica sirky ciary)
+  (setq off (+ (/ val 2.0) 0.05))
+
+  (StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (foreach d (list off (- off))
+        (setq res (vl-catch-all-apply 'vlax-invoke (list obj 'Offset d)))
+        (if (vl-catch-all-error-p res)
+          (princ "\nNepodarilo sa odsadit polyliniu.")
+          (foreach no res
+            (vla-put-ConstantWidth no width)
+            (vla-put-Linetype no ltype)
+            (vla-Update no)
+          )
+        )
+      )
+    )
+  )
+
+  (EndUndo doc)
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
+;;                      Cyklisticka ciara 641-61                        ;;
+;;----------------------------------------------------------------------;;
+
+(defun c:DC64161 ( / *error* doc width ltype vmin vmax val off sel ent obj res )
+
+  (defun *error* ( msg )
+    (and doc (EndUndo doc))
+    (or (wcmatch (strcase msg) "*BREAK,*CANCEL*,*EXIT*")
+        (princ (strcat "\n** Chyba: " msg " **")))
+    (princ)
+  )
+
+  (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+
+  (setq width 0.10 ltype "VDZ_3.0-0.5" vmin 0.10 vmax 0.30)
+
+  ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
+  (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
+
+  ;; Nacitanie celkovej hodnoty s obmedzenim vmin - vmax
+  (while
+    (progn
+      (initget 1)
+      (setq val (getdist (strcat "\nZadajte celkovu hodnotu <" (rtos vmin) " - " (rtos vmax) "> : ")))
+      (cond
+        ( (< val vmin) (princ (strcat "\nHodnota musi byt minimalne " (rtos vmin) ".")) t )
+        ( (> val vmax) (princ (strcat "\nHodnota musi byt maximalne " (rtos vmax) ".")) t )
+        ( t nil )
+      )
+    )
+  )
+
+  ;; Odsadenie na kazdu stranu: polovica hodnoty + 0.05 (polovica sirky ciary)
+  (setq off (+ (/ val 2.0) 0.05))
+
+  (StartUndo doc)
+
+  (setq sel (entsel "\nVyberte polyliniu : "))
+  (cond
+    ( (null sel)
+      (princ "\nNebola vybrana ziadna polylinia.")
+    )
+    ( (not (wcmatch (cdr (assoc 0 (entget (setq ent (car sel))))) "LWPOLYLINE,POLYLINE"))
+      (princ "\nVybrany objekt nie je polylinia.")
+    )
+    ( t
+      (setq obj (vlax-ename->vla-object ent))
+      (foreach d (list off (- off))
+        (setq res (vl-catch-all-apply 'vlax-invoke (list obj 'Offset d)))
+        (if (vl-catch-all-error-p res)
+          (princ "\nNepodarilo sa odsadit polyliniu.")
+          (foreach no res
+            (vla-put-ConstantWidth no width)
+            (vla-put-Linetype no ltype)
+            (vla-Update no)
+          )
         )
       )
     )
