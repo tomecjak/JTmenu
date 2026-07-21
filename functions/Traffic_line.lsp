@@ -429,7 +429,7 @@
 
   (initget 1 "Bezkol_mimo_obce Bezkol_obec Bezkol_cyklo Kol_obec Kol_cyklo")
   (setq typ
-    (getkword "\nZvolte typ komunikacie [Bezkol_mimo_obce (0.12)/Bezkol_obec (0.12)/Bezkol_cyklo (0.10)/ Kol_obec (0.12)/Kol_cyklo (0.10)] : ")
+    (getkword "\nZvolte typ komunikacie [Bezkol_mimo_obce/Bezkol_obec (0.12)/Bezkol_cyklo (0.10)/ Kol_obec (0.12)/Kol_cyklo (0.10)] : ")
   )
 
   (cond
