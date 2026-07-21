@@ -433,11 +433,11 @@
   )
 
   (cond
-    ( (eq typ "BezMimoObce") (setq width 0.12 ltype "Continuous") )
-    ( (eq typ "BezObec") (setq width 0.12 ltype "Continuous") )
-    ( (eq typ "BezCyklo") (setq width 0.10 ltype "Continuous") )
-    ( (eq typ "KolObec") (setq width 0.12 ltype "Continuous") )
-    ( (eq typ "KolCyklo") (setq width 0.10 ltype "Continuous") )
+    ( (eq typ "BezMimoObce") (setq width 0.12 ltype "VDZ_4.0-2.0") )
+    ( (eq typ "BezObec") (setq width 0.12 ltype "VDZ_3.0-1.5") )
+    ( (eq typ "BezCyklo") (setq width 0.10 ltype "VDZ_1.0-0.5") )
+    ( (eq typ "KolObec") (setq width 0.12 ltype "VDZ_3.0-1.5") )
+    ( (eq typ "KolCyklo") (setq width 0.10 ltype "VDZ_1.0-0.5") )
   )
 
   (_StartUndo doc)
