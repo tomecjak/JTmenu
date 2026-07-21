@@ -1647,7 +1647,7 @@
   )
 
   ;; Celkova hodnota odsadenia 0.16, na kazdu stranu polovica (0.08)
-  (setq off 0.16)
+  (setq off 0.28)
 
   ;nacitanie zvoleneho typu ciary zo suboru DPP_VDZ_VL62.lin
   (LoadLinetype doc ltype "DPP_VDZ_VL62.lin")
