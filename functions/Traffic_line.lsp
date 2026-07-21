@@ -23,7 +23,7 @@
 
   (initget 1 "Dialnica Mimo")
   (setq typ
-    (getkword "\nZvolte typ komunikacie [Dialnica [0.15]/Mimo dialnice [0.12]] : ")
+    (getkword "\nZvolte typ komunikacie [Dialnica (0.15)/Mimo dialnice (0.12)] : ")
   )
 
   (cond
