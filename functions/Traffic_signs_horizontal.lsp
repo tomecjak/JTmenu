@@ -29,7 +29,7 @@
 (setq *JT:SignCodesHorizontal*
   (list
     "VDZ604" "VDZ605" "VDZ610" "VDZ611" "VDZ612" "VDZ622" "VDZ630-10" "VDZ630-11" "VDZ630-12" "VDZ630-13" "VDZ630-14"
-    "VDZ630-23" "VDZ630-24" "VDZ630-30" "VDZ630-31" "VDZ630-32" "VDZ631-10" "VDZ631-25" "VDZ635" "VDZ650-50" "VDZ650-51"
+    "VDZ630-23" "VDZ630-24" "VDZ630-30" "VDZ630-31" "VDZ630-32" "VDZ631-10" "VDZ631-25" "VDZ635" "VDZ645" "VDZ650-50" "VDZ650-51"
     "VDZ650-52" "VDZ650-55" "VDZ650-56" "VDZ650-57" "VDZ650-60" "VDZ651" "VDZ652-51" "VDZ654-50" "VDZ654-51" "VDZ657-52"
     "VDZ657-80" "VDZ657-81" "VDZ657-84" "VDZ657-85" "VDZ657-88" "VDZ657-89" "VDZ657-97" "VDZ659" "VDZ663" "VDZ664"
     "VDZ665" "VDZ666" "VDZ667" "VDZ668"
@@ -46,7 +46,7 @@
 (foreach code *JT:SignCodesHorizontal*
   (eval
     (list 'defun (read (strcat "c:" code)) '()
-      (list 'JT:InsertSign (strcat "VDZ" (substr code 4)))
+      (list 'JT:InsertSign (strcat "VDZ_" (substr code 4)))
     )
   )
 )
