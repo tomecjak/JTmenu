@@ -89,6 +89,7 @@
           (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\3xx")
           (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\4xx")
           (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\5xx")
+          (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\6xx")
           (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\1xx_J")
           (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\2xx_J")
           (strcat SelectedFolderPath "\\resource\\blocks\\KnihovnaZDZ\\3xx_J")
