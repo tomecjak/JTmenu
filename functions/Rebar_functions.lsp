@@ -54,6 +54,28 @@
   (if (and (>= i 0) (< i (length lst))) (nth i lst) def)
 )
 
+;; bit 1 v DXF 70 = uzavreta polyline
+(defun _lw-closed-p (ename / f)
+  (setq f (cdr (assoc 70 (entget ename))))
+  (and f (= 1 (logand 1 f)))
+)
+
+;; index vrcholu s pretocenim (pre uzavretu polylinu)
+(defun _wrap (i n) (rem (+ (rem i n) n) n))
+
+;; zoznam bulge hodnot zarovnany na vrcholy - DXF 42 je nepovinny
+;; (v entget chyba, ak je bulge 0), preto sa zoznam prechadza sekvencne
+;; a kazdy kod 10 otvara novy vrchol s predvolenym bulge 0.0
+(defun _lw-get-bulges-aligned (ename / blg)
+  (foreach x (entget ename)
+    (cond
+      ((= (car x) 10) (setq blg (cons 0.0 blg)))
+      ((and (= (car x) 42) blg) (setq blg (cons (cdr x) (cdr blg))))
+    )
+  )
+  (reverse blg)
+)
+
 ;; vrati vla-object prveho prvku z vysledku vla-Offset (variant / safearray)
 (defun _off-first-obj (v / a)
   (setq a (vlax-variant-value v))
@@ -84,7 +106,7 @@
 ;;                Funkcia pre vytvorenie vrcholov oblukov               ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarIntersect (/ e ed pts blg nv i
+(defun c:JTRebarIntersect (/ e ed pts blg nv i iend closed
                        pPrev pStart pEnd pNext
                        b oldlay ip
                        mode gw dist obj o1 o2 l1 l2
@@ -152,21 +174,27 @@
       (if srcEnt
         (progn
           (setq pts (_lw-get-pts srcEnt))
-          (setq blg (_lw-get-bulges srcEnt))
+          (setq blg (_lw-get-bulges-aligned srcEnt))
           (setq nv (length pts))
+          (setq closed (_lw-closed-p srcEnt))
 
-          (if (< nv 4)
-            (prompt "\nPolyline ma malo vrcholov (min. 4).")
+          (if (< nv (if closed 3 4))
+            (prompt (if closed
+                      "\nUzavreta polyline ma malo vrcholov (min. 3)."
+                      "\nPolyline ma malo vrcholov (min. 4)."))
             (progn
               ;; segment i: pStart=pts[i] -> pEnd=pts[i+1], bulge=blg[i]
               ;; predchádzajúca line: pPrev=pts[i-1] -> pStart
               ;; nasledujúca line: pEnd -> pNext=pts[i+2]
-              (setq i 1)
-              (while (<= i (- nv 3))
-                (setq pPrev  (nth (1- i) pts))
-                (setq pStart (nth i      pts))
-                (setq pEnd   (nth (1+ i) pts))
-                (setq pNext  (nth (+ i 2) pts))
+              ;; pri uzavretej polyline sa indexy pretacaju (modulo nv),
+              ;; takze sa spracuju aj oblúky na zaciatku a konci zoznamu
+              (setq i    (if closed 0 1))
+              (setq iend (if closed (1- nv) (- nv 3)))
+              (while (<= i iend)
+                (setq pPrev  (nth (_wrap (1- i)  nv) pts))
+                (setq pStart (nth (_wrap i       nv) pts))
+                (setq pEnd   (nth (_wrap (1+ i)  nv) pts))
+                (setq pNext  (nth (_wrap (+ i 2) nv) pts))
 
                 (setq b (_safe-nth i blg 0.0))
 
