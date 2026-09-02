@@ -74,6 +74,7 @@
 (AUTOLOAD "Rebar_functions" '("JTRebarIntersect" "JTRebarFilletPolyline" "JTRebarWritePolyline" "JTRebarLayers" "JTRebarOffsetPolyline" "JTRebarTagExport"))
 (AUTOLOAD "Rebar_functions_layer" '("JTRebarFilletLayer" "JTRebarWriteLayer" "JTRebarOffsetLayer"))
 (AUTOLOAD "Rebar_dimension" '("JTRebarDimension"))
+(AUTOLOAD "Rebar_layers_manager" '("JTRebarLayerManager"))
 (princ)
 
 ;;----------------------------------------------------------------------;;

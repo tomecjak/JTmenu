@@ -20,6 +20,7 @@ JTmenu pre AutoCAD/Civil 3D
 - Označenie výstuže - *vloženie bloku pre označenie výstuže/kari sieti*
 - Popisok výstuže - *vloženie bloku pre popis výstuže/kari sieti*
 - Schéma výstuže - *prepínanie farebnosti hladín výstuže vytvorenej pomocou JTmenu*
+- Správa hladín výstuže - *dialóg so zoznamom hladín výstuže (-B) a spôn (-BS), počtom prvkov v modeli (spolu/bloky/polyliny), kontrolou priemeru výstuže, označením prvkov hladiny, nastavením aktuálnej hladiny, vytváraním nových hladín za poslednú položku alebo od zadaného čísla s posunom existujúcich, a prečíslovaním celej rady od 1 po koniec*
 - Presah a kotvenie - *jednoduchá kalkulačka pre výpočet dĺžky kotvenia alebo presahu výstuže*
 - Severka - *vloženie bloku severky, ktorá sa zarovná podľa WORLD UCS*
 - ReNumber - *nástroj pre automatické číslovanie v texte či v blokoch*
