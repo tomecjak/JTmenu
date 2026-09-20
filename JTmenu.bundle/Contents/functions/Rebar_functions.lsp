@@ -54,6 +54,28 @@
   (if (and (>= i 0) (< i (length lst))) (nth i lst) def)
 )
 
+;; bit 1 v DXF 70 = uzavreta polyline
+(defun _lw-closed-p (ename / f)
+  (setq f (cdr (assoc 70 (entget ename))))
+  (and f (= 1 (logand 1 f)))
+)
+
+;; index vrcholu s pretocenim (pre uzavretu polylinu)
+(defun _wrap (i n) (rem (+ (rem i n) n) n))
+
+;; zoznam bulge hodnot zarovnany na vrcholy - DXF 42 je nepovinny
+;; (v entget chyba, ak je bulge 0), preto sa zoznam prechadza sekvencne
+;; a kazdy kod 10 otvara novy vrchol s predvolenym bulge 0.0
+(defun _lw-get-bulges-aligned (ename / blg)
+  (foreach x (entget ename)
+    (cond
+      ((= (car x) 10) (setq blg (cons 0.0 blg)))
+      ((and (= (car x) 42) blg) (setq blg (cons (cdr x) (cdr blg))))
+    )
+  )
+  (reverse blg)
+)
+
 ;; vrati vla-object prveho prvku z vysledku vla-Offset (variant / safearray)
 (defun _off-first-obj (v / a)
   (setq a (vlax-variant-value v))
@@ -84,7 +106,7 @@
 ;;                Funkcia pre vytvorenie vrcholov oblukov               ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarIntersect (/ e ed pts blg nv i
+(defun c:JTRebarIntersect (/ e ed pts blg nv i iend closed
                        pPrev pStart pEnd pNext
                        b oldlay ip
                        mode gw dist obj o1 o2 l1 l2
@@ -152,21 +174,27 @@
       (if srcEnt
         (progn
           (setq pts (_lw-get-pts srcEnt))
-          (setq blg (_lw-get-bulges srcEnt))
+          (setq blg (_lw-get-bulges-aligned srcEnt))
           (setq nv (length pts))
+          (setq closed (_lw-closed-p srcEnt))
 
-          (if (< nv 4)
-            (prompt "\nPolyline ma malo vrcholov (min. 4).")
+          (if (< nv (if closed 3 4))
+            (prompt (if closed
+                      "\nUzavreta polyline ma malo vrcholov (min. 3)."
+                      "\nPolyline ma malo vrcholov (min. 4)."))
             (progn
               ;; segment i: pStart=pts[i] -> pEnd=pts[i+1], bulge=blg[i]
               ;; predchádzajúca line: pPrev=pts[i-1] -> pStart
               ;; nasledujúca line: pEnd -> pNext=pts[i+2]
-              (setq i 1)
-              (while (<= i (- nv 3))
-                (setq pPrev  (nth (1- i) pts))
-                (setq pStart (nth i      pts))
-                (setq pEnd   (nth (1+ i) pts))
-                (setq pNext  (nth (+ i 2) pts))
+              ;; pri uzavretej polyline sa indexy pretacaju (modulo nv),
+              ;; takze sa spracuju aj oblúky na zaciatku a konci zoznamu
+              (setq i    (if closed 0 1))
+              (setq iend (if closed (1- nv) (- nv 3)))
+              (while (<= i iend)
+                (setq pPrev  (nth (_wrap (1- i)  nv) pts))
+                (setq pStart (nth (_wrap i       nv) pts))
+                (setq pEnd   (nth (_wrap (1+ i)  nv) pts))
+                (setq pNext  (nth (_wrap (+ i 2) nv) pts))
 
                 (setq b (_safe-nth i blg 0.0))
 
@@ -585,86 +613,12 @@
 ;;               Funkcia pre vytvaranie hladin vystuze                  ;;
 ;;----------------------------------------------------------------------;;
 
-(defun c:JTRebarLayers (/ volba pocet tag info maxNum lastColor i cislo novaHladina farby farba)
+(defun c:JTRebarLayers (/ volba pocet tag maxNum vytvorene)
 
   (vl-load-com)
 
-  (defun _pad2 (n / s)
-    (setq s (itoa n))
-    (if (< n 10)
-      (strcat "0" s)
-      s
-    )
-  )
-
-  (defun _extract-number-after-pattern (s patt / pos start numtxt ch)
-    (setq pos (vl-string-search patt s))
-    (if pos
-      (progn
-        (setq start (+ pos (strlen patt) 1))
-        (setq numtxt "")
-        (while (<= start (strlen s))
-          (setq ch (substr s start 1))
-          (if (wcmatch ch "#")
-            (setq numtxt (strcat numtxt ch))
-            (setq start (+ (strlen s) 1))
-          )
-          (setq start (1+ start))
-        )
-        (if (/= numtxt "")
-          (atoi numtxt)
-          nil
-        )
-      )
-      nil
-    )
-  )
-
-  (defun _get-max-layer-info (tag / rec lname num patt maxn maxname laydata laycol)
-    (setq maxn 0)
-    (setq maxname nil)
-    (setq laycol nil)
-    (setq patt (strcat tag " "))
-    (setq rec (tblnext "LAYER" T))
-
-    (while rec
-      (setq lname (cdr (assoc 2 rec)))
-      (if (wcmatch lname (strcat "*" patt "*"))
-        (progn
-          (setq num (_extract-number-after-pattern lname patt))
-          (if (and num (> num maxn))
-            (progn
-              (setq maxn num)
-              (setq maxname lname)
-            )
-          )
-        )
-      )
-      (setq rec (tblnext "LAYER"))
-    )
-
-    (if maxname
-      (progn
-        (setq laydata (tblsearch "LAYER" maxname))
-        (setq laycol (abs (cdr (assoc 62 laydata))))
-      )
-    )
-
-    (list maxn laycol)
-  )
-
-  (defun _next-cycle-color (curr colors / pos)
-    (if curr
-      (progn
-        (setq pos (vl-position curr colors))
-        (if pos
-          (nth (rem (1+ pos) (length colors)) colors)
-          (car colors)
-        )
-      )
-      (car colors)
-    )
-  )
+  ;; Pomocne funkcie (JT:RebarMaxLayerInfo, JT:RebarCreateLayers, JT:Pad2)
+  ;; su zdielane a nachadzaju sa v JTmenu_lib.lsp
 
   (initget "Vystuz Spony")
   (setq volba (getkword "\nVyber typ hladin [Vystuz/Spony]: "))
@@ -679,51 +633,20 @@
       (setq pocet (getint "\nZadaj pocet hladin na vytvorenie: "))
 
       (if (null pocet)
-        (princ "\nPocet musi byy kladne cele cislo.")
+        (princ "\nPocet musi byt kladne cele cislo.")
         (progn
-          (setq tag   (if (= volba "Vystuz") "B" "BS"))
-          (setq farby_B '(11 31 51 71 91 111 131 151 171 191 211 231))
-          (setq farby_BS '(14 34 54 74 94 114 134 154 174 194 214 234))
-          (setq info (_get-max-layer-info tag))
-          (setq maxNum (car info))
-          (setq lastColor (cadr info))
-
-          (if (= tag "B")
-            ;pre "B"
-            (setq farba (_next-cycle-color lastColor farby_B))
-            ;pre "BS"
-            (setq farba (_next-cycle-color lastColor farby_BS))
-          )
-
-          (setq i 1)
-          (while (<= i pocet)
-            (setq cislo (+ maxNum i))
-            (setq novaHladina (strcat (getenv "GlobalnaPrefixHladiny") "-" tag " " (_pad2 cislo)))
-
-            (if (not (tblsearch "LAYER" novaHladina))
-              (progn
-                (command "_.-LAYER" "_New" novaHladina "")
-                (command "_.-LAYER" "_Color" (itoa farba) novaHladina "")
-              )
-            )
-
-            (if (= tag "B")
-              ;pre "B"
-              (setq farba (_next-cycle-color farba farby_B))
-              ;pre "BS"
-              (setq farba (_next-cycle-color farba farby_BS))
-            )
-            (setq i (1+ i))
-          )
+          (setq tag       (if (= volba "Vystuz") "B" "BS"))
+          (setq maxNum    (car (JT:RebarMaxLayerInfo tag)))
+          (setq vytvorene (JT:RebarCreateLayers tag pocet))
 
           (princ
             (strcat
               "\nVytvorenych "
-              (itoa pocet)
+              (itoa (length vytvorene))
               " hladin od "
-              tag " " (_pad2 (1+ maxNum))
+              tag " " (JT:Pad2 (1+ maxNum))
               " po "
-              tag " " (_pad2 (+ maxNum pocet))
+              tag " " (JT:Pad2 (+ maxNum pocet))
               ". Farebny cyklus nadvazuje na posledne existujucu hladinu."
             )
           )
