@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -nA3 \"defun LM:roundm\" Rebar_functions.lsp Rebar_functions_layer.lsp)",
+      "Bash(grep -nA2 \"defun LM:blockname\" Block_base_point.lsp)"
+    ]
+  }
+}

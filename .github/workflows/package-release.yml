@@ -1,0 +1,41 @@
+name: Package JTmenu install
+
+# Pri kazdom pushi na hlavnu vetvu (alebo rucne cez Actions > Run workflow)
+# sa cez Inno Setup zostavi GUI instalatka JTmenu-Setup.exe a nahra sa do
+# GitHub Release s tagom "latest" - stale ten isty odkaz na stiahnutie
+# najnovsej verzie.
+on:
+  push:
+    branches:
+      - "JTmenu"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  installer:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repozitara
+        uses: actions/checkout@v4
+
+      - name: Instalacia Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Zostavenie GUI instalatora (Inno Setup)
+        shell: pwsh
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" /DMyAppVersion=1.0.${{ github.run_number }} installer\JTmenu.iss
+
+      - name: Publikovanie/aktualizacia GitHub Release "latest"
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          gh release delete latest --yes --cleanup-tag 2>$null
+          gh release create latest "dist/JTmenu-Setup.exe" `
+            --repo "${{ github.repository }}" `
+            --target "${{ github.sha }}" `
+            --title "JTmenu - najnovsi build" `
+            --notes "Automaticky vygenerovane z commitu ${{ github.sha }}. Stiahnite JTmenu-Setup.exe a spustite ho - nepotrebuje administratorske prava, instaluje len pre aktualneho pouzivatela."

@@ -9,3 +9,6 @@
 # Docasne / build subory editorov
 *.tmp
 *~
+
+# Build vystup instalatorov (GitHub Actions ho generuje nanovo)
+/dist/

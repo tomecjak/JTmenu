@@ -19,6 +19,7 @@
 ;; Obsahuje prikazy pre nastavenie globalnych premennych
 (AUTOLOAD "JTmenu_commands" '("JTBlockScaleVar"))
 (AUTOLOAD "JTmenu_commands" '("JTPreviewMode"))
+(AUTOLOAD "JTmenu_commands" '("JTToolPaletteImportInfo"))
 (princ)
 
 ;;----------------------------------------------------------------------;;
@@ -236,3 +237,8 @@
 ;;----------------------------------------------------------------------;;
 ;;                             End of File                              ;;
 ;;----------------------------------------------------------------------;;
+;; Poznamka: ponuka na (rucny) import .xtp/.xpg paliet dopravneho
+;; znacenia uz nie je tu - spusta sa az pri zapnuti prislusneho panelu
+;; (JTTrafficSigns / JTTrafficSignsExisting v Traffic_signs*.lsp), nie
+;; pri kazdom starte AutoCADu. Zdielana logika je v JT:OfferToolPaletteImport
+;; (JTmenu_lib.lsp). Manualne znovuspustenie: JTToolPaletteImportInfo.

@@ -52,6 +52,18 @@
 )
 
 ;;----------------------------------------------------------------------;;
+;;   Znovuspustenie hlasky o (rucnom) importe paliet dopravn. znacenia  ;;
+;;----------------------------------------------------------------------;;
+;; Pre pripad, ze ju uzivatel predtym preskocil, alebo si chce znova
+;; pozriet postup. JT:OfferToolPaletteImport je v JTmenu_lib.lsp.
+
+(defun c:JTToolPaletteImportInfo ()
+  (JT:OfferToolPaletteImport T "GlobalnaPaletyDZ" "Dopravne znacenie" (list "100" "200" "300" "400" "500"))
+  (JT:OfferToolPaletteImport T "GlobalnaPaletyDZJ" "Jestujuce dopravne znacenie" (list "100J" "200J" "300J" "400J" "500J"))
+  (princ)
+)
+
+;;----------------------------------------------------------------------;;
 
 (vl-load-com)
 (load "JTmenu_version" "\nVerzia nenacitana!")

@@ -17,6 +17,9 @@
 ;;----------------------------------------------------------------------;;
 
 (defun c:JTTrafficSigns ( )
+  ;ak palety/skupina "Dopravne znacenie" este nie su naimportovane,
+  ;ponukne (jednorazovo) rucny import - viz JTmenu_lib.lsp
+  (JT:OfferToolPaletteImport nil "GlobalnaPaletyDZ" "Dopravne znacenie" (list "100" "200" "300" "400" "500"))
   ;zapnutie postraneho panelu dopravneho znacenia
   (command "._TPNAVIGATE" "_G" "Dopravne znacenie" "100" pause)
   (princ)

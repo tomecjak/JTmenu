@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  JTmenu - AutoCAD/Civil 3D Application Plugin bundle.
+
+  Instalacia: skopirujte cely priecinok "JTmenu.bundle" (aj s touto XML)
+  do jedneho z ApplicationPlugins priecinkov (pozri README.md).
+  AutoCAD si sam pridaju vsetky potrebne priecinky do Support File Search Path
+  (viz RuntimeRequirements/SupportPath nizsie) a nacita JTmenu.cuix - ziadne
+  rucne nastavovanie ciest ani CUILOAD nie je potrebne.
+
+  ToolPalettePath nizsie pridava Contents/resource/toolpallete do "Tool
+  Palette File Location" v AutoCADe. Automaticky (bez rucneho Importu) sa
+  takto ale nacitaju iba *.atc subory (ziva paleta) - .xtp/.xpg su len
+  export format a AutoCAD ich musi najprv niekto rucne naimportovat cez
+  Customize Palettes > Import. Postup pre pridanie/aktualizaciu .atc
+  je popisany v JTmenu.legacy/Setup.lsp pri prikaze JTToolPaletteCollect.
+
+  Ani jednotlive palety (.xtp), ani skupiny (.xpg) sa nedaju naimportovat
+  automaticky (limitacia AutoCADu, nie tohto bundlu). Kontrola/ponuka
+  rucneho importu (JT:OfferToolPaletteImport v JTmenu_lib.lsp) sa preto
+  spusta az pri zapnuti prislusneho panelu (JTTrafficSigns /
+  JTTrafficSignsExisting v Traffic_signs*.lsp), nie pri starte AutoCADu.
+  Znovuspustenie: prikaz JTToolPaletteImportInfo.
+-->
+<ApplicationPackage SchemaVersion="1.0"
+    ProductType="Application"
+    AutodeskProduct="AutoCAD"
+    Name="JTmenu"
+    AppVersion="3.0.0"
+    Description="JTmenu - nadstavba pre AutoCAD/Civil 3D"
+    Author="Jakub Tomecko"
+    ProductCode="{8D815BA1-0175-48ED-B0D3-710C560AC552}"
+    UpgradeCode="{E7A1387F-2A32-4033-B90C-FF224506D1F2}">
+
+  <CompanyDetails Name="Jakub Tomecko" Email="jakub.tomecko@gmail.com" />
+
+  <RuntimeRequirements OS="Win32|Win64" Platform="AutoCAD|AutoCAD*|Civil3D" />
+
+  <Components Description="JTmenu">
+    <RuntimeRequirements
+        SupportPath="./Contents;./Contents/functions;./Contents/functions/content;./Contents/icons;./Contents/resource;./Contents/resource/blocks;./Contents/resource/blocks/CZK;./Contents/resource/blocks/ENG;./Contents/resource/blocks/SVK;./Contents/resource/blocks/KnihovnaZDZ;./Contents/resource/blocks/KnihovnaZDZ/1xx;./Contents/resource/blocks/KnihovnaZDZ/2xx;./Contents/resource/blocks/KnihovnaZDZ/3xx;./Contents/resource/blocks/KnihovnaZDZ/4xx;./Contents/resource/blocks/KnihovnaZDZ/5xx;./Contents/resource/blocks/KnihovnaZDZ/1xx_J;./Contents/resource/blocks/KnihovnaZDZ/2xx_J;./Contents/resource/blocks/KnihovnaZDZ/3xx_J;./Contents/resource/blocks/KnihovnaZDZ/4xx_J;./Contents/resource/blocks/KnihovnaZDZ/5xx_J;./Contents/resource/documents;./Contents/resource/lines;./Contents/resource/toolpallete"
+        ToolPalettePath="./Contents/resource/toolpallete" />
+    <ComponentEntry AppName="JTmenu"
+        Version="3.0.0"
+        ModuleName="./Contents/JTMenu.cuix"
+        AppDescription="JTmenu - CUI menu, panely a nastroje"
+        LoadOnAutoCADStartup="True" />
+  </Components>
+</ApplicationPackage>
