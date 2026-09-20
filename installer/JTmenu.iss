@@ -15,7 +15,7 @@
 #define MyAppPublisher "Jakub Tomecko"
 #define MyAppURL "https://github.com/tomecjak/JTmenu"
 #ifndef MyAppVersion
-  #define MyAppVersion "0.0.0"
+  #define MyAppVersion "3.0.0"
 #endif
 
 [Setup]

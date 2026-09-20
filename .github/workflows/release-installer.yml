@@ -26,7 +26,7 @@ jobs:
       - name: Zostavenie GUI instalatora (Inno Setup)
         shell: pwsh
         run: |
-          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" /DMyAppVersion=1.0.${{ github.run_number }} installer\JTmenu.iss
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" /DMyAppVersion=3.0.${{ github.run_number }} installer\JTmenu.iss
 
       - name: Publikovanie/aktualizacia GitHub Release "latest"
         env:

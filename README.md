@@ -1,4 +1,4 @@
-# JTmenu v2.0
+# JTmenu v3.0
 JTmenu pre AutoCAD/Civil 3D
 
 ## Úvodne informácie
@@ -24,6 +24,8 @@ Spustenie: záložka **Actions** > vľavo vyberte príslušný workflow > tlači
 Odinštalovanie potom cez Windows "Aplikácie a súčasti" (Add/Remove Programs) - JTmenu sa tam zaregistruje ako bežný program (len pre tohto používateľa).
 
 > Windows môže pri prvom spustení `.exe` súboru stiahnutého z internetu zobraziť SmartScreen upozornenie ("Windows protected your PC") - je to bežné pre nepodpísané inštalátory (chýba platený certifikát na podpisovanie kódu), netreba naň admin práva, stačí "More info" > "Run anyway".
+
+> **Po inštalácii, pri prvom spustení niektorého príkazu JTmenu**, môže AutoCAD tiež zobraziť vlastné upozornenie o nepodpísanom/neznámom vydavateľovi súboru (`.lsp`). Je to preto, že `%APPDATA%\Autodesk\ApplicationPlugins` (na rozdiel od `%PROGRAMFILES%\...`) AutoCAD z tejto kontroly nevynecháva - a keďže táto inštalácia zámerne nepotrebuje admin práva, `%PROGRAMFILES%` nepoužívame. V dialógu stačí zvoliť možnosť dôverovať tomuto vydavateľovi/aplikácii natrvalo (spravidla niečo ako "Always Trust" / "Load") - urobí sa to len raz na daný počítač, nabudúce sa už nepýta.
 
 ### Manuálne (bez sťahovania inštalátora)
 
