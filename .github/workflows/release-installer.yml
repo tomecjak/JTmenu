@@ -1,20 +1,20 @@
-name: Package JTmenu install
+name: Release JTmenu installer
 
-# Pri kazdom pushi na hlavnu vetvu (alebo rucne cez Actions > Run workflow)
-# sa cez Inno Setup zostavi GUI instalatka JTmenu-Setup.exe a nahra sa do
-# GitHub Release s tagom "latest" - stale ten isty odkaz na stiahnutie
-# najnovsej verzie.
+# Len rucne spustenie (Actions > "Release JTmenu installer" >
+# Run workflow). Zostavi JTmenu-Setup.exe a nahra ho do GitHub Release
+# s tagom "latest" (existujuci release/tag sa najprv zmaze a vytvori sa
+# nanovo, nech vzdy uklazuje na commit, z ktoreho bol zostaveny) - teda
+# stale ten isty verejny odkaz na stiahnutie:
+# https://github.com/<repo>/releases/tag/latest
+
 on:
-  push:
-    branches:
-      - "JTmenu"
   workflow_dispatch: {}
 
 permissions:
   contents: write
 
 jobs:
-  installer:
+  release:
     runs-on: windows-latest
     steps:
       - name: Checkout repozitara

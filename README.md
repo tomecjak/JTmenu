@@ -10,9 +10,14 @@ JTmenu je zabalené ako štandardný AutoCAD **Application Plugin bundle** (`JTm
 
 ### Najjednoduchšie: stiahnuť hotový inštalátor
 
-Po každom pushi do vetvy `JTmenu` GitHub Actions automaticky zostaví GUI inštalátor `JTmenu-Setup.exe` (cez Inno Setup) a nahrá ho do releasu **[latest](https://github.com/tomecjak/JTmenu/releases/tag/latest)** (workflow: `.github/workflows/package-release.yml`, skript: `installer/JTmenu.iss`) - je to teda vždy aktuálna verzia z posledného commitu.
+GUI inštalátor `JTmenu-Setup.exe` (cez Inno Setup, skript `installer/JTmenu.iss`) sa **negeneruje automaticky pri pushi** - spúšťa sa ručne cez záložku **Actions** na GitHube. Sú tam dva samostatné workflow:
 
-1. Stiahnite `JTmenu-Setup.exe` z [najnovšieho releasu](https://github.com/tomecjak/JTmenu/releases/tag/latest).
+- **Build JTmenu installer (bez release)** (`.github/workflows/build-installer.yml`) - len zostaví `JTmenu-Setup.exe` a priloží ho ako *artefakt behu* (Actions > vybraný beh > sekcia Artifacts). Nič sa nezverejňuje, hodí sa na rýchle vyskúšanie.
+- **Release JTmenu installer** (`.github/workflows/release-installer.yml`) - zostaví `JTmenu-Setup.exe` a nahrá ho do verejného releasu **[latest](https://github.com/tomecjak/JTmenu/releases/tag/latest)** (starý sa prepíše, odkaz ostáva stále rovnaký).
+
+Spustenie: záložka **Actions** > vľavo vyberte príslušný workflow > tlačidlo **Run workflow**.
+
+1. Stiahnite `JTmenu-Setup.exe` (buď z Artifacts pri "Build" workflow, alebo z [releasu](https://github.com/tomecjak/JTmenu/releases/tag/latest) po "Release" workflow).
 2. Spustite ho (dvojklik) - zobrazí sa bežné okno sprievodcu inštaláciou (Welcome > Install > Finish). **Nepotrebuje admin práva** - cieľová cesta je pevne nastavená na `%APPDATA%\Autodesk\ApplicationPlugins\JTmenu.bundle` (inštaluje len pre aktuálne prihláseného používateľa).
 3. Spustite (alebo reštartujte) AutoCAD/Civil 3D.
 

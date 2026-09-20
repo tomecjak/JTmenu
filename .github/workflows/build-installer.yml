@@ -1,0 +1,32 @@
+name: Build JTmenu installer (bez release)
+
+# Len rucne spustenie (Actions > "Build JTmenu installer (bez release)" >
+# Run workflow). Zostavi JTmenu-Setup.exe a priprili ho ako artefakt
+# tohto behu (na stiahnutie zo suhrnu behu na zalozke Actions) - ZIADNY
+# GitHub Release sa nevytvara ani neaktualizuje. Vhodne na rychle
+# vyskusanie instalatora pred tym, ako sa rozhodnes ho zverejnit.
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repozitara
+        uses: actions/checkout@v4
+
+      - name: Instalacia Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Zostavenie GUI instalatora (Inno Setup)
+        shell: pwsh
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" /DMyAppVersion=1.0.${{ github.run_number }} installer\JTmenu.iss
+
+      - name: Nahratie JTmenu-Setup.exe ako artefakt tohto behu
+        uses: actions/upload-artifact@v4
+        with:
+          name: JTmenu-Setup
+          path: dist/JTmenu-Setup.exe
+          retention-days: 30
